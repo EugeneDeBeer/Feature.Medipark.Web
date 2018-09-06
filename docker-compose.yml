@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  feature.ohs.web:
+    image: ${DOCKER_REGISTRY}featureohsweb
+    build:
+      context: .
+      dockerfile: Feature.OHS.Web/Dockerfile
