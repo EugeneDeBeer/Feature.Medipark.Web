@@ -1,4 +1,4 @@
-﻿
+﻿@model Feature.OHS.Web.ViewModels.PayloadPatientViewModel;
 @{
     ViewData["Title"] = "View";
 }
@@ -333,22 +333,22 @@
 
                                         <div class="form-group form-inline">
                                             <label for="firstName">First Name <span>*</span></label>
-                                            <input type="text" name="firstName" class="form-control" id="firstName" placeholder="">
+                                            <input type="text" asp-for="FirstName" name="firstName" class="form-control" id="firstName" placeholder="">
                                         </div>
 
                                         <div class="form-group form-inline">
                                             <label for="middleName">Middle Name</label>
-                                            <input type="text" name="middleName" class="form-control" id="middleName" placeholder="">
+                                            <input type="text" asp-for="MiddleName" name="middleName" class="form-control" id="middleName" placeholder="">
                                         </div>
 
                                         <div class="form-group form-inline">
                                             <label for="lastName">Last Name <span>*</span></label>
-                                            <input type="text" name="lastName" class="form-control" id="lastName" placeholder="">
+                                            <input type="text" asp-for="LastName" name="lastName" class="form-control" id="lastName" placeholder="">
                                         </div>
 
                                         <div class="form-group form-inline">
                                             <label for="genderId">Gender <span>*</span></label>
-                                            <select name="genderId" class="form-control" id="gender" placeholder="">
+                                            <select asp-for="GenderId" name="genderId" class="form-control" id="gender" placeholder="">
                                                 <option>--Select option--</option>
                                                 <option value="0">Male</option>
                                                 <option value="1">Female</option>

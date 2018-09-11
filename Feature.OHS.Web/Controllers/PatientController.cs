@@ -64,14 +64,14 @@ namespace Feature.OHS.Web.Controllers
         }
 
         // GET: Patient/Edit/5
-        public ActionResult Edit(int id)
-        {
+        //public ActionResult Edit(int id)
+        //{
 
-            if (id == null) { return NotFound(); }
-            var person =  
+        //    if (id == null) { return NotFound(); }
+        //   // var person =  _patientHandler.
 
-            return View(person);
-        }
+        //    return View(person);
+        //}
 
         // POST: Patient/Edit/5
         [HttpPost]
