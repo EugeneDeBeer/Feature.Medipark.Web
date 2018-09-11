@@ -2,7 +2,7 @@
 
 namespace Feature.OHS.Web.ViewModels
 {
-    public class PatientViewModel
+    public class PayloadPatientViewModel
     {
         //public int Patient_Id { get; set; }
         //public DateTime DateCreated { get; set; }

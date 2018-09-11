@@ -8,6 +8,6 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface IPatientHandler
     {
-         Task<bool> AddPatient(PatientViewModel patient);
+         Task<bool> AddPatient(PayloadPatientViewModel patient);
     }
 }

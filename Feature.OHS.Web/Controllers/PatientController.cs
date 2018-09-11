@@ -39,7 +39,7 @@ namespace Feature.OHS.Web.Controllers
         // POST: Patient/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PatientViewModel model)
+        public async Task<ActionResult> Create(PayloadPatientViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +66,11 @@ namespace Feature.OHS.Web.Controllers
         // GET: Patient/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            if (id == null) { return NotFound(); }
+            var person =  
+
+            return View(person);
         }
 
         // POST: Patient/Edit/5
