@@ -74,7 +74,7 @@
       $this.$menuItem.on(event, $this.menuItemClick);
 
       // NAVIGATION HIGHLIGHT & OPEN PARENT
-      $("#sidebar-menu ul li.has_sub a.active").parents("li:last").children("a:first").addClass("active").trigger("click");
+     $("#sidebar-menu ul li.has_sub a.active").parents("li:last").children("a:first").addClass("active").trigger("click");
     },
 
     //init Sidemenu
