@@ -33,6 +33,19 @@ margin: 25px auto;
 position: relative;
 }
 
+div#onload {
+  height: 240px;
+  top: 20%;
+  overflow-y: hidden;
+}
+
+
+.edit-patient {
+  width: 100%;
+margin: 25px auto;
+position: relative;
+}
+
 .add-patient-container{
   border: 2px solid #f3f3f3;
 }
@@ -138,12 +151,13 @@ border-radius: 3px;
 box-shadow: 0 0 0 transparent;
 position: absolute;
 left: 525px;
-margin-top: -58px;
+margin-top: -41px;
 padding: 0 10px;
 height: 39px;
 display: block;
 color: #ffffff;
-background: #e62163;
+background: red;
+z-index: 999;
 border: 0;
 font: 14px Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
 line-height: 39px;
@@ -331,13 +345,14 @@ border-radius: 3px;
 box-shadow: 0 0 0 transparent;
 position: absolute;
 left: 525px;
-margin-top: -58px;
+margin-top: -41px;
 padding: 0 10px;
 height: 39px;
 display: block;
 color: #ffffff;
-background: #e62163;
+background:red;
 border: 0;
+
 font: 14px Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
 line-height: 39px;
 white-space: nowrap;
