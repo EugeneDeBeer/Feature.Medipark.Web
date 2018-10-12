@@ -43,7 +43,7 @@ namespace Feature.OHS.Web.ViewModels
         public string WorkTel { get; set; }
         public string ResSurbub { get; set; }
         public string Country { get; set; }
-        public int GenderId { get; set; }
+        public string GenderId { get; set; }
         public int DeadTypeId { get; set; }
         public string NokName { get; set; }
         public string NokSurname { get; set; }

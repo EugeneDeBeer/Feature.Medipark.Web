@@ -68,9 +68,13 @@ namespace Feature.OHS.Web.Controllers
             {
                 var patient = await _patientHandler.GetPatient(id, includeAllDetails);
 
-                if(patient == null) return RedirectToAction(nameof(Create));
+                if (patient == null) return View();
 
-                return View("Create", patient);
+                return View(patient);
+
+                //if(patient == null) return RedirectToAction(nameof(Create));
+
+                //return View("Create", patient);
             }
             catch (Exception ex)
             {

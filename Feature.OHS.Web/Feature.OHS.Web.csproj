@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <Folder Include="Helper\" />
-    <Folder Include="Views\Doctors\" />
     <Folder Include="Views\Admissions\" />
     <Folder Include="Views\Nurses\" />
   </ItemGroup>

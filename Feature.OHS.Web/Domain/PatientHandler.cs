@@ -60,7 +60,7 @@ namespace Feature.OHS.Web.Domain
                     return null;
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 return null;
             }
