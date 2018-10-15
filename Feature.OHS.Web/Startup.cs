@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Feature.OHS.Web.Models;
+using Feature.OHS.WebInterfaces;
 
 namespace Feature.OHS.Web
 {
@@ -29,7 +30,18 @@ namespace Feature.OHS.Web
             services.AddMvc();
 
             services.AddScoped<IPatientHandler, PatientHandler>();
+            services.AddScoped<IStaffHandler, StaffHandler>();
             services.AddScoped<IApiAccessor, ApiAccessor>();
+            services.AddScoped<INurseHandler, NurseHandler>();
+            services.AddTransient<IDocterHandler, DoctorHandler>();
+            services.AddTransient<IFriendHandler, FriendHandler>();
+            services.AddTransient<IPersonHandler, PersonHandler>();
+            services.AddTransient<INextOfKinHandler, NextOfKinHandler>();
+            services.AddTransient<IStaffHandler, StaffHandler>();
+            services.AddTransient<IQualificationHandler, QualificationHandler>();
+            services.AddTransient<INurseHandler, NurseHandler>();
+            services.AddTransient<IContactHandler, ContactHandler>();
+            services.AddTransient<IAddressHandler, AddressHandler>();
             //services.AddScoped<IP>
             //services.AddDbContext<FeatureOHSWebContext>(options =>
             //        options.UseSqlServer(Configuration.GetConnectionString("FeatureOHSWebContext")));
