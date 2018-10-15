@@ -43,5 +43,14 @@ namespace Feature.OHS.Web.Domain
 
             return false;
         }
+
+
+        public dynamic getPerson(int personId)
+        {
+            // check if the id is null or 0  if its true then return null;
+            // get person and call the admissions api get method or call the search method
+
+            return null;
+        }
     }
 }

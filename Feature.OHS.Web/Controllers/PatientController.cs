@@ -63,12 +63,12 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-        // GET: Patient/Edit/5
+       // GET: Patient/Edit/5
         //public ActionResult Edit(int id)
         //{
 
         //    if (id == null) { return NotFound(); }
-        //   // var person =  _patientHandler.
+        //    var personVM = //create a get user function. 
 
         //    return View(person);
         //}
@@ -81,6 +81,7 @@ namespace Feature.OHS.Web.Controllers
             try
             {
                 // TODO: Add update logic here
+                // get the user
 
                 return RedirectToAction(nameof(Index));
             }

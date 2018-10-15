@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Feature.OHS.Web.Models;
 
 namespace Feature.OHS.Web
 {
@@ -28,6 +30,9 @@ namespace Feature.OHS.Web
 
             services.AddScoped<IPatientHandler, PatientHandler>();
             services.AddScoped<IApiAccessor, ApiAccessor>();
+
+            //services.AddDbContext<FeatureOHSWebContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("FeatureOHSWebContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Feature.OHS.Web.ViewModels
 {
@@ -15,9 +17,11 @@ namespace Feature.OHS.Web.ViewModels
         public string ReferenceNumber { get; set; }
         public string Allergies { get; set; } // i think will have to be a new table on its own
         public string Type { get; set; }
-        public int PersonId { get; set; }
 
-        //public int PersonId { get; set; }
+     
+        public int PersonId { get; set; }
+        
+   
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
