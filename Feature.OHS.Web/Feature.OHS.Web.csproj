@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <Folder Include="Helper\" />
+    <Folder Include="Views\Admissions\" />
+    <Folder Include="Views\Nurses\" />
   </ItemGroup>
 
 </Project>

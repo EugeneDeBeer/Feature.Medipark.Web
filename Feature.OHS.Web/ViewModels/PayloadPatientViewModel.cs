@@ -1,28 +1,19 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Feature.OHS.Web.ViewModels
 {
-    public class PayloadPatientViewModel
+    public class PatientViewModel
     {
-        //public int Patient_Id { get; set; }
-        //public DateTime DateCreated { get; set; }
         public int CreatorType { get; set; }
         public int PatientType_Id { get; set; }
         public bool IsActive { get; set; }
-        //public int Person_Id { get; set; }
 
         public int PatientId { get; set; }
         public string ReferenceNumber { get; set; }
         public string Allergies { get; set; } // i think will have to be a new table on its own
         public string Type { get; set; }
-
-     
         public int PersonId { get; set; }
         
-   
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -61,6 +52,12 @@ namespace Feature.OHS.Web.ViewModels
         public string NokPostalCode { get; set; }
         public string NokEmail { get; set; }
         public string NokRelationship { get; set; }
+        public string Ethnicity { get; set; }
+        public string IdentityType { get; set; }
+        public string MaritalStatus { get; set; }
+        public string Relation { get; set; }
+        public string Telephone { get; set; }
+        public string Cellphone { get; set; }
 
     }
 }

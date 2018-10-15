@@ -16,7 +16,8 @@ namespace Feature.OHS.Web.Integration
         {
             _client = new HttpClient()
             {
-                BaseAddress = new Uri("https://admissions-dot-medipark-hospital.appspot.com/v1/")
+                //BaseAddress = new Uri("https://admissions-dot-medipark-hospital.appspot.com/v1/")
+                BaseAddress = new Uri("http://localhost:51473/v1/")
             };
             _client.DefaultRequestHeaders.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

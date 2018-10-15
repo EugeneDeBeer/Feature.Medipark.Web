@@ -33,20 +33,18 @@ namespace Feature.OHS.Web.Controllers
         // GET: Patient/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new PatientPayloadViewModel());
         }
 
         // POST: Patient/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PayloadPatientViewModel model)
+        public async Task<ActionResult> Create(PatientPayloadViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // TODO: Add insert logic here
-                    
                     var result = await _patientHandler.AddPatient(model);
 
                     return RedirectToAction(nameof(Create));
@@ -63,31 +61,42 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-       // GET: Patient/Edit/5
-        //public ActionResult Edit(int id)
-        //{
+        // GET: Patient/Edit/5
+        public async Task<ActionResult> Edit(int id, bool includeAllDetails = true)
+        {
+            try
+            {
+                var patient = await _patientHandler.GetPatient(id, includeAllDetails);
 
-        //    if (id == null) { return NotFound(); }
-        //    var personVM = //create a get user function. 
+                if (patient == null) return View();
 
-        //    return View(person);
-        //}
+                return View(patient);
+
+                //if(patient == null) return RedirectToAction(nameof(Create));
+
+                //return View("Create", patient);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction(nameof(Create));
+            }
+
+        }
 
         // POST: Patient/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, PatientPayloadViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
-                // get the user
+               var result = await _patientHandler.UpdatePatient(model);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Create));
             }
         }
 
