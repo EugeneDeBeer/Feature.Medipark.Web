@@ -233,8 +233,8 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Patients</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="add-patient.html">Add Patient</a></li>
-                                <li><a href="patients.html">Manage Patient</a></li>
+                                <li><a asp-controller="Patient" asp-action="Create">Add Patient</a></li>
+                                <li><a asp-controller="Patient" asp-action="Index">Manage Patient</a></li>
 
                             </ul>
                         </li>
@@ -350,7 +350,7 @@
                     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
                     <script src="~/js/site.js" asp-append-version="true"></script>
 
-                    <script src="~/js/add-patient.js"></script>
+                    @*<script src="~/js/add-patient.js"></script>*@
                     <script src="~/js/bootstrap.min.js"></script>
                     <script src="~/js/detect.js"></script>
                     <script src="~/js/fastclick.js"></script>
@@ -362,7 +362,7 @@
 
 
 
-                    <script src="~/js/add-patient-admission.js"></script>
+                    @*<script src="~/js/add-patient-admission.js"></script>*@
                     <script src="~/js/waves.js"></script>
                     <script src="~/js/jquery.slimscroll.js"></script>
                     <script src="~/js/jquery.scrollTo.min.js"></script>

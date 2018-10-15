@@ -2,18 +2,23 @@
 
 namespace Feature.OHS.Web.ViewModels
 {
-    public class PatientViewModel
+    public class PatientPayloadViewModel
     {
+        //public DateTime DateCreated { get; set; }
         public int CreatorType { get; set; }
         public int PatientType_Id { get; set; }
         public bool IsActive { get; set; }
+        //public int Person_Id { get; set; }
 
         public int PatientId { get; set; }
         public string ReferenceNumber { get; set; }
         public string Allergies { get; set; } // i think will have to be a new table on its own
         public string Type { get; set; }
         public int PersonId { get; set; }
-        
+
+        public string Ethnicity { get; set; }
+        public string IdentityType { get; set; }
+        public string MaritalStatus { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -38,26 +43,21 @@ namespace Feature.OHS.Web.ViewModels
         public string WorkTel { get; set; }
         public string ResSurbub { get; set; }
         public string Country { get; set; }
-        public int GenderId { get; set; }
+        public string GenderId { get; set; }
         public int DeadTypeId { get; set; }
-
-        //  Next Of Kin
         public string NokName { get; set; }
         public string NokSurname { get; set; }
+        public string NokRelationship { get; set; }
+        public string Relation { get; set; }
+        public string Telephone { get; set; }
+        public string Cellphone { get; set; }
+        public string NokEmail { get; set; }
+        
         public string NokContact { get; set; }
         public string NokBuildingHome { get; set; }
         public string NokStreetName { get; set; }
         public string NokCountry { get; set; }
         public string NokSurburbTown { get; set; }
         public string NokPostalCode { get; set; }
-        public string NokEmail { get; set; }
-        public string NokRelationship { get; set; }
-        public string Ethnicity { get; set; }
-        public string IdentityType { get; set; }
-        public string MaritalStatus { get; set; }
-        public string Relation { get; set; }
-        public string Telephone { get; set; }
-        public string Cellphone { get; set; }
-
     }
 }

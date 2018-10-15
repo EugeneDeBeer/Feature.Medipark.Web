@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Feature.OHS.Web.Domain
 {
-    public class PatientHandler:IPatientHandler
+    public class PatientHandler :IPatientHandler
     {
         private readonly IApiAccessor _apiAccessor;
         //private HttpClient client;
@@ -28,15 +28,53 @@ namespace Feature.OHS.Web.Domain
             //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<bool> AddPatient(PatientViewModel patient)
+        public async Task<bool> AddPatient(PatientPayloadViewModel patient)
         {
-            HttpResponseMessage res = await _apiAccessor.GetHttpClient().PostAsJsonAsync<PatientViewModel>("Patient/create", patient);
+            HttpResponseMessage res = await _apiAccessor.GetHttpClient().PostAsJsonAsync<PatientPayloadViewModel>("Patient/create", patient);
 
             if (res.IsSuccessStatusCode)
             {
                 var empResponse = res.Content.ReadAsStringAsync().Result;
 
-                var newPatient = JsonConvert.DeserializeObject<PatientViewModel>(empResponse);
+                var newPatient = JsonConvert.DeserializeObject<PatientPayloadViewModel>(empResponse);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<PatientPayloadViewModel> GetPatient(int id, bool includeAllDetails = false)
+        {
+            try
+            {
+                var response = await _apiAccessor.GetHttpClient().GetAsync($"Patient/{id}/{includeAllDetails}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var patient = await response.Content.ReadAsAsync<PatientPayloadViewModel>();
+                    return patient;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<bool> UpdatePatient(PatientPayloadViewModel patient)
+        {
+            HttpResponseMessage res = await _apiAccessor.GetHttpClient().PutAsJsonAsync<PatientPayloadViewModel>("Patient/update", patient);
+
+            if (res.IsSuccessStatusCode)
+            {
+                var empResponse = res.Content.ReadAsStringAsync().Result;
+
+                var newPatient = JsonConvert.DeserializeObject<PatientPayloadViewModel>(empResponse);
 
                 return true;
             }
