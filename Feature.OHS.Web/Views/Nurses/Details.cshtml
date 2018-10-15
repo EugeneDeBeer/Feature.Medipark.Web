@@ -1,0 +1,264 @@
+﻿@model Feature.OHS.Web.ViewModels.NurseViewModel
+
+@{
+    ViewData["Title"] = "ManageNurses";
+}
+
+<h2>ManageNurses</h2>
+
+<div>
+    <h4>NurseViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CauseOfDeath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CauseOfDeath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeathDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeathDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatorId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Initials)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Initials)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResAddress1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResAddress1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResAddress2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResAddress2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResPostCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResPostCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Occupation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Occupation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Religion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Religion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BusAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.QualificationId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.QualificationId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfDegree)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NameOfDegree)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Institution)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Institution)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.YearObtained)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearObtained)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusPostCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BusPostCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BusName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeTel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HomeTel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkTel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WorkTel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResSurbub)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResSurbub)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GenderId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GenderId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeadTypeId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeadTypeId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ethnicity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ethnicity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdentityType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MaritalStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MaritalStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NurseId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NurseId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PracticeNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PracticeNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DoctorId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DoctorId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HPCNARegistrationNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HPCNARegistrationNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.YearsInPractice)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearsInPractice)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
