@@ -92,7 +92,10 @@ namespace Feature.OHS.Web.Controllers
             {
                var result = await _patientHandler.UpdatePatient(model);
 
-                return RedirectToAction(nameof(Create));
+                if(result)
+                    return RedirectToAction(nameof(Create));
+
+                return View(model);
             }
             catch
             {
