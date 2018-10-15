@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Medipark.Login.Interfaces
+namespace Feature.OHS.Web.Interfaces
 {
     public interface IRepository
     {

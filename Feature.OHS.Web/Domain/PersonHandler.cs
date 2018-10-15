@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Medipark.Login.Interfaces;
+using Feature.OHS.Web.Interfaces;
 
 namespace Feature.OHS.Web.Domain
 {

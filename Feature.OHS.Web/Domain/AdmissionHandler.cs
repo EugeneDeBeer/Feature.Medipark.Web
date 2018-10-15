@@ -2,7 +2,7 @@
 using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Feature.OHS.WebInterfaces;
-using Medipark.Login.Interfaces;
+using Feature.OHS.Web.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -10,15 +10,9 @@ namespace Feature.OHS.Web.Controllers
 {
     public class StaffController : Controller
     {
-        private readonly IStaffHandler _staffHandler;
-        public StaffController(IStaffHandler staffHandler)
-        {
-            _staffHandler = staffHandler;
-        }
-
         public IActionResult Create()
         {
-            return View(new StaffPayloadViewModel());
+            return View("~/Views/Nurses/Create.cshtml",new StaffPayloadViewModel());
         }
 
         public IActionResult Index()

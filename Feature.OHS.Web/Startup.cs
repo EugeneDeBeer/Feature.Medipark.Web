@@ -42,6 +42,7 @@ namespace Feature.OHS.Web
             services.AddTransient<INurseHandler, NurseHandler>();
             services.AddTransient<IContactHandler, ContactHandler>();
             services.AddTransient<IAddressHandler, AddressHandler>();
+       
             //services.AddScoped<IP>
             //services.AddDbContext<FeatureOHSWebContext>(options =>
             //        options.UseSqlServer(Configuration.GetConnectionString("FeatureOHSWebContext")));
