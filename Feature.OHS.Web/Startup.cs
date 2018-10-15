@@ -30,7 +30,7 @@ namespace Feature.OHS.Web
 
             services.AddScoped<IPatientHandler, PatientHandler>();
             services.AddScoped<IApiAccessor, ApiAccessor>();
-
+            //services.AddScoped<IP>
             //services.AddDbContext<FeatureOHSWebContext>(options =>
             //        options.UseSqlServer(Configuration.GetConnectionString("FeatureOHSWebContext")));
         }

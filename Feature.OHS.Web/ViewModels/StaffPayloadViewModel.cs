@@ -1,25 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.ViewModels
 {
-    public class PatientPayloadViewModel
+    public class StaffPayloadViewModel
     {
-        //public DateTime DateCreated { get; set; }
-        public int CreatorType { get; set; }
-
-        public int PatientType_Id { get; set; }
-        public bool IsActive { get; set; }
-        //public int Person_Id { get; set; }
-
-        public int PatientId { get; set; }
-        public string ReferenceNumber { get; set; }
-        public string Allergies { get; set; } // i think will have to be a new table on its own
-        public string Type { get; set; }
-        public int PersonId { get; set; }
-
-        public string Ethnicity { get; set; }
-        public string IdentityType { get; set; }
-        public string MaritalStatus { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -38,7 +25,12 @@ namespace Feature.OHS.Web.ViewModels
         public string Religion { get; set; }
         public string Email { get; set; }
         public string BusAddress { get; set; }
+        public int QualificationId { get; set; }
+        public string NameOfDegree { get; set; }
+        public string Institution { get; set; }
+        public string YearObtained { get; set; }
         public string BusPostCode { get; set; }
+        public string Type { get; set; }
         public string BusName { get; set; }
         public string HomeTel { get; set; }
         public string WorkTel { get; set; }
@@ -46,22 +38,19 @@ namespace Feature.OHS.Web.ViewModels
         public string Country { get; set; }
         public string GenderId { get; set; }
         public int DeadTypeId { get; set; }
-        public string NokName { get; set; }
-        public string NokSurname { get; set; }
-        public string NokRelationship { get; set; }
-        public string Relation { get; set; }
-        public string Telephone { get; set; }
-        public string Cellphone { get; set; }
-        public string NokEmail { get; set; }
-        public string NokContact { get; set; }
-        public string NokBuildingHome { get; set; }
-        public string NokStreetName { get; set; }
-        public string NokCountry { get; set; }
-        public string NokSurburbTown { get; set; }
-        public string NokPostalCode { get; set; }
-        
+        public string Ethnicity { get; set; }
+        public string IdentityType { get; set; }
+        public string MaritalStatus { get; set; }
+        public int NurseId { get; set; }
+        public string PracticeNumber { get; set; }
+        public int DoctorId { get; set; }
+        public string Role { get; set; }
+        public int PersonId { get; set; }
+        public string HPCNARegistrationNumber { get; set; }
+        public int YearsInPractice { get; set; }
         //Contact
         public string Telephone1 { get; set; }
+
         public string Telephone2 { get; set; }
         public string Telephone3 { get; set; }
         public string HomeTelephone { get; set; }
@@ -83,4 +72,4 @@ namespace Feature.OHS.Web.ViewModels
         public int CityId { get; set; }
         public int PostCodeId { get; set; }
     }
-    }
+}
