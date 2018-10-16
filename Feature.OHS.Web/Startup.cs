@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.Authentication;
 using Feature.OHS.Web.Domain;
 using Feature.OHS.Web.Integration;
 using Feature.OHS.Web.Interfaces;
@@ -26,7 +27,9 @@ namespace Feature.OHS.Web
         {
             services.AddMvc();
 
-            services.AddScoped<IPatientHandler, PatientHandler>();
+            services.AddTransient<IPatientHandler, PatientHandler>();
+            services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
+            services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddScoped<IApiAccessor, ApiAccessor>();
         }
 

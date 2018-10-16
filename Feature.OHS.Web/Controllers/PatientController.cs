@@ -38,16 +38,15 @@ namespace Feature.OHS.Web.Controllers
 
         // POST: Patient/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PatientPayloadViewModel model)
+        public ActionResult Create(PatientPayloadViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = await _patientHandler.AddPatient(model);
+                    var result =  _patientHandler.AddPatient(model);
 
-                    return RedirectToAction(nameof(Create));
+                    return RedirectToAction(nameof(Index));
                 }
                 catch
                 {
@@ -61,12 +60,17 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
+        public ActionResult List()
+        {
+            return View();
+        }
+
         // GET: Patient/Edit/5
-        public async Task<ActionResult> Edit(int id, bool includeAllDetails = true)
+        public ActionResult Edit(int id, bool includeAllDetails = true)
         {
             try
             {
-                var patient = await _patientHandler.GetPatient(id, includeAllDetails);
+                var patient = _patientHandler.GetPatient(id, includeAllDetails);
 
                 if (patient == null) return View();
 
@@ -85,12 +89,11 @@ namespace Feature.OHS.Web.Controllers
 
         // POST: Patient/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, PatientPayloadViewModel model)
+        public ActionResult Edit(int id, PatientPayloadViewModel model)
         {
             try
             {
-               var result = await _patientHandler.UpdatePatient(model);
+               var result =  _patientHandler.UpdatePatient(model);
 
                 return RedirectToAction(nameof(Create));
             }
