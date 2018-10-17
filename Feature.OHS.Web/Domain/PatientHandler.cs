@@ -6,80 +6,49 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.ViewModels;
+using Feature.OHS.Web.ViewModels.Response;
 using Newtonsoft.Json;
 
 namespace Feature.OHS.Web.Domain
 {
-    public class PatientHandler :IPatientHandler
+    public class PatientHandler : IPatientHandler
     {
-        private readonly IApiAccessor _apiAccessor;
-        //private HttpClient client;
-        public PatientHandler(IApiAccessor apiAccessor)
+        private readonly IAPIIntegration _integration;
+       
+        public PatientHandler(IAPIIntegration integration)
         {
-            _apiAccessor = apiAccessor;
+            _integration = integration;
 
-            //url: 'https://admissions-dot-medipark-hospital.appspot.com/v1/Patient/create',
-
-            //client = new HttpClient()
-            //{
-            //    BaseAddress = new Uri("https://admissions-dot-medipark-hospital.appspot.com/v1/")
-            //};
-            //client.DefaultRequestHeaders.Clear();
-            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<bool> AddPatient(PatientPayloadViewModel patient)
+        public dynamic AddPatient(PatientPayloadViewModel patient)
         {
-            HttpResponseMessage res = await _apiAccessor.GetHttpClient().PostAsJsonAsync<PatientPayloadViewModel>("Patient/create", patient);
+            var response = _integration.ResponseFromAPIPost("","v1/patient/create",patient, "https://admissions-dot-medipark-hospital.appspot.com/",true);
 
-            if (res.IsSuccessStatusCode)
+            if (response != null)
             {
-                var empResponse = res.Content.ReadAsStringAsync().Result;
-
-                var newPatient = JsonConvert.DeserializeObject<PatientPayloadViewModel>(empResponse);
-
-                return true;
-            }
-
-            return false;
-        }
-
-        public async Task<PatientPayloadViewModel> GetPatient(int id, bool includeAllDetails = false)
-        {
-            try
-            {
-                var response = await _apiAccessor.GetHttpClient().GetAsync($"Patient/{id}/{includeAllDetails}");
-
-                if (response.IsSuccessStatusCode)
+                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                if (dynamicResponse != null)
                 {
-                    var patient = await response.Content.ReadAsAsync<PatientPayloadViewModel>();
-                    return patient;
+                    return dynamicResponse;
                 }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
-            catch(Exception ex)
+            else
             {
                 return null;
             }
+
         }
 
-        public async Task<bool> UpdatePatient(PatientPayloadViewModel patient)
+        public dynamic GetPatient(int id, bool includeAllDetails = false)
         {
-            HttpResponseMessage res = await _apiAccessor.GetHttpClient().PutAsJsonAsync<PatientPayloadViewModel>("Patient/update", patient);
+            return null;
+        }
 
-            if (res.IsSuccessStatusCode)
-            {
-                var empResponse = res.Content.ReadAsStringAsync().Result;
-
-                var newPatient = JsonConvert.DeserializeObject<PatientPayloadViewModel>(empResponse);
-
-                return true;
-            }
-
-            return false;
+        public dynamic UpdatePatient(PatientPayloadViewModel patient)
+        {
+            return null;
         }
     }
 }

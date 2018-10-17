@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.Interfaces
 {
-    public interface IServiveAuthentication
+    public interface IServiceAuthentication
     {
         string GenerateToken(string issuer, string audience, TimeSpan expirationMinutes);
     }
