@@ -6,6 +6,7 @@ using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Feature.OHS.Web.Controllers
 {
@@ -22,6 +23,20 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public string GetPatients()
+        {
+            try
+            {
+                var patients = _patientHandler.GetPatients();                
+
+                return patients;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         // GET: Patient/Details/5
@@ -70,15 +85,13 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
-                var patient = _patientHandler.GetPatient(id, includeAllDetails);
+                var result = _patientHandler.GetPatient(id, includeAllDetails);
 
-                if (patient == null) return View();
+                if (result == null) return View();
+
+                PatientPayloadViewModel patient = JsonConvert.DeserializeObject<PatientPayloadViewModel>(JsonConvert.SerializeObject(result));
 
                 return View(patient);
-
-                //if(patient == null) return RedirectToAction(nameof(Create));
-
-                //return View("Create", patient);
             }
             catch (Exception ex)
             {
@@ -89,20 +102,20 @@ namespace Feature.OHS.Web.Controllers
 
         // POST: Patient/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PatientPayloadViewModel model)
+        public ActionResult Edit(/*int id, */ PatientPayloadViewModel model)
         {
             try
             {
                var result =  _patientHandler.UpdatePatient(model);
 
                 if(result)
-                    return RedirectToAction(nameof(Create));
+                    return RedirectToAction(nameof(Index));
 
                 return View(model);
             }
             catch
             {
-                return RedirectToAction(nameof(Create));
+                return RedirectToAction(nameof(Index));
             }
         }
 

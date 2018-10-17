@@ -11,6 +11,7 @@ namespace Feature.OHS.Web.Interfaces
     {
         dynamic AddPatient(PatientPayloadViewModel patient);
         dynamic GetPatient(int id, bool includeAllDetails = false);
+        dynamic GetPatients();
 
         dynamic UpdatePatient(PatientPayloadViewModel model);
     }

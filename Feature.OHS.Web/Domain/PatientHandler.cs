@@ -43,12 +43,59 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic GetPatient(int id, bool includeAllDetails = false)
         {
-            return null;
+            var response = _integration.ResponseFromAPIGet("", $"v1/Patient/{id}/{includeAllDetails}", "http://localhost:51473/", "GET");
+
+            if (response != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                if (dynamicResponse != null)
+                {
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public dynamic GetPatients()
+        {
+            var response = _integration.ResponseFromAPIGet("", "v1/Patient/GetPatients", "http://localhost:50566/", "GET");
+
+            if (response != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                if (dynamicResponse != null)
+                {
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public dynamic UpdatePatient(PatientPayloadViewModel patient)
         {
-            return null;
+            var response = _integration.ResponseFromAPIPut("", "v1/patient/update", patient, "http://localhost:51473/", true);
+
+            if (response != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                if (dynamicResponse != null)
+                {
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
