@@ -17,13 +17,9 @@ namespace Feature.OHS.Web.ViewModels
         public int? CreatorId { get; set; }
         public string MiddleName { get; set; }
         public string Initials { get; set; }
-        public string ResAddress1 { get; set; }
-        public string ResAddress2 { get; set; }
-        public string ResPostCode { get; set; }
         public string Title { get; set; }
         public string Occupation { get; set; }
         public string Religion { get; set; }
-        public string Email { get; set; }
         public string BusAddress { get; set; }
         public int QualificationId { get; set; }
         public string NameOfDegree { get; set; }
@@ -31,10 +27,6 @@ namespace Feature.OHS.Web.ViewModels
         public string YearObtained { get; set; }
         public string BusPostCode { get; set; }
         public string Type { get; set; }
-        public string BusName { get; set; }
-        public string HomeTel { get; set; }
-        public string WorkTel { get; set; }
-        public string ResSurbub { get; set; }
         public string Country { get; set; }
         public string GenderId { get; set; }
         public int DeadTypeId { get; set; }
@@ -50,7 +42,6 @@ namespace Feature.OHS.Web.ViewModels
         public int YearsInPractice { get; set; }
         //Contact
         public string Telephone1 { get; set; }
-
         public string Telephone2 { get; set; }
         public string Telephone3 { get; set; }
         public string HomeTelephone { get; set; }
@@ -63,7 +54,6 @@ namespace Feature.OHS.Web.ViewModels
 
         //Address
         public int AddressId { get; set; }
-
         public int AddressTypeId { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }

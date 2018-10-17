@@ -8,9 +8,9 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface IStaffHandler
     {
-        StaffPayloadViewModel CreateStaff(StaffPayloadViewModel qualification);
+        dynamic AddStaff(StaffPayloadViewModel patient);
+        dynamic GetStaff(int id, bool includeAllDetails = false);
 
-
-        StaffPayloadViewModel GetStaffbyPersonId(string idNumber);
+        dynamic UpdateStaff(StaffPayloadViewModel model);
     }
 }
