@@ -27,15 +27,7 @@
 
     <script type="text/javascript">
 
-        $(function () {
-
-            //$("#tblSearch").on('click', function() {
-            //    //e.preventDefault();
-
-            //    var searchKey = $("#search-input").val();
-
-            //    alert("Searching for: " + searchKey);
-            //});
+        $(function() {
 
             var params = {
                 firstName: 'check 4',
@@ -96,7 +88,8 @@
                                 ${row.HomeTel}
                             </td>
                             <td>
-                                <a href="/Patient/Edit/${row.PatientId}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                <a href="/Patient/Edit/${row.PatientId
+                                }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
                             </td>
                             `;
                             line += '</tr>';
@@ -104,7 +97,7 @@
                         });
 
 
-                    $("#tblPatients tbody").append(line);
+                    $("#tblPatients tbody").append(line);                 
 
 
                     //$('#tblPatients').DataTable({
@@ -159,6 +152,32 @@
             });
             */
 
+            //  Filtering data table
+            $("#search-input").keyup(function() {
+
+                var searchKey = $(this).val();
+
+                var filter, table, tr, firstName, lastName, email, i;
+
+                filter = searchKey.toUpperCase();
+                /*table = $("#tblPatients"); document.getElementById("tblPatients")*/;
+                tr = $("#tblPatients tr");/*table.getElementsByTagName("tr");*/
+
+                for (i = 0; i < tr.length; i++) {
+                    firstName = tr[i].getElementsByTagName("td")[1];
+                    lastName = tr[i].getElementsByTagName("td")[2];
+                    email = tr[i].getElementsByTagName("td")[3];
+
+                    if (firstName) {
+                        if (firstName.innerHTML.toUpperCase().indexOf(filter) > -1 || lastName.innerHTML.toUpperCase().indexOf(filter) > -1
+                            || email.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }       
+                }
+            });
         });
 
     </script>
