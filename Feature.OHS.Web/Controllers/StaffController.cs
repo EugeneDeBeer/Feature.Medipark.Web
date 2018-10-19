@@ -23,11 +23,7 @@ namespace Feature.OHS.Web.Controllers
             return View("~/Views/Nurses/Create.cshtml", new StaffPayloadViewModel());
         }
 
-        public IActionResult EditNurse(int? nurseId)
-        {
-            //var result =
-            return View("~/Views/Nurses/Edit.cshtml", new StaffPayloadViewModel());
-        }
+        
 
         public IActionResult EditDoctor(string id)
         {
@@ -44,23 +40,40 @@ namespace Feature.OHS.Web.Controllers
             return View("~/Views/Doctors/Edit.cshtml", user);
         }
 
-        public IActionResult Index()
+        public IActionResult EditNurse(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _staffHandler.GetStaffByIdNumber(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Nurses/Edit.cshtml", user);
+        }
+
+        public IActionResult Doctors()
         {
             var members = _staffHandler.Staffs;
             return View("~/Views/Doctors/Index.cshtml", members);
         }
-
+        public IActionResult Nurses()
+        {
+            var members = _staffHandler.Staffs;
+            return View("~/Views/Nurses/Index.cshtml", members);
+        }
         //POST:Staff/Edit
         [HttpPost]
-        public ActionResult EditStaff([Bind("PersonId,FirstName,LastName,DateOfBirth,IdNumber,PassportNumber,MiddleName,Initials,Title,Religion,BusAddress, QualificationId,"+
-            "NameOfDegree,Institution,YearObtained,BusPostCode,Type,Country,GenderId,DeadTypeId,Ethnicity,IdentityType,MaritalStatus,NurseId,PracticeNumber,"+
-            "Role,HPCNARegistrationNumber,YearsInPractice") ] StaffPayloadViewModel staffPayloadViewModel)
+        public ActionResult EditStaff(StaffPayloadViewModel staffPayloadViewModel)
         {
             if (ModelState.IsValid)
                 try
                 {
                     var result = _staffHandler.UpdateStaff(staffPayloadViewModel);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Doctors));
                 }
                 catch (System.Exception)
                 {
@@ -83,7 +96,7 @@ namespace Feature.OHS.Web.Controllers
                 {
                     var result = _staffHandler.AddStaff(model);
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Doctors));
                 }
                 catch
                 {
