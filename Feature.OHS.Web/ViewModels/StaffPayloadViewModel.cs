@@ -7,6 +7,7 @@ namespace Feature.OHS.Web.ViewModels
 {
     public class StaffPayloadViewModel
     {
+       
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
