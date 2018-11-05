@@ -25,84 +25,17 @@ node {
       //Login to gcloud and update SDK
       stage ('Login to Gcloud') {
         if (project == 'medipark-hospital'){
-          //  configFileProvider([configFile(fileId: '2ac32ad9-417d-4c69-8b5c-dbfc2ea71c8c', variable: 'GCLOUD_AUTH')]) {
+ 
                 sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
                 sh("gcloud auth login medipark-hospital@appspot.gserviceaccount.com") 
-               // if (platform == 'appengine'){
-               //    sh("gsutil cp gs://medipark-hospital-dev-secrets/cloudsqlserviceaccount.json .")
-              //  }
+              
             }
-            //Overwrite the appsettings.json file with one that is in Google cloud storage
-           // sh("gsutil cp gs://medipark-hospital-dev-secrets/appsettings/${env.BRANCH_NAME}_appsettings.json ./${projectFolder}/appsettings.json")
-        }
-      //  else{           
-        //    configFileProvider([configFile(fileId: 'harambee_sa', variable: 'GCLOUD_AUTH')]) {              
-          //      sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
-            //    sh("gcloud config set project ${project}")
-             //   sh("gcloud auth login medipark-hospital-prod.iam.gserviceaccount.com")
-              //  if (platform == 'appengine'){
-               //     sh("gsutil cp gs://medipark-hospital-prod/cloudsqlserviceaccount.json .")
-            //    }
-           // }
-            //Overwrite the appsettings.json file with one that is in Google cloud storage
-           // sh("gsutil cp gs://medipark-hospital/appsettings.json ./${projectFolder}/appsettings.json")
-       // }     
-        //Update gcloud to meet minimum version
-        sh("gcloud components update")
-      }   
+             sh("gcloud components update")
+       }
       
-      if (platform == "kubernetes"){          
-            /****************************************************************************************
-            /                               Use this section when building k8s service               /
-            /****************************************************************************************/  
-            def imageTag = "eu.gcr.io/${project}/k8s/${appName}/${env.BRANCH_NAME}:${env.BUILD_NUMBER}"    
-            stage ('Build k8s image') { 
-                    //Overwrite the Dockerfile with one that is in Jenkins managed files
-                    configFileProvider([configFile(fileId: 'Dockerfile2', variable: 'DOCKER')]){
-                        sh("yes | cp -rf $DOCKER ./Dockerfile")
-                    }  
-                    sh("docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg dll=${dll} -t ${imageTag} .")
-                    sh("gcloud docker -- push ${imageTag}")   
-            }
-            stage ('Deploy to k8s') {
-                    //Overwrite the deploy.yml file with one that is in Jenkins managed files
-                    configFileProvider(
-                        [configFile(fileId: 'deployment_file', variable: 'DEPLOY')]){
-                        sh("yes | cp -rf $DEPLOY ./deploy.yml")
-                    }
-                    
-                    sh("sed -i.bak 's#appName#${appName}#' deploy.yml")   
-                    sh("sed -i.bak 's#imageTag#${imageTag}#' deploy.yml")         
-                    switch (env.BRANCH_NAME) {
-                        case "development":                   
-                            sh("gcloud container clusters get-credentials mvp-dev-cluster --zone europe-west1-d --project ${project}")
-                            sh("sed -i.bak 's#instanceName#${devDB}#' deploy.yml")
-                            break        
-                        case "qa":
-                            sh("gcloud container clusters get-credentials mvp-qa-cluster --zone europe-west1-d --project ${project}")
-                            sh("sed -i.bak 's#instanceName#${qaDB}#' deploy.yml")
-                            break
-                        case "uat":
-                            sh("gcloud container clusters get-credentials mvp-uat-cluster --zone europe-west1-d --project ${project}")
-                            sh("sed -i.bak 's#instanceName#${uatDB}#' deploy.yml")
-                            break
-                        case "prod":
-                            sh("gcloud container clusters get-credentials harambee --zone europe-west1-d --project ${project}")
-                            sh("sed -i.bak 's#instanceName#${prodDB}#' deploy.yml")                   
-                            break                   
-                    }                           
-                    //Check if deployment exists
-                    def depExists = sh (
-                        script: "kubectl get deployment ${appName} --namespace=default --ignore-not-found",
-                    returnStdout: true).trim()
-                
-                    if (depExists != ""){
-                        sh("kubectl delete --namespace=default -f deploy.yml --ignore-not-found=true")
-                    }
-                    sh("kubectl create --namespace=default -f deploy.yml --record")
-            }
-      }
-      else{
+       
+         
+      
             def imageTag = "eu.gcr.io/${project}/appengine/${appName[0]}/${env.BRANCH_NAME}/${env.BRANCH_NAME}:${env.BUILD_NUMBER}"  
             /****************************************************************************************
             /                        Use this section when building AppEngine service                /
@@ -143,33 +76,25 @@ node {
                         sh("sed -i.bak 's#REPLACE_TENANT#${tenant}#' app.yaml")
                         sh("sed -i.bak 's#REPLACE_ID#${1}#' app.yaml")
                         switch (env.BRANCH_NAME) {
-                            case "development":   
+                            case "dev":   
                                 sh("sed -i.bak 's#service:#service: dev-${appName}#' app.yaml")    
-							    // sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --no-promote")
-							   // sh("gcloud app services set-traffic dev-${appName} --splits v${env.BUILD_NUMBER}=.5, $previous_version=.5")
-							   
-			//	sh("bash appengine_versions_clean.sh dev-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
-                                break        
+							//     sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER}")
+							
+			                    break        
                             case "qa":
                                 sh("sed -i.bak 's#service:#service: qa-${appName}#' app.yaml")
 								//sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
-				//sh("bash appengine_versions_clean.sh qa-${appName} 2");
-		//		sh("bash appengine_versions_clean.sh qa-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
-                               
+				             
                                 break
                             case "uat":   
                                 sh("sed -i.bak 's#service:#service: uat-${appName}#' app.yaml")
-							  //  sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
-				//sh("bash appengine_versions_clean.sh uat-${appName} 2");
-             //                   sh("bash appengine_versions_clean.sh uat-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
-                               
+							   // sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
+			                   
 				break
                             case "prod":
                                 sh("sed -i.bak 's#service:#service: ${appName}#' app.yaml")
-							    //sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
-				//sh("bash appengine_versions_clean.sh ${appName} 2");
-                //                sh("bash appengine_versions_clean.sh ${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
-                               
+							  //  sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
+			                 
 				break   
                         }
 
