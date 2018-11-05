@@ -29,24 +29,24 @@ node {
                 sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
                 sh("gcloud auth login medipark-hospital@appspot.gserviceaccount.com") 
                // if (platform == 'appengine'){
-                //    sh("gsutil cp gs://medipark-hospital-dev-secrets/cloudsqlserviceaccount.json .")
+               //    sh("gsutil cp gs://medipark-hospital-dev-secrets/cloudsqlserviceaccount.json .")
               //  }
             }
             //Overwrite the appsettings.json file with one that is in Google cloud storage
            // sh("gsutil cp gs://medipark-hospital-dev-secrets/appsettings/${env.BRANCH_NAME}_appsettings.json ./${projectFolder}/appsettings.json")
         }
-        else{           
-            configFileProvider([configFile(fileId: 'harambee_sa', variable: 'GCLOUD_AUTH')]) {              
-                sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
-                sh("gcloud config set project ${project}")
-                sh("gcloud auth login medipark-hospital-prod.iam.gserviceaccount.com")
-                if (platform == 'appengine'){
+      //  else{           
+        //    configFileProvider([configFile(fileId: 'harambee_sa', variable: 'GCLOUD_AUTH')]) {              
+          //      sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
+            //    sh("gcloud config set project ${project}")
+             //   sh("gcloud auth login medipark-hospital-prod.iam.gserviceaccount.com")
+              //  if (platform == 'appengine'){
                //     sh("gsutil cp gs://medipark-hospital-prod/cloudsqlserviceaccount.json .")
-                }
-            }
+            //    }
+           // }
             //Overwrite the appsettings.json file with one that is in Google cloud storage
            // sh("gsutil cp gs://medipark-hospital/appsettings.json ./${projectFolder}/appsettings.json")
-        }     
+       // }     
         //Update gcloud to meet minimum version
         sh("gcloud components update")
       }   
@@ -110,12 +110,12 @@ node {
             
             stage ('Build AppEngine image') {   
                     //Copy cloudproxy file
-                    if (project == 'harambee-dev'){
+                 //   if (project == 'harambee-dev'){
                     //    sh("gsutil cp gs://medipark-hospital-code/cloudsqlproxy.linux.amd64 .")
-                    }
-                    else{
+                //    }
+                //    else{
                      //   sh("gsutil cp gs://medipark-hospital-secrets/cloudsqlproxy.linux.amd64 .")
-                    }
+                //    }
                     switch (env.BRANCH_NAME){
                         case "dev":
                             sh("docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${devDB} -t ${imageTag} --file=Dockerfile_AE .")
@@ -148,27 +148,27 @@ node {
 							    // sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --no-promote")
 							   // sh("gcloud app services set-traffic dev-${appName} --splits v${env.BUILD_NUMBER}=.5, $previous_version=.5")
 							   
-				sh("bash appengine_versions_clean.sh dev-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
+			//	sh("bash appengine_versions_clean.sh dev-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
                                 break        
                             case "qa":
                                 sh("sed -i.bak 's#service:#service: qa-${appName}#' app.yaml")
 								//sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
 				//sh("bash appengine_versions_clean.sh qa-${appName} 2");
-				sh("bash appengine_versions_clean.sh qa-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
+		//		sh("bash appengine_versions_clean.sh qa-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
                                
                                 break
                             case "uat":   
                                 sh("sed -i.bak 's#service:#service: uat-${appName}#' app.yaml")
 							  //  sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
 				//sh("bash appengine_versions_clean.sh uat-${appName} 2");
-                                sh("bash appengine_versions_clean.sh uat-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
+             //                   sh("bash appengine_versions_clean.sh uat-${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
                                
 				break
                             case "prod":
                                 sh("sed -i.bak 's#service:#service: ${appName}#' app.yaml")
 							    //sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
 				//sh("bash appengine_versions_clean.sh ${appName} 2");
-                                sh("bash appengine_versions_clean.sh ${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
+                //                sh("bash appengine_versions_clean.sh ${appName} ${imageTag} v${env.BUILD_NUMBER} 3"); //script deploys, splits traffic and deletes old versions
                                
 				break   
                         }
