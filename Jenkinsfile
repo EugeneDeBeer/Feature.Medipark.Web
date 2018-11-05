@@ -26,7 +26,7 @@ node {
       stage ('Login to Gcloud') {
         if (project == 'medipark-hospital'){
  
-                sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
+                sh("gcloud auth activate-service-account")
                 sh("gcloud auth login medipark-hospital@appspot.gserviceaccount.com") 
               
             }
