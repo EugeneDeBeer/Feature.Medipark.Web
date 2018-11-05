@@ -107,7 +107,7 @@ node {
                        
             //END DEPLOY TO APPENGINE
       }   
-  }
+  //}
   catch(e){
         currentBuild.result = "FAILED"
         throw e
