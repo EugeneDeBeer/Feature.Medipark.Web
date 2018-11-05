@@ -130,7 +130,7 @@ def notifyBuild(String buildStatus) {
   def summary = "${subject} (${env.BUILD_URL})"  
   // Send notification to slack on anything but success
   if (buildStatus != 'SUCCESSFUL') {        
-    slackSend (color: colorCode, message: summary)
+    //slackSend (color: colorCode, message: summary)
   }  
   // Below used for starting automated test on 
   /*
