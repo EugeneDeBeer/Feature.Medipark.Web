@@ -1,0 +1,34 @@
+FROM microsoft/dotnet
+MAINTAINER MGIBA Technologies
+
+#Get argument list
+ARG folder 
+ARG testfolder
+ARG db
+
+COPY . /app
+
+#Set working directory to test folder
+WORKDIR /app/${testfolder}
+
+#Restore test project
+RUN dotnet restore
+
+#Run unit tests
+RUN dotnet test
+
+#Set working directory to app folder
+WORKDIR /app/${folder}
+
+#Expose Port 80 for web traffic
+EXPOSE 8080
+ENV ASPNETCORE_URLS http://+:8080
+
+#Publish the application
+RUN dotnet publish -c Release -o publish
+
+WORKDIR ./publish
+ENV instance ${db}
+
+#Provide entry point to application
+ENTRYPOINT ["dotnet", "Feature.OHS.Web.dll"]
