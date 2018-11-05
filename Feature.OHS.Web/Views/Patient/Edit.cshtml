@@ -1,0 +1,1030 @@
+﻿@model Feature.OHS.Web.ViewModels.PatientPayloadViewModel
+
+@*@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+@section Scripts {
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
+    <script src="~/js/site.js"></script>
+
+    <script type="text/javascript">
+        $(() => {
+
+            function getAge(born) {
+                var now = new Date();
+
+                var birthday = new Date(now.getFullYear(), born.getMonth(), born.getDate());
+                if (now >= birthday)
+                    return now.getFullYear() - born.getFullYear();
+                else
+                    return now.getFullYear() - born.getFullYear() - 1;
+            }
+
+            function getCountries() {
+                var countries = [
+                    { "id": 1, "text": "Albania" },
+                    { "id": 2, "text": "Algeria" },
+                    { "id": 3, "text": "America" },
+                    { "id": 4, "text": "Andorra" },
+                    { "id": 5, "text": "Angola" },
+                    { "id": 6, "text": "Antigua" },
+                    { "id": 7, "text": "Argentina" },
+                    { "id": 8, "text": "Armenia" },
+                    { "id": 9, "text": "Australia" },
+                    { "id": 10, "text": "Austria" },
+                    { "id": 11, "text": "Azerbaijan" },
+                    { "id": 12, "text": "Bahamas" },
+                    { "id": 13, "text": "Bahrain" },
+                    { "id": 14, "text": "Bangladesh" },
+                    { "id": 15, "text": "Barbados" },
+                    { "id": 16, "text": "Belarus" },
+                    { "id": 17, "text": "Belgium" },
+                    { "id": 18, "text": "Belize" },
+                    { "id": 19, "text": "Benin" },
+                    { "id": 20, "text": "Bhutan" },
+                    { "id": 21, "text": "Bissau" },
+                    { "id": 22, "text": "Bolivia" },
+                    { "id": 23, "text": "Bosnia" },
+                    { "id": 24, "text": "Botswana" },
+                    { "id": 25, "text": "Brazil" },
+                    { "id": 26, "text": "British" },
+                    { "id": 27, "text": "Brunei" },
+                    { "id": 28, "text": "Bulgaria" },
+                    { "id": 29, "text": "Burkina" },
+                    { "id": 30, "text": "Burma" },
+                    { "id": 31, "text": "Burundi" },
+                    { "id": 32, "text": "Cambodia" },
+                    { "id": 33, "text": "Cameroon" },
+                    { "id": 34, "text": "Canada" },
+                    { "id": 35, "text": "Cape Verde" },
+                    { "id": 36, "text": "Central African Republic" },
+                    { "id": 37, "text": "Chad" },
+                    { "id": 38, "text": "Chile" },
+                    { "id": 39, "text": "China" },
+                    { "id": 40, "text": "Colombia" },
+                    { "id": 41, "text": "Comoros" },
+                    { "id": 42, "text": "Congo" },
+                    { "id": 43, "text": "Costa Rica" },
+                    { "id": 44, "text": "country debt" },
+                    { "id": 45, "text": "Croatia" },
+                    { "id": 46, "text": "Cuba" },
+                    { "id": 47, "text": "Cyprus" },
+                    { "id": 48, "text": "Czech" },
+                    { "id": 49, "text": "Denmark" },
+                    { "id": 50, "text": "Djibouti" },
+                    { "id": 51, "text": "Dominica" },
+                    { "id": 52, "text": "East Timor" },
+                    { "id": 53, "text": "Ecuador" },
+                    { "id": 54, "text": "Egypt" },
+                    { "id": 55, "text": "El Salvador" },
+                    { "id": 56, "text": "Emirate" },
+                    { "id": 57, "text": "England" },
+                    { "id": 58, "text": "Eritrea" },
+                    { "id": 59, "text": "Estonia" },
+                    { "id": 60, "text": "Ethiopia" },
+                    { "id": 61, "text": "Fiji" },
+                    { "id": 62, "text": "Finland" },
+                    { "id": 63, "text": "France" },
+                    { "id": 64, "text": "Gabon" },
+                    { "id": 65, "text": "Gambia" },
+                    { "id": 66, "text": "Georgia" },
+                    { "id": 67, "text": "Germany" },
+                    { "id": 68, "text": "Ghana" },
+                    { "id": 69, "text": "Great Britain" },
+                    { "id": 70, "text": "Greece" },
+                    { "id": 71, "text": "Grenada" },
+                    { "id": 72, "text": "Grenadines" },
+                    { "id": 73, "text": "Guatemala" },
+                    { "id": 74, "text": "Guinea" },
+                    { "id": 75, "text": "Guyana" },
+                    { "id": 76, "text": "Haiti" },
+                    { "id": 77, "text": "Herzegovina" },
+                    { "id": 78, "text": "Honduras" },
+                    { "id": 79, "text": "Hungary" },
+                    { "id": 80, "text": "Iceland" },
+                    { "id": 81, "text": "in usa" },
+                    { "id": 82, "text": "India" },
+                    { "id": 83, "text": "Indonesia" },
+                    { "id": 84, "text": "Iran" },
+                    { "id": 85, "text": "Iraq" },
+                    { "id": 86, "text": "Ireland" },
+                    { "id": 87, "text": "Israel" },
+                    { "id": 88, "text": "Italy" },
+                    { "id": 89, "text": "Ivory Coast" },
+                    { "id": 90, "text": "Jamaica" },
+                    { "id": 91, "text": "Japan" },
+                    { "id": 92, "text": "Jordan" },
+                    { "id": 93, "text": "Kazakhstan" },
+                    { "id": 94, "text": "Kenya" },
+                    { "id": 95, "text": "Kiribati" },
+                    { "id": 96, "text": "Korea" },
+                    { "id": 97, "text": "Kosovo" },
+                    { "id": 98, "text": "Kuwait" },
+                    { "id": 99, "text": "Kyrgyzstan" },
+                    { "id": 100, "text": "Laos" },
+                    { "id": 101, "text": "Latvia" },
+                    { "id": 102, "text": "Lebanon" },
+                    { "id": 103, "text": "Lesotho" },
+                    { "id": 104, "text": "Liberia" },
+                    { "id": 105, "text": "Libya" },
+                    { "id": 106, "text": "Liechtenstein" },
+                    { "id": 107, "text": "Lithuania" },
+                    { "id": 108, "text": "Luxembourg" },
+                    { "id": 109, "text": "Macedonia" },
+                    { "id": 110, "text": "Madagascar" },
+                    { "id": 111, "text": "Malawi" },
+                    { "id": 112, "text": "Malaysia" },
+                    { "id": 113, "text": "Maldives" },
+                    { "id": 114, "text": "Mali" },
+                    { "id": 115, "text": "Malta" },
+                    { "id": 116, "text": "Marshall" },
+                    { "id": 117, "text": "Mauritania" },
+                    { "id": 118, "text": "Mauritius" },
+                    { "id": 119, "text": "Mexico" },
+                    { "id": 120, "text": "Micronesia" },
+                    { "id": 121, "text": "Moldova" },
+                    { "id": 122, "text": "Monaco" },
+                    { "id": 123, "text": "Mongolia" },
+                    { "id": 124, "text": "Montenegro" },
+                    { "id": 125, "text": "Morocco" },
+                    { "id": 126, "text": "Mozambique" },
+                    { "id": 127, "text": "Myanmar" },
+                    { "id": 128, "text": "Namibia" },
+                    { "id": 129, "text": "Nauru" },
+                    { "id": 130, "text": "Nepal" },
+                    { "id": 131, "text": "Netherlands" },
+                    { "id": 132, "text": "New Zealand" },
+                    { "id": 133, "text": "Nicaragua" },
+                    { "id": 134, "text": "Niger" },
+                    { "id": 135, "text": "Nigeria" },
+                    { "id": 136, "text": "Norway" },
+                    { "id": 137, "text": "Oman" },
+                    { "id": 138, "text": "Pakistan" },
+                    { "id": 139, "text": "Palau" },
+                    { "id": 140, "text": "Panama" },
+                    { "id": 141, "text": "Papua" },
+                    { "id": 142, "text": "Paraguay" },
+                    { "id": 143, "text": "Peru" },
+                    { "id": 144, "text": "Philippines" },
+                    { "id": 145, "text": "Poland" },
+                    { "id": 146, "text": "Portugal" },
+                    { "id": 147, "text": "Qatar" },
+                    { "id": 148, "text": "Romania" },
+                    { "id": 149, "text": "Russia" },
+                    { "id": 150, "text": "Rwanda" },
+                    { "id": 151, "text": "Samoa" },
+                    { "id": 152, "text": "San Marino" },
+                    { "id": 153, "text": "Sao Tome" },
+                    { "id": 154, "text": "Saudi Arabia" },
+                    { "id": 155, "text": "scotland" },
+                    { "id": 156, "text": "scottish" },
+                    { "id": 157, "text": "Senegal" },
+                    { "id": 158, "text": "Serbia" },
+                    { "id": 159, "text": "Seychelles" },
+                    { "id": 160, "text": "Sierra Leone" },
+                    { "id": 161, "text": "Singapore" },
+                    { "id": 162, "text": "Slovakia" },
+                    { "id": 163, "text": "Slovenia" },
+                    { "id": 164, "text": "Solomon" },
+                    { "id": 165, "text": "Somalia" },
+                    { "id": 166, "text": "South Africa" },
+                    { "id": 167, "text": "South Sudan" },
+                    { "id": 168, "text": "Spain" },
+                    { "id": 169, "text": "Sri Lanka" },
+                    { "id": 170, "text": "St. Kitts" },
+                    { "id": 171, "text": "St. Lucia" },
+                    { "id": 172, "text": "St Kitts" },
+                    { "id": 173, "text": "St Lucia" },
+                    { "id": 174, "text": "Saint Kitts" },
+                    { "id": 175, "text": "Santa Lucia" },
+                    { "id": 176, "text": "Sudan" },
+                    { "id": 177, "text": "Suriname" },
+                    { "id": 178, "text": "Swaziland" },
+                    { "id": 179, "text": "Sweden" },
+                    { "id": 180, "text": "Switzerland" },
+                    { "id": 181, "text": "Syria" },
+                    { "id": 182, "text": "Taiwan" },
+                    { "id": 183, "text": "Tajikistan" },
+                    { "id": 184, "text": "Tanzania" },
+                    { "id": 185, "text": "Thailand" },
+                    { "id": 186, "text": "Tobago" },
+                    { "id": 187, "text": "Togo" },
+                    { "id": 188, "text": "Tonga" },
+                    { "id": 189, "text": "Trinidad" },
+                    { "id": 190, "text": "Tunisia" },
+                    { "id": 191, "text": "Turkey" },
+                    { "id": 192, "text": "Turkmenistan" },
+                    { "id": 193, "text": "Tuvalu" },
+                    { "id": 194, "text": "Uganda" },
+                    { "id": 195, "text": "Ukraine" },
+                    { "id": 196, "text": "United Kingdom" },
+                    { "id": 197, "text": "United States" },
+                    { "id": 198, "text": "Uruguay" },
+                    { "id": 199, "text": "USA" },
+                    { "id": 200, "text": "Uzbekistan" },
+                    { "id": 201, "text": "Vanuatu" },
+                    { "id": 202, "text": "Vatican" },
+                    { "id": 203, "text": "Venezuela" },
+                    { "id": 204, "text": "Vietnam" },
+                    { "id": 205, "text": "wales" },
+                    { "id": 206, "text": "welsh" },
+                    { "id": 207, "text": "Yemen" },
+                    { "id": 208, "text": "Zambia" },
+                    { "id": 209, "text": "Zimbabwe" },
+                    { "id": 210, "text": null }
+                ];
+
+                var countriesSelect = $("#country");
+                var countriesAccHolder = $("#acc-country");
+                var countriesNok = $("#nok-country");
+
+
+                $.each(countries,
+                    function (i, country) {
+                        var line = `<option value="${country.id}"> ${country.text} </option>`;
+
+                        countriesSelect.append(line);
+                    });
+
+                $.each(countries,
+                    function (i, country) {
+                        var line = `<option value="${country.id}"> ${country.text} </option>`;
+
+                        countriesAccHolder.append(line);
+                    });
+
+                $.each(countries,
+                    function (i, country) {
+                        var line = `<option value="${country.id}"> ${country.text} </option>`;
+
+                        countriesNok.append(line);
+                    });
+
+                //$("#country").select2({
+                //    placeholder: 'Select country',
+                //    allowClear: true,
+                //    maximumSelectionLength: 5
+                //});
+
+                return;
+            }
+
+            getCountries();
+
+            function calculateAge(element) {
+                var dob = new Date(element.value);
+
+                $("input[name='age']").val(isNaN(getAge(dob)) ? "" : getAge(dob));
+            }
+
+            $("input[name='dateOfBirth']").on("blur", function() {
+                calculateAge(this);
+            });
+
+            //  Caters for postal address if it's the same as residential
+
+            $("input[name='sameaddress']").click(function() {
+                if ($(this).prop("checked") == true) {
+                    $("input[name='postalBox']").val($("input[name='busAddress']").val()).prop("disabled", true);
+                    $("input[name='busPostCode']").val($("input[name='resPostCode']").val()).prop("disabled", true);
+                }
+            });
+
+            //if ($("#country").val() !== null || $("#country").val() !== undefined) {
+            //    //$("#country").val(countries[$("#country").val()]);
+            //    console.log(countries[$("#country").val()]);
+            //}
+        });
+    </script>
+}
+
+<div id="wrapper">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Edit Patient Details: @Model?.FirstName @Model?.LastName </h4>
+                <ol class="breadcrumb p-0 m-0">
+                    <li>
+                        <a href="#">Medipark</a>
+                    </li>
+
+                    <li class="active">
+                        Patients
+                    </li>
+                </ol>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+    <div class="col-lg-12">
+        <div class="add-patient-container">
+            <h4 class="custom-modal-title">Update Patient Information</h4>
+            <div class="custom-modal-text text-left">
+
+
+                <!-- Modal -info -->
+                <form class="add-patient" asp-controller="Patient" asp-action="Edit" method="post" id="update-patient">
+                    <ul id="progressbar">
+                        <li class="active">Personal  Information</li>
+                        <li>Contact Information</li>
+                        <li>Next of kin </li>
+                        <li>Payment Information</li>
+                        <li>Person Responsible for Account</li>
+                        <li>Terms & Conditions</li>
+                    </ul>
+
+                    <input type="hidden" asp-for="PatientId" name="patientId" value="@Model.PatientId" />
+                    <input type="hidden" asp-for="PersonId" name="personId" value="@Model.PersonId" />    
+
+                <!-- USER INFORMATION FIELD SET -->
+                    <fieldset>
+                        <h2 class="fs-title">Personal Information </h2>
+                        <h3 class="fs-subtitle"></h3>
+                        <!-- Begin What's Your First Name Field -->
+                        <div class="col-lg-8">
+                            <div class="form-group form-inline">
+                                <label for="title">Title <span>*</span></label>
+                                <select asp-for="Title" name="title" class="form-control" id="title" placeholder="">
+                                    <option>--Select option--</option>
+                                    @if (!string.IsNullOrWhiteSpace(Model.Title))
+                                    {
+                                        <option value="@Model?.Title">@Model?.Title</option>
+                                    }
+                                    <option value="title">Title</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="prof">Prof</option>
+                                    <option value="dr">Dr</option>
+                                    <option value="rev">Rev</option>
+                                    <option value="hon">Hon</option>
+
+                                </select>
+
+                                <span class="error1" style="display: none;">
+                                    <i class="error-log fa fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <!-- End What's Your First Name Field -->
+
+                            <div class="form-group form-inline">
+                                <label for="firstName">First Name <span>*</span></label>
+                                <input asp-for="FirstName" type="text" name="firstName" class="form-control" id="firstName" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="middleName">Middle Name</label>
+                                <input asp-for="MiddleName" type="text" name="middleName" class="form-control" id="middleName" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="lastName">Last Name <span>*</span></label>
+                                <input asp-for="LastName" type="text" name="lastName" class="form-control" id="lastName" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="genderId">Gender <span>*</span></label>
+                                <select asp-for="GenderId" type="text" name="genderId" class="form-control" id="genderId" placeholder="">
+                                    @if (!string.IsNullOrWhiteSpace(Model.GenderId))
+                                    {
+                                        <option value="@Model.GenderId">@Model.GenderId</option>
+                                    }
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="dateOfBirth">Date of Birth <span>*</span></label>
+                                <input asp-for="DateOfBirth" type="date" name="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="age">Age</label>
+                                <input type="text" name="age" class="form-control" id="age" placeholder="" readonly="readonly">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="identityType">Identity Type <span>*</span></label>
+
+                                <select name="identityType" class="form-control" id="identityType" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="male">ID Document</option>
+                                    <option value="female">Passport</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="idNumber">Identity Number <span>*</span></label>
+                                <input asp-for="IdNumber" type="text" name="idNumber" class="form-control" id="idNumber" placeholder="">
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="maritialStatus">Maritial Status <span>*</span></label>
+
+                                <select name="maritalStatus" class="form-control" id="maritalstatus" placeholder="">
+                                    <option>--Select option--</option>
+                                    @if (!string.IsNullOrWhiteSpace(Model.MaritalStatus))
+                                    {
+                                        <option value="@Model.MaritalStatus">@Model.MaritalStatus</option>
+                                    }
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                    <option value="divorced">Divorced</option>
+                                    <option value="widowed">Widowed</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="ethnicity">Ethnicity <span>*</span></label>
+
+                                <select name="ethnicity" class="form-control" id="ethnicity" placeholder="">
+                                    <option>--Select option--</option>
+                                    @if (!string.IsNullOrWhiteSpace(Model.Ethnicity))
+                                    {
+                                        <option value="@Model.Ethnicity">@Model.Ethnicity</option>
+                                    }
+                                    <option value="black">Black</option>
+                                    <option value="white">White</option>
+                                    <option value="coloured">Coloured</option>
+                                    <option value="indian">Indian</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="religion">Religion <span>*</span></label>
+
+                                <select asp-for="Religion" name="religion" class="form-control" id="religion" placeholder="">
+                                    <option>--Select option--</option>
+                                    @if (!string.IsNullOrWhiteSpace(Model.Religion))
+                                    {
+                                        <option value="@Model.Religion">@Model.Religion</option>
+                                    }
+                                    <option value="male">Christianity</option>
+                                    <option value="Islam">Islam</option>
+                                    <option value="female">Buddhism</option>
+                                    <option value="Judaism">Judaism</option>
+                                    <option value="Atheism">Atheism</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="uploader" onclick="$('#filePhoto').click()">Add Picture</div>
+                            <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                            <div>
+                                <p>Scan and upload</p>
+                                <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                                <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12"></div>
+                        <!-- End Total Number of Constituents in Your Database Field -->
+                        <input type="button" data-page="1" name="next" class="next action-button" value="Save & Continue" />
+
+                    </fieldset>
+
+                    <!-- Contact Information -->
+                    <fieldset>
+                        <h2 class="fs-title">Contact Information</h2>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group form-inline">
+                                <label for="homeTel">Home Telephone</label>
+                                <input asp-for="HomeTel" type="text" class="form-control" id="homeTel" name="homeTel" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="workTel">Work Telephone</label>
+                                <input asp-for="WorkTel" type="text" class="form-control" id="workTel" name="workTel" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="prefferedContact">Preffered Contact Method</label>
+                                <select name="prefferedContact" class="form-control" id="prefferedContact" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="phone">Phone</option>
+                                    <option value="email">Email</option>
+                                    <option value="post">Post</option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="occupation">Residential Address:</label>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="busAddress">Building/House <span>*</span></label>
+                                <input asp-for="BusAddress" type="text" class="form-control" id="building-house" name="busAddress" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="resAddress1">Street Name <span>*</span></label>
+                                <input asp-for="ResAddress1" type="text" class="form-control" name="resAddress1" id="street-name" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="resSurbub">Suburb/Town <span>*</span></label>
+                                <input asp-for="ResSurbub" type="text" class="form-control" name="resSurbub" id="resSurbub" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="country">Country <span>*</span></label>
+                                <input asp-for="Country" type="text" class="form-control" name="country" id="country" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="resPostCode">Postal Code <span>*</span></label>
+                                <input asp-for="ResPostCode" type="text" class="form-control" name="resPostCode" id="resPostCode" placeholder="">
+
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="occupation">Postal Address:</label>
+                            </div>
+
+                            <!---->
+                            <div class="form-group form-inline">
+                                <input type="radio" name="sameaddress" value="" id="same-address"> Same as Residential Address
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="postalBox">Postal Box <span>*</span></label>
+                                <input asp-for="BusAddress" type="text" name="postalBox" class="form-control" id="postal-box" placeholder="">
+
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="busPostCode">Postal Code <span>*</span></label>
+                                <input asp-for="BusPostCode" type="text" class="form-control" id="postal-code" name="busPostCode" placeholder="">
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group form-inline">
+                                <label for="cellNumber">Cell Number <span>*</span></label>
+                                <input asp-for="Cellphone" type="text" class="form-control" id="cell-number" name="cellNumber" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="email">Email <span>*</span></label>
+                                <input asp-for="Email" type="email" class="form-control" name="email" id="email" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="contactHours">Preferred Contact Hours</label>
+                                <select name="contactHours" class="form-control" id="contact-methods" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="anytime">Anytime</option>
+                                    <option value="workinghours">Working Hours</option>
+                                    <option value="afterhours">After Hours</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
+                        </div>
+                        <!-- End Calc of Total Number of Donors Fields -->
+                        <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
+                        <input type="button" data-page="2" name="next" class="next action-button" value="Save & Continue" />
+
+                    </fieldset>
+
+                    <!-- Next of kin field -->
+                    <fieldset>
+                        <h2 class="fs-title">Next of kin</h2>
+                        <h3 class="fs-subtitle"></h3>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <div class="form-group form-inline">
+                                <label for="nokName">Name <span>*</span></label>
+                                <input asp-for="NokName" type="text" class="form-control" id="nokName" name="nokName" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="nokSurname">Surname <span>*</span></label>
+                                <input asp-for="NokSurname" type="text" class="form-control" id="nokSurname" name="nokSurname" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="nokContact">Contact Number <span>*</span></label>
+                                <input asp-for="NokContact" type="text" class="form-control" id="nokContact" name="nokContact" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="">Residential Address:</label>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="nokBuildingHome">Building/House <span>*</span></label>
+                                <input asp-for="NokBuildingHome" type="text" class="form-control" id="nokbuilding-house" name="nokBuildingHome" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="nokStreetName">Street Name <span>*</span></label>
+                                <input asp-for="NokStreetName" type="text" class="form-control" id="nok-street-name" name="nokStreetName" placeholder="">
+                            </div>
+
+
+
+                            <div class="form-group form-inline">
+                                <label for="nokSurburbTown">Suburb/Town <span>*</span></label>
+                                <input asp-for="NokSurburbTown" type="text" class="form-control" id="nok-surburb-town" name="nokSurburbTown" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="nokCountry">Country <span>*</span></label>
+                                <input asp-for="NokCountry" type="text" class="form-control" id="nok-country" name="nokCountry" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="nokPostalCode">Postal Code <span>*</span></label>
+                                <input asp-for="NokPostalCode" type="text" class="form-control" id="nok-postal-code" name="nokPostalCode" placeholder="">
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group form-inline">
+                                <label for="nokEmail">Email <span>*</span></label>
+                                <input asp-for="NokEmail" type="email" class="form-control" id="nok-email" name="nokEmail" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="nokRelationship">Relationship</label>
+                                <select asp-for="NokRelationship" name="nokRelationship" class="form-control" id="nok-ralationship" placeholder="">
+                                    <option>--Select option--</option>
+                                    @if (!string.IsNullOrWhiteSpace(Model.NokRelationship))
+                                    {
+                                        <option value="@Model.NokRelationship">Mother</option>
+                                    }
+                                    <option value="mother">Mother</option>
+                                    <option value="father">Father</option>
+                                    <option value="son">Son</option>
+                                    <option value="daughter">Daughter</option>
+                                    <option value="grandparent">Grandparent</option>
+                                    <option value="cousin">Cousin</option>
+                                    <option value="aunt">Aunt</option>
+                                    <option value="uncle">Uncle</option>
+                                    <option value="inlaws">In-laws</option>
+                                    <option value="brother">Brother</option>
+                                    <option value="sister">Sister</option>
+                                    <option value="relative">Relative</option>
+                                    <option value="other">Other</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-12"></div>
+
+                        <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
+                        <input type="button" data-page="3" name="next" class="next action-button" value="Save & Continue" />
+
+                    </fieldset>
+
+
+
+                    <!-- Payment Information -->
+                    <fieldset>
+                        <h2 class="fs-title">Payment Information</h2>
+                        <h3 class="fs-subtitle"></h3>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+
+                            <div class="form-group form-inline">
+                                <label for="paymentOptions">Payment Option <span>*</span></label>
+                                <select name="paymentOptions" class="form-control" id="medicalaidoption" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="medicalaid">Medial Aid</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="creditcard">Credit Card</option>
+                                    <option value="mva">MVA</option>
+                                    <option value="compnayorders">Company Orders</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="medicalAidScheme">Medical Aid Scheme <span>*</span></label>
+                                <input type="text" class="form-control" name="medicalAidScheme" id="medical-aid-scheme" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="medicalAidSchemeOption">Medical Aid Scheme Option <span>*</span></label>
+                                <input name="medicalAidSchemeOption" type="text" class="form-control" id="medical-aid-scheme-option" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="medicalAidSchemeNumber">Medical Aid Scheme Number <span>*</span></label>
+                                <input type="number" class="form-control" name="medicalAidSchemeNumber" id="medical-aid-scheme-number" placeholder="">
+                            </div>
+
+
+                            <div class="form-group form-inline">
+                                <label for="">Main Member Details</label>
+
+                            </div>
+
+
+                            <div class="form-group form-inline">
+                                <label for="memberName">Member Name <span>*</span></label>
+                                <input type="text" class="form-control" id="member-name" name="memberName" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="memberSurname">Member Surname <span>*</span></label>
+                                <input type="text" class="form-control" id="member-surname" name="memberSurname" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="memberId">Member ID Number <span>*</span></label>
+                                <input type="text" class="form-control" name="memberId" id="member-id-number" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="">Dependant Information</label>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="Patientcode">Patient Dependant Code <span>*</span></label>
+                                <select name="patientCode" class="form-control" id="Patient-code" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="00">00</option>
+                                    <option value="01">01</option>
+                                    <option value="02">02</option>
+                                    <option value="03">03</option>
+                                    <option value="04">04</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="uploader" onclick="$('#filePhoto').click()">Scan & Upload Medical Aid</div>
+                            <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                        </div>
+
+                        <div class="clearfix"></div>
+
+
+                        <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
+                        <input type="button" data-page="4" name="next" class="next action-button" value="Save & Continue" />
+
+                    </fieldset>
+
+
+
+                    <!-- person responsible -->
+                    <fieldset>
+                        <h2 class="fs-title">PERSON RESPONSIBLE FOR ACCOUNT</h2>
+                        <h3 class="fs-subtitle"></h3>
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="form-group form-inline">
+                                <label for="title">Title <span>*</span></label>
+                                <select name="accTitle" class="form-control" id="title" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="title">Title</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="ms">Ms</option>
+                                    <option value="prof">Prof</option>
+                                    <option value="dr">Dr</option>
+                                    <option value="rev">Rev</option>
+                                    <option value="hon">Hon</option>
+
+                                </select>
+
+                                <span class="error1" style="display: none;">
+                                    <i class="error-log fa fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+
+
+                            <div class="form-group form-inline">
+                                <label for="accName">Name <span>*</span></label>
+                                <input type="text" class="form-control" name="accName" id="accName" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accSurname">Surname <span>*</span></label>
+                                <input type="text" class="form-control" id="accSurname" name="accSurname" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accIdnumber">ID Number <span>*</span></label>
+                                <input type="text" class="form-control" id="accIdnumber" name="accIdnumber" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="">Billing Address </label>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accBuildingHome">Building/House <span>*</span></label>
+                                <input type="text" class="form-control" id="acc-building-house" name="accBuildingHome" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accStreetName">Street Name <span>*</span></label>
+                                <input type="text" class="form-control" id="acc-street-name" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accSuburb">Suburb/Town <span>*</span></label>
+                                <input type="text" class="form-control" id="acc-street-name" name="accSuburb" placeholder="">
+                            </div>
+                            <div class="form-group form-inline">
+                                <label for="accPostalCode">Postal Code <span>*</span></label>
+                                <input type="text" name="accPostalCode" class="form-control" id="acc-postal-code" placeholder="">
+
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accCountry">Country <span>*</span></label>
+                                <input type="text" class="form-control" id="acc-country" name="accCountry" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="">Employment Details</label>
+                            </div>
+
+
+                            <div class="form-group form-inline">
+                                <label for="accEmployer">Employer <span>*</span></label>
+                                <input type="text" class="form-control" id="employer" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accEmployerAdd">Employer Address <span>*</span></label>
+                                <input type="text" class="form-control" id="employer-address" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="occupation">Occupation <span>*</span></label>
+                                <input asp-for="Occupation" type="text" class="form-control" id="occupation" name="occupation" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accEmployerContact">Employer Contact<span>*</span></label>
+                                <input type="text" class="form-control" id="employer-contact" placeholder="">
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group form-inline">
+                                <label for="copy">Copy from </label>
+                                <select name="copy" class="form-control" id="copy" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="Patient">Patient</option>
+                                    <option value="Main Member">Main Member</option>
+
+
+                                </select>
+
+                                <span class="error1" style="display: none;">
+                                    <i class="error-log fa fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accContactNum">Contact Number <span>*</span></label>
+                                <input type="text" class="form-control" id="acc-contact-number" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accEmail">Email Address <span>*</span></label>
+                                <input type="text" name="accEmail" class="form-control" id="acc-email" placeholder="">
+                            </div>
+
+                            <div class="form-group form-inline">
+                                <label for="accStatement">Statement & letters sent via <span>*</span> </label>
+                                <select name="accStatement" class="form-control" id="title" placeholder="">
+                                    <option>--Select option--</option>
+                                    <option value="phone">Phone</option>
+                                    <option value="email">Email</option>
+                                    <option value="post">post</option>
+
+
+                                </select>
+
+                                <span class="error1" style="display: none;">
+                                    <i class="error-log fa fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                        <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+                        <input type="button" data-page="5" name="next" class="next action-button" value="Save & Continue" />
+
+                    </fieldset>
+
+                    <fieldset>
+                        <h2 class="fs-title">Terms & Conditions</h2>
+                        <h3 class="fs-subtitle"></h3>
+                        <div class="col-sm-6">
+                            <ol style="padding-bottom: 15px;">
+                                <li>
+                                    The signatory of this form hereby states that he/ she is the Legally Authorised agent of.........,.	(company) and is therefore
+                                    Authorised to bind and hold the company to this agreement.
+                                    OR
+                                </li>
+                                <li>The Signatory of this form shall be personally liable to settle the account of the Hospital on presentation thereof, notwithstanding possible membership of a Medical Aid Fund.</li>
+                                <li>The signatory authorises the Hospital to submit its account to the Medical Aid Scheme of the patient or signatory, if the Hospital elects to do so.</li>
+                                <li>Any account that is not paid when due, shall bear interest calculated at the rate of 2% per month; a part of a month to be regarded as a full month.</li>
+                                <li>
+                                    The legal relations between the debtor/s and the hospital, arising directly or indirectly from the admission of the patient to the hospital or In respect of any treatment administered to the patient in the hospital, shall be determined exclusively In accordance
+                                    with the laws of the Republic of Namibia and furthermore any competent Magistrate’s court in the Republic of Namibia shall have jurisdiction in all matters so arising, notwithstanding the amount of the cause of action.
+                                </li>
+                                <li>Any person who signs this Admission Form,w hether as a patient, or on behalf of the Being settled for any reason and being referred to attorneys for collection, to be jointly and severally liable for the payment of all the costs on an attorney and own client scale, all collection commission and all tracing costs. All outstanding amounts will be recovered in the following order: attorney’s fees, interest and capital.</li>
+
+                                <li>The signatory undertakes to pay the Hospital’s legal costs and collection commission as per approved scales of Agreement.</li>
+
+                                <li>The Hospital is hereby authorised to submit the patient for screening for diseases that are determined by the Hospital and to submit such patient for immunisation and treatment of such diseases.</li>
+                            </ol>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol style="padding-bottom: 15px; word-break: break-all;">
+                                <li>All telephone calls made shall be debited to the patients account and shall be payable on discharge.</li>
+
+                                <li>The Hospital shall not be held responsible for the loss of any personal belongings, which are lost or left behind on the Hospital premises.</li>
+
+                                <li>PRIVATE PATIENTS - Deposits must be paid on admission and the Balance on discharge.</li>
+
+                                <li>
+                                    I acknowledge and agree th6t any medical practitioner or any other medical professional, who Is not an employee or agent of the Hospital, who treats the patient, is an independent practitioner and the
+                                    hospital shall not in any way be responsible or liable for any acts or omissions or breach of contract of such medical practitioner or medical professional.
+                                </li>
+
+                                <li>The Hospital, its employees and agents shall not be liable for, and I hereby indemnify the hospital, its employees and agents from all liability, for any loss, injury and/or dama8e of whatsoever nature suffered by whomsoever, including but not limited to, loss or damage (direct,consequential or indirect), any Injury (Including fatal) sustained by and /or harm caused to the patient or any disease (including terminal) contracted by the patient, whatever the cause may be whilst hospitalised, receiving treatment or any other services while present at the Hospital, whether arising either directly or indirectly out of any act or omission, delict or breach of contract by the Hospital, Its employees or agents</li>
+
+                                <li>
+                                    Neither the Hospital, its employees or agents shall be liable for any direct or consequential loss or damage suffered by any person whomsoever and howsoever
+                                    arising.
+                                </li>
+
+                                <li>Disclosure of Medical Information: The Management of the Hospital and any medical practitioner who treats the patient are hereby authorised to disclose to the medical aid/ medical benefit scheme, or the Compensation Commissioner or insurer to whom a claim is submitted in relation to amounts payable to the hospital full details as to the nature and extent of the Illness or condition of and any treatment rendered to the patient</li>
+                            </ol>
+
+                        </div>
+                        <!--<div class="col-lg-6">
+        <div class="form-group form-inline">
+              <input type="radio" name="sameaddress" value="" id="same-address"> Yes, I accept the terms and conditions
+          </div>
+          <div class="form-group form-inline">
+                  <input type="radio" name="sameaddress" value="" id="same-address">No, I don t accept the terms and conditions
+              </div>
+              <div class="form-group form-inline">
+                      <label for="siganture">Signature </label>
+                      <input type="text" class="form-control" id="signature" placeholder="">
+                  </div>
+
+              <div class="form-group form-inline">
+                      <label for="date">Signature </label>
+                      <input type="date" class="form-control" id="date" placeholder="">
+                  </div>
+                  </div>-->
+
+                        <div class="col-lg-6"></div>
+                        <div class="clearfix"></div>
+
+                        <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+                        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-- END wrapper -->
+
+<script>
+    var resizefunc = [];
+</script>
+
+@*<script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/add-patient.js"></script>
+    <script src="assets/js/detect.js"></script>
+    <script src="assets/js/fastclick.js"></script>
+    <script src="assets/js/jquery.blockUI.js"></script>
+    <script src="assets/js/waves.js"></script>
+    <script src="assets/js/jquery.slimscroll.js"></script>
+    <script src="assets/js/jquery.scrollTo.min.js"></script>
+    <script src="../plugins/switchery/switchery.min.js"></script>
+
+    <script src="assets/js/jquery.core.js"></script>
+    <script src="assets/js/jquery.app.js"></script>
+
+    <script src="../plugins/custombox/js/custombox.min.js"></script>
+    <script src="../plugins/custombox/js/legacy.min.js"></script>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>*@

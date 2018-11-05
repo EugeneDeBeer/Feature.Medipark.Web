@@ -1,0 +1,276 @@
+﻿@model Feature.OHS.Web.ViewModels.PayloadPatientViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PayloadPatientViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatorType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientType_Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PatientType_Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PatientId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Allergies)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Allergies)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PassportNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CauseOfDeath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CauseOfDeath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeathDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeathDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatorId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatorId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Initials)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Initials)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResAddress1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResAddress1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResAddress2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResAddress2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResPostCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResPostCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Occupation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Occupation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Religion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Religion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BusAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusPostCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BusPostCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BusName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BusName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HomeTel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HomeTel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkTel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WorkTel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ResSurbub)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ResSurbub)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GenderId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GenderId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeadTypeId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeadTypeId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokSurname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokSurname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokContact)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokContact)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokBuildingHome)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokBuildingHome)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokStreetName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokStreetName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokCountry)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokCountry)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokSurburbTown)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokSurburbTown)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokPostalCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokPostalCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NokRelationship)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NokRelationship)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PersonId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
