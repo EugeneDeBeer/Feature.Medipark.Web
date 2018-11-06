@@ -33,18 +33,18 @@ namespace Feature.OHS.Web.Controllers
         // GET: Patient/Create
         public ActionResult Create()
         {
-            return View(new PatientPayloadViewModel());
+            return View(new PatientViewModel());
         }
 
-        // POST: Patient/Create
+        
         [HttpPost]
-        public ActionResult Create(PatientPayloadViewModel model)
+        public ActionResult PersonDetails(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result =  _patientHandler.AddPatient(model);
+                    var result =  _patientHandler.AddPatientDetails(model);
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -59,7 +59,50 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
+        [HttpPost]
+        public ActionResult ContactDetails(PatientViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var result = _patientHandler.AddPatientContactDetails(model);
 
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Please enter all the required fields");
+                return View(model);
+            }
+        }
+        [HttpPost]
+        public ActionResult NextOkKin (PatientViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var result = _patientHandler.AddNextOfKin(model);
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Please enter all the required fields");
+                return View(model);
+            }
+        }
         public ActionResult List()
         {
             return View();
@@ -89,7 +132,7 @@ namespace Feature.OHS.Web.Controllers
 
         // POST: Patient/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PatientPayloadViewModel model)
+        public ActionResult Edit(int id, PatientViewModel model)
         {
             try
             {
