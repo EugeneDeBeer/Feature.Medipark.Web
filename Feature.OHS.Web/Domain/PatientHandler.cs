@@ -43,7 +43,8 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic GetPatient(int id, bool includeAllDetails = false)
         {
-            var response = _integration.ResponseFromAPIGet("", $"v1/Patient/{id}/{includeAllDetails}", "http://localhost:51473/", "GET");
+            //var response = _integration.ResponseFromAPIGet("", $"v1/Patient/{id}/{includeAllDetails}", "http://localhost:51473/", "GET");
+            var response = _integration.ResponseFromAPIGet("", $"v1/Patient/{id}/{includeAllDetails}", "http://localhost:50566/", "GET");
 
             if (response != null)
             {
