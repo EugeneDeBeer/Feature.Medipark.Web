@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Feature.OHS.Web.ViewModels.BedViewModel>
+
+@{
+    ViewData["Title"] = "List of beds";
+}
+
+<h2>All Beds</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BedId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BedName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Floor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OccupancyStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GenderOfOccupant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AllocationDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AllocatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BedType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BedRate)
+            </th>
+
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var bed in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => bed.BedId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.BedName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.ShortName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.ShortCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Longitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Latitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Floor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.Size)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.OccupancyStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.PersonId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.GenderOfOccupant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.AllocationDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.AllocatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.BedType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => bed.BedRate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
