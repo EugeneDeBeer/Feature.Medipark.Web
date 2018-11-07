@@ -11,6 +11,7 @@ namespace Feature.OHS.Web.Interfaces
     {
         dynamic AddPatientDetails(PatientViewModel patientViewModel);
         dynamic AddPatientContactDetails(PatientViewModel patientViewModel);
+        dynamic AddPatientAddressDetails(PatientViewModel patientViewModel);
         dynamic AddNextOfKin(PatientViewModel patientViewModel);
         dynamic GetPatient(int id, bool includeAllDetails = false);
 

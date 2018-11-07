@@ -44,6 +44,7 @@ namespace Feature.OHS.Web.Controllers
             {
                 try
                 {
+                    model.UserId = 1;
                     var result =  _patientHandler.AddPatientDetails(model);
 
                     return RedirectToAction(nameof(Index));

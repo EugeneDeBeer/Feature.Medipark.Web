@@ -14,7 +14,6 @@ namespace Feature.OHS.Web.Domain
     public class PatientHandler : IPatientHandler
     {
         private readonly IAPIIntegration _integration;
-       
         public PatientHandler(IAPIIntegration integration)
         {
             _integration = integration;
@@ -23,7 +22,26 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic AddNextOfKin(PatientViewModel patientViewModel)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/patient/create", patientViewModel, "https://admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Patient/Create", patientViewModel, "http://localhost:61820/", true);
+      
+            if (response != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                if (dynamicResponse != null)
+                {
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public dynamic AddPatientAddressDetails(PatientViewModel patientViewModel)
+        {
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Address/Create", patientViewModel, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -42,11 +60,12 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic AddPatientContactDetails(PatientViewModel patientViewModel)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/patient/create", patientViewModel, "https://admissions-dot-medipark-hospital.appspot.com/", true);
+
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patientViewModel, "http://localhost:61820/", true);
 
             if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {
                     return dynamicResponse;

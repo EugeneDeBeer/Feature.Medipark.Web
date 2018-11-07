@@ -113,6 +113,7 @@
             });
 
             $(".submit").click(function () {
+               // e.preventDefault();
                 $(".add-patient").validate({
                     errorClass: 'invalid',
                     errorElement: 'span',
@@ -243,7 +244,7 @@
             <div class="add-patient-container">
 
                 <h4 class="custom-modal-title">Add New Patient</h4>
-                <iframe  name="formDestination" style="width:0; height:0; border:0; border:none"></iframe>
+           <iframe  name="formDestination" style="width:0; height:0; border:0; border:none"></iframe>
                 <div class="custom-modal-text text-left">
                     <form class="add-patient" asp-controller="Patient" method="post" id="add-patient" target="formDestination">
 
