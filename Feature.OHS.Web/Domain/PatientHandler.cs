@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Feature.OHS.Web.ViewModels.Response;
 using Newtonsoft.Json;
@@ -14,21 +15,23 @@ namespace Feature.OHS.Web.Domain
     public class PatientHandler : IPatientHandler
     {
         private readonly IAPIIntegration _integration;
+       
         public PatientHandler(IAPIIntegration integration)
         {
             _integration = integration;
 
         }
 
-        public dynamic AddNextOfKin(PatientViewModel patientViewModel)
+        public PatientViewModel AddPatient(PatientViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Patient/Create", patientViewModel, "http://localhost:61820/", true);
-      
+            var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, "http://localhost:61820/", true);
+
             if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {
+                   
                     return dynamicResponse;
                 }
                 return null;
@@ -37,31 +40,12 @@ namespace Feature.OHS.Web.Domain
             {
                 return null;
             }
+
         }
 
-        public dynamic AddPatientAddressDetails(PatientViewModel patientViewModel)
+        public PatientViewModel AddContact(PatientViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Address/Create", patientViewModel, "http://localhost:61820/", true);
-
-            if (response != null)
-            {
-                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
-                if (dynamicResponse != null)
-                {
-                    return dynamicResponse;
-                }
-                return null;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public dynamic AddPatientContactDetails(PatientViewModel patientViewModel)
-        {
-
-            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patientViewModel, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", patient, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -76,15 +60,16 @@ namespace Feature.OHS.Web.Domain
             {
                 return null;
             }
+
         }
 
-        public dynamic AddPatientDetails(PatientViewModel patientViewModel)
+        public PatientViewModel AddAddress(PatientViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", patientViewModel, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", patient, "http://localhost:61820", true);
 
             if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {
                     return dynamicResponse;
@@ -95,41 +80,21 @@ namespace Feature.OHS.Web.Domain
             {
                 return null;
             }
-        }
 
+        }
         public dynamic GetPatient(int id, bool includeAllDetails = false)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        //public dynamic AddPatient(PatientPayloadViewModel patient)
-        //{
-        //    var response = _integration.ResponseFromAPIPost("","v1/patient/create",patient, "https://admissions-dot-medipark-hospital.appspot.com/",true);
-
-        //    if (response != null)
-        //    {
-        //        var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
-        //        if (dynamicResponse != null)
-        //        {
-        //            return dynamicResponse;
-        //        }
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-
-        //}
-
-        //public dynamic GetPatient(int id, bool includeAllDetails = false)
-        //{
-        //    return null;
-        //}
-
-        public dynamic UpdatePatient(PatientViewModel patient)
+        public dynamic UpdatePatient(PatientPayloadViewModel patient)
         {
             return null;
+        }
+
+        public PatientViewModel AddNextOfKin(PatientViewModel patient)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,17 +37,17 @@ namespace Feature.OHS.Web.Controllers
             return View(new PatientViewModel());
         }
 
-        
+        // POST: Patient/Create
         [HttpPost]
-        public ActionResult PersonDetails(PatientViewModel model)
+        public ActionResult CreatePatient(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     model.UserId = 1;
-                    var result =  _patientHandler.AddPatientDetails(model);
-
+                    var result =  _patientHandler.AddPatient(model);
+                    PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -60,15 +61,17 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
+
         [HttpPost]
-        public ActionResult ContactDetails(PatientViewModel model)
+        public ActionResult CreateContact(PatientViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var result = _patientHandler.AddPatientContactDetails(model);
-
+                    model.PersonId = PersonId.Id;
+                    var result = _patientHandler.AddPatient(model);
+                    var address = _patientHandler.AddAddress(model);
                     return RedirectToAction(nameof(Index));
                 }
                 catch
@@ -82,28 +85,8 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
-        [HttpPost]
-        public ActionResult NextOkKin (PatientViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var result = _patientHandler.AddNextOfKin(model);
+    
 
-                    return RedirectToAction(nameof(Index));
-                }
-                catch
-                {
-                    return View();
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("Error", "Please enter all the required fields");
-                return View(model);
-            }
-        }
         public ActionResult List()
         {
             return View();
@@ -133,7 +116,7 @@ namespace Feature.OHS.Web.Controllers
 
         // POST: Patient/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PatientViewModel model)
+        public ActionResult Edit(int id, PatientPayloadViewModel model)
         {
             try
             {

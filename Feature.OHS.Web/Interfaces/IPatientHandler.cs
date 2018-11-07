@@ -9,12 +9,12 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface IPatientHandler
     {
-        dynamic AddPatientDetails(PatientViewModel patientViewModel);
-        dynamic AddPatientContactDetails(PatientViewModel patientViewModel);
-        dynamic AddPatientAddressDetails(PatientViewModel patientViewModel);
-        dynamic AddNextOfKin(PatientViewModel patientViewModel);
+        PatientViewModel AddPatient(PatientViewModel patient);
+        PatientViewModel AddAddress(PatientViewModel patient);
+        PatientViewModel AddContact(PatientViewModel patient);
+        PatientViewModel AddNextOfKin(PatientViewModel patient);
         dynamic GetPatient(int id, bool includeAllDetails = false);
 
-        dynamic UpdatePatient(PatientViewModel model);
+        dynamic UpdatePatient(PatientPayloadViewModel model);
     }
 }
