@@ -70,11 +70,11 @@ namespace Feature.OHS.Web.Controllers
                 try
                 {
                     model.PersonId = PersonId.Id;
-                    var result = _patientHandler.AddPatient(model);
+                    var result = _patientHandler.AddContact(model);
                     var address = _patientHandler.AddAddress(model);
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch(Exception ex ) 
                 {
                     return View();
                 }
@@ -116,14 +116,14 @@ namespace Feature.OHS.Web.Controllers
 
         // POST: Patient/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PatientPayloadViewModel model)
+        public ActionResult Edit(int id, PatientViewModel model)
         {
             try
             {
-               var result =  _patientHandler.UpdatePatient(model);
+             //  var result =  _patientHandler.UpdatePatient(model);
 
-                if(result)
-                    return RedirectToAction(nameof(Create));
+                //if(result)
+                //    return RedirectToAction(nameof(Create));
 
                 return View(model);
             }

@@ -45,7 +45,7 @@ namespace Feature.OHS.Web.Domain
 
         public PatientViewModel AddContact(PatientViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", patient, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -65,7 +65,7 @@ namespace Feature.OHS.Web.Domain
 
         public PatientViewModel AddAddress(PatientViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", patient, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -87,7 +87,7 @@ namespace Feature.OHS.Web.Domain
             return null;
         }
 
-        public dynamic UpdatePatient(PatientPayloadViewModel patient)
+        public dynamic UpdatePatient(PatientViewModel patient)
         {
             return null;
         }

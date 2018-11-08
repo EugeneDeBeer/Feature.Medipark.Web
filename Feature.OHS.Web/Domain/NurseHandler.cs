@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.Domain
 {
-    public class ContactHandler
+    public class NurseHandler
     {
     }
 }

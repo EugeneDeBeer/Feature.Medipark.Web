@@ -1,4 +1,4 @@
-﻿@model Feature.OHS.Web.ViewModels.StaffPayloadViewModel
+﻿@model Feature.OHS.Web.ViewModels.DoctorNurseViewModel
 
 @section Scripts{
 
@@ -220,7 +220,7 @@
         <div class="col-lg-12">
             <div class="add-patient-container">
 
-                @if (Model == null || Model.DoctorId <= 0)
+                @if (Model == null)
                 {
                     <h4 class="custom-modal-title">Add New Doctor</h4>
 
@@ -236,7 +236,7 @@
                                 <li>Declaration</li>
                             </ul>
 
-                            <input type="hidden" asp-for="DoctorId" name="patientId" value="@Model.DoctorId" />
+                            <input type="hidden" asp-for="PersonId" name="patientId" value="@Model.PersonId" />
 
                             <!-- USER INFORMATION FIELD SET -->
                             <fieldset>
@@ -279,8 +279,8 @@
 
                                     <div class="form-group form-inline">
                                         <label for="middleName">Middle Name</label>
-                                        <input asp-for="MiddleName" type="text" name="middleName" class="form-control" id="middleName" placeholder="">
-                                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                                        <input asp-for="SecondName" type="text" name="middleName" class="form-control" id="middleName" placeholder="">
+                                        <span asp-validation-for="SecondName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -291,13 +291,13 @@
 
                                     <div class="form-group form-inline">
                                         <label for="genderId">Gender <span>*</span></label>
-                                        <select asp-for="GenderId" name="genderId" class="form-control" id="gender" placeholder="">
+                                        <select  name="genderId" class="form-control" id="gender" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="0">Male</option>
                                             <option value="1">Female</option>
                                             <option value="2">Other</option>
                                         </select>
-                                        <span asp-validation-for="GenderId" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -331,33 +331,33 @@
                                     <div class="form-group form-inline">
                                         <label for="maritialStatus">Maritial Status <span>*</span></label>
 
-                                        <select asp-for="MaritalStatus" name="maritialStatus" class="form-control" id="maritialstatus" placeholder="">
+                                        <select  name="maritialStatus" class="form-control" id="maritialstatus" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="single">Single</option>
                                             <option value="married">Married</option>
                                             <option value="devorced">Devorced</option>
                                             <option value="widowed">Widowed</option>
                                         </select>
-                                        <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="ethnicity">Ethnicity <span>*</span></label>
 
-                                        <select asp-for="Ethnicity" name="ethnicity" class="form-control" id="ethnicity" placeholder="">
+                                        <select  name="ethnicity" class="form-control" id="ethnicity" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="black">Black</option>
                                             <option value="white">White</option>
                                             <option value="coloured">Coloured</option>
                                             <option value="indian">Indian</option>
                                         </select>
-                                        <span asp-validation-for="Ethnicity" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="religion">Religion <span>*</span></label>
 
-                                        <select asp-for="Religion" name="religion" class="form-control" id="religion" placeholder="">
+                                        <select name="religion" class="form-control" id="religion" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="male">Christianity</option>
                                             <option value="female">Islam</option>
@@ -366,7 +366,7 @@
                                             <option value="female">Atheism</option>
                                             <option value="female">Other</option>
                                         </select>
-                                        <span asp-validation-for="Religion" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
                                 </div>
                              
@@ -407,7 +407,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="buildingHome">Building/House <span>*</span></label>
-                                        <input asp-for="Address1" type="text" class="form-control" id="building-house" name="resAddress1" placeholder="">
+                                        <input asp-for="Address1"0 type="text" class="form-control" id="building-house" name="resAddress1" placeholder="">
                                         <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
@@ -424,14 +424,14 @@
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="postalCode">Postal Code <span>*</span></label>
-                                        <input asp-for="PostCodeId" type="text" class="form-control" id="postal-code" name="resPostCode" placeholder="">
-                                        <span asp-validation-for="PostCodeId" class="text-danger"></span>
+                                        <input type="text" class="form-control" id="postal-code" name="resPostCode" placeholder="">
+                                        <span class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="Country">Country <span>*</span></label>
-                                        <input asp-for="Country" type="text" class="form-control" name="country" id="country" placeholder="">
-                                        <span asp-validation-for="Country" class="text-danger"></span>
+                                        <input type="text" class="form-control" name="country" id="country" placeholder="">
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -449,8 +449,8 @@
 
                                     <div class="form-group form-inline">
                                         <label for="postalCode">Postal Code <span>*</span></label>
-                                        <input asp-for="PostCodeId" type="text" class="form-control" name="resPostCode" id="postal-code" placeholder="">
-                                        <span asp-validation-for="PostCodeId" class="text-danger"></span>
+                                        <input type="text" class="form-control" name="resPostCode" id="postal-code" placeholder="">
+                                        <span class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -491,7 +491,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="hpcnaNum">HPCNA Registration Number <span>*</span></label>
-                                        <input asp-for="HPCNARegistrationNumber"  name="hpcnaRegistrationNumber" class="form-control" id="hpcnaNum" placeholder="">
+                                        <input asp-for="HpcnaregistrationNumber"  name="hpcnaRegistrationNumber" class="form-control" id="hpcnaNum" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -527,7 +527,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="yearsInPractice">Number of Years in Practice <span>*</span></label>
-                                        <input asp-for="YearsInPractice"  name="yearsInPractice" class="form-control" id="numOfYrs" placeholder="">
+                                        <input asp-for="NumberOfYearsInPractice"  name="yearsInPractice" class="form-control" id="numOfYrs" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -552,12 +552,12 @@
 
                                     <div class="form-group form-inline">
                                         <label for="buildingHouse">Building/House <span>*</span></label>
-                                        <input type="text" class="form-control" id="buildinghouse" placeholder="">
+                                        <input asp-for="Address1" class="form-control" id="buildinghouse" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="streetname">Street Name <span>*</span></label>
-                                        <input type="text" class="form-control" id="streetname" placeholder="">
+                                        <input asp-for="Address2" class="form-control" id="streetname" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -614,7 +614,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="Name of Degree">Name of Degree <span>*</span></label>
-                                        <input asp-for="NameOfDegree" name="NameOfDegree" class="form-control" id="NameOfDegree" placeholder="">
+                                        <input asp-for="Name" name="NameOfDegree" class="form-control" id="NameOfDegree" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -622,10 +622,6 @@
                                         <input asp-for="Institution" name="institution" class="form-control" id="institution" placeholder="">
                                     </div>
 
-                                    <div class="form-group form-inline">
-                                        <label for="yearObtained">Year Obtained <span>*</span></label>
-                                        <input asp-for="YearObtained" name="yearObtained" class="form-control" id="yearObtained" placeholder="">
-                                    </div>
                                     <div class="form-group form-inline">
                                         <label for="additionalPost">Additional Post Graduate Qualification (1) </label>
                                         <input type="text" name="additionalPost" class="form-control" id="additionalPost" placeholder="">
