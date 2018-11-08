@@ -30,7 +30,7 @@ namespace Feature.OHS.Web
             services.AddTransient<IPatientHandler, PatientHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
-            services.AddScoped<IApiAccessor, ApiAccessor>();
+            services.AddTransient<IStaffHandler, StaffHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

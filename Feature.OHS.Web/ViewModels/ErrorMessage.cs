@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.ViewModels
 {
-    public class AdmissionViewModelcs
+    public class ErrorMessage
     {
+        public string message { get; set; }
     }
 }

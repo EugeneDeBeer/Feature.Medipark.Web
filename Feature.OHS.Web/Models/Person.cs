@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Feature.OHS.Web.ViewModels
+namespace Feature.OHS.Web.Models
 {
-    public class DoctorViewModel
+    public partial class Person
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+ 
         public int PersonId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -30,10 +29,6 @@ namespace Feature.OHS.Web.ViewModels
         public string Religion { get; set; }
         public string Email { get; set; }
         public string BusAddress { get; set; }
-        public int QualificationId { get; set; }
-        public string NameOfDegree { get; set; }
-        public string Institution { get; set; }
-        public string YearObtained { get; set; }
         public string BusPostCode { get; set; }
         public string Type { get; set; }
         public string BusName { get; set; }
@@ -46,12 +41,7 @@ namespace Feature.OHS.Web.ViewModels
         public string Ethnicity { get; set; }
         public string IdentityType { get; set; }
         public string MaritalStatus { get; set; }
-        public int NurseId { get; set; }
-        public string PracticeNumber { get; set; }
-        public int DoctorId { get; set; }
-        public string Role { get; set; }
-   
-        public string HPCNARegistrationNumber { get; set; }
-        public int YearsInPractice { get; set; }
+
+      
     }
 }
