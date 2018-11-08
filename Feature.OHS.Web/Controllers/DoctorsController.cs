@@ -18,8 +18,14 @@ namespace Feature.OHS.Web.Controllers
             _doctorHandler = doctorHandler;
         }
 
+        public ActionResult Create()
+        {
+            return View("~/Views/Doctors/Create.cshtml", new DoctorNurseViewModel());
+        }
+
+
         [HttpPost]
-        public ActionResult CreatePatient(DoctorNurseViewModel model)
+        public ActionResult CreateDoctor(DoctorNurseViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -126,10 +132,7 @@ namespace Feature.OHS.Web.Controllers
         }
 
         // GET: Doctors/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        
 
         // POST: Doctors/Create
         [HttpPost]

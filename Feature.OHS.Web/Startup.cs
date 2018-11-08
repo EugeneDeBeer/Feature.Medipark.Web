@@ -28,6 +28,7 @@ namespace Feature.OHS.Web
             services.AddMvc();
 
             services.AddTransient<IPatientHandler, PatientHandler>();
+            services.AddTransient<IDoctorHandler, DoctoHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<IStaffHandler, StaffHandler>();

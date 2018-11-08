@@ -61,7 +61,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", doctorVM, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", doctorVM, "http://localhost:61820", true);
 
             if (response != null)
             {
