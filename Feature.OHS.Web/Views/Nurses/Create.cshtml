@@ -220,7 +220,7 @@
         <div class="col-lg-12">
             <div class="add-patient-container">
 
-                @if (Model == null || Model.DoctorId <= 0)
+                @if (Model != null )
                 {
                     <h4 class="custom-modal-title">Add New Doctor</h4>
 
@@ -372,7 +372,7 @@
                               
                                 <div class="col-lg-12"></div>
                                 <!-- End Total Number of Constituents in Your Database Field -->
-                                <input type="button" data-page="1" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="1" formaction="CreateDoctor" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- ACQUISITION FIELD SET -->
@@ -479,7 +479,7 @@
                                 </div>
                                 <!-- End Calc of Total Number of Donors Fields -->
                                 <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="2" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="2" formaction="CreateContactAddress" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- Practice Information -->
@@ -586,9 +586,9 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12"></div>
-                                <!-- End Next of kin Field -->
+                              
                                 <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="3" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="3" formaction="PracticeInfo" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- Qualification  Information -->
@@ -713,7 +713,7 @@
                                 <div class="clearfix"></div>
 
                                 <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
-                                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+                                <input id="submit" class="hs-button primary large action-button next" onclick="location.href='~/Views/Patient/Index.chtml'"  type="button" value="submit">
                             </fieldset>
                         </form>
                     </div>
