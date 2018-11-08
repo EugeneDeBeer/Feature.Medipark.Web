@@ -20,4 +20,10 @@
     <Folder Include="Views\Admissions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Nurses\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
