@@ -116,7 +116,7 @@ namespace Feature.OHS.Web.Controllers
 
                 if (result == null) return View();
 
-                PatientPayloadViewModel patient = JsonConvert.DeserializeObject<PatientPayloadViewModel>(JsonConvert.SerializeObject(result));
+                PatientViewModel patient = JsonConvert.DeserializeObject<PatientViewModel>(JsonConvert.SerializeObject(result));
 
                 return View(patient);
 
@@ -135,19 +135,20 @@ namespace Feature.OHS.Web.Controllers
         [HttpPost]
         public ActionResult Edit(int id, PatientViewModel model)
         {
-            try
-            {
-             //  var result =  _patientHandler.UpdatePatient(model);
+            return RedirectToAction(nameof(Index));
+            //try
+            //{
+            //    var result =  _patientHandler.UpdatePatient(model);
 
-                if(result)
-                    return RedirectToAction(nameof(Index));
+            //    if(result)
+            //        return RedirectToAction(nameof(Index));
 
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction(nameof(Index));
-            }
+            //    return View(model);
+            //}
+            //catch
+            //{
+            //    return RedirectToAction(nameof(Index));
+            //}
         }
 
         // GET: Patient/Delete/5

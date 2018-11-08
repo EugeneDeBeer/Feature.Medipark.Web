@@ -29,7 +29,7 @@ namespace Feature.OHS.Web.ViewModels
         public string Occupation { get; set; }
         public string IdentityType { get; set; }
         public string Citizenship { get; set; }
-        public int ContactId { get; set; }
+        public int? ContactId { get; set; }
         public string Telephone1 { get; set; }
         public string Telephone2 { get; set; }
         public string Telephone3 { get; set; }
