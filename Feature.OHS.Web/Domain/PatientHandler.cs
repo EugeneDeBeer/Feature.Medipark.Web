@@ -65,7 +65,7 @@ namespace Feature.OHS.Web.Domain
 
         public PatientViewModel AddAddress(PatientViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Address/Create", patient, "http://localhost:61820/", true);
 
             if (response != null)
             {
