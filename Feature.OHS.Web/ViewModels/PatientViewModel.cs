@@ -42,13 +42,13 @@ namespace Feature.OHS.Web.ViewModels
         public int PersonId { get; set; }
 
         //[Required]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
         public string Occupation { get; set; }
         public string IdentityType { get; set; }
         public string Citizenship { get; set; }
-        public int ContactId { get; set; }
+       // public int ContactId { get; set; }
         public string Telephone1 { get; set; }
         public string Telephone2 { get; set; }
         public string Telephone3 { get; set; }
@@ -57,6 +57,6 @@ namespace Feature.OHS.Web.ViewModels
         public string Fax1 { get; set; }
         public string Fax2 { get; set; }
         public string Email2 { get; set; }
-        public int AddressId { get; set; }
+     //   public int AddressId { get; set; }
     }
 }

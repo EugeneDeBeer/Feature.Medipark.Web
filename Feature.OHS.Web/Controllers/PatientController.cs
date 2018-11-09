@@ -30,8 +30,8 @@ namespace Feature.OHS.Web.Controllers
         {
             return View();
         }
-
-        // GET: Patient/Create
+  
+ 
         public ActionResult Create()
         {
             return View(new PatientViewModel());
@@ -93,46 +93,45 @@ namespace Feature.OHS.Web.Controllers
         }
 
         // GET: Patient/Edit/5
-        public ActionResult Edit(int id, bool includeAllDetails = true)
+        
+
+        public IActionResult Patients()
         {
-            try
-            {
-                var patient = _patientHandler.GetPatient(id, includeAllDetails);
-
-                if (patient == null) return View();
-
-                return View(patient);
-
-                //if(patient == null) return RedirectToAction(nameof(Create));
-
-                //return View("Create", patient);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Create));
-            }
-
+            var patient = _patientHandler.Patients;
+            return View("~/Views/Patient/Index.cshtml", patient);
         }
 
-        // POST: Patient/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PatientViewModel model)
+        public ActionResult EditPatient(PatientViewModel patientViewModel)
         {
-            try
-            {
-             //  var result =  _patientHandler.UpdatePatient(model);
-
-                //if(result)
-                //    return RedirectToAction(nameof(Create));
-
-                return View(model);
-            }
-            catch
-            {
-                return RedirectToAction(nameof(Create));
-            }
+             var result = _patientHandler.UpdatePatient(patientViewModel);
+                return RedirectToAction(nameof(Index));
+           
+              
         }
 
+        public IActionResult EditPatient(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var user = _patientHandler.GetPatientByIdNumber(id);
+          //  var _nokVM = new NextOfKinViewModel();
+           // var tupleData = new Tuple<PatientViewModel, NextOfKinViewModel>(user, _nokVM);
+          
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Patient/Edit.cshtml", user);
+        }
+
+        public IActionResult Edit()
+        {
+          
+            return View("~/Views/Patient/Edit.cshtml");
+        }
         // GET: Patient/Delete/5
         public ActionResult Delete(int id)
         {
