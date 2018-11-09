@@ -133,9 +133,6 @@ namespace Feature.OHS.Web.Integration
             }
         }
 
-
-
-
         public APIResponse ResponseFromAPIPut<T>(string serviceName, string method, T passedObject, string apiUrl, bool authenticate) where T : class
         {
             return ResponseFromAPIPut(serviceName, method, passedObject, apiUrl, authenticate, string.Empty);

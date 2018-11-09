@@ -167,22 +167,44 @@
                     firstName : $("#search-input").val(),
                     lastName: $("#search-input").val()
                 };
-                
+
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    url: '/AdvanceSearch',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
+                    //data: getFormData(searchParams),
                     data: searchParams,
                     success: function (res) {
 
-                        console.log(res);
+                        $("#tblPatients tbody tr").remove();
 
-                        $("#tblPatients tr").remove();
+                        var results = JSON.parse(res);
 
-                        $.each(res,
-                            (i, row) => {
-                                var line = '<tr>';
+                        if (results == null || results == undefined || results == '') {
+                            console.log("Results are empty!!");
+                            $('.not-found').show();
+                            /*
+                            var row = 
+                                "<tr class='not-found'>" +
+                                    "<td>" +
+                                        "<p class='text-center'>No result found on advanced search.</p>" +
+                                    "</td>" +
+                                "</tr>"; 
+
+                            $("#tblPatients tbody").append(row); 
+                            */
+                        } else if (results.length > 0) {
+                            $('.not-found').hide();                            
+
+                            //console.log(results);
+
+                            var line = null;
+                            $.each(results, (i, row) => {
+                            //    console.log(`${row.PatientId}`);
+
+                                line = '<tr>';
                                 line +=
                                     `
                             <td class="hidden">
@@ -209,8 +231,8 @@
                                 $("#tblPatients tbody").append(line);
                             });
 
-
-                        $("#tblPatients tbody").append(line); 
+                            //$("#tblPatients tbody").append(line);  
+                        }
 
 
                     },
@@ -219,6 +241,54 @@
                     }
                 });
 
+                /*
+                $.ajax({
+                    type: 'GET',
+                    //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    url: '/AdvanceSearch',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data: searchParams,
+                    success: function (res) {
+                        console.log(res);
+                        $("#tblPatients tr").remove();
+                        var results = JSON.parse(res);
+                        var line = null;
+                        $.each(res,
+                            (i, row) => {
+                                line = '<tr>';
+                                line +=
+                                    `
+                            <td class="hidden">
+                                ${row.PatientId}
+                            </td>
+                            <td>
+                                ${row.FirstName}
+                            </td>
+                            <td>
+                                ${row.LastName}
+                            </td>
+                            <td>
+                                ${row.Email1}
+                            </td>
+                            <td>
+                                ${row.CellPhone}
+                            </td>
+                            <td>
+                                <a href="/Patient/Edit/${row.PatientId
+                                    }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                            </td>
+                            `;
+                                line += '</tr>';
+                                $("#tblPatients tbody").append(line);
+                            });
+                        //$("#tblPatients tbody").append(line); 
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+                */
             });
 
             //  Filtering data table
@@ -251,11 +321,12 @@
             $('#advanceSearch').click(() => {
 
                 var searchParams = $('#add-patient').serializeArray();                
-                advancedSearch();
+                //advancedSearch();
 
                 $.ajax({
                     type: 'GET',
-                    url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    url: '/AdvanceSearch',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     data: getFormData(searchParams),
@@ -263,7 +334,9 @@
 
                         $("#tblPatients tr").remove();
 
-                        if (res === null || res === undefined) {
+                        var results = JSON.parse(res);
+
+                        if (results === null || results === undefined) {
                             $('.not-found').show();
                             /*
                             var row = 
@@ -275,11 +348,14 @@
 
                             $("#tblPatients tbody").append(row); 
                             */
-                        } else {
+                        } else if(results.length > 0){
                             $('.not-found').hide();
 
+                            console.log(results);
+
+                            var line = null;
                             $.each(res, (i, row) => {
-                                var line = '<tr>';
+                                line = '<tr>';
                                 line +=
                                     `
                             <td class="hidden">
@@ -306,7 +382,7 @@
                                 $("#tblPatients tbody").append(line);
                             });
 
-                            $("#tblPatients tbody").append(line);  
+                            //$("#tblPatients tbody").append(line);  
                         }
 
                      
@@ -379,9 +455,7 @@
                                     <h2 class="fs-title">ADVANCE SEARCH</h2>
                                     <h3 class="fs-subtitle"></h3>
                                     <div class="row">
-                                        @*<div class="col-lg-12">*@
                                             <div class="col-lg-6">
-
                                                 <div class="form-group form-inline">
                                                     <label for="firstName">FirstName</label>
                                                     <input type="text" class="form-control" id="firstName" name="firstName" placeholder="">
@@ -394,7 +468,6 @@
                                                     <label for="homeTel">Home Tel</label>
                                                     <input type="text" class="form-control" id="homeTel" name="homeTel" placeholder="">
                                                 </div>
-
                                             </div>
 
                                             <div class="col-lg-6">
@@ -411,7 +484,6 @@
                                                     <input type="text" class="form-control" id="workTel" name="workTel" placeholder="">
                                                 </div>
                                             </div>
-                                        @*</div>*@
                                     </div>
                                     <div class="clearfix"></div>
                                     <a class="btn btn-block btn-success btn-rounded btn-md waves-effect waves-light m-b-30"  id="advanceSearch"><i class="md md-add"></i>Search</a>
@@ -438,7 +510,7 @@
                             <tbody>
                             <tr class='not-found'>
                                 <td>
-                                    <p class='text-center'>No result found on advanced search.</p>
+                                    <p class='text-center'>No results found on search.</p>
                                 </td>
                             </tr>
                             </tbody>

@@ -25,7 +25,7 @@ namespace Feature.OHS.Web.Controllers
         {
             return View();
         }
-
+        
         public string GetPatients()
         {
             try
@@ -37,6 +37,32 @@ namespace Feature.OHS.Web.Controllers
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        [HttpGet("AdvanceSearch")]
+        public async Task<IActionResult> Get(SearchParams searchParams)
+        {
+            try
+            {
+                if (searchParams == null) return StatusCode((int)System.Net.HttpStatusCode.NotFound);
+
+                //var result = await _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                var result = _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                if (result != null)
+                {
+                    //var model = _pagingHandler.GetPagingInfo(new SearchParams(), result);
+
+                    //Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
+
+                    return StatusCode((int)System.Net.HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+                else
+                    return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = e.Message.ToString() });
             }
         }
 
@@ -65,7 +91,7 @@ namespace Feature.OHS.Web.Controllers
                     PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch(Exception ex)
                 {
                     return View();
                 }

@@ -8,6 +8,9 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface  INurseHandler
     {
-        DoctorNurseViewModel AddNurse(DoctorNurseViewModel patient);
+        //DoctorNurseViewModel AddNurse(DoctorNurseViewModel patient);
+
+        dynamic GetNurse(int id);
+        dynamic GetNurses();
     }
 }
