@@ -34,12 +34,12 @@ namespace Feature.OHS.Web.Controllers
  
         public ActionResult Create()
         {
-            return View(new PatientViewModel());
+            return View(new PatientPayloadViewModel());
         }
 
         // POST: Patient/Create
         [HttpPost]
-        public ActionResult CreatePatient(PatientViewModel model)
+        public ActionResult CreatePatient(PatientPayloadViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -63,7 +63,7 @@ namespace Feature.OHS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateContact(PatientViewModel model)
+        public ActionResult CreateContact(PatientPayloadViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -102,7 +102,7 @@ namespace Feature.OHS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPatient(PatientViewModel patientViewModel)
+        public ActionResult EditPatient(PatientPayloadViewModel patientViewModel)
         {
              var result = _patientHandler.UpdatePatient(patientViewModel);
                 return RedirectToAction(nameof(Index));

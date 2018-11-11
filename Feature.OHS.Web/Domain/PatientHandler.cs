@@ -22,13 +22,13 @@ namespace Feature.OHS.Web.Domain
 
         }
 
-        public PatientViewModel AddPatient(PatientViewModel patient)
+        public PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient)
         {
             var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, "http://localhost:61820/", true);
 
             if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<PatientViewModel>(response.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {
                    
@@ -43,12 +43,12 @@ namespace Feature.OHS.Web.Domain
 
         }
 
-        public PatientViewModel GetPatientByIdNumber(string id)
+        public PatientPayloadViewModel GetPatientByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?id=" + id, "http://localhost:61820", "GET");
             if (request != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<PatientViewModel>(request.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(request.Message);
                 if (dynamicResponse != null)
                 {
                     return dynamicResponse;
@@ -61,7 +61,7 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        public IEnumerable<PatientViewModel> Patients
+        public IEnumerable<PatientPayloadViewModel> Patients
         {
             
             get
@@ -69,7 +69,7 @@ namespace Feature.OHS.Web.Domain
                 var request = _integration.ResponseFromAPIGet("Get Patient", "/v1/Person/PersonDetails", "http://localhost:61820", "GET");
                 if (request != null)
                 {
-                    var dynamicResponse = JsonConvert.DeserializeObject<List<PatientViewModel>>(request.Message);
+                    var dynamicResponse = JsonConvert.DeserializeObject<List<PatientPayloadViewModel>>(request.Message);
                     if (dynamicResponse != null)
                     {
                         return dynamicResponse;
@@ -84,13 +84,13 @@ namespace Feature.OHS.Web.Domain
         }
 
         
-        public dynamic AddContact(PatientViewModel patient)
+        public dynamic AddContact(PatientPayloadViewModel patient)
         {
             var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, "http://localhost:61820/", true);
 
             if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<PatientViewModel>(response.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {
                     return dynamicResponse;
@@ -104,7 +104,7 @@ namespace Feature.OHS.Web.Domain
 
         }
 
-        public dynamic AddAddress(PatientViewModel patient)
+        public dynamic AddAddress(PatientPayloadViewModel patient)
         {
             var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Address/Create", patient, "http://localhost:61820/", true);
 
@@ -125,10 +125,10 @@ namespace Feature.OHS.Web.Domain
         }
      
 
-        public dynamic UpdatePatient(PatientViewModel model)
+        public dynamic UpdatePatient(PatientPayloadViewModel model)
         {
 
-            var response = _integration.ResponseFromAPIPost("", "/v1/Patient/Update/Patient", model, "http://localhost:61836/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Patient/Update/Patient", model, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -145,7 +145,7 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        public dynamic AddNextOfKin(PatientViewModel patient)
+        public dynamic AddNextOfKin(PatientPayloadViewModel patient)
         {
             throw new NotImplementedException();
         }
