@@ -11,6 +11,7 @@ namespace Feature.OHS.Web.ViewModels
     {
         public string PracticeNumber { get; set; }
         public int PersonId { get; set; }
+        public int PersonDetailsId { get; set; }
         public string HpcnaregistrationNumber { get; set; }
         public int NumberOfYearsInPractice { get; set; }
         public string RegistrationNumber { get; set; }

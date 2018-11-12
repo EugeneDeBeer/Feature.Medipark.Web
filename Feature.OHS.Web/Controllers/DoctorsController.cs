@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Feature.OHS.Web.Controllers
 {
-    public class DoctorsController : Controller
+    public class DoctorController : Controller
     {
         private readonly IDoctorHandler _doctorHandler;
-        public DoctorsController(IDoctorHandler doctorHandler)
+        public DoctorController(IDoctorHandler doctorHandler)
         {
             _doctorHandler = doctorHandler;
         }
@@ -73,6 +73,12 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
+        [HttpPost]
+        public ActionResult EditDoctor(DoctorNurseViewModel patientViewModel)
+        {
+            var result = _doctorHandler.UpdateDoctor(patientViewModel);
+            return RedirectToAction(nameof(Index));
+        }
         public IActionResult EditDoctor(string id)
         {
             if (id == null)
@@ -80,7 +86,7 @@ namespace Feature.OHS.Web.Controllers
                 return NotFound();
             }
 
-            var user = _doctorHandler.Doctors;
+            var user = _doctorHandler.GetDoctorByIdNumber(id);
             if (user == null)
             {
                 return NotFound();
