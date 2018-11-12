@@ -23,15 +23,15 @@ node {
       def project = (env.BRANCH_NAME != 'prod') ? 'medipark-hospital' : 'medipark-hospital-prod'  
       
       //Login to gcloud and update SDK
-    //   stage ('Login to Gcloud') {
-    //     if (project == 'medipark-hospital'){
-    //              configFileProvider([configFile(fileId: '5aa2fb0e-ae1b-49ad-881e-fe0295e1571f', variable: 'GCLOUD_AUTH')]) {
-    //             sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
-    //             sh("gcloud auth login medipark-hospital@appspot.gserviceaccount.com") 
-    //              }
-    //         }
-    //          sh("gcloud components update")
-    //    }
+       stage ('Login to Gcloud') {
+         if (project == 'medipark-hospital'){
+                  configFileProvider([configFile(fileId: '5aa2fb0e-ae1b-49ad-881e-fe0295e1571f', variable: 'GCLOUD_AUTH')]) {
+                 sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
+                 sh("gcloud auth login medipark-hospital@appspot.gserviceaccount.com") 
+                  }
+             }
+              sh("gcloud components update")
+        }
       
        
          
