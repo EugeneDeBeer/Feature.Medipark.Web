@@ -25,7 +25,7 @@ node {
       //Login to gcloud and update SDK
        stage ('Login to Gcloud') {
          if (project == 'medipark-hospital'){
-                  configFileProvider([configFile(fileId: '5aa2fb0e-ae1b-49ad-881e-fe0295e1571f', variable: 'GCLOUD_AUTH')]) {
+                  configFileProvider([configFile(fileId: '1327642d-3075-4861-8d33-9558fe199e31', variable: 'GCLOUD_AUTH')]) {
                  sh("gcloud auth activate-service-account --key-file $GCLOUD_AUTH")
                  sh("gcloud auth login medipark-hospital@appspot.gserviceaccount.com") 
                   }
