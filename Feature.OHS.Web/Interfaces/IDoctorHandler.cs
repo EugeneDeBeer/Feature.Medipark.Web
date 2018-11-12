@@ -13,5 +13,8 @@ namespace Feature.OHS.Web.Interfaces
         DoctorNurseViewModel AddAddress(DoctorNurseViewModel doctorVM);
         DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel doctorVM);
         DoctorNurseViewModel AddQualification(DoctorNurseViewModel doctorVM);
+        DoctorNurseViewModel GetDoctorByIdNumber(string id);
+        dynamic UpdateDoctor(DoctorNurseViewModel model);
+        IEnumerable<DoctorNurseViewModel> Doctors { get;  }
     }
 }

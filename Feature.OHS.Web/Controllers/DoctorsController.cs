@@ -73,6 +73,25 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
+        public IActionResult EditDoctor(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _doctorHandler.Doctors;
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Doctors/Edit.cshtml", user);
+        }
+        public IActionResult Doctors()
+        {
+            var members = _doctorHandler.Doctors;
+            return View("~/Views/Doctors/Index.cshtml", members);
+        }
         [HttpPost]
         public ActionResult PracticeInfo(DoctorNurseViewModel model)
         {
@@ -157,44 +176,6 @@ namespace Feature.OHS.Web.Controllers
             return View();
         }
 
-        // POST: Doctors/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Doctors/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Doctors/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

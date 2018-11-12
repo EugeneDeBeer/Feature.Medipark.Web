@@ -59,6 +59,63 @@ namespace Feature.OHS.Web.Domain
 
         }
 
+        public IEnumerable<DoctorNurseViewModel> Doctors
+        {
+
+            get
+            {
+                var request = _integration.ResponseFromAPIGet("Get Doctoers", "v1/Doctor/Get/Doctors", "http://localhost:61820", "GET");
+                if (request != null)
+                {
+                    var dynamicResponse = JsonConvert.DeserializeObject<List<DoctorNurseViewModel>>(request.Message);
+                    if (dynamicResponse != null)
+                    {
+                        return dynamicResponse;
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        public DoctorNurseViewModel GetDoctorByIdNumber(string id)
+        {
+            var request = _integration.ResponseFromAPIGet("", "/v1/Doctor/Get/Doctor?id=" + id, "http://localhost:61820", "GET");
+            if (request != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<DoctorNurseViewModel>(request.Message);
+                if (dynamicResponse != null)
+                {
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public dynamic UpdateDoctor(DoctorNurseViewModel model)
+        {
+
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "http://localhost:61820/", true);
+
+            if (response != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                if (dynamicResponse != null)
+                {
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel doctorVM)
         {
             var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", doctorVM, "http://localhost:61820", true);
