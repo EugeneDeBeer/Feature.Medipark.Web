@@ -31,7 +31,7 @@ node {
                   }
              }
               sh("gcloud components update")
-			  sh("gcloud auth configure-docker")
+			  
         }
       
        
@@ -52,10 +52,10 @@ node {
                 //    }
                     switch (env.BRANCH_NAME){
                         case "dev":
-                            sh("docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${devDB} -t ${imageTag} --file=Dockerfile_AE .")
+                            sh("sudo docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${devDB} -t ${imageTag} --file=Dockerfile_AE .")
                             break
                         case "qa":
-                            sh("docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${qaDB} -t ${imageTag} --file=Dockerfile_AE .")
+                            sh("sudo docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${qaDB} -t ${imageTag} --file=Dockerfile_AE .")
                             break
                         case "uat":
                             sh("docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${uatDB} -t ${imageTag} --file=Dockerfile_AE .")
