@@ -7,6 +7,7 @@ using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Feature.OHS.Web.Controllers
 {
@@ -153,6 +154,32 @@ namespace Feature.OHS.Web.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpGet("AdvanceSearch")]
+        public async Task<IActionResult> Get(SearchParams searchParams)
+        {
+            try
+            {
+                if (searchParams == null) return StatusCode((int)System.Net.HttpStatusCode.NotFound);
+
+                //var result = await _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                var result = _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                if (result != null)
+                {
+                    //var model = _pagingHandler.GetPagingInfo(new SearchParams(), result);
+
+                    //Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
+
+                    return StatusCode((int)System.Net.HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+                else
+                    return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = e.Message.ToString() });
             }
         }
     }

@@ -149,5 +149,31 @@ namespace Feature.OHS.Web.Domain
         {
             throw new NotImplementedException();
         }
+
+        public dynamic SearchPatients(SearchParams condition, bool exactSearch = false)
+        {
+            try
+            {
+                var response = _integration.ResponseFromAPIGet("", $"v1/Patient/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "http://localhost:50566/", "GET");
+
+                if (response != null)
+                {
+                    var dynamicResponse = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                    if (dynamicResponse != null)
+                    {
+                        return dynamicResponse;
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

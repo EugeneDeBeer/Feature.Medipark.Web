@@ -16,5 +16,7 @@ namespace Feature.OHS.Web.Interfaces
         DoctorNurseViewModel GetDoctorByIdNumber(string id);
         dynamic UpdateDoctor(DoctorNurseViewModel model);
         IEnumerable<DoctorNurseViewModel> Doctors { get;  }
+
+        dynamic SearchDoctors(SearchParams condition, bool exactSearch = false);
     }
 }

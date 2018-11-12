@@ -17,5 +17,7 @@ namespace Feature.OHS.Web.Interfaces
         IEnumerable<PatientPayloadViewModel> Patients { get; }
       PatientPayloadViewModel GetPatientByIdNumber(string id);
         dynamic UpdatePatient(PatientPayloadViewModel model);
+
+        dynamic SearchPatients(SearchParams condition, bool exactSearch = false);
     }
 }
