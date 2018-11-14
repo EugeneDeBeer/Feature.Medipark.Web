@@ -150,7 +150,7 @@ namespace Feature.OHS.Web.Domain
             throw new NotImplementedException();
         }
 
-        public dynamic SearchPatients(SearchParams condition, bool exactSearch = false)
+        public Task<dynamic> SearchPatients(SearchParams condition, bool exactSearch = false)
         {
             try
             {
