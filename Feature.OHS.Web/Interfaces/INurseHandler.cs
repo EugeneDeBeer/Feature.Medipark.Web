@@ -8,6 +8,15 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface  INurseHandler
     {
-        DoctorNurseViewModel AddNurse(DoctorNurseViewModel patient);
+        DoctorNurseViewModel AddNurse(DoctorNurseViewModel nurseVM);
+        DoctorNurseViewModel AddContact(DoctorNurseViewModel doctorVM);
+        DoctorNurseViewModel AddAddress(DoctorNurseViewModel doctorVM);
+        DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel doctorVM);
+        DoctorNurseViewModel AddQualification(DoctorNurseViewModel doctorVM);
+        DoctorNurseViewModel GetDoctorByIdNumber(string id);
+        dynamic UpdateNurse(DoctorNurseViewModel model);
+        IEnumerable<DoctorNurseViewModel> Doctors { get; }
+
+        dynamic SearchDoctors(SearchParams condition, bool exactSearch = false);
     }
 }
