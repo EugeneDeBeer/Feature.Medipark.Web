@@ -42,6 +42,7 @@ node {
             /                        Use this section when building AppEngine service                /
             /****************************************************************************************/
             
+			gcloud docker --authorize-only
             stage ('Build AppEngine image') {   
                     //Copy cloudproxy file
                  //   if (project == 'harambee-dev'){
@@ -52,10 +53,10 @@ node {
                 //    }
                     switch (env.BRANCH_NAME){
                         case "dev":
-                            sh("sudo docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${devDB} -t ${imageTag} --file=Dockerfile_AE .")
+                            sh(" docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${devDB} -t ${imageTag} --file=Dockerfile_AE .")
                             break
                         case "qa":
-                            sh("sudo docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${qaDB} -t ${imageTag} --file=Dockerfile_AE .")
+                            sh(" docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${qaDB} -t ${imageTag} --file=Dockerfile_AE .")
                             break
                         case "uat":
                             sh("docker build --build-arg folder=${projectFolder} --build-arg testfolder=${testFolder} --build-arg db=${uatDB} -t ${imageTag} --file=Dockerfile_AE .")
