@@ -14,5 +14,6 @@ namespace Feature.OHS.Web.Models
         public string Allergies { get; set; }
         public string Type { get; set; }
         public int PersonId { get; set; }
+    
     }
 }

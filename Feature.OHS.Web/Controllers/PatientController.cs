@@ -45,6 +45,7 @@ namespace Feature.OHS.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 try
                 {
                     model.UserId = 1;
@@ -62,6 +63,7 @@ namespace Feature.OHS.Web.Controllers
                 ModelState.AddModelError("Error","Please enter all the required fields");
                 return View(model);
             }
+
         }
 
         [HttpPost]

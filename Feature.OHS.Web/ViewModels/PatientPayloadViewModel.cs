@@ -26,6 +26,7 @@ namespace Feature.OHS.Web.ViewModels
         public string Citizenship { get; set; }
         public int PersonId { get; set; }
         public int PersonDetailsId { get; set; }
+        public string Image { get; set; }
 
         //contact address detalis
         public string Telephone1 { get; set; }
