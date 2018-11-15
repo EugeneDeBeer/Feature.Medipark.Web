@@ -24,7 +24,7 @@ namespace Feature.OHS.Web.ViewModels
 
         //  SORTING FILTERS
         public string OrderBy { get; set; } = "Asc";
-        public string SortBy { get; set; } = "FirstName"; /*"PersonId";*/
+        public string SortBy { get; set; } = "FirstName";
         public bool ExactSearch { get; set; } = false;
     }
 }

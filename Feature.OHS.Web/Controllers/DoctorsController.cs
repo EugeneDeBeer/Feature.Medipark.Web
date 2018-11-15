@@ -7,6 +7,7 @@ using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Feature.OHS.Web.Controllers
 {
@@ -74,6 +75,31 @@ namespace Feature.OHS.Web.Controllers
             }
         }
         [HttpPost]
+        public ActionResult EditDoctor(DoctorNurseViewModel patientViewModel)
+        {
+            var result = _doctorHandler.UpdateDoctor(patientViewModel);
+            return RedirectToAction(nameof(Index));
+        }
+        public IActionResult EditDoctor(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _doctorHandler.GetDoctorByIdNumber(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Doctors/Edit.cshtml", user);
+        }
+        public IActionResult Doctors()
+        {
+            var members = _doctorHandler.Doctors;
+            return View("~/Views/Doctors/Index.cshtml", members);
+        }
+        [HttpPost]
         public ActionResult PracticeInfo(DoctorNurseViewModel model)
         {
             if (ModelState.IsValid)
@@ -120,9 +146,10 @@ namespace Feature.OHS.Web.Controllers
             }
         }
         // GET: Doctors
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
+            //return View("~/Views/Doctors/Index.cshtml");
         }
 
         // GET: Doctors/Details/5
@@ -157,43 +184,29 @@ namespace Feature.OHS.Web.Controllers
             return View();
         }
 
-        // POST: Doctors/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [HttpGet("AdvanceSearch")]
+        public async Task<IActionResult> Get(SearchParams searchParams)
         {
             try
             {
-                // TODO: Add update logic here
+                if (searchParams == null) return StatusCode((int)System.Net.HttpStatusCode.NotFound);
 
-                return RedirectToAction(nameof(Index));
+                //var result = await _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                var result = _doctorHandler.SearchDoctors(searchParams, searchParams.ExactSearch);
+                if (result != null)
+                {
+                    //var model = _pagingHandler.GetPagingInfo(new SearchParams(), result);
+
+                    //Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
+
+                    return StatusCode((int)System.Net.HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+                else
+                    return NoContent();
             }
-            catch
+            catch (Exception e)
             {
-                return View();
-            }
-        }
-
-        // GET: Doctors/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Doctors/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = e.Message.ToString() });
             }
         }
     }

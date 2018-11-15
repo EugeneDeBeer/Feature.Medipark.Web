@@ -16,18 +16,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
     @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>*@
 
-    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
 
     <script type="text/javascript">
 
-        $(function() {
+        $(function () {
             $('.not-found').hide();
 
             function getFormData(data) {
@@ -103,7 +102,7 @@
                         });
 
 
-                    $("#tblPatients tbody").append(line);                 
+                    $("#tblPatients tbody").append(line);
 
 
                     //$('#tblPatients').DataTable({
@@ -164,14 +163,14 @@
             $('#tblSearch').click(() => {
 
                 var searchParams = {
-                    firstName : $("#search-input").val(),
+                    firstName: $("#search-input").val(),
                     lastName: $("#search-input").val()
                 };
 
                 $.ajax({
                     type: 'GET',
                     //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
-                    url: '/AdvanceSearch',
+                    url: '/Patient/AdvanceSearch',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     //data: getFormData(searchParams),
@@ -186,52 +185,51 @@
                             console.log("Results are empty!!");
                             $('.not-found').show();
                             /*
-                            var row = 
+                            var row =
                                 "<tr class='not-found'>" +
                                     "<td>" +
                                         "<p class='text-center'>No result found on advanced search.</p>" +
                                     "</td>" +
-                                "</tr>"; 
+                                "</tr>";
 
-                            $("#tblPatients tbody").append(row); 
+                            $("#tblPatients tbody").append(row);
                             */
                         } else if (results.length > 0) {
-                            $('.not-found').hide();                            
+                            $('.not-found').hide();
 
                             //console.log(results);
 
                             var line = null;
                             $.each(results, (i, row) => {
-                            //    console.log(`${row.PatientId}`);
+                                //    console.log(`${row.PatientId}`);
 
                                 line = '<tr>';
                                 line +=
                                     `
-                            <td class="hidden">
-                                ${row.PatientId}
-                            </td>
-                            <td>
-                                ${row.FirstName}
-                            </td>
-                            <td>
-                                ${row.LastName}
-                            </td>
-                            <td>
-                                ${row.Email1}
-                            </td>
-                            <td>
-                                ${row.CellPhone}
-                            </td>
-                            <td>
-                                <a href="/Patient/Edit/${row.PatientId
-                                    }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
-                            </td>
-                            `;
+                                    <td class="hidden">
+                                        ${row.PatientId}
+                                    </td>
+                                    <td>
+                                        ${row.FirstName}
+                                    </td>
+                                    <td>
+                                        ${row.LastName}
+                                    </td>
+                                    <td>
+                                        ${row.Email1}
+                                    </td>
+                                    <td>
+                                        ${row.CellPhone}
+                                    </td>
+                                    <td>
+                                        <a href="/Patient/EditPatient/${row.IdNumber}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                    </td>
+                                    `;
                                 line += '</tr>';
                                 $("#tblPatients tbody").append(line);
                             });
 
-                            //$("#tblPatients tbody").append(line);  
+                            //$("#tblPatients tbody").append(line);
                         }
 
 
@@ -240,66 +238,18 @@
                         console.log(error);
                     }
                 });
-
-                /*
-                $.ajax({
-                    type: 'GET',
-                    //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
-                    url: '/AdvanceSearch',
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    data: searchParams,
-                    success: function (res) {
-                        console.log(res);
-                        $("#tblPatients tr").remove();
-                        var results = JSON.parse(res);
-                        var line = null;
-                        $.each(res,
-                            (i, row) => {
-                                line = '<tr>';
-                                line +=
-                                    `
-                            <td class="hidden">
-                                ${row.PatientId}
-                            </td>
-                            <td>
-                                ${row.FirstName}
-                            </td>
-                            <td>
-                                ${row.LastName}
-                            </td>
-                            <td>
-                                ${row.Email1}
-                            </td>
-                            <td>
-                                ${row.CellPhone}
-                            </td>
-                            <td>
-                                <a href="/Patient/Edit/${row.PatientId
-                                    }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
-                            </td>
-                            `;
-                                line += '</tr>';
-                                $("#tblPatients tbody").append(line);
-                            });
-                        //$("#tblPatients tbody").append(line); 
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
-                */
+                
             });
 
             //  Filtering data table
-            $("#search-input").keyup(function() {
+            $("#search-input").keyup(function () {
 
                 var searchKey = $(this).val();
 
                 var filter, table, tr, firstName, lastName, email, i;
 
                 filter = searchKey.toUpperCase();
-                /*table = $("#tblPatients"); document.getElementById("tblPatients")*/;
+                        /*table = $("#tblPatients"); document.getElementById("tblPatients")*/;
                 tr = $("#tblPatients tr");/*table.getElementsByTagName("tr");*/
 
                 for (i = 0; i < tr.length; i++) {
@@ -314,19 +264,19 @@
                         } else {
                             tr[i].style.display = "none";
                         }
-                    }       
+                    }
                 }
             });
 
             $('#advanceSearch').click(() => {
 
-                var searchParams = $('#add-patient').serializeArray();                
+                var searchParams = $('#add-patient').serializeArray();
                 //advancedSearch();
 
                 $.ajax({
                     type: 'GET',
                     //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
-                    url: '/AdvanceSearch',
+                    url: '/Patient/AdvanceSearch',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     data: getFormData(searchParams),
@@ -339,16 +289,16 @@
                         if (results === null || results === undefined) {
                             $('.not-found').show();
                             /*
-                            var row = 
+                            var row =
                                 "<tr class='not-found'>" +
                                     "<td>" +
                                         "<p class='text-center'>No result found on advanced search.</p>" +
                                     "</td>" +
-                                "</tr>"; 
+                                "</tr>";
 
-                            $("#tblPatients tbody").append(row); 
+                            $("#tblPatients tbody").append(row);
                             */
-                        } else if(results.length > 0){
+                        } else if (results.length > 0) {
                             $('.not-found').hide();
 
                             console.log(results);
@@ -358,34 +308,34 @@
                                 line = '<tr>';
                                 line +=
                                     `
-                            <td class="hidden">
-                                ${row.PatientId}
-                            </td>
-                            <td>
-                                ${row.FirstName}
-                            </td>
-                            <td>
-                                ${row.LastName}
-                            </td>
-                            <td>
-                                ${row.Email1}
-                            </td>
-                            <td>
-                                ${row.CellPhone}
-                            </td>
-                            <td>
-                                <a href="/Patient/Edit/${row.PatientId
+                                    <td class="hidden">
+                                        ${row.PatientId}
+                                    </td>
+                                    <td>
+                                        ${row.FirstName}
+                                    </td>
+                                    <td>
+                                        ${row.LastName}
+                                    </td>
+                                    <td>
+                                        ${row.Email1}
+                                    </td>
+                                    <td>
+                                        ${row.CellPhone}
+                                    </td>
+                                    <td>
+                                        <a href="/Patient/EditPatient/${row.PatientId
                                     }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
-                            </td>
-                            `;
+                                    </td>
+                                    `;
                                 line += '</tr>';
                                 $("#tblPatients tbody").append(line);
                             });
 
-                            //$("#tblPatients tbody").append(line);  
+                            //$("#tblPatients tbody").append(line);
                         }
 
-                     
+
                     },
                     error: function (error) {
                         console.log(error);
@@ -397,10 +347,10 @@
                 //console.log(form);
                 //console.log(form.serialize());
                 //console.log(form.serializeArray());
-            //    var form = $(this).closest('form').serializeArray();
-            //    var formData = getFormData(form);
+                //    var form = $(this).closest('form').serializeArray();
+                //    var formData = getFormData(form);
 
-            //    console.log(formData);
+                //    console.log(formData);
             });
         });
 
@@ -408,116 +358,116 @@
 }
 
 <!-- Begin page -->
-    <div id="wrapper">
+<div id="wrapper">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="page-title-box">
-                    <h4 class="page-title">Patients </h4>
-                    <ol class="breadcrumb p-0 m-0">
-                        <li>
-                            <a href="#">Medipark</a>
-                        </li>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Patients </h4>
+                <ol class="breadcrumb p-0 m-0">
+                    <li>
+                        <a href="#">Medipark</a>
+                    </li>
 
-                        <li class="active">
-                            Patients
-                        </li>
-                    </ol>
-                    <div class="clearfix"></div>
-                </div>
+                    <li class="active">
+                        Patients
+                    </li>
+                </ol>
+                <div class="clearfix"></div>
             </div>
         </div>
-        <!-- end row -->
+    </div>
+    <!-- end row -->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card-box">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <form>
-                                <div class="form-group search-box">
-                                    <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
-                                    <button type="button" class="btn btn-search" id="tblSearch"><i class="fa fa-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
-                        </div>
-                        <div class="col-sm-2">
-                            <a asp-area="" asp-controller="Patient" asp-action="Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Patient</a>
-                        </div>
-
-                        <div class="col-sm-8" id="advanced-search">                           
-                            <form id="add-patient">
-                                <fieldset>
-                                    <h2 class="fs-title">ADVANCE SEARCH</h2>
-                                    <h3 class="fs-subtitle"></h3>
-                                    <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="form-group form-inline">
-                                                    <label for="firstName">FirstName</label>
-                                                    <input type="text" class="form-control" id="firstName" name="firstName" placeholder="">
-                                                </div>
-                                                <div class="form-group form-inline">
-                                                    <label for="idNumber">ID Number</label>
-                                                    <input type="text" class="form-control" id="idNumber" name="idNumber" placeholder="">
-                                                </div>
-                                                <div class="form-group form-inline">
-                                                    <label for="homeTel">Home Tel</label>
-                                                    <input type="text" class="form-control" id="homeTel" name="homeTel" placeholder="">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <div class="form-group form-inline">
-                                                    <label for="lastName">LastName</label>
-                                                    <input type="text" class="form-control" id="lastName" name="lastName" placeholder="">
-                                                </div>
-                                                <div class="form-group form-inline">
-                                                    <label for="dateOfBirth">Date Of Birth</label>
-                                                    <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="">
-                                                </div>
-                                                <div class="form-group form-inline">
-                                                    <label for="workTel">Work Tel</label>
-                                                    <input type="text" class="form-control" id="workTel" name="workTel" placeholder="">
-                                                </div>
-                                            </div>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <a class="btn btn-block btn-success btn-rounded btn-md waves-effect waves-light m-b-30"  id="advanceSearch"><i class="md md-add"></i>Search</a>
-                                </fieldset>
-                            </form>
-                        </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <form>
+                            <div class="form-group search-box">
+                                <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
+                                <button type="button" class="btn btn-search" id="tblSearch"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover mails m-0 table table-actions-bar" id="tblPatients">
-                            @*<table class="table table-hover table-striped" id="tblPatients">*@
-                            <thead>
-                                <tr>
-                                    <th class="hidden">Patient ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
-                                    <th>Contact No.</th>
+                    <div class="col-sm-2">
+                        <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a asp-area="" asp-controller="Patient" asp-action="Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Patient</a>
+                    </div>
 
-                                    <th>Edit Patient</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                    <div class="col-sm-8" id="advanced-search">
+                        <form id="add-patient">
+                            <fieldset>
+                                <h2 class="fs-title">ADVANCE SEARCH</h2>
+                                <h3 class="fs-subtitle"></h3>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="firstName">FirstName</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="idNumber">ID Number</label>
+                                            <input type="text" class="form-control" id="idNumber" name="idNumber" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="homeTel">Home Tel</label>
+                                            <input type="text" class="form-control" id="homeTel" name="homeTel" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="lastName">LastName</label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="dateOfBirth">Date Of Birth</label>
+                                            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="workTel">Work Tel</label>
+                                            <input type="text" class="form-control" id="workTel" name="workTel" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <a class="btn btn-block btn-success btn-rounded btn-md waves-effect waves-light m-b-30" id="advanceSearch"><i class="md md-add"></i>Search</a>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover mails m-0 table table-actions-bar" id="tblPatients">
+                        @*<table class="table table-hover table-striped" id="tblPatients">*@
+                        <thead>
+                            <tr>
+                                <th class="hidden">Patient ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Contact No.</th>
+
+                                <th>Edit Patient</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <tr class='not-found'>
                                 <td>
                                     <p class='text-center'>No results found on search.</p>
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
-                    </div> <!-- end table responsive -->
-                </div> <!-- end card-box -->
-                @*<div class="text-right">
+                        </tbody>
+                    </table>
+                </div> <!-- end table responsive -->
+            </div> <!-- end card-box -->
+            @*<div class="text-right">
                     <ul class="pagination pagination-split m-t-0">
                         <li class="disabled">
                             <a href="#"><i class="fa fa-angle-left"></i></a>
@@ -543,38 +493,14 @@
                     </ul>
                 </div>*@
 
-            </div> <!-- end col -->
+        </div> <!-- end col -->
 
-
-        </div>
-        <!-- end row -->
 
     </div>
+    <!-- end row -->
 
-    <script>
-        var resizefunc = [];
-    </script>
+</div>
 
-    <!-- jQuery  -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/modals.js"></script>
-    <script src="/js/detect.js"></script>
-    <script src="/js/fastclick.js"></script>
-    <script src="/js/jquery.blockUI.js"></script>
-    <script src="/js/waves.js"></script>
-    <script src="/js/jquery.slimscroll.js"></script>
-    <script src="/js/jquery.scrollTo.min.js"></script>
-    @*<script src="../plugins/switchery/switchery.min.js"></script>*@
-
-    <!-- App js -->
-    <script src="/js/jquery.core.js"></script>
-    <script src="/js/jquery.app.js"></script>
-
-    <!-- Modal-Effect -->
-    <script src="../plugins/custombox/js/custombox.min.js"></script>
-    <script src="../plugins/custombox/js/legacy.min.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
-
+<script>
+    var resizefunc = [];
+</script>

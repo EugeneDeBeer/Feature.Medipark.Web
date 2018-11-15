@@ -25,46 +25,6 @@ namespace Feature.OHS.Web.Controllers
         {
             return View();
         }
-        
-        public string GetPatients()
-        {
-            try
-            {
-                var patients = _patientHandler.GetPatients();                
-
-                return patients;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        [HttpGet("AdvanceSearch")]
-        public async Task<IActionResult> Get(SearchParams searchParams)
-        {
-            try
-            {
-                if (searchParams == null) return StatusCode((int)System.Net.HttpStatusCode.NotFound);
-
-                //var result = await _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
-                var result = _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
-                if (result != null)
-                {
-                    //var model = _pagingHandler.GetPagingInfo(new SearchParams(), result);
-
-                    //Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
-
-                    return StatusCode((int)System.Net.HttpStatusCode.OK, JsonConvert.SerializeObject(result));
-                }
-                else
-                    return NoContent();
-            }
-            catch (Exception e)
-            {
-                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = e.Message.ToString() });
-            }
-        }
 
         // GET: Patient/Details/5
         public ActionResult Details(int id)
@@ -72,26 +32,27 @@ namespace Feature.OHS.Web.Controllers
             return View();
         }
 
-        // GET: Patient/Create
+
+       
         public ActionResult Create()
         {
-            return View(new PatientViewModel());
+            return View(new PatientPayloadViewModel());
         }
 
         // POST: Patient/Create
         [HttpPost]
-        public ActionResult CreatePatient(PatientViewModel model)
+        public ActionResult CreatePatient(PatientPayloadViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    model.UserId = 1;   //  To be changed to the UserId of the person who'll be logged in
+                    model.UserId = 1;
                     var result =  _patientHandler.AddPatient(model);
                     PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
-                catch(Exception ex)
+                catch
                 {
                     return View();
                 }
@@ -104,7 +65,7 @@ namespace Feature.OHS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateContact(PatientViewModel model)
+        public ActionResult CreateContact(PatientPayloadViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -134,49 +95,45 @@ namespace Feature.OHS.Web.Controllers
         }
 
         // GET: Patient/Edit/5
-        public ActionResult Edit(int id, bool includeAllDetails = true)
+        
+
+        public IActionResult Patients()
         {
-            try
-            {
-                var result = _patientHandler.GetPatient(id, includeAllDetails);
-
-                if (result == null) return View();
-
-                PatientViewModel patient = JsonConvert.DeserializeObject<PatientViewModel>(JsonConvert.SerializeObject(result));
-
-                return View(patient);
-
-                //if(patient == null) return RedirectToAction(nameof(Create));
-
-                //return View("Create", patient);
-            }
-            catch (Exception ex)
-            {
-                return RedirectToAction(nameof(Create));
-            }
-
+            var patient = _patientHandler.Patients;
+            return View("~/Views/Patient/Index.cshtml", patient);
         }
 
-        // POST: Patient/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, PatientViewModel model)
+        public ActionResult EditPatient(PatientPayloadViewModel patientViewModel)
         {
-            return RedirectToAction(nameof(Index));
-            //try
-            //{
-            //    var result =  _patientHandler.UpdatePatient(model);
-
-            //    if(result)
-            //        return RedirectToAction(nameof(Index));
-
-            //    return View(model);
-            //}
-            //catch
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
+             var result = _patientHandler.UpdatePatient(patientViewModel);
+                return RedirectToAction(nameof(Index));
+           
+              
         }
 
+        public IActionResult EditPatient(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var user = _patientHandler.GetPatientByIdNumber(id);
+          //  var _nokVM = new NextOfKinViewModel();
+           // var tupleData = new Tuple<PatientViewModel, NextOfKinViewModel>(user, _nokVM);
+          
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Patient/Edit.cshtml", user);
+        }
+
+        public IActionResult Edit()
+        {
+          
+            return View("~/Views/Patient/Edit.cshtml");
+        }
         // GET: Patient/Delete/5
         public ActionResult Delete(int id)
         {
@@ -197,6 +154,31 @@ namespace Feature.OHS.Web.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AdvanceSearch(SearchParams searchParams)
+        {
+            try
+            {
+                if (searchParams == null) return StatusCode((int)System.Net.HttpStatusCode.NotFound);
+                
+                var result = await _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                if (result != null)
+                {
+                    //var model = _pagingHandler.GetPagingInfo(new SearchParams(), result);
+
+                    //Response.Headers.Add("X-Pagination", model.GetHeader().ToJson());
+
+                    return StatusCode((int)System.Net.HttpStatusCode.OK, JsonConvert.SerializeObject(result));
+                }
+                else
+                    return NoContent();
+            }
+            catch (Exception e)
+            {
+                return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = e.Message.ToString() });
             }
         }
     }
