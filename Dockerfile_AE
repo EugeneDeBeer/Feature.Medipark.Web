@@ -1,4 +1,4 @@
-FROM microsoft/dotnet
+FROM microsoft/aspnetcore
 MAINTAINER MGIBA Technologies
 
 #Get argument list
@@ -19,7 +19,7 @@ RUN dotnet test
 
 #Set working directory to app folder
 WORKDIR /app/${folder}
-
+€
 #Expose Port 80 for web traffic
 EXPOSE 8080
 ENV ASPNETCORE_URLS http://+:8080

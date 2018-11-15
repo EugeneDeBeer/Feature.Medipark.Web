@@ -83,4 +83,4 @@ namespace Feature.OHS.Web.ViewModels
         public int CityId { get; set; }
         public int PostCodeId { get; set; }
     }
-    }
+  }
