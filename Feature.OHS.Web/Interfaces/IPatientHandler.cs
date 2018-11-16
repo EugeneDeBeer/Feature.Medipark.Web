@@ -19,5 +19,7 @@ namespace Feature.OHS.Web.Interfaces
         dynamic UpdatePatient(PatientPayloadViewModel model);
 
         Task<dynamic> SearchPatients(SearchParams condition, bool exactSearch = false);
+        List<PatientPayloadViewModel> GetPatients();
+        PatientPayloadViewModel GetPatientByPersonId(int personId);
     }
 }
