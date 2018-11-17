@@ -32,16 +32,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    //$('#paymentOptions').on('change', function() {
-    //    var option = $(this).val();
-    //    if (option == 'medicalaid') {
-    //        var fieldset = $('#paymentOptions').closest('fieldset');
-    //        fieldset.children('.form-control [readonly]').toggle();
-    //    }
-    //});
-
-    
 });
 
 //utility function
