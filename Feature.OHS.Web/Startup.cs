@@ -32,6 +32,7 @@ namespace Feature.OHS.Web
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<IStaffHandler, StaffHandler>();
+            services.AddTransient<IWard, WardHandler>();
 
             services.AddTransient<INurseHandler, NurseHandler>();
         }
