@@ -171,6 +171,7 @@
                     type: 'GET',
                     //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
                     url: '/Patient/AdvanceSearch',
+
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     //data: getFormData(searchParams),
@@ -206,25 +207,25 @@
                                 line = '<tr>';
                                 line +=
                                     `
-                                    <td class="hidden">
-                                        ${row.PatientId}
-                                    </td>
-                                    <td>
-                                        ${row.FirstName}
-                                    </td>
-                                    <td>
-                                        ${row.LastName}
-                                    </td>
-                                    <td>
-                                        ${row.Email1}
-                                    </td>
-                                    <td>
-                                        ${row.CellPhone}
-                                    </td>
-                                    <td>
-                                        <a href="/Patient/EditPatient/${row.IdNumber}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
-                                    </td>
-                                    `;
+                                        <td class="hidden">
+                                            ${row.PatientId}
+                                        </td>
+                                        <td>
+                                            ${row.FirstName}
+                                        </td>
+                                        <td>
+                                            ${row.LastName}
+                                        </td>
+                                        <td>
+                                            ${row.Email1}
+                                        </td>
+                                        <td>
+                                            ${row.CellPhone}
+                                        </td>
+                                        <td>
+                                            <a href="/Patient/EditPatient/${row.IdNumber}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                        </td>
+                                        `;
                                 line += '</tr>';
                                 $("#tblPatients tbody").append(line);
                             });
@@ -238,7 +239,7 @@
                         console.log(error);
                     }
                 });
-                
+
             });
 
             //  Filtering data table
@@ -249,7 +250,7 @@
                 var filter, table, tr, firstName, lastName, email, i;
 
                 filter = searchKey.toUpperCase();
-                        /*table = $("#tblPatients"); document.getElementById("tblPatients")*/;
+                            /*table = $("#tblPatients"); document.getElementById("tblPatients")*/;
                 tr = $("#tblPatients tr");/*table.getElementsByTagName("tr");*/
 
                 for (i = 0; i < tr.length; i++) {
@@ -308,26 +309,26 @@
                                 line = '<tr>';
                                 line +=
                                     `
-                                    <td class="hidden">
-                                        ${row.PatientId}
-                                    </td>
-                                    <td>
-                                        ${row.FirstName}
-                                    </td>
-                                    <td>
-                                        ${row.LastName}
-                                    </td>
-                                    <td>
-                                        ${row.Email1}
-                                    </td>
-                                    <td>
-                                        ${row.CellPhone}
-                                    </td>
-                                    <td>
-                                        <a href="/Patient/EditPatient/${row.PatientId
+                                        <td class="hidden">
+                                            ${row.PatientId}
+                                        </td>
+                                        <td>
+                                            ${row.FirstName}
+                                        </td>
+                                        <td>
+                                            ${row.LastName}
+                                        </td>
+                                        <td>
+                                            ${row.Email1}
+                                        </td>
+                                        <td>
+                                            ${row.CellPhone}
+                                        </td>
+                                        <td>
+                                            <a href="/Patient/EditPatient/${row.PatientId
                                     }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
-                                    </td>
-                                    `;
+                                        </td>
+                                        `;
                                 line += '</tr>';
                                 $("#tblPatients tbody").append(line);
                             });

@@ -66,7 +66,7 @@ namespace Feature.OHS.Web.Domain
             
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "/v1/Person/PersonDetails", "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetPatients", "http://localhost:50566", "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<PatientPayloadViewModel>>(request.Message);
@@ -150,7 +150,7 @@ namespace Feature.OHS.Web.Domain
             throw new NotImplementedException();
         }
 
-        public Task<dynamic> SearchPatients(SearchParams condition, bool exactSearch = false)
+        public dynamic SearchPatients(SearchParams condition, bool exactSearch = false)
         {
             try
             {

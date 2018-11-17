@@ -42,15 +42,15 @@ namespace Feature.OHS.Web.ViewModels
  
         public sbyte? IsActive { get; set; }
 
-        //next of kin
+        ////next of kin
 
-        public string Allergies { get; set; }
-        public string NokFirstName { get; set; }
-        public string NokLastName { get; set; }
-        public string NokEmail1 { get; set; }
-        public string NokAddress1 { get; set; }
-        public string NokAddress2 { get; set; }
-        public string NokAddress3 { get; set; }
-        public string NokCellPhone { get; set; }
+        //public string Allergies { get; set; }
+        //public string NokFirstName { get; set; }
+        //public string NokLastName { get; set; }
+        //public string NokEmail1 { get; set; }
+        //public string NokAddress1 { get; set; }
+        //public string NokAddress2 { get; set; }
+        //public string NokAddress3 { get; set; }
+        //public string NokCellPhone { get; set; }
     }
 }

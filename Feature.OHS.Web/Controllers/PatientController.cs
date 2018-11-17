@@ -160,13 +160,13 @@ namespace Feature.OHS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AdvanceSearch(SearchParams searchParams)
+        public IActionResult AdvanceSearch(SearchParams searchParams)
         {
             try
             {
                 if (searchParams == null) return StatusCode((int)System.Net.HttpStatusCode.NotFound);
                 
-                var result = await _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
+                var result =  _patientHandler.SearchPatients(searchParams, searchParams.ExactSearch);
                 if (result != null)
                 {
                     //var model = _pagingHandler.GetPagingInfo(new SearchParams(), result);
