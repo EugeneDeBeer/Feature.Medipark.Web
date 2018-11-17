@@ -28,9 +28,13 @@ namespace Feature.OHS.Web
             services.AddMvc();
 
             services.AddTransient<IPatientHandler, PatientHandler>();
+            services.AddTransient<IDoctorHandler, DoctoHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<IStaffHandler, StaffHandler>();
+            services.AddTransient<IWard, WardHandler>();
+
+            services.AddTransient<INurseHandler, NurseHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

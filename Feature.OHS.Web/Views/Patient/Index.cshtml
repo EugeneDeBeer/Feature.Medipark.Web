@@ -16,11 +16,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
     @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>*@
 
-    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
 
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
@@ -28,20 +27,18 @@
     <script type="text/javascript">
 
         $(function () {
+            $('.not-found').hide();
 
-            //$("#tblSearch").on('click', function() {
-            //    //e.preventDefault();
+            function getFormData(data) {
+                var unindexed_array = data;
+                var indexed_array = {};
 
-            //    var searchKey = $("#search-input").val();
+                $.map(unindexed_array, function (n, i) {
+                    indexed_array[n['name']] = n['value'];
+                });
 
-            //    alert("Searching for: " + searchKey);
-            //});
-
-            var params = {
-                firstName: 'check 4',
-                lastName: 'check 4',
-                exactSearch: true
-            };
+                return indexed_array;
+            }
 
             /*
             $('#tblPatients').DataTable({
@@ -63,10 +60,11 @@
             });
             */
 
-
+            /*
             $.ajax({
                 type: 'GET',
-                url: 'http://localhost:50566/v1/Patient/GetPatients',
+                //url: 'http://localhost:50566/v1/Patient/GetPatients',
+                url: '/Patient/GetPatients',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 //data: params,
@@ -95,7 +93,8 @@
                                 ${row.HomeTel}
                             </td>
                             <td>
-                                <a href="/Patient/Edit/${row.PatientId}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                <a href="/Patient/Edit/${row.PatientId
+                                }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
                             </td>
                             `;
                             line += '</tr>';
@@ -130,6 +129,7 @@
                     console.log(error);
                 }
             });
+            */
 
             /*
             $('#tblPatients').DataTable({
@@ -158,89 +158,316 @@
             });
             */
 
+            //  Get table data
+            //tblSearch
+            $('#tblSearch').click(() => {
+
+                var searchParams = {
+                    firstName: $("#search-input").val(),
+                    lastName: $("#search-input").val()
+                };
+
+                $.ajax({
+                    type: 'GET',
+                    //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    url: '/Patient/AdvanceSearch',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    //data: getFormData(searchParams),
+                    data: searchParams,
+                    success: function (res) {
+
+                        $("#tblPatients tbody tr").remove();
+
+                        var results = JSON.parse(res);
+
+                        if (results == null || results == undefined || results == '') {
+                            console.log("Results are empty!!");
+                            $('.not-found').show();
+                            /*
+                            var row =
+                                "<tr class='not-found'>" +
+                                    "<td>" +
+                                        "<p class='text-center'>No result found on advanced search.</p>" +
+                                    "</td>" +
+                                "</tr>";
+
+                            $("#tblPatients tbody").append(row);
+                            */
+                        } else if (results.length > 0) {
+                            $('.not-found').hide();
+
+                            //console.log(results);
+
+                            var line = null;
+                            $.each(results, (i, row) => {
+                                //    console.log(`${row.PatientId}`);
+
+                                line = '<tr>';
+                                line +=
+                                    `
+                                    <td class="hidden">
+                                        ${row.PatientId}
+                                    </td>
+                                    <td>
+                                        ${row.FirstName}
+                                    </td>
+                                    <td>
+                                        ${row.LastName}
+                                    </td>
+                                    <td>
+                                        ${row.Email1}
+                                    </td>
+                                    <td>
+                                        ${row.CellPhone}
+                                    </td>
+                                    <td>
+                                        <a href="/Patient/EditPatient/${row.IdNumber}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                    </td>
+                                    `;
+                                line += '</tr>';
+                                $("#tblPatients tbody").append(line);
+                            });
+
+                            //$("#tblPatients tbody").append(line);
+                        }
+
+
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+                
+            });
+
+            //  Filtering data table
+            $("#search-input").keyup(function () {
+
+                var searchKey = $(this).val();
+
+                var filter, table, tr, firstName, lastName, email, i;
+
+                filter = searchKey.toUpperCase();
+                        /*table = $("#tblPatients"); document.getElementById("tblPatients")*/;
+                tr = $("#tblPatients tr");/*table.getElementsByTagName("tr");*/
+
+                for (i = 0; i < tr.length; i++) {
+                    firstName = tr[i].getElementsByTagName("td")[1];
+                    lastName = tr[i].getElementsByTagName("td")[2];
+                    email = tr[i].getElementsByTagName("td")[3];
+
+                    if (firstName) {
+                        if (firstName.innerHTML.toUpperCase().indexOf(filter) > -1 || lastName.innerHTML.toUpperCase().indexOf(filter) > -1
+                            || email.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            });
+
+            $('#advanceSearch').click(() => {
+
+                var searchParams = $('#add-patient').serializeArray();
+                //advancedSearch();
+
+                $.ajax({
+                    type: 'GET',
+                    //url: 'http://localhost:50566/v1/Patient/AdvanceSearch',
+                    url: '/Patient/AdvanceSearch',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    data: getFormData(searchParams),
+                    success: function (res) {
+
+                        $("#tblPatients tr").remove();
+
+                        var results = JSON.parse(res);
+
+                        if (results === null || results === undefined) {
+                            $('.not-found').show();
+                            /*
+                            var row =
+                                "<tr class='not-found'>" +
+                                    "<td>" +
+                                        "<p class='text-center'>No result found on advanced search.</p>" +
+                                    "</td>" +
+                                "</tr>";
+
+                            $("#tblPatients tbody").append(row);
+                            */
+                        } else if (results.length > 0) {
+                            $('.not-found').hide();
+
+                            console.log(results);
+
+                            var line = null;
+                            $.each(res, (i, row) => {
+                                line = '<tr>';
+                                line +=
+                                    `
+                                    <td class="hidden">
+                                        ${row.PatientId}
+                                    </td>
+                                    <td>
+                                        ${row.FirstName}
+                                    </td>
+                                    <td>
+                                        ${row.LastName}
+                                    </td>
+                                    <td>
+                                        ${row.Email1}
+                                    </td>
+                                    <td>
+                                        ${row.CellPhone}
+                                    </td>
+                                    <td>
+                                        <a href="/Patient/EditPatient/${row.PatientId
+                                    }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                    </td>
+                                    `;
+                                line += '</tr>';
+                                $("#tblPatients tbody").append(line);
+                            });
+
+                            //$("#tblPatients tbody").append(line);
+                        }
+
+
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+
+                //var form = $(this).closest('form');
+
+                //console.log(form);
+                //console.log(form.serialize());
+                //console.log(form.serializeArray());
+                //    var form = $(this).closest('form').serializeArray();
+                //    var formData = getFormData(form);
+
+                //    console.log(formData);
+            });
         });
 
     </script>
 }
 
 <!-- Begin page -->
-    <div id="wrapper">
+<div id="wrapper">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="page-title-box">
-                    <h4 class="page-title">Patients </h4>
-                    <ol class="breadcrumb p-0 m-0">
-                        <li>
-                            <a href="#">Medipark</a>
-                        </li>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Patients </h4>
+                <ol class="breadcrumb p-0 m-0">
+                    <li>
+                        <a href="#">Medipark</a>
+                    </li>
 
-                        <li class="active">
-                            Patients
-                        </li>
-                    </ol>
-                    <div class="clearfix"></div>
-                </div>
+                    <li class="active">
+                        Patients
+                    </li>
+                </ol>
+                <div class="clearfix"></div>
             </div>
         </div>
-        <!-- end row -->
+    </div>
+    <!-- end row -->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card-box">
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <form>
-                                <div class="form-group search-box">
-                                    <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
-                                    <button type="button" class="btn btn-search" id="tblSearch"><i class="fa fa-search"></i></button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
-                        </div>
-                        <div class="col-sm-2">
-                            @*<a href="add-patient.html" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Patient</a>*@
-                            <a asp-area="" asp-controller="Patient" asp-action="Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Patient</a>
-                        </div>
-
-                        <div class="col-sm-8" id="advanced-search">
-                            <form>
-                                <div class="form-group search-box">
-
-                                    <input for="checkbox5" type="checkbox"> ID Number
-
-                                    <input type="checkbox" name="sameaddress" value="" id=""> First Name
-
-                                    <input type="checkbox" name="sameaddress" value="" id=""> Patient ID
-
-                                </div>
-                            </form>
-                        </div>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-box">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <form>
+                            <div class="form-group search-box">
+                                <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
+                                <button type="button" class="btn btn-search" id="tblSearch"><i class="fa fa-search"></i></button>
+                            </div>
+                        </form>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-hover mails m-0 table table-actions-bar" id="tblPatients">
-                            @*<table class="table table-hover table-striped" id="tblPatients">*@
-                            <thead>
-                                <tr>
-                                    <th class="hidden">Patient ID</th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Email</th>
-                                    <th>Contact No.</th>
+                    <div class="col-sm-2">
+                        <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a asp-area="" asp-controller="Patient" asp-action="Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Patient</a>
+                    </div>
 
-                                    <th>Edit Patient</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div> <!-- end table responsive -->
-                </div> <!-- end card-box -->
-                @*<div class="text-right">
+                    <div class="col-sm-8" id="advanced-search">
+                        <form id="add-patient">
+                            <fieldset>
+                                <h2 class="fs-title">ADVANCE SEARCH</h2>
+                                <h3 class="fs-subtitle"></h3>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="firstName">FirstName</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="idNumber">ID Number</label>
+                                            <input type="text" class="form-control" id="idNumber" name="idNumber" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="homeTel">Home Tel</label>
+                                            <input type="text" class="form-control" id="homeTel" name="homeTel" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="lastName">LastName</label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="dateOfBirth">Date Of Birth</label>
+                                            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="workTel">Work Tel</label>
+                                            <input type="text" class="form-control" id="workTel" name="workTel" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <a class="btn btn-block btn-success btn-rounded btn-md waves-effect waves-light m-b-30" id="advanceSearch"><i class="md md-add"></i>Search</a>
+                            </fieldset>
+                        </form>
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover mails m-0 table table-actions-bar" id="tblPatients">
+                        @*<table class="table table-hover table-striped" id="tblPatients">*@
+                        <thead>
+                            <tr>
+                                <th class="hidden">Patient ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Contact No.</th>
+
+                                <th>Edit Patient</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class='not-found'>
+                                <td>
+                                    <p class='text-center'>No results found on search.</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- end table responsive -->
+            </div> <!-- end card-box -->
+            @*<div class="text-right">
                     <ul class="pagination pagination-split m-t-0">
                         <li class="disabled">
                             <a href="#"><i class="fa fa-angle-left"></i></a>
@@ -266,267 +493,14 @@
                     </ul>
                 </div>*@
 
-            </div> <!-- end col -->
+        </div> <!-- end col -->
 
-
-        </div>
-        <!-- end row -->
 
     </div>
-<!-- END wrapper -->
-<!-- Modal -->
-<div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <h4 class="custom-modal-title">Add New Patient</h4>
-            <div class="custom-modal-text text-left">
+    <!-- end row -->
 
-
-                <!-- Modal -info -->
-                <form class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
-                    <ul id="progressbar">
-                        <li class="active">User Information</li>
-                        <li>Work Information</li>
-                        <li>Next of kin </li>
-                        <li>Pre-Bookings</li>
-                        <li>Bed & Ward occupancy</li>
-
-                    </ul>
-
-
-
-                    <!-- USER INFORMATION FIELD SET -->
-                    <fieldset>
-                        <h2 class="fs-title">Basic Information</h2>
-                        <h3 class="fs-subtitle"></h3>
-                        <!-- Begin What's Your First Name Field -->
-                        <div class="hs_firstname field hs-form-field">
-
-                            <label for="title">Title</label>
-                            <select name="title" class="form-control" id="title" placeholder="">
-                                <option value="title">Title</option>
-                                <option value="mr">Mr</option>
-                                <option value="mrs">Mrs</option>
-                                <option value="miss">Miss</option>
-
-                            </select>
-
-                            <span class="error1" style="display: none;">
-                                <i class="error-log fa fa-exclamation-triangle"></i>
-                            </span>
-                        </div>
-                        <!-- End What's Your First Name Field -->
-
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dateOfBirth">Date of Birth</label>
-                            <input type="date" class="form-control" id="dateOfBirth" placeholder="Enter last name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="genderId">Gender</label>
-                            <select name="genderId" class="form-control" id="gender" placeholder="">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="middleName">Middle Name</label>
-                            <input type="text" class="form-control" id="middleName" placeholder="Middle Name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="initials">Initials</label>
-                            <input type="text" class="form-control" id="initials" placeholder="Initials">
-                        </div>
-
-                        <!-- End Total Number of Constituents in Your Database Field -->
-                        <input type="button" data-page="1" name="next" class="next action-button" value="Next" />
-
-                    </fieldset>
-
-
-
-                    <!-- ACQUISITION FIELD SET -->
-                    <fieldset>
-                        <h2 class="fs-title">Work Information</h2>
-
-                        <div class="form-group">
-                            <label for="occupation">Occupation</label>
-                            <input type="text" class="form-control" id="occupation" placeholder="Occupation">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="creatorId">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Email">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="busAddress">Business Address</label>
-                            <input type="text" class="form-control" id="busAddress" placeholder="Business Address">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="busPostCode">Business Postal Code</label>
-                            <input type="text" class="form-control" id="busPostCode" placeholder="Business Postal Code">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="busName">Business Name</label>
-                            <input type="text" class="form-control" id="busName" placeholder="Business Name">
-                        </div>
-
-                        <!-- End Calc of Total Number of Donors Fields -->
-                        <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" data-page="2" name="next" class="next action-button" value="Next" />
-
-                    </fieldset>
-
-
-
-                    <!-- Cultivation FIELD SET -->
-                    <fieldset>
-                        <h2 class="fs-title">Next of kin</h2>
-                        <h3 class="fs-subtitle"></h3>
-                        <div class="hs_firstname field hs-form-field">
-
-                            <label for="title">Title</label>
-                            <select name="title" class="form-control" id="title" placeholder="">
-                                <option value="title">Title</option>
-                                <option value="mr">Mr</option>
-                                <option value="mrs">Mrs</option>
-                                <option value="miss">Miss</option>
-
-                            </select>
-
-                            <span class="error1" style="display: none;">
-                                <i class="error-log fa fa-exclamation-triangle"></i>
-                            </span>
-                        </div>
-                        <!-- End What's Your First Name Field -->
-
-                        <div class="form-group">
-                            <label for="firstName">First Name</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="Enter first name">
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="lastName">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Enter last name">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dateOfBirth">Contact number</label>
-                            <input type="number" class="form-control" id="dateOfBirth" placeholder="Enter number">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="genderId">Gender</label>
-                            <select name="genderId" class="form-control" id="gender" placeholder="">
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-
-                            </select>
-
-                        </div>
-
-
-
-
-                        <!-- End Average Gift Size Perchent Change Field -->
-                        <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" data-page="3" name="next" class="next action-button" value="Next" />
-
-                    </fieldset>
-
-
-
-                    <!-- Cultivation2 FIELD SET -->
-                    <fieldset>
-                        <h2 class="fs-title">Pre Pre-Bookings</h2>
-                        <h3 class="fs-subtitle"></h3>
-
-
-                        <!-- End Average Gift Size Percent Change Field 2 -->
-                        <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
-                        <input type="button" data-page="4" name="next" class="next action-button" value="Next" />
-
-                    </fieldset>
-
-
-
-                    <!-- RETENTION FIELD SET -->
-                    <fieldset>
-                        <h2 class="fs-title">Bed & Ward Occupancy</h2>
-                        <h3 class="fs-subtitle"></h3>
-
-
-
-                        <!-- End Retention Rate Percent -->
-                        <!-- End Final Calc -->
-                        <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
-                        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
-
-                    </fieldset>
-
-                    <fieldset>
-                        <h2 class="fs-title">It's on the way!</h2>
-                        <h3 class="fs-subtitle">Thank you for trying out our marketing grader, please go check your email for your fundraising report card and some helpful tips to improve it!</h3>
-                        <div class="explanation btn btn-small modal-trigger" data-modal-id="modal-3">What Is This?</div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
-    <script>
-        var resizefunc = [];
-    </script>
-
-    <!-- jQuery  -->
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/modals.js"></script>
-    <script src="/js/detect.js"></script>
-    <script src="/js/fastclick.js"></script>
-    <script src="/js/jquery.blockUI.js"></script>
-    <script src="/js/waves.js"></script>
-    <script src="/js/jquery.slimscroll.js"></script>
-    <script src="/js/jquery.scrollTo.min.js"></script>
-    @*<script src="../plugins/switchery/switchery.min.js"></script>*@
-
-    <!-- App js -->
-    <script src="/js/jquery.core.js"></script>
-    <script src="/js/jquery.app.js"></script>
-
-    <!-- Modal-Effect -->
-    <script src="../plugins/custombox/js/custombox.min.js"></script>
-    <script src="../plugins/custombox/js/legacy.min.js"></script>
-
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
-
+<script>
+    var resizefunc = [];
+</script>

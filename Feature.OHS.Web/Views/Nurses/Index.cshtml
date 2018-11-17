@@ -1,4 +1,245 @@
-﻿@model IEnumerable<Feature.OHS.Web.ViewModels.StaffPayloadViewModel>
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*@section styles{
+        <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+        <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet" />
+    }*@
+
+@section Scripts{
+    <!-- HTML5 Shiv and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    @*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>*@
+
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.datatables.net/responsive/2.1.1/css/responsive.bootstrap.min.css" rel="stylesheet"/>
+
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap4.min.js "></script>
+
+    <script type="text/javascript">
+
+        $(function() {
+            $('.not-found').hide();
+
+            function getFormData(data) {
+                var unindexed_array = data;
+                var indexed_array = {};
+
+                $.map(unindexed_array,
+                    function(n, i) {
+                        indexed_array[n['name']] = n['value'];
+                    });
+
+                return indexed_array;
+            }
+
+            //  Get table data
+            //tblSearch
+            $('#tblSearch').click(() => {
+
+                var searchParams = {
+                    firstName: $("#search-input").val(),
+                    lastName: $("#search-input").val()
+                };
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:50566/api/v1/Nurse/AdvanceSearch',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    //async:true,
+                    data: searchParams,
+                    success: function(res) {
+
+                        results = JSON.parse(res);
+                        console.log(results);
+                        console.log(results.length);
+
+                        $("#tblNurses tbody tr").remove();
+
+                        //$.each(res,
+                        //    (i, row) => {
+                        //        var line = '<tr>';
+                        //        line +=
+                        //            `
+                        //        <td class="hidden">
+                        //            ${row.NurseId}
+                        //        </td>
+                        //        <td>
+                        //            ${row.FirstName}
+                        //        </td>
+                        //        <td>
+                        //            ${row.LastName}
+                        //        </td>
+                        //        <td>
+                        //            ${row.Email1}
+                        //        </td>
+                        //        <td>
+                        //            ${row.CellPhone}
+                        //        </td>
+                        //        <td>
+                        //            <a href="/Nurses/Edit/${row.NurseId}" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                        //        </td>
+                        //        `;
+                        //        line += '</tr>';
+                        //        $("#tblNurses tbody").append(line);
+                        //    });
+
+                        if (results === null || results === undefined || results.length <= 0) {
+                            $('.not-found').show();
+                        } else if (results.length > 0) {
+                            $('.not-found').hide();
+
+                            var line = null;
+                            $.each(results,
+                                (i, row) => {
+                                    line = '<tr>';
+                                    line +=
+                                        `
+                                <td class="hidden">
+                                    ${row.NurseId}
+                                </td>
+                                <td>
+                                    ${row.FirstName}
+                                </td>
+                                <td>
+                                    ${row.LastName}
+                                </td>
+                                <td>
+                                    ${row.Email1}
+                                </td>
+                                <td>
+                                    ${row.CellPhone}
+                                </td>
+                                <td>
+                                    <a href="/Nurses/Edit/${row.NurseId
+                                        }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                </td>
+                                `;
+                                    line += '</tr>';
+                                    $("#tblNurses tbody").append(line);
+
+                                    console.log(`${i + 1}: ${line}`)
+                                });
+
+                            $("#tblNurses tbody").append(line);
+                        }
+
+                        //$("#tblNurses tbody").append(line);
+
+
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+            });
+
+            //  Filtering data table
+            $("#search-input").keyup(function() {
+
+                var searchKey = $(this).val();
+
+                var filter, table, tr, firstName, lastName, email, i;
+
+                filter = searchKey.toUpperCase();
+
+                tr = $("#tblNurses tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    firstName = tr[i].getElementsByTagName("td")[1];
+                    lastName = tr[i].getElementsByTagName("td")[2];
+                    email = tr[i].getElementsByTagName("td")[3];
+
+                    if (firstName) {
+                        if (firstName.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                            lastName.innerHTML.toUpperCase().indexOf(filter) > -1 ||
+                            email.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            });
+
+            $('#advanceSearch').click(() => {
+
+                var searchParams = $('#add-patient').serializeArray();
+                advancedSearch();
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:50566/api/v1/Nurse/AdvanceSearch',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: true,
+                    data: getFormData(searchParams),
+                    success: function(res) {
+
+                        $("#tblNurses tbody tr").remove();
+
+                        var results = JSON.parse(res);
+
+                        if (results === null || results === undefined || results.length <= 0) {
+                            $('.not-found').show();
+                        } else if (results.length > 0) {
+                            $('.not-found').hide();
+
+                            var line = null;
+                            $.each(results,
+                                (i, row) => {
+                                    line = '<tr>';
+                                    line +=
+                                        `
+                                <td class="hidden">
+                                    ${row.NurseId}
+                                </td>
+                                <td>
+                                    ${row.FirstName}
+                                </td>
+                                <td>
+                                    ${row.LastName}
+                                </td>
+                                <td>
+                                    ${row.Email1}
+                                </td>
+                                <td>
+                                    ${row.CellPhone}
+                                </td>
+                                <td>
+                                    <a href="/Nurses/Edit/${row.NurseId
+                                        }" class="table-action-btn h3"><i class="mdi mdi-pencil-box-outline text-success"></i></a>
+                                </td>
+                                `;
+                                    line += '</tr>';
+                                    $("#tblNurses tbody").append(line);
+                                });
+
+                            //$("#tblNurses tbody").append(line);
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+
+            });
+        });
+
+    </script>
+}
+
+<!-- Begin page -->
 <div id="wrapper">
 
     <div class="row">
@@ -27,8 +268,8 @@
                     <div class="col-sm-8">
                         <form>
                             <div class="form-group search-box">
-                                <input type="text" id="search-input" name="searchQuery" class="form-control product-search" placeholder="Search here...">
-                                <button type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></button>
+                                <input type="text" id="search-input" class="form-control product-search" placeholder="Search here...">
+                                <button type="button" class="btn btn-search" id="tblSearch"><i class="fa fa-search"></i></button>
                             </div>
                         </form>
                     </div>
@@ -37,121 +278,80 @@
                         <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
                     </div>
                     <div class="col-sm-2">
-                        <a href="add-doctor.html" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
+                        <a asp-area="" asp-controller="Nurses" asp-action="Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Nurses</a>
                     </div>
 
                     <div class="col-sm-8" id="advanced-search">
-                        <form>
-                            <div class="form-group search-box">
+                        <form id="add-patient">
+                            <fieldset>
+                                <h2 class="fs-title">ADVANCE SEARCH</h2>
+                                <h3 class="fs-subtitle"></h3>
+                                <div class="row">
+                                    @*<div class="col-lg-12">*@
+                                    <div class="col-lg-6">
 
-                                <input for="checkbox5" type="checkbox"> ID Number
+                                        <div class="form-group form-inline">
+                                            <label for="firstName">FirstName</label>
+                                            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="idNumber">ID Number</label>
+                                            <input type="text" class="form-control" id="idNumber" name="idNumber" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="homeTel">Home Tel</label>
+                                            <input type="text" class="form-control" id="homeTel" name="homeTel" placeholder="">
+                                        </div>
 
-                                <input type="checkbox" name="sameaddress" value="" id=""> First Name
+                                    </div>
 
-                                <input type="checkbox" name="sameaddress" value="" id=""> Patient ID
-
-                            </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="lastName">LastName</label>
+                                            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="dateOfBirth">Date Of Birth</label>
+                                            <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="workTel">Work Tel</label>
+                                            <input type="text" class="form-control" id="workTel" name="workTel" placeholder="">
+                                        </div>
+                                    </div>
+                                    @*</div>*@
+                                </div>
+                                <div class="clearfix"></div>
+                                <a class="btn btn-block btn-success btn-rounded btn-md waves-effect waves-light m-b-30" id="advanceSearch"><i class="md md-add"></i>Search</a>
+                            </fieldset>
                         </form>
                     </div>
 
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-hover mails m-0 table table-actions-bar">
+                    <table class="table table-hover mails m-0 table table-actions-bar" id="tblNurses">
                         <thead>
                             <tr>
-                                <th style="width: 140px;">
-                                    <div class="checkbox checkbox-primary checkbox-single m-r-15 m-l-5">
-                                        <input id="action-checkbox" type="checkbox">
-                                        <label for="action-checkbox"></label>
-                                    </div>
-                                    <div class="btn-group dropdown m-l-10">
-                                        <button type="button" class="btn btn-default btn-xs dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false"><i class="caret"></i></button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Separated link</a></li>
-                                        </ul>
-                                    </div>
-                                </th>
-                                <th>Doctor ID</th>
-                                <th>Name</th>
-                                <th>Surname</th>
+                                <th class="hidden">Nurse ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
                                 <th>Email</th>
-                                <th>ID Number</th>
+                                <th>Contact No.</th>
 
-                                <th>Modify Doctor</th>
-
+                                <th>Edit Nurse</th>
                             </tr>
                         </thead>
-
                         <tbody>
-
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="checkbox checkbox-primary m-r-15 m-l-5">
-                                            <input id="checkbox2" type="checkbox">
-                                            <label for="checkbox2"></label>
-                                        </div>
-
-                                        <img src="assets/images/users/avatar-2.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
-                                    </td>
-                                    <td> @Html.DisplayFor(modelItem => item.PersonId)</td>
-
-                                    <td> @Html.DisplayFor(modelItem => item.FirstName)</td>
-
-                                    <td> @Html.DisplayFor(modelItem => item.LastName)</td>
-
-                                    <td> @Html.DisplayFor(modelItem => item.Email1)</td>
-
-                                    <td> @Html.DisplayFor(modelItem => item.IdNumber)</td>
-
-
-                                    <td>
-                                        <!-- <a
-                                            <i class="mdi mdi-pencil-box-outline text-success"></i>
-                                        </a>-->
-                                        @Html.ActionLink("Edit", "EditNurse", new { id = item.IdNumber }, null)
-                                    </td>
-                                </tr>
-
-                            }
-
+                            <tr class='not-found'>
+                                <td>
+                                    <p class='text-center'>No result found on advanced search.</p>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
-
                 </div> <!-- end table responsive -->
             </div> <!-- end card-box -->
-
-            <div class="text-right">
-                <ul class="pagination pagination-split m-t-0">
-                    <li class="disabled">
-                        <a href="#"><i class="fa fa-angle-left"></i></a>
-                    </li>
-                    <li>
-                        <a href="#">1</a>
-                    </li>
-                    <li class="active">
-                        <a href="#">2</a>
-                    </li>
-                    <li>
-                        <a href="#">3</a>
-                    </li>
-                    <li>
-                        <a href="#">4</a>
-                    </li>
-                    <li>
-                        <a href="#">5</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-angle-right"></i></a>
-                    </li>
-                </ul>
-            </div>
 
         </div> <!-- end col -->
 
@@ -161,87 +361,29 @@
 
 </div>
 
-<div class="modal fade" id="edit-patient" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body" id="patient-data">
-                <div class="col-lg-12">
-                    <div class="add-patient-container">
-                        <h4 class="custom-modal-title">Edit Nurse</h4>
-                        <div class="custom-modal-text text-left">
-
-
-
-
-                            <!-- Modal -info -->
-                            <form class="add-patient" action="assets/php/manage-doctor.php" method="post" id="insert-form"></form>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<!--view patient-->
-<div class="modal fade" id="dataModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Nurse Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="view-patient">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <script>
     var resizefunc = [];
 </script>
 
-@section Scripts{
-    @*<script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/modals.js"></script>
-        <script src="assets/js/manage-patient.js"></script>
-        <script src="assets/js/detect.js"></script>
-        <script src="assets/js/fastclick.js"></script>
-        <script src="assets/js/jquery.blockUI.js"></script>
-        <script src="assets/js/waves.js"></script>
-        <script src="assets/js/jquery.slimscroll.js"></script>
-        <script src="assets/js/jquery.scrollTo.min.js"></script>
-        <script src="assets/plugins/switchery/switchery.min.js"></script>
+<!-- jQuery  -->
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modals.js"></script>
+<script src="/js/detect.js"></script>
+<script src="/js/fastclick.js"></script>
+<script src="/js/jquery.blockUI.js"></script>
+<script src="/js/waves.js"></script>
+<script src="/js/jquery.slimscroll.js"></script>
+<script src="/js/jquery.scrollTo.min.js"></script>
 
-        <script src="assets/js/jquery.core.js"></script>
-        <script src="assets/js/jquery.app.js"></script>
+<!-- App js -->
+<script src="/js/jquery.core.js"></script>
+<script src="/js/jquery.app.js"></script>
 
-        <script src="../plugins/custombox/js/custombox.min.js"></script>
-        <script src="../plugins/custombox/js/legacy.min.js"></script>
+<!-- Modal-Effect -->
+<script src="../plugins/custombox/js/custombox.min.js"></script>
+<script src="../plugins/custombox/js/legacy.min.js"></script>
 
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-        <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>*@
-}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+<script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
 

@@ -1,0 +1,74 @@
+﻿@model Feature.OHS.Web.ViewModels.BedViewModel
+
+@{
+    ViewData["Title"] = "Beds Manager";
+}
+
+<h2>Beds Manager</h2>
+
+<div>    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BedId)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.BedName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.ShortName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortCode)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.Type)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.Location)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Floor)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.Size)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OccupancyStatus)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.PersonId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GenderOfOccupant)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.AllocationDateTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AllocatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayNameFor(model => model.BedType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BedRate)
+        </dt>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

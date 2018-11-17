@@ -132,5 +132,63 @@ namespace Feature.OHS.Web.Integration
                 }
             }
         }
+
+        public APIResponse ResponseFromAPIPut<T>(string serviceName, string method, T passedObject, string apiUrl, bool authenticate) where T : class
+        {
+            return ResponseFromAPIPut(serviceName, method, passedObject, apiUrl, authenticate, string.Empty);
+        }
+
+        public APIResponse ResponseFromAPIPut<T>(string serviceName, string method, T passedObject, string apiUrl, bool authenticate, string customToken) where T : class
+        {
+            var token = string.Empty;
+            if (string.IsNullOrEmpty(customToken))
+            {
+                token = authenticate ? GenerateToken(serviceName) : serviceName;
+            }
+            else
+            {
+                token = customToken;
+            }
+
+            var message = "";
+
+            var handler = new HttpClientHandler();
+
+            using (var client = new HttpClient(handler)
+            {
+                BaseAddress = new Uri(apiUrl)
+            })
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                var stringContent = JsonConvert.SerializeObject(passedObject);
+                var httpContent = new StringContent(stringContent, Encoding.UTF8, "application/json");
+
+
+                var response = client.PutAsync(method, httpContent).GetAwaiter().GetResult();
+                message = response.Content.ReadAsStringAsync().Result;
+
+                var mesTemp = message;
+
+
+                return response.IsSuccessStatusCode ? new APIResponse
+                {
+                    Success = true,
+                    Message = message,
+                    StatusCode = response.StatusCode
+                } : new APIResponse
+                {
+                    Success = false,
+                    Message = message,
+                    StatusCode = response.StatusCode
+                };
+            }
+        }
     }
 }
