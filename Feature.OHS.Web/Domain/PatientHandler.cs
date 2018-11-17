@@ -189,7 +189,7 @@ namespace Feature.OHS.Web.Domain
             try
             {
                 //var response = _integration.ResponseFromAPIGet("", v1/Patient/GetPatients , "https://dev-search-dot-medipark-hospital.appspot.com", "GET");
-                var response = _integration.ResponseFromAPIGet("", _configuration.GetValue<string>("APIEndPoints:SearchPatientList"), "http://localhost:50566/", "GET");
+                var response = _integration.ResponseFromAPIGet("", _configuration.GetValue<string>("APIEndPoints:SearchPatientList"), "https://dev-feature-ohs-search-dot-medipark-hospital.appspot.com/", "GET");
 
                 if (response != null) 
                 {
@@ -217,7 +217,7 @@ namespace Feature.OHS.Web.Domain
             try
             {
                 //var response = _integration.ResponseFromAPIGet("", v1/Patient/GetPatients , "https://dev-search-dot-medipark-hospital.appspot.com", "GET");
-                var response = _integration.ResponseFromAPIGet("", _configuration.GetValue<string>("APIEndPoints:SearchGetPatientByPersonId"), "http://localhost:50566/", "GET");
+                var response = _integration.ResponseFromAPIGet("", _configuration.GetValue<string>("APIEndPoints:SearchGetPatientByPersonId"), "https://dev-feature-ohs-search-dot-medipark-hospital.appspot.com/", "GET");
 
                 if (response != null)
                 {
