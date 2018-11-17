@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.ViewModels
 {
-    public class DoctorNurseViewModel
+    public class PatientViewModel
     {
-        public string PracticeNumber { get; set; }
-        public int PersonId { get; set; }
-        public int PersonDetailsId { get; set; }
-        public string HpcnaregistrationNumber { get; set; }
-        public int NumberOfYearsInPractice { get; set; }
-        public string RegistrationNumber { get; set; }
+
+        public string ReferenceNumber { get; set; }
         public int UserId { get; set; }
         public string Allergies { get; set; }
         public string FirstName { get; set; }
@@ -26,10 +20,9 @@ namespace Feature.OHS.Web.ViewModels
         public string Address3 { get; set; }
         public string CellPhone { get; set; }
         public DateTime? Created { get; set; }
-        public int DoctorId { get; set; }
-        public int QualificationId { get; set; }
         public string Title { get; set; }
         public string Initials { get; set; }
+        public int PersonId { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
@@ -45,8 +38,6 @@ namespace Feature.OHS.Web.ViewModels
         public string Fax1 { get; set; }
         public string Fax2 { get; set; }
         public string Email2 { get; set; }
-        public string Name { get; set; }
-        public string Institution { get; set; }
         public int AddressId { get; set; }
     }
 }

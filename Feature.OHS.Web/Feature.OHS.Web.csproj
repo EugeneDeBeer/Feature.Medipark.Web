@@ -22,18 +22,7 @@
 
   <ItemGroup>
     <Folder Include="Helper\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Views\Nurses\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="app.yaml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="Views\Admissions\" />
   </ItemGroup>
 
 </Project>

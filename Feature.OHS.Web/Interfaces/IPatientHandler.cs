@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,16 +9,12 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface IPatientHandler
     {
-        PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient);
-       dynamic AddAddress(PatientPayloadViewModel address);
-        dynamic AddContact(PatientPayloadViewModel patient);
-        dynamic AddNextOfKin(PatientPayloadViewModel patient);
-        IEnumerable<PatientPayloadViewModel> Patients { get; }
-      PatientPayloadViewModel GetPatientByIdNumber(string id);
-        dynamic UpdatePatient(PatientPayloadViewModel model);
+        PatientViewModel AddPatient(PatientViewModel patient);
+        PatientViewModel AddAddress(PatientViewModel patient);
+        PatientViewModel AddContact(PatientViewModel patient);
+        PatientViewModel AddNextOfKin(PatientViewModel patient);
+        dynamic GetPatient(int id, bool includeAllDetails = false);
 
-        Task<dynamic> SearchPatients(SearchParams condition, bool exactSearch = false);
-        List<PatientPayloadViewModel> GetPatients();
-        PatientPayloadViewModel GetPatientByPersonId(int personId);
+        dynamic UpdatePatient(PatientPayloadViewModel model);
     }
 }
