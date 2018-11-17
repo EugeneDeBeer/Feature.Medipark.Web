@@ -24,7 +24,7 @@ namespace Feature.OHS.Web.Domain
 
         public PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -45,7 +45,7 @@ namespace Feature.OHS.Web.Domain
 
         public PatientPayloadViewModel GetPatientByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
             if (request != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(request.Message);
@@ -66,7 +66,7 @@ namespace Feature.OHS.Web.Domain
             
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "/v1/Person/PersonDetails", "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "/v1/Person/PersonDetails", "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<PatientPayloadViewModel>>(request.Message);
@@ -86,7 +86,7 @@ namespace Feature.OHS.Web.Domain
         
         public dynamic AddContact(PatientPayloadViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -106,7 +106,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic AddAddress(PatientPayloadViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Address/Create", patient, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Address/Create", patient, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -128,7 +128,7 @@ namespace Feature.OHS.Web.Domain
         public dynamic UpdatePatient(PatientPayloadViewModel model)
         {
 
-            var response = _integration.ResponseFromAPIPost("", "/v1/Patient/Update/Patient", model, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Patient/Update/Patient", model, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", true);
 
             if (response != null)
             {
@@ -154,7 +154,7 @@ namespace Feature.OHS.Web.Domain
         {
             try
             {
-                var response = _integration.ResponseFromAPIGet("", $"v1/Patient/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "https://dev-search-dot-medipark-hospital.appspot.com", "GET");
+                var response = _integration.ResponseFromAPIGet("", $"v1/Patient/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "https://dev-feature-ohs-search-dot-medipark-hospital.appspot.com/", "GET");
 
                 if (response != null)
                 {

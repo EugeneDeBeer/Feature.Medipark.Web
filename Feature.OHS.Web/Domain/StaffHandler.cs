@@ -16,7 +16,7 @@ namespace Feature.OHS.Web.Domain
         }
         public dynamic AddStaff(StaffPayloadViewModel staff)
         {
-            var response = _aPIIntegration.ResponseFromAPIPost("", "v1/Staff/create", staff, "http://localhost:61036/", true);
+            var response = _aPIIntegration.ResponseFromAPIPost("", "v1/Staff/create", staff, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -55,7 +55,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _aPIIntegration.ResponseFromAPIGet("Get Staffs", "/v1/Person/Persons", "http://localhost:61036/", "GET");
+                var request = _aPIIntegration.ResponseFromAPIGet("Get Staffs", "/v1/Person/Persons", "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<StaffPayloadViewModel>>(request.Message);
@@ -76,7 +76,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic UpdateStaff(StaffPayloadViewModel model)
         {
-            var response = _aPIIntegration.ResponseFromAPIPost("", "v1/Staff/Edit", model, "http://localhost:61036/", true);
+            var response = _aPIIntegration.ResponseFromAPIPost("", "v1/Staff/Edit", model, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -95,7 +95,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic GetStaffByIdNumber(string id)
         {
-            var request = _aPIIntegration.ResponseFromAPIGet("", "/v1/Staff/Edit?id="+id, "http://localhost:61036", "GET");
+            var request = _aPIIntegration.ResponseFromAPIGet("", "/v1/Staff/Edit?id="+id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", "GET");
             if (request != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<StaffPayloadViewModel>(request.Message);

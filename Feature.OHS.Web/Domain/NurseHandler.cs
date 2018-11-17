@@ -20,7 +20,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", nurseVM, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", nurseVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -39,7 +39,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddContact(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", nurseVM, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", nurseVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -59,7 +59,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddNurse(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", nurseVM, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", nurseVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -79,7 +79,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Nurse", nurseVM, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Nurse", nurseVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -98,7 +98,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddQualification(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", nurseVM, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", nurseVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -124,7 +124,7 @@ namespace Feature.OHS.Web.Domain
         {
             try
             {
-                var response = _integration.ResponseFromAPIGet("", $"v1/Doctor/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "http://localhost:50566/", "GET");
+                var response = _integration.ResponseFromAPIGet("", $"v1/Doctor/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "https://dev-feature-ohs-search-dot-medipark-hospital.appspot.com/", "GET");
 
                 if (response != null)
                 {
@@ -148,7 +148,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic UpdateNurse(DoctorNurseViewModel model)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
