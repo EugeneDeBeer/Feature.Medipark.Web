@@ -47,22 +47,29 @@ namespace Feature.OHS.Web.Domain
 
         public PatientPayloadViewModel GetPatientByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
-            if (request != null)
-            //var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
-            var response = _integration.ResponseFromAPIGet("", $"v1/Patient/GetPatientByIdNumber/{id}", "http://localhost:50566/", "GET");
-            if (response != null)
-            {
-                //var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
-                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
-                //return dynamicResponse;
-                return dynamicResponse;
-            }
+           // var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
+            //if (request != null)
+            //{
+                //var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
+                var response = _integration.ResponseFromAPIGet("", $"v1/Patient/GetPatientByIdNumber/{id}", "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "");
+
+                if (response != null)
+                {
+                    //var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
+                    PatientPayloadViewModel dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
+                    //return dynamicResponse;
+                    return dynamicResponse;
+                }
+            
             else
             {
                 return null;
             }
+            
         }
+
+
+    
 
         public IEnumerable<PatientPayloadViewModel> Patients
         {
