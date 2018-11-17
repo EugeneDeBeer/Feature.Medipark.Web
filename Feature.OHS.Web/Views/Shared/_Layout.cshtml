@@ -217,16 +217,15 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Doctors</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="add-doctor.html">Add Doctor</a></li>
-
+                                <li><a href="/Doctors/Create">Add Doctor</a></li>
+                                <li><a asp-controller="Doctors" asp-action="Doctors">Manage Doctors</a></li>
                             </ul>
                         </li>
-
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account"></i><span> Person</span> <span class="menu-arrow"></span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Doctors</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="person.html">Add Person</a></li>
-
+                                <li><a href="/Doctors/Create">Add Nurse</a></li>
+                                <li><a asp-controller="Doctors" asp-action="Doctors">Manage Nurses</a></li>
                             </ul>
                         </li>
 
@@ -234,7 +233,15 @@
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Patients</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
                                 <li><a asp-controller="Patient" asp-action="Create">Add Patient</a></li>
-                                <li><a asp-controller="Patient" asp-action="Index">Manage Patient</a></li>
+                                <li><a asp-controller="Patient" asp-action="Index">Manage Patients</a></li>
+
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Wards</span> <span class="menu-arrow active"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a asp-controller="Wards" asp-action="Create">Add Ward</a></li>
+                                @*<li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>*@
 
                             </ul>
                         </li>

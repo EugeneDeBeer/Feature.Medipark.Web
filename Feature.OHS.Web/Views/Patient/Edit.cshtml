@@ -1,4 +1,4 @@
-﻿@model Feature.OHS.Web.ViewModels.DoctorNurseViewModel
+﻿@model Feature.OHS.Web.ViewModels.PatientPayloadViewModel
 
 @section Scripts{
 
@@ -137,43 +137,6 @@
                     });
             });
 
-            // process the form
-            //$("form.add-patient").on('submit', function (e) {
-            //    e.preventDefault();
-            //    var form = $(this);
-            //    var action = form.attr("action");
-            //    var data = form.serializeArray();
-
-            //    console.log("Doing the AJAX POST request");
-            //    console.log("Sending data:");
-
-            //    console.log(JSON.stringify(getFormData(data)));
-
-            //    // send ajax
-            //    $.ajax({
-
-            //        //headers: {
-            //        //    'Accept': 'application/json',
-            //        //    'content-Type': 'application/json'
-            //        //},
-            //        //url: 'https://admissions-dot-medipark-hospital.appspot.com/v1/Patient/create',
-            //        url: "/Patient/Create",
-            //        crossDomain: true,
-            //        async: true,
-            //        contentType: "application/json; charset=utf-8",
-            //        dataType: 'json',
-            //        type: 'POST',
-            //        data: JSON.stringify(getFormData(data)),
-            //        success: function (data) {
-            //            // you can see the result from the console
-            //            // tab of the developer tools
-            //            console.log(data);
-            //        },
-            //        error: function (jqXhr, textStatus, errorThrown) {
-            //            console.log(errorThrown);
-            //        }
-            //    });
-            // });
 
             //utility function
             function getFormData(data) {
@@ -220,14 +183,14 @@
         <div class="col-lg-12">
             <div class="add-patient-container">
 
-                @if (Model != null )
+                @if (Model.IdNumber != null)
                 {
-                    <h4 class="custom-modal-title">Add New Doctor</h4>
+                    <h4 class="custom-modal-title">Edit Patient</h4>
 
                     <div class="custom-modal-text text-left">
 
                         <!-- Modal -info -->
-                        <form class="add-patient" asp-action="Create" asp-controller="Staff" method="post" id="add-staff">
+                        <form class="add-patient" asp-action="EditPatient" asp-controller="Patient" method="post" id="add-staff">
                             <ul id="progressbar">
                                 <li class="active">Personal Information</li>
                                 <li>Contact Information</li>
@@ -236,10 +199,15 @@
                                 <li>Declaration</li>
                             </ul>
 
-                            <input type="hidden" asp-for="DoctorId" name="patientId" value="@Model.DoctorId" />
+                          
+
 
                             <!-- USER INFORMATION FIELD SET -->
                             <fieldset>
+                                <input type="hidden" asp-for="PersonId" value="@Model.PersonId" />
+                                <input type="hidden" asp-for="PersonDetailsId"  value="@Model.PersonDetailsId" />
+                                <input type="hidden" asp-for="ContactId"  value="@Model.ContactId" />
+                                <input type="hidden" asp-for="AddressId"  value="@Model.AddressId" />
                                 <h2 class="fs-title">Personal Information</h2>
                                 <h3 class="fs-subtitle"></h3>
                                 <!-- Begin What's Your First Name Field -->
@@ -265,16 +233,14 @@
                                             <option value="hon">Hon</option>
                                         </select>
                                         <span asp-validation-for="Title" class="text-danger"></span>
-                                        @*<span class="error1" style="display: none;">
-                                                <i class="error-log fa fa-exclamation-triangle"></i>
-                                            </span>*@
+
                                     </div>
                                     <!-- End What's Your First Name Field -->
 
                                     <div class="form-group form-inline">
                                         <label for="firstName">First Name <span>*</span></label>
-                                        <input asp-for="FirstName" type="text" name="firstName" class="form-control" id="firstName" placeholder="">
-                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        <input asp-for="Address1" type="text" n class="form-control" id="firstName" placeholder="">
+                                        <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -285,19 +251,28 @@
 
                                     <div class="form-group form-inline">
                                         <label for="lastName">Last Name <span>*</span></label>
-                                        <input asp-for="LastName" type="text" name="lastName" class="form-control" id="lastName" placeholder="">
+                                        <input asp-for="LastName" type="text"  class="form-control" id="lastName" placeholder="">
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="genderId">Gender <span>*</span></label>
-                                        <select  name="genderId" class="form-control" id="gender" placeholder="">
+                                        <select name="genderId" class="form-control" id="gender" placeholder="">
+                                            @*@if (Model.GenderId == null)
+                    {
+                        <option>--Select option--</option>
+                    }
+                    else
+                    {
+                        <option value="@Model.GenderId">@Model.GenderId</option>
+                    }*@
+
                                             <option>--Select option--</option>
                                             <option value="0">Male</option>
                                             <option value="1">Female</option>
                                             <option value="2">Other</option>
                                         </select>
-                                        <span  class="text-danger"></span>
+                                        @*<span asp-validation-for="GenderId" class="text-danger"></span>*@
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -331,14 +306,15 @@
                                     <div class="form-group form-inline">
                                         <label for="maritialStatus">Maritial Status <span>*</span></label>
 
-                                        <select  name="maritialStatus" class="form-control" id="maritialstatus" placeholder="">
-                                            <option>--Select option--</option>
+                                        <select name="maritialStatus" class="form-control" id="maritialstatus" placeholder="">
+
+
                                             <option value="single">Single</option>
                                             <option value="married">Married</option>
                                             <option value="devorced">Devorced</option>
                                             <option value="widowed">Widowed</option>
                                         </select>
-                                        <span  class="text-danger"></span>
+
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -351,14 +327,14 @@
                                             <option value="coloured">Coloured</option>
                                             <option value="indian">Indian</option>
                                         </select>
-                                        <span  class="text-danger"></span>
+                                        <span class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="religion">Religion <span>*</span></label>
 
-                                        <select  name="religion" class="form-control" id="religion" placeholder="">
-                                            <option>--Select option--</option>
+                                        <select name="religion" class="form-control" id="religion" placeholder="">
+
                                             <option value="male">Christianity</option>
                                             <option value="female">Islam</option>
                                             <option value="female">Buddhism</option>
@@ -366,13 +342,13 @@
                                             <option value="female">Atheism</option>
                                             <option value="female">Other</option>
                                         </select>
-                                        <span  class="text-danger"></span>
+                                        <span class="text-danger"></span>
                                     </div>
                                 </div>
-                              
+
                                 <div class="col-lg-12"></div>
                                 <!-- End Total Number of Constituents in Your Database Field -->
-                                <input type="button" data-page="1" formaction="CreateDoctor" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="1" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- ACQUISITION FIELD SET -->
@@ -381,13 +357,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="homeTel">Home Telephone</label>
-                                        <input asp-for="HomeTelephone" type="text" class="form-control" name="telephone" id="homeTel" placeholder="">
+                                        <input asp-for="HomeTelephone" type="text" class="form-control"  placeholder="">
                                         @*<span asp-validation-for="Telephone" class="text-danger"></span>*@
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="workTel">Work Telephone</label>
-                                        <input asp-for="WorkTelephone" type="text" class="form-control" id="workTel" placeholder="">
+                                        <input asp-for="WorkTelephone" type="text" class="form-control"  placeholder="">
                                         @*<span asp-validation-for="WorkTel" class="text-danger"></span>*@
                                     </div>
 
@@ -407,25 +383,25 @@
 
                                     <div class="form-group form-inline">
                                         <label for="buildingHome">Building/House <span>*</span></label>
-                                        <input asp-for="Address1" type="text" class="form-control" id="building-house" name="resAddress1" placeholder="">
+                                        <input asp-for="Address1" type="text" class="form-control" name="Address1">
                                         <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="streetName">Street Name <span>*</span></label>
-                                        <input asp-for="Address2" type="text" class="form-control" name="resAddress2" id="street-name" placeholder="">
+                                        <input asp-for="Address2" type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="Address2" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="suburbTown">Suburb/Town <span>*</span></label>
-                                        <input asp-for="Address3" type="text" class="form-control" name="resSurbub" id="suburbTown" placeholder="">
+                                        <input asp-for="Address3" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="Address3" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="postalCode">Postal Code <span>*</span></label>
                                         <input  type="text" class="form-control" id="postal-code" name="resPostCode" placeholder="">
-                                        <span  class="text-danger"></span>
+                                        <span class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -450,19 +426,19 @@
                                     <div class="form-group form-inline">
                                         <label for="postalCode">Postal Code <span>*</span></label>
                                         <input  type="text" class="form-control" name="resPostCode" id="postal-code" placeholder="">
-                                        <span class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="cellNumber">Cell Number <span>*</span></label>
-                                        <input asp-for="CellPhone" type="text" class="form-control" name="cellphone" id="cell-number" placeholder="">
+                                        <input asp-for="CellPhone" type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="CellPhone" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="email">Email <span>*</span></label>
-                                        <input asp-for="Email1" type="email" class="form-control" name="email" id="email" placeholder="">
+                                        <input asp-for="Email1" type="email" class="form-control" placeholder="">
                                         <span asp-validation-for="Email1" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
@@ -479,188 +455,10 @@
                                 </div>
                                 <!-- End Calc of Total Number of Donors Fields -->
                                 <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="2" formaction="CreateContactAddress" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="2" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
-                            <!-- Practice Information -->
-                            <fieldset>
-                                <h2 class="fs-title">Practice Information</h2>
-                                <h3 class="fs-subtitle"></h3>
 
-                                <div class="col-lg-6">
-                  
-                                    <div class="form-group form-inline">
-                                        <label for="practiceNumber">Practice Number<span>*</span></label>
-                                        <input asp-for="PracticeNumber" name="practiceNumber" class="form-control" id="practiceNumber" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="practiceType">Practice Type <span>*</span></label>
-                                        <select name="practiceType" class="form-control" id="practiceType" placeholder="">
-                                            <option>--Select option--</option>
-                                            <option value="privatePraticeRooms">Private Pratice Rooms</option>
-                                            <option value="clinic">Clinic</option>
-                                            <option value="hospital">Hospital</option>
-                                            <option value="dayCareHospital">Day Care Hospital</option>
-                                            <option value="maternityClinic">Maternity Clinic</option>
-                                            <option value="laboratory">Laboratory</option>
-                                            <option value="radiology">Radiology</option>
-                                            <option value="bloodBank">Blood Bank</option>
-                                            <option value="dialysisCentre">Dialysis Centre</option>
-                                            <option value="diabetesCentre">Diabetes Centre</option>
-                                            <option value="hospice">Hospice</option>
-                                            <option value="rehabilitationCentre">Rehabilitation Centre</option>
-                                            <option value="nursingHome">Nursing Home</option>
-                                            <option value="mentalHealthCentre">Mental Health Centre</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="telephone">Telephone <span>*</span></label>
-                                        <input asp-for="Telephone1" name="telephone" class="form-control" id="telephone" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="yearsInPractice">Number of Years in Practice <span>*</span></label>
-                                        <input asp-for="NumberOfYearsInPractice" name="yearsInPractice" class="form-control" id="numOfYrs" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="emergencyNumber">Emergency Number<span>*</span></label>
-                                        <input asp-for="Telephone2" name="emergencyNumber" class="form-control" id="emergencyNumber" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="nokemail">Email <span>*</span></label>
-                                        <input asp-for="Email2" name="nokemail" class="form-control" id="email" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="websiteAddress">Website Address <span>*</span></label>
-                                        <input type="text" name="websiteAddress" class="form-control" id="websiteAddress" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group form-inline">
-                                        <label for="">Residential Address:</label>
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="buildingHouse">Building/House <span>*</span></label>
-                                        <input type="text" class="form-control" id="buildinghouse" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="streetname">Street Name <span>*</span></label>
-                                        <input type="text" class="form-control" id="streetname" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="surburbTown">Suburb/Town <span>*</span></label>
-                                        <input type="text" class="form-control" id="surburb-town" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="postalCode">Postal Code <span>*</span></label>
-                                        <input type="text" class="form-control" id="postal-code" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="country">Country <span>*</span></label>
-                                        <input type="text" class="form-control" id="country" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <input type="radio" name="sameaddress" value="" id="same-address"> Same as
-                                        Residential Address
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="postalBox">Postal Box <span>*</span></label>
-                                        <input type="text" name="postalBox" class="form-control" id="postal-box" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="busPostCode">Postal Code <span>*</span></label>
-                                        <input type="text" class="form-control" id="postal-code" name="busPostCode" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-lg-12"></div>
-                              
-                                <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="3" formaction="PracticeInfo" name="next" class="next action-button" value="Save & Continue" />
-                            </fieldset>
-
-                            <!-- Qualification  Information -->
-                            <fieldset>
-                                <h2 class="fs-title">Qualification Information</h2>
-                                <h3 class="fs-subtitle"></h3>
-                                <div class="col-lg-6">
-
-                                    <div class="form-group form-inline">
-                                        <label for="generalPractioner">General Practioner <span>*</span></label>
-                                        <input type="text" name="generalPractioner" class="form-control" id="generalPractioner" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="speciality">Speciality <span>*</span></label>
-                                        <input type="text" name="speciality" class="form-control" id="Speciality" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="Name of Degree">Name of Degree <span>*</span></label>
-                                        <input asp-for="Name" name="NameOfDegree" class="form-control" id="NameOfDegree" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="institution">Institution <span>*</span></label>
-                                        <input asp-for="Institution" name="institution" class="form-control" id="institution" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="yearObtained">Year Obtained <span>*</span></label>
-                                        <input  name="yearObtained" class="form-control" id="yearObtained" placeholder="">
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        <label for="additionalPost">Additional Post Graduate Qualification (1) </label>
-                                        <input type="text" name="additionalPost" class="form-control" id="additionalPost" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="institution">Institution (1) <span>*</span></label>
-                                        <input type="text" name="institution" class="form-control" id="institution" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="yearObtained">Year Obtained (1) <span>*</span></label>
-                                        <input type="text" name="yearObtained" class="form-control" id="yearObtained" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="additionalPost">Additional Post Graduate Qualification (2) </label>
-                                        <input type="text" name="additionalPost" class="form-control" id="additionalPost" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="institution">Institution (2) <span>*</span></label>
-                                        <input type="text" name="institution" class="form-control" id="institution" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="yearObtained">Year Obtained (2) <span>*</span></label>
-                                        <input type="text" name="yearObtained" class="form-control" id="yearObtained" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                </div>
-
-                                <div class="clearfix"></div>
-
-                                <!-- End Average Gift Size Percent Change Field 2 -->
-                                <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="4" name="next" class="next action-button" value="Save & Continue" />
-                            </fieldset>
 
                             <fieldset>
                                 <h2 class="fs-title">DECLARATION</h2>
@@ -713,7 +511,7 @@
                                 <div class="clearfix"></div>
 
                                 <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
-                                <input id="submit" class="hs-button primary large action-button next" onclick="location.href='~/Views/Patient/Index.chtml'"  type="button" value="submit">
+                                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
                             </fieldset>
                         </form>
                     </div>
