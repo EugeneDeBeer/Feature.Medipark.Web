@@ -47,15 +47,14 @@ namespace Feature.OHS.Web.Domain
 
         public PatientPayloadViewModel GetPatientByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
-            if (request != null)
+            //var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
+            var response = _integration.ResponseFromAPIGet("", $"v1/Patient/GetPatientByIdNumber/{id}", "http://localhost:50566/", "GET");
+            if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(request.Message);
-                if (dynamicResponse != null)
-                {
-                    return dynamicResponse;
-                }
-                return null;
+                //var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
+                //return dynamicResponse;
+                return dynamicResponse;
             }
             else
             {
