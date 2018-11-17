@@ -24,9 +24,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.NumberOfBeds)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.RoomOccupancyLevel)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Shortname)
             </th>
@@ -37,17 +37,17 @@
                 @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MinNumberOfBeds)
+                @Html.DisplayNameFor(model => model.MinRooms)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaxNumberOfBeds)
+                @Html.DisplayNameFor(model => model.MaxRooms)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.WardLayout)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Location)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Floor)
             </th>
@@ -60,9 +60,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Latitude)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Status)
-            </th>
+            </th>*@
             <th>
                 Actions
             </th>
@@ -83,9 +83,9 @@
             <td>
                 @Html.DisplayFor(modelItem => ward.NumberOfBeds)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => ward.RoomOccupancyLevel)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => ward.Shortname)
             </td>
@@ -96,17 +96,17 @@
                 @Html.DisplayFor(modelItem => ward.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => ward.MinNumberOfBeds)
+                @Html.DisplayFor(modelItem => ward.MinRooms)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => ward.MaxNumberOfBeds)
+                @Html.DisplayFor(modelItem => ward.MaxRooms)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => ward.WardLayout)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => ward.Location)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => ward.Floor)
             </td>
@@ -119,9 +119,9 @@
             <td>
                 @Html.DisplayFor(modelItem => ward.Latitude)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => ward.Status)
-            </td>            
+            </td>*@            
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
