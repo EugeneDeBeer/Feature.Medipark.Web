@@ -35,8 +35,8 @@ namespace Feature.OHS.Web.Controllers
                 try
                 {
                     model.UserId = 1;
-                  //  var result = _doctorHandler.AddDoctor(model);
-                   // PersonId.Id = result.PersonId;
+                    var result = _nurseHandler.AddNurse(model);
+                   PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
                 catch

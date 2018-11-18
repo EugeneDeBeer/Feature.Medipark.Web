@@ -82,7 +82,7 @@ namespace Feature.OHS.Web.Domain
         }
         public DoctorNurseViewModel GetDoctorByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "/v1/Doctor/Get/Doctor?id=" + id, "http://localhost:61820", "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Doctor/Get/DoctorNurse?Id=" + id, "http://localhost:61820", "GET");
             if (request != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<DoctorNurseViewModel>(request.Message);
