@@ -20,8 +20,22 @@ namespace Feature.OHS.Web.Controllers
         public IActionResult Index()
         {
             var members = _nurseHandler.Nurses;
-            return View("~/Views/Doctors/Index.cshtml", members);
+            return View("~/Views/Nurses/Index.cshtml", members);
       
+        }
+        public IActionResult EditNurse(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _nurseHandler.GetDoctorByIdNumber(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Doctors/Edit.cshtml", user);
         }
         public ActionResult Create()
         {
