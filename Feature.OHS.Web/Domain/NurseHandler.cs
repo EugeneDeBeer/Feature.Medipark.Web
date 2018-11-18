@@ -16,7 +16,27 @@ namespace Feature.OHS.Web.Domain
         {
             _integration = integration;
         }
-        public IEnumerable<DoctorNurseViewModel> Doctors => throw new NotImplementedException();
+
+        public IEnumerable<DoctorNurseViewModel> Nurses
+        {
+            get
+            {
+                var request = _integration.ResponseFromAPIGet("Get Nurses", "/v1/Doctor/Get/Nurses", "http://localhost:61820", "GET");
+                if (request != null)
+                {
+                    var dynamicResponse = JsonConvert.DeserializeObject<List<DoctorNurseViewModel>>(request.Message);
+                    if (dynamicResponse != null)
+                    {
+                        return dynamicResponse;
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel nurseVM)
         {

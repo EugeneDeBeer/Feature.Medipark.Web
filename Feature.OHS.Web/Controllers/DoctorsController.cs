@@ -148,8 +148,9 @@ namespace Feature.OHS.Web.Controllers
         // GET: Doctors
         public IActionResult Index()
         {
-            return View();
-            //return View("~/Views/Doctors/Index.cshtml");
+            // return View();
+            var doctors = _doctorHandler.Doctors;
+            return View("~/Views/Doctors/Index.cshtml",doctors);
         }
 
         // GET: Doctors/Details/5

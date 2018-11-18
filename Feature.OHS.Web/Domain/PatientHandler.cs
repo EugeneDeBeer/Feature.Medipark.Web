@@ -66,7 +66,7 @@ namespace Feature.OHS.Web.Domain
             
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetPatients", "http://localhost:50566", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/Get/Patients", "http://localhost:61820/", "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<PatientPayloadViewModel>>(request.Message);

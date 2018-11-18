@@ -19,7 +19,9 @@ namespace Feature.OHS.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var members = _nurseHandler.Nurses;
+            return View("~/Views/Doctors/Index.cshtml", members);
+      
         }
         public ActionResult Create()
         {
