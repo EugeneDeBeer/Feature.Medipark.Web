@@ -7,6 +7,11 @@ namespace Feature.OHS.Web.ViewModels
 {
     public class PatientPayloadViewModel
     {
+
+        public string UserName { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+
         public int UserId { get; set; }
         public int ContactId { get; set; }
         public int AddressId { get; set; }
