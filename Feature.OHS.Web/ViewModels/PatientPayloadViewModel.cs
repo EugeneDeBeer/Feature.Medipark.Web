@@ -17,12 +17,12 @@ namespace Feature.OHS.Web.ViewModels
         public string Address3 { get; set; }
         public string Initials { get; set; }
 
-       // [Required(ErrorMessage = "First Name is Required")]
+        // [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-       // [Required(ErrorMessage = "Last Name is Required")]
+        // [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
-       // [DataType(DataType.Date)]
+        // [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
         public string IdNumber { get; set; }
