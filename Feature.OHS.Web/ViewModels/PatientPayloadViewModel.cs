@@ -16,7 +16,6 @@ namespace Feature.OHS.Web.ViewModels
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public string Initials { get; set; }
-
         // [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
