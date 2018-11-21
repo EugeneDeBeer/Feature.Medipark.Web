@@ -53,7 +53,7 @@ namespace Feature.OHS.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Dashboard}/{action=Dashboard}");
+                    template: "{controller=Login}/{action=Login}");
             });
         }
     }

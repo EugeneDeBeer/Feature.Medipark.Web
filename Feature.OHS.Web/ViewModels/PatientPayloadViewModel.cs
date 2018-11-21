@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,10 +16,15 @@ namespace Feature.OHS.Web.ViewModels
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public string Initials { get; set; }
+
+       // [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
+       // [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
+       // [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
+
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
         public string Occupation { get; set; }
