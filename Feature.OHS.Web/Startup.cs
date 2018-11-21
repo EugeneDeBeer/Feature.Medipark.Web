@@ -37,6 +37,9 @@ namespace Feature.OHS.Web
             services.AddTransient<IWard, WardHandler>();
 
             services.AddTransient<INurseHandler, NurseHandler>();
+
+            //  DOCTOR APPOINTMENT DEPENDENCIES
+            services.AddTransient<IAccountHandler, AccountHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
