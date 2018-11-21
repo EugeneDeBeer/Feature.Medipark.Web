@@ -1,89 +1,41 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Feature.OHS.Web.Interfaces;
-using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Feature.OHS.Web.Controllers
 {
-    public class WardsController : Controller
+    public class DoctorsAppointmentController : Controller
     {
-        private readonly IWard _WardHandler;
-        public WardsController(IWard WardHandler)
-        {
-            _WardHandler = WardHandler;
-        }
-
-        // GET: Wards
+        // GET: DoctorsAppointment
         public ActionResult Index()
         {
-            var response = _WardHandler.GetWardList(1);
-            if(response.Count < 1)
-            {
-                return View();
-            }
-            return View("List", model: response);
+            return View();
         }
 
-        // GET: Wards/Details/5
+        // GET: DoctorsAppointment/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Wards/Create
+        // GET: DoctorsAppointment/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Wards/Create
+        // POST: DoctorsAppointment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(WardViewModel model)
+        public ActionResult Create(IFormCollection collection)
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var response = _WardHandler.CreateWard(model);
-
-                    if (response == null)
-                    {
-                        return NotFound();
-                    }
-
-                    return RedirectToAction(nameof(Index));
-
-                }
-                return View();
                 // TODO: Add insert logic here
-                //  return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: Wards/Edit/5
-        public ActionResult Edit(int id)
-        {
-            //var response = _WardHandler.Ward(model);
-            return View();
-        }
-
-        // POST: Wards/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -92,13 +44,36 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-        // GET: Wards/Delete/5
+        // GET: DoctorsAppointment/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: DoctorsAppointment/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: DoctorsAppointment/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Wards/Delete/5
+        // POST: DoctorsAppointment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

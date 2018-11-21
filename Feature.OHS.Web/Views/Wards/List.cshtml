@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Feature.OHS.Web.ViewModels.WardViewModel>
+﻿@model IEnumerable<Feature.OHS.Web.ViewModels.Lists.WardListViewModel>
 
 @{
     ViewData["Title"] = "List of wards";
@@ -21,9 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.HospitalId)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.NumberOfBeds)
-            </th>
+            </th>*@
             @*<th>
                 @Html.DisplayNameFor(model => model.RoomOccupancyLevel)
             </th>*@
@@ -54,12 +54,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Size)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Longitute)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Latitude)
-            </th>
+            </th>*@
             @*<th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>*@
@@ -80,9 +80,9 @@
             <td>
                 @Html.DisplayFor(modelItem => ward.HospitalId)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => ward.NumberOfBeds)
-            </td>
+            </td>*@
             @*<td>
                 @Html.DisplayFor(modelItem => ward.RoomOccupancyLevel)
             </td>*@
@@ -113,12 +113,12 @@
             <td>
                 @Html.DisplayFor(modelItem => ward.Size)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => ward.Longitute)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => ward.Latitude)
-            </td>
+            </td>*@
             @*<td>
                 @Html.DisplayFor(modelItem => ward.Status)
             </td>*@            

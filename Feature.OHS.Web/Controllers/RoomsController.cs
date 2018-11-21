@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Feature.OHS.Web.Controllers
 {
-    public class WardsController : Controller
+    
+    public class RoomsController : Controller
     {
         private readonly IWard _WardHandler;
-        public WardsController(IWard WardHandler)
+        public RoomsController(IWard WardHandler)
         {
             _WardHandler = WardHandler;
         }
@@ -20,12 +21,13 @@ namespace Feature.OHS.Web.Controllers
         // GET: Wards
         public ActionResult Index()
         {
-            var response = _WardHandler.GetWardList(1);
-            if(response.Count < 1)
-            {
-                return View();
-            }
-            return View("List", model: response);
+            //var response = _WardHandler.GetWardList(1);
+            //if (response.Count < 1)
+            //{
+            //    return View();
+            //}
+            //return View("List", model: response);
+            return View();
         }
 
         // GET: Wards/Details/5
@@ -37,20 +39,22 @@ namespace Feature.OHS.Web.Controllers
         // GET: Wards/Create
         public ActionResult Create()
         {
+            var response = _WardHandler.GetWardList(1);
+            ViewBag.Wards = response;
             return View();
         }
 
         // POST: Wards/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(WardViewModel model)
+        public ActionResult Create(RoomViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var response = _WardHandler.CreateWard(model);
-
+                    var response = _WardHandler.CreateRoom(model);
+                    
                     if (response == null)
                     {
                         return NotFound();
