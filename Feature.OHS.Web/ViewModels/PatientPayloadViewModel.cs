@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 namespace Feature.OHS.Web.ViewModels
 {
     public class PatientPayloadViewModel
-    {
-        public int? UserId { get; set; }
-        public int? ContactId { get; set; }
-        public int? AddressId { get; set; }
+    {                                                                     
         public string Title { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }

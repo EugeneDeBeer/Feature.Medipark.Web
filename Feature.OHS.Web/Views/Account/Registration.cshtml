@@ -1,0 +1,420 @@
+﻿@model Feature.OHS.Web.ViewModels.PersonViewModel
+
+@section Scripts{
+    @*<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>*@
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var showSuccessModal = function () {
+                $('#successModal').modal('show');
+            };
+
+            var current_fs, next_fs, previous_fs;
+            var left, opacity, scale;
+            var animating;
+            $(".add-patient").validate({
+                errorClass: 'invalid',
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.insertAfter(element.next('span').children());
+                },
+                highlight: function (element) {
+                    $(element).next('span').show();
+                },
+                unhighlight: function (element) {
+                    $(element).next('span').hide();
+                }
+            });
+
+            $(".next").click(function () {
+
+                //$(".add-patient").validate({
+                //    errorClass: 'invalid',
+                //    errorElement: 'span',
+                //    errorPlacement: function (error, element) {
+                //        error.insertAfter(element.next('span').children());
+                //    },
+                //    highlight: function (element) {
+                //        $(element).next('span').show();
+                //    },
+                //    unhighlight: function (element) {
+                //        $(element).next('span').hide();
+                //    }
+                //});
+
+                ////console.log("Next has been clicked");
+
+                //if ((!$('.add-patient').valid())) {
+
+                //    console.log("Form not valid");
+                //    return true;
+                //}
+
+                if (animating) return false;
+                animating = true;
+                current_fs = $(this).parent();
+                next_fs = $(this).parent().next();
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+                next_fs.show();
+                current_fs.animate({
+                    opacity: 0
+                },
+                    {
+                        step: function (now, mx) {
+                            scale = 1 - (1 - now) * 0.2;
+                            left = (now * 50) + "%";
+                            opacity = 1 - now;
+                            current_fs.css({
+                                'transform': 'scale(' + scale + ')'
+                            });
+                            next_fs.css({
+                                'left': left,
+                                'opacity': opacity
+                            });
+                        },
+                        duration: 800,
+                        complete: function () {
+                            current_fs.hide();
+                            animating = false;
+                        },
+                        easing: 'easeInOutExpo'
+                    });
+            });
+
+            $(".previous").click(function () {
+                if (animating) return false;
+                animating = true;
+                current_fs = $(this).parent();
+                previous_fs = $(this).parent().prev();
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+                previous_fs.show();
+                current_fs.animate({
+                    opacity: 0
+                },
+                    {
+                        step: function (now, mx) {
+                            scale = 0.8 + (1 - now) * 0.2;
+                            left = ((1 - now) * 50) + "%";
+                            opacity = 1 - now;
+                            current_fs.css({
+                                'left': left
+                            });
+                            previous_fs.css({
+                                'transform': 'scale(' + scale + ')',
+                                'opacity': opacity
+                            });
+                        },
+                        duration: 800,
+                        complete: function () {
+                            current_fs.hide();
+                            animating = false;
+                        },
+                        easing: 'easeInOutExpo'
+                    });
+            });
+
+            $(".submit").click(function (e) {
+                //e.preventDefault();
+
+                //console.log("Handling the submit on client-side");
+                //var form = $("#add-patient");
+                //var formData = form.serializeArray();
+
+                //console.log(getFormData(formData));
+
+                //$.ajax({
+                //    type: "POST",
+                //    url: "/Account/Registration",
+                //    dataType: "json",
+                //    contentType: "application/json",
+                //    data: getFormData(formData),
+                //    success: function (response) {
+
+                //        console.log(response);
+                //        $("#successModal").modal('show');
+                //    },
+                //    error: function (err) {
+                //        console.log(err);
+
+                //        $("#errorModal").modal('show');
+                //    }
+                //});
+
+
+                $(".add-patient").validate({
+                    errorClass: 'invalid',
+                    errorElement: 'span',
+                    errorPlacement: function (error, element) {
+                        error.insertAfter(element.next('span').children());
+                    },
+                    highlight: function (element) {
+                        $(element).next('span').show();
+                    },
+                    unhighlight: function (element) {
+                        $(element).next('span').hide();
+                    }
+                });
+                if ((!$('.add-patient').valid())) {
+                    return false;
+                }
+                if (animating) return false;
+                animating = true;
+                current_fs = $(this).parent();
+                next_fs = $(this).parent().next();
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+                next_fs.show();
+                current_fs.animate({
+                    opacity: 0
+                },
+                    {
+                        step: function (now, mx) {
+                            scale = 1 - (1 - now) * 0.2;
+                            left = (now * 50) + "%";
+                            opacity = 1 - now;
+                            current_fs.css({
+                                'transform': 'scale(' + scale + ')'
+                            });
+                            next_fs.css({
+                                'left': left,
+                                'opacity': opacity
+                            });
+                        },
+                        duration: 800,
+                        complete: function () {
+                            current_fs.hide();
+                            animating = false;
+                        },
+                        easing: 'easeInOutExpo'
+                    });
+               
+            });
+
+            //utility function
+            function getFormData(data) {
+                var unindexed_array = data;
+                var indexed_array = {};
+
+                $.map(unindexed_array,
+                    function (n, i) {
+                        indexed_array[n['name']] = n['value'];
+                    });
+
+                return indexed_array;
+            }
+        });
+    </script>
+
+    <script>
+        var resizefunc = [];
+
+        $(() => {
+
+        });
+
+        function togglePassword(control) {
+            if (control.type === "password") {
+                control.type = "text";
+            } else {
+                control.type = "password";
+            }
+        }
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<!-- Begin page -->
+    <div id="wrapper">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="page-title-box">
+                    <h4 class="page-title">Users </h4>
+                    <ol class="breadcrumb p-0 m-0">
+                        <li>
+                            <a href="#">Medipark</a>
+                        </li>
+
+                        <li class="active">
+                            Users
+                        </li>
+                    </ol>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="add-patient-container">
+
+                    <h4 class="custom-modal-title">Registration</h4>
+
+                    <div class="custom-modal-text text-left">
+
+                        @if (Model != null)
+                        {
+                            <form class="add-patient" method="post" id="add-patient">
+
+                                <!-- USER INFORMATION FIELD SET -->
+                                <fieldset>
+                                    <h2 class="fs-title">Personal Information</h2>
+                                    <h3 class="fs-subtitle"></h3>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="title">Title <span>*</span></label>
+                                            <select asp-for="Title" class="form-control" id="title" placeholder="">
+                                                @if (Model.Title == null)
+                                                {
+                                                    <option>--Select option--</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@Model?.Title">@Model?.Title</option>
+                                                }
+                                                <option value="title">Title</option>
+                                                <option value="mr">Mr</option>
+                                                <option value="mrs">Mrs</option>
+                                                <option value="miss">Miss</option>
+                                                <option value="ms">Ms</option>
+                                                <option value="prof">Prof</option>
+                                                <option value="dr">Dr</option>
+                                                <option value="rev">Rev</option>
+                                                <option value="hon">Hon</option>
+
+                                            </select>
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="firstName">First Name <span>*</span></label>
+                                            <input asp-for="FirstName" type="text" class="form-control" id="firstName" placeholder="">
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+
+
+                                        <div class="form-group form-inline">
+                                            <label for="lastName">Last Name <span>*</span></label>
+                                            <input asp-for="LastName" type="text" class="form-control" id="lastName" placeholder="">
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="password">Enter Password <span>*</span></label>
+                                            <input asp-for="Password" type="password" class="form-control" id="password" placeholder="">@*<i class="glyphicon-eye-open" onclick="togglePassword(this);"></i>*@
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="employeeNumber">Employee Number</label>
+                                            <input asp-for="EmployeeNumber" type="text" class="form-control" id="employeeNumber" placeholder="Enter employee number">
+                                            <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="idNumber">Identity Number <span>*</span></label>
+                                            <input asp-for="IdentityNumber" type="text" class="form-control" id="idNumber" placeholder="Enter ID number">
+                                            <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="middleName">Middle Name</label>
+                                            <input asp-for="SecondName" type="text" class="form-control" id="middleName" placeholder="">
+                                            <span asp-validation-for="SecondName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label asp-for="UserName">User name <span>*</span></label>
+                                            <input asp-for="UserName" type="text" class="form-control" id="username" placeholder="">
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="confirmPassword">Confirm Password <span>*</span></label>
+                                            <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="">@*<i class="glyphicon-eye-open" onclick="togglePassword(this);"></i>*@
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group form-inline">
+                                            <input type="submit" data-page="1" name="next" class="next action-button" value="Register" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+
+                                        <hr />
+                                        Already have account? <a href="#">sign in here</a>
+                                    </div>
+                                </fieldset>
+
+                                <fieldset>
+                                    <h2 class="fs-title">Account Confirmation</h2>
+                                    <h3 class="fs-subtitle"></h3>
+
+                                    <div class="col-lg-8">
+                                        <div class="form-group form-inline">
+                                            <p class="text-center">The confirmation screen will come here</p>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        }
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div> <!-- end col -->
+
+        <div id="successModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Account Confirmation</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Account has been successfully created.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a asp-action="Index" asp-controller="Patient" class="btn btn-secondary" data-dismiss="modal">OK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="errorModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Account was not successfully created.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a asp-action="Index" asp-controller="Patient" class="btn btn-secondary" data-dismiss="modal">OK</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
