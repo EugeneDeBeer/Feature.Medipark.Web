@@ -9,9 +9,10 @@ namespace Feature.OHS.Web.ViewModels
     public class PersonViewModel
     {
         public int UserId { get; set; }
-        public string Title { get; set; }
-        
 
+        [Required]
+        public string Title { get; set; }
+      
         [Required]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
@@ -20,13 +21,19 @@ namespace Feature.OHS.Web.ViewModels
         public string LastName { get; set; }
       
         [Required]
+        [MinLength(10)]
+        [MaxLength(20)]
         [DataType(DataType.Password)]
+        [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Passwords must be at least 10 characters and contain at 3 of 4 of the following: upper case (A-Z), lower case (a-z), number (0-9) and special character (e.g. !@#$%^&*)")]
         public string Password { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+
+        public bool ExpirePassword { get; set; }
+        public bool ResetPassword { get; set; }
 
         public int PersonId { get; set; }
 
@@ -51,6 +58,11 @@ namespace Feature.OHS.Web.ViewModels
         public string PersonTypeShortDescription { get; set; }
         public string PersonTypeDescription { get; set; }
 
+        [Display(Name = "Work Telephone")]
+        public string Telephone2 { get; set; }
+
+        [Display(Name = "Cell Number <span>*</span>")]
+        public string CellPhone { get; set; }
 
         //public DateTime? DateOfBirth { get; set; }
 
