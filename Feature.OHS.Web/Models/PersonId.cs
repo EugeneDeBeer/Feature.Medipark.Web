@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Feature.OHS.Web.Interfaces
+namespace Feature.OHS.Web.Models
 {
-    public class ContactModelView
+    public static class PersonId
     {
-
+        public static int Id { get; set; }
     }
 }

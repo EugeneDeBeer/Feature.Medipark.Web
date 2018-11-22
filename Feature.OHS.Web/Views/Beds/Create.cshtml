@@ -1,0 +1,122 @@
+﻿@model Feature.OHS.Web.ViewModels.BedViewModel
+
+@{
+    ViewData["Title"] = "New Bed";
+}
+
+<h2>Create New Bed</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="BedId" class="control-label"></label>
+                <input asp-for="BedId" class="form-control" />
+                <span asp-validation-for="BedId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedName" class="control-label"></label>
+                <input asp-for="BedName" class="form-control" />
+                <span asp-validation-for="BedName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortName" class="control-label"></label>
+                <input asp-for="ShortName" class="form-control" />
+                <span asp-validation-for="ShortName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShortCode" class="control-label"></label>
+                <input asp-for="ShortCode" class="form-control" />
+                <span asp-validation-for="ShortCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Floor" class="control-label"></label>
+                <input asp-for="Floor" class="form-control" />
+                <span asp-validation-for="Floor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Size" class="control-label"></label>
+                <input asp-for="Size" class="form-control" />
+                <span asp-validation-for="Size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonId" class="control-label"></label>
+                <input asp-for="PersonId" class="form-control" />
+                <span asp-validation-for="PersonId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderOfOccupant" class="control-label"></label>
+                <input asp-for="GenderOfOccupant" class="form-control" />
+                <span asp-validation-for="GenderOfOccupant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllocationDateTime" class="control-label"></label>
+                <input asp-for="AllocationDateTime" class="form-control" />
+                <span asp-validation-for="AllocationDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllocatedBy" class="control-label"></label>
+                <input asp-for="AllocatedBy" class="form-control" />
+                <span asp-validation-for="AllocatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedType" class="control-label"></label>
+                <input asp-for="BedType" class="form-control" />
+                <span asp-validation-for="BedType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BedRate" class="control-label"></label>
+                <input asp-for="BedRate" class="form-control" />
+                <span asp-validation-for="BedRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OccupancyStatus" class="control-label"></label>
+                <input asp-for="OccupancyStatus" class="form-control" />
+                <span asp-validation-for="OccupancyStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Longitude" class="control-label"></label>
+                <input asp-for="Longitude" class="form-control" />
+                <span asp-validation-for="Longitude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Latitude" class="control-label"></label>
+                <input asp-for="Latitude" class="form-control" />
+                <span asp-validation-for="Latitude" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save &amp; Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

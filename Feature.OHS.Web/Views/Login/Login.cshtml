@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Feature.OHS.Web</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+
+        <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/css/core.css" rel="stylesheet" />
+        <link href="~/css/components.css" rel="stylesheet" />
+        <link href="~/css/icons.css" rel="stylesheet" />
+        <link href="~/css/pages.css" rel="stylesheet" />
+        <link href="~/css/menu.css" rel="stylesheet" />
+        <link href="~/css/responsive.css" rel="stylesheet" />
+
+        <script src="~/js/modernizr.min.js"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
+        <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+@{
+    Layout = null;
+}
+
+<body class="bg-transparent">
+    <section>
+        <div class="container-alt">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12">
+
+                    <div class="wrapper-page">
+
+                        <div class="m-t-40 account-pages">
+                            <div class="text-center account-logo-box">
+                                <h2 class="text-uppercase">
+                                    <a href="index.html" class="text-success">
+                                        <span>
+                                            <img src="~/images/logo.png" alt="" height="150" class="img-responsive">
+                                        </span>
+                                    </a>
+                                </h2>
+                                <!--<h4 class="text-uppercase font-bold m-b-0">Sign In</h4>-->
+                            </div>
+                        </div>
+                        <!-- end card-box-->
+                    </div>
+                    <!-- end wrapper -->
+                </div>
+                <div class="col-lg-6 col-sm-12">
+
+                    <div class="wrapper-page">
+
+                        <div class="m-t-40 account-pages" style="border: 1px solid #fff;">
+                            <div class="text-center account-logo-box">
+                                <h4 class="text-uppercase font-bold m-b-0">Welcome to MediPark</h4>
+                            </div>
+                            <div class="account-content">
+                                <form asp-action="Dashboard" asp-controller="Dashboard">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group has-icon focused">
+                                                <input type="text" class="form-control form-control-lg no-b" placeholder="Email Address"
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group has-icon focused">
+                                                <input type="text" class="form-control form-control-lg no-b" placeholder="Password">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <a href="~/Views/Dashboard/Dashboard.cshtml">
+                                                <input type="submit" class="btn btn-success btn-lg btn-block" value="Login">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <!-- end card-box-->
+                    </div>
+                    <!-- end wrapper -->
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

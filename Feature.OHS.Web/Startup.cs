@@ -28,9 +28,10 @@ namespace Feature.OHS.Web
             services.AddMvc();
 
             services.AddTransient<IPatientHandler, PatientHandler>();
+            services.AddTransient<IDoctorHandler, DoctoHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
-            services.AddTransient<IStaffHandler, StaffHandler>();
+            services.AddTransient<INurseHandler, NurseHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +53,7 @@ namespace Feature.OHS.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Patient}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Login}");
             });
         }
     }

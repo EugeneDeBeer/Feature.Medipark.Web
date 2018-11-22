@@ -1,4 +1,4 @@
-﻿@model Feature.OHS.Web.ViewModels.StaffPayloadViewModel
+﻿@model Feature.OHS.Web.ViewModels.DoctorNurseViewModel
 
 @section Scripts{
 
@@ -220,9 +220,9 @@
         <div class="col-lg-12">
             <div class="add-patient-container">
 
-                @if (Model == null || Model.DoctorId <= 0)
+                @if (Model != null )
                 {
-                    <h4 class="custom-modal-title">Add New Doctor</h4>
+                    <h4 class="custom-modal-title">Add New Nurse</h4>
 
                     <div class="custom-modal-text text-left">
 
@@ -279,8 +279,8 @@
 
                                     <div class="form-group form-inline">
                                         <label for="middleName">Middle Name</label>
-                                        <input asp-for="MiddleName" type="text" name="middleName" class="form-control" id="middleName" placeholder="">
-                                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                                        <input asp-for="SecondName" type="text" name="middleName" class="form-control" id="middleName" placeholder="">
+                                        <span asp-validation-for="SecondName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -291,13 +291,13 @@
 
                                     <div class="form-group form-inline">
                                         <label for="genderId">Gender <span>*</span></label>
-                                        <select asp-for="GenderId" name="genderId" class="form-control" id="gender" placeholder="">
+                                        <select  name="genderId" class="form-control" id="gender" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="0">Male</option>
                                             <option value="1">Female</option>
                                             <option value="2">Other</option>
                                         </select>
-                                        <span asp-validation-for="GenderId" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -331,33 +331,33 @@
                                     <div class="form-group form-inline">
                                         <label for="maritialStatus">Maritial Status <span>*</span></label>
 
-                                        <select asp-for="MaritalStatus" name="maritialStatus" class="form-control" id="maritialstatus" placeholder="">
+                                        <select  name="maritialStatus" class="form-control" id="maritialstatus" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="single">Single</option>
                                             <option value="married">Married</option>
                                             <option value="devorced">Devorced</option>
                                             <option value="widowed">Widowed</option>
                                         </select>
-                                        <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="ethnicity">Ethnicity <span>*</span></label>
 
-                                        <select asp-for="Ethnicity" name="ethnicity" class="form-control" id="ethnicity" placeholder="">
+                                        <select name="ethnicity" class="form-control" id="ethnicity" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="black">Black</option>
                                             <option value="white">White</option>
                                             <option value="coloured">Coloured</option>
                                             <option value="indian">Indian</option>
                                         </select>
-                                        <span asp-validation-for="Ethnicity" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="religion">Religion <span>*</span></label>
 
-                                        <select asp-for="Religion" name="religion" class="form-control" id="religion" placeholder="">
+                                        <select  name="religion" class="form-control" id="religion" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="male">Christianity</option>
                                             <option value="female">Islam</option>
@@ -366,13 +366,13 @@
                                             <option value="female">Atheism</option>
                                             <option value="female">Other</option>
                                         </select>
-                                        <span asp-validation-for="Religion" class="text-danger"></span>
+                                        <span  class="text-danger"></span>
                                     </div>
                                 </div>
                               
                                 <div class="col-lg-12"></div>
                                 <!-- End Total Number of Constituents in Your Database Field -->
-                                <input type="button" data-page="1" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="1" formaction="CreateDoctor" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- ACQUISITION FIELD SET -->
@@ -381,7 +381,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="homeTel">Home Telephone</label>
-                                        <input asp-for="Telephone1" type="text" class="form-control" name="telephone" id="homeTel" placeholder="">
+                                        <input asp-for="HomeTelephone" type="text" class="form-control" name="telephone" id="homeTel" placeholder="">
                                         @*<span asp-validation-for="Telephone" class="text-danger"></span>*@
                                     </div>
 
@@ -424,14 +424,14 @@
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="postalCode">Postal Code <span>*</span></label>
-                                        <input asp-for="PostCodeId" type="text" class="form-control" id="postal-code" name="resPostCode" placeholder="">
-                                        <span asp-validation-for="PostCodeId" class="text-danger"></span>
+                                        <input  type="text" class="form-control" id="postal-code" name="resPostCode" placeholder="">
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="Country">Country <span>*</span></label>
-                                        <input asp-for="Country" type="text" class="form-control" name="country" id="country" placeholder="">
-                                        <span asp-validation-for="Country" class="text-danger"></span>
+                                        <input type="text" class="form-control" name="country" id="country" placeholder="">
+                                        <span  class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -449,8 +449,8 @@
 
                                     <div class="form-group form-inline">
                                         <label for="postalCode">Postal Code <span>*</span></label>
-                                        <input asp-for="PostCodeId" type="text" class="form-control" name="resPostCode" id="postal-code" placeholder="">
-                                        <span asp-validation-for="PostCodeId" class="text-danger"></span>
+                                        <input  type="text" class="form-control" name="resPostCode" id="postal-code" placeholder="">
+                                        <span class="text-danger"></span>
                                     </div>
                                 </div>
 
@@ -479,7 +479,7 @@
                                 </div>
                                 <!-- End Calc of Total Number of Donors Fields -->
                                 <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="2" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="2" formaction="CreateContactAddress" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- Practice Information -->
@@ -517,17 +517,17 @@
 
                                     <div class="form-group form-inline">
                                         <label for="telephone">Telephone <span>*</span></label>
-                                        <input asp-for="Telephone2" name="telephone" class="form-control" id="telephone" placeholder="">
+                                        <input asp-for="Telephone1" name="telephone" class="form-control" id="telephone" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="yearsInPractice">Number of Years in Practice <span>*</span></label>
-                                        <input asp-for="YearsInPractice" name="yearsInPractice" class="form-control" id="numOfYrs" placeholder="">
+                                        <input asp-for="NumberOfYearsInPractice" name="yearsInPractice" class="form-control" id="numOfYrs" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="emergencyNumber">Emergency Number<span>*</span></label>
-                                        <input asp-for="Telephone3" name="emergencyNumber" class="form-control" id="emergencyNumber" placeholder="">
+                                        <input asp-for="Telephone2" name="emergencyNumber" class="form-control" id="emergencyNumber" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -586,9 +586,9 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12"></div>
-                                <!-- End Next of kin Field -->
+                              
                                 <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="3" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="button" data-page="3" formaction="PracticeInfo" name="next" class="next action-button" value="Save & Continue" />
                             </fieldset>
 
                             <!-- Qualification  Information -->
@@ -609,7 +609,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="Name of Degree">Name of Degree <span>*</span></label>
-                                        <input asp-for="NameOfDegree" name="NameOfDegree" class="form-control" id="NameOfDegree" placeholder="">
+                                        <input asp-for="Name" name="NameOfDegree" class="form-control" id="NameOfDegree" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -619,7 +619,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="yearObtained">Year Obtained <span>*</span></label>
-                                        <input asp-for="YearObtained" name="yearObtained" class="form-control" id="yearObtained" placeholder="">
+                                        <input  name="yearObtained" class="form-control" id="yearObtained" placeholder="">
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="additionalPost">Additional Post Graduate Qualification (1) </label>
@@ -713,7 +713,7 @@
                                 <div class="clearfix"></div>
 
                                 <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
-                                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+                                <input id="submit" class="hs-button primary large action-button next" onclick="location.href='~/Views/Patient/Index.chtml'"  type="button" value="submit">
                             </fieldset>
                         </form>
                     </div>

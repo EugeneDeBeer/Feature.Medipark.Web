@@ -1,4 +1,9 @@
-﻿@model IEnumerable<Feature.OHS.Web.ViewModels.StaffPayloadViewModel>
+﻿
+@model IEnumerable<Feature.OHS.Web.ViewModels.DoctorNurseViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <div id="wrapper">
 
     <div class="row">
@@ -88,7 +93,6 @@
                         </thead>
 
                         <tbody>
-
                             @foreach (var item in Model)
                             {
                                 <tr>
@@ -113,15 +117,18 @@
 
                                     <td>
                                         <!-- <a
-        <i class="mdi mdi-pencil-box-outline text-success"></i>
-    </a>-->
-                                        @Html.ActionLink("Edit", "EditDoctor", new { id = item.IdNumber},null)
+                                            <i class="mdi mdi-pencil-box-outline text-success"></i>
+                                        </a>-->
+                                        @Html.ActionLink("Edit", "EditDoctor", new { id = item.IdNumber }, null)
                                     </td>
                                 </tr>
 
                             }
+                            
 
                         </tbody>
+
+
                     </table>
 
                 </div> <!-- end table responsive -->
@@ -244,4 +251,3 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
         <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>*@
 }
-
