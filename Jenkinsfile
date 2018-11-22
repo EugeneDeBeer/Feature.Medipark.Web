@@ -68,48 +68,43 @@ node {
                     sh("gcloud docker -- push ${imageTag}")   
             }                   
             stage ('Deploy to AppEngine'){      
-                   // for (i = 0; i < appName.length; i++){
+                   
                         //Overwrite the app.yaml file with one that is in Jenkins managed files
                         configFileProvider(
-                            [configFile(fileId: 'app_yaml', variable: 'DEPLOY')]){
+                            [configFile(fileId: '6728ef64-16d2-4566-8383-2c7c8f3cc8d3', variable: 'DEPLOY')]){
                             sh("yes | cp -rf $DEPLOY ./app.yaml")
                         }
-                        //def tenantID = i + 1
-                        sh("sed -i.bak 's#REPLACE_TENANT#${tenant}#' app.yaml")
-                        sh("sed -i.bak 's#REPLACE_ID#${1}#' app.yaml")
+                      
                         switch (env.BRANCH_NAME) {
                             case "dev":   
                                 sh("sed -i.bak 's#service:#service: dev-${appName}#' app.yaml")    
-							//     sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER}")
+							    sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER}")
 							
 			                    break        
                             case "qa":
                                 sh("sed -i.bak 's#service:#service: qa-${appName}#' app.yaml")
-								//sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
+								sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
 				             
                                 break
                             case "uat":   
                                 sh("sed -i.bak 's#service:#service: uat-${appName}#' app.yaml")
-							   // sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
+							    sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
 			                   
-				break
+				                break
                             case "prod":
                                 sh("sed -i.bak 's#service:#service: ${appName}#' app.yaml")
-							  //  sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
+							    sh("gcloud app deploy --image-url ${imageTag} --version v${env.BUILD_NUMBER} --stop-previous-version")
 			                 
-				break   
+				   
                         }
 
-                        configFileProvider(
-                            [configFile(fileId: 'app_yaml', variable: 'DEPLOY')]){
-                            sh("yes | cp -rf $DEPLOY ./app.yaml")
-                        }
+                    
 						
-                    }                   
+                                      
                        
             //END DEPLOY TO APPENGINE
       }   
-  //}
+  }
   catch(e){
         currentBuild.result = "FAILED"
         throw e

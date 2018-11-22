@@ -1,7 +1,7 @@
 ﻿@model Feature.OHS.Web.ViewModels.WardViewModel
 
 @{
-    ViewData["Title"] = "Ward Manager";
+    ViewData["Title"] = "Ward Details";
 }
 
 <h2>Ward Manager</h2>
@@ -21,9 +21,9 @@
         <dd>
             @Html.DisplayNameFor(model => model.NumberOfBeds)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.RoomOccupancyLevel)
-        </dt>
+        </dt>*@
         <dd>
             @Html.DisplayNameFor(model => model.Shortname)
         </dd>
@@ -34,17 +34,17 @@
             @Html.DisplayNameFor(model => model.Type)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.MinNumberOfBeds)
+            @Html.DisplayNameFor(model => model.MinRooms)
         </dt>
         <dd>
-            @Html.DisplayNameFor(model => model.MaxNumberOfBeds)
+            @Html.DisplayNameFor(model => model.MaxRooms)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.WardLayout)
-        </dt>
-        <dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.)
+        </dt>*@
+        @*<dd>
             @Html.DisplayNameFor(model => model.Location)
-        </dd>
+        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.Floor)
         </dt>
@@ -57,9 +57,9 @@
         <dd>
             @Html.DisplayNameFor(model => model.Latitude)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.Status)
-        </dt>
+        </dt>*@
     </dl>
 </div>
 <div>

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +11,21 @@ namespace Feature.OHS.Web.Controllers
 {
     public class WardsController : Controller
     {
+        private readonly IWard _WardHandler;
+        public WardsController(IWard WardHandler)
+        {
+            _WardHandler = WardHandler;
+        }
+
         // GET: Wards
         public ActionResult Index()
         {
-            return View();
+            var response = _WardHandler.GetWardList(1);
+            if(response.Count < 1)
+            {
+                return View();
+            }
+            return View("List", model: response);
         }
 
         // GET: Wards/Details/5
@@ -30,12 +43,25 @@ namespace Feature.OHS.Web.Controllers
         // POST: Wards/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(WardViewModel model)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    var response = _WardHandler.CreateWard(model);
+
+                    if (response == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return RedirectToAction(nameof(Index));
+
+                }
+                return View();
                 // TODO: Add insert logic here
-                return RedirectToAction(nameof(Index));
+                //  return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -46,6 +72,7 @@ namespace Feature.OHS.Web.Controllers
         // GET: Wards/Edit/5
         public ActionResult Edit(int id)
         {
+            //var response = _WardHandler.Ward(model);
             return View();
         }
 
