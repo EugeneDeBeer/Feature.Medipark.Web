@@ -1,6 +1,6 @@
 runtime: aspnetcore
 env: flex
-service: default
+service: 
 manual_scaling:
   instances: 1
 resources:

@@ -1,4 +1,5 @@
 ﻿using Feature.OHS.Web.ViewModels;
+using Feature.OHS.Web.ViewModels.Lists;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,11 @@ namespace Feature.OHS.Web.Interfaces
     {
         dynamic CreateWard(WardViewModel ward);
         dynamic CreateBed(BedViewModel bed);
-        //dynamic CreateRoom()
+        dynamic CreateRoom(RoomViewModel room);
+        List<WardListViewModel> GetWardList(int HospitalId);
+        dynamic EditRoom(RoomViewModel room);
         dynamic EditWard(WardViewModel ward);
         dynamic EditBed(BedViewModel bed);
+        List<RoomListViewModel> GetRoomList(int wardId);
     }
 }
