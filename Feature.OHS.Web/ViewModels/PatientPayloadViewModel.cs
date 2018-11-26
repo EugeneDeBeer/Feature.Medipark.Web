@@ -50,5 +50,9 @@ namespace Feature.OHS.Web.ViewModels
         public string NokAddress2 { get; set; }
         public string NokAddress3 { get; set; }
         public string NokCellPhone { get; set; }
+
+        public int? UserId { get; set; }
+        public int? ContactId { get; set; }
+        public int? AddressId { get; set; }
     }
 }

@@ -22,9 +22,19 @@ namespace Feature.OHS.Web.Controllers
             return RedirectToAction(nameof(Registration));
         }
 
-        public IActionResult Registration()
+        public IActionResult Registration(string returnUrl)
         {
             var model = new PersonViewModel();
+
+            if (!string.IsNullOrWhiteSpace(returnUrl))
+            {
+                ViewData["ReturnUrl"] = returnUrl;
+            }
+            else
+            {
+                ViewData["ReturnUrl"] = string.Empty;
+            }
+
             return View(model);
         }
 
@@ -40,6 +50,13 @@ namespace Feature.OHS.Web.Controllers
                     model.IdNumber = model.IdentityNumber.ToString();
 
                     var response = await _accountHandler.Register(model);
+
+                    var returnUrl = Convert.ToString(ViewData["ReturnUrl"]);
+
+                    if (!string.IsNullOrWhiteSpace(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
 
                     return RedirectToAction(nameof(Registration));
                 }

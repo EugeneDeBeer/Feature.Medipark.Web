@@ -29,10 +29,13 @@ namespace Feature.OHS.Web.Domain
             person.PersonTypeDescription = "individual";
             person.PersonTypeShortDescription = "person";
 
-            //  To be changed once we have the login module setup
-            person.UserId = 1;            
+            person.EventDescription = $"Created  {person.FirstName} {person.LastName} as user";
 
-            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+            //  To be changed once we have the login module setup
+            person.UserId = 1;
+
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:44358/", true);
 
             if (response != null)
             {
