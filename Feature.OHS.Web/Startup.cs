@@ -32,7 +32,7 @@ namespace Feature.OHS.Web
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<INurseHandler, NurseHandler>();
-
+          
             services.AddTransient<IAccountHandler, AccountHandler>();
         }
 
@@ -56,6 +56,7 @@ namespace Feature.OHS.Web
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Account}/{action=Login}");
+
             });
         }
     }

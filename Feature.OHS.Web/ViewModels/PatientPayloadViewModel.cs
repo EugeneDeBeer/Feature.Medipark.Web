@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +13,14 @@ namespace Feature.OHS.Web.ViewModels
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public string Initials { get; set; }
+        // [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
+        // [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
+        // [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
+
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
         public string Occupation { get; set; }
@@ -23,6 +28,7 @@ namespace Feature.OHS.Web.ViewModels
         public string Citizenship { get; set; }
         public int PersonId { get; set; }
         public int PersonDetailsId { get; set; }
+        public string Image { get; set; }
 
         public int? PatientId { get; set; }
 
@@ -40,19 +46,20 @@ namespace Feature.OHS.Web.ViewModels
  
         public sbyte? IsActive { get; set; }
 
-        //next of kin
-
-        public string Allergies { get; set; }
-        public string NokFirstName { get; set; }
-        public string NokLastName { get; set; }
-        public string NokEmail1 { get; set; }
-        public string NokAddress1 { get; set; }
-        public string NokAddress2 { get; set; }
-        public string NokAddress3 { get; set; }
-        public string NokCellPhone { get; set; }
-
+      
         public int? UserId { get; set; }
         public int? ContactId { get; set; }
         public int? AddressId { get; set; }
+      
+        ////next of kin
+
+        //public string Allergies { get; set; }
+        //public string NokFirstName { get; set; }
+        //public string NokLastName { get; set; }
+        //public string NokEmail1 { get; set; }
+        //public string NokAddress1 { get; set; }
+        //public string NokAddress2 { get; set; }
+        //public string NokAddress3 { get; set; }
+        //public string NokCellPhone { get; set; }
     }
 }
