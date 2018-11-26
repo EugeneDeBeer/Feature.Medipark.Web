@@ -7,8 +7,6 @@ using Feature.OHS.Web.Domain;
 using Feature.OHS.Web.Integration;
 using Feature.OHS.Web.Interfaces;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,19 +25,13 @@ namespace Feature.OHS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); ;
+            services.AddMvc();
 
             services.AddTransient<IPatientHandler, PatientHandler>();
             services.AddTransient<IDoctorHandler, DoctoHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
-            services.AddTransient<IStaffHandler, StaffHandler>();
-            services.AddTransient<IWard, WardHandler>();
-
             services.AddTransient<INurseHandler, NurseHandler>();
-
-            //  DOCTOR APPOINTMENT DEPENDENCIES
-            services.AddTransient<IAccountHandler, AccountHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,22 +39,21 @@ namespace Feature.OHS.Web
         {
             if (env.IsDevelopment())
             {
-               
+                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
-            app.UseHttpsRedirection();
+
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Login}");
             });
         }
     }

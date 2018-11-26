@@ -20,7 +20,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddDoctor(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -41,7 +41,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddContact(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", doctorVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", doctorVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -64,7 +64,7 @@ namespace Feature.OHS.Web.Domain
 
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", "http://localhost:61820", "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<DoctorNurseViewModel>>(request.Message);
@@ -82,7 +82,7 @@ namespace Feature.OHS.Web.Domain
         }
         public DoctorNurseViewModel GetDoctorByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "/v1/Doctor/Get/Doctor?id=" + id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Doctor/Get/DoctorNurse?Id=" + id, "http://localhost:61820", "GET");
             if (request != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<DoctorNurseViewModel>(request.Message);
@@ -100,7 +100,7 @@ namespace Feature.OHS.Web.Domain
         public dynamic UpdateDoctor(DoctorNurseViewModel model)
         {
 
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -118,7 +118,7 @@ namespace Feature.OHS.Web.Domain
         }
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", doctorVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", doctorVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -138,7 +138,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Doctor", doctorVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Doctor", doctorVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -157,7 +157,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddQualification(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", doctorVM, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com", true);
+            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", doctorVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -178,7 +178,7 @@ namespace Feature.OHS.Web.Domain
         {
             try
             {
-                var response = _integration.ResponseFromAPIGet("", $"v1/Doctor/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "https://dev-feature-ohs-search-dot-medipark-hospital.appspot.com/", "GET");
+                var response = _integration.ResponseFromAPIGet("", $"v1/Doctor/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "http://localhost:50566/", "GET");
 
                 if (response != null)
                 {

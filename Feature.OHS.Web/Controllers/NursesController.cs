@@ -19,7 +19,23 @@ namespace Feature.OHS.Web.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var members = _nurseHandler.Nurses;
+            return View("~/Views/Nurses/Index.cshtml", members);
+      
+        }
+        public IActionResult EditNurse(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = _nurseHandler.GetDoctorByIdNumber(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View("~/Views/Doctors/Edit.cshtml", user);
         }
         public ActionResult Create()
         {
@@ -33,8 +49,8 @@ namespace Feature.OHS.Web.Controllers
                 try
                 {
                     model.UserId = 1;
-                  //  var result = _doctorHandler.AddDoctor(model);
-                   // PersonId.Id = result.PersonId;
+                    var result = _nurseHandler.AddNurse(model);
+                   PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
                 catch

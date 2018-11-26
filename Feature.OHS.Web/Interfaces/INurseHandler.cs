@@ -15,7 +15,7 @@ namespace Feature.OHS.Web.Interfaces
         DoctorNurseViewModel AddQualification(DoctorNurseViewModel doctorVM);
         DoctorNurseViewModel GetDoctorByIdNumber(string id);
         dynamic UpdateNurse(DoctorNurseViewModel model);
-        IEnumerable<DoctorNurseViewModel> Doctors { get; }
+        IEnumerable<DoctorNurseViewModel> Nurses { get; }
 
         dynamic SearchDoctors(SearchParams condition, bool exactSearch = false);
     }

@@ -3,18 +3,13 @@
 @section Scripts{
 
     @*<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>*@
-    
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>*@
+    <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var showSuccessModal = function() {
-                $('#successModal').modal('show');
-            };
-
             var current_fs, next_fs, previous_fs;
             var left, opacity, scale;
             var animating;
@@ -32,29 +27,15 @@
                 }
             });
 
+            $("#snap").click(function () {
+                var pic = document.getElementById("canvas").toDataURL("image/png");
+                pic = pic.replace('data:image/png;base64,', '');
+                $("#Image").val(pic);
+
+            });
+
             $(".next").click(function () {
 
-                //$(".add-patient").validate({
-                //    errorClass: 'invalid',
-                //    errorElement: 'span',
-                //    errorPlacement: function (error, element) {
-                //        error.insertAfter(element.next('span').children());
-                //    },
-                //    highlight: function (element) {
-                //        $(element).next('span').show();
-                //    },
-                //    unhighlight: function (element) {
-                //        $(element).next('span').hide();
-                //    }
-                //});
-
-                ////console.log("Next has been clicked");
-
-                //if ((!$('.add-patient').valid())) {
-
-                //    console.log("Form not valid");
-                //    return true;
-                //}
 
                 if (animating) return false;
                 animating = true;
@@ -164,44 +145,7 @@
                     });
             });
 
-
-            // process the form
-            //$("form.add-patient").on('submit', function (e) {
-            //    e.preventDefault();
-            //    var form = $(this);
-            //    var action = form.attr("action");
-            //    var data = form.serializeArray();
-
-            //    console.log("Doing the AJAX POST request");
-            //    console.log("Sending data:");
-
-            //    console.log(JSON.stringify(getFormData(data)));
-
-            //    // send ajax
-            //    $.ajax({
-
-            //        //headers: {
-            //        //    'Accept': 'application/json',
-            //        //    'content-Type': 'application/json'
-            //        //},
-            //        //url: 'https://admissions-dot-medipark-hospital.appspot.com/v1/Patient/create',
-            //        url: "/Patient/Create",
-            //        crossDomain: true,
-            //        async: true,
-            //        contentType: "application/json; charset=utf-8",
-            //        dataType: 'json',
-            //        type: 'POST',
-            //        data: JSON.stringify(getFormData(data)),
-            //        success: function (data) {
-            //            // you can see the result from the console
-            //            // tab of the developer tools
-            //            console.log(data);
-            //        },
-            //        error: function (jqXhr, textStatus, errorThrown) {
-            //            console.log(errorThrown);
-            //        }
-            //    });
-           // });
+        
 
             //utility function
             function getFormData(data) {
@@ -221,40 +165,42 @@
         var resizefunc = [];
     </script>
 }
-    <iframe name="hiddenFrame" style="position:absolute; top:-1px; left:-1px; width:1px; height:1px;" ></iframe>
+<iframe name="hiddenFrame" style="position:absolute; top:-1px; left:-1px; width:1px; height:1px;"></iframe>
 
 <!-- Begin page -->
-    <div id="wrapper">
+<div id="wrapper">
 
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="page-title-box">
-                    <h4 class="page-title">Patients </h4>
-                    <ol class="breadcrumb p-0 m-0">
-                        <li>
-                            <a href="#">Medipark</a>
-                        </li>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="page-title-box">
+                <h4 class="page-title">Patients </h4>
+                <ol class="breadcrumb p-0 m-0">
+                    <li>
+                        <a href="#">Medipark</a>
+                    </li>
 
-                        <li class="active">
-                            Patients
-                        </li>
-                    </ol>
-                    <div class="clearfix"></div>
-                </div>
+                    <li class="active">
+                        Patients
+                    </li>
+                </ol>
+                <div class="clearfix"></div>
             </div>
         </div>
-        <!-- end row -->
+    </div>
+    <!-- end row -->
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="add-patient-container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="add-patient-container">
 
+                @if (Model == null || Model.PersonId <= 0)
+                {
                     <h4 class="custom-modal-title">Add New Patient</h4>
 
                     <div class="custom-modal-text text-left">
 
                         <!-- Modal -info -->
-                        <form class="add-patient"  method="post" target="hiddenFrame" id="add-patient">
+                        <form class="add-patient" asp-action="" asp-controller="Patient" method="post" target="hiddenFrame" id="add-patient">
                             <ul id="progressbar">
                                 <li class="active">Personal  Information</li>
                                 <li>Contact Information</li>
@@ -264,7 +210,7 @@
                                 <li>Terms & Conditions</li>
                             </ul>
 
-                            <input type="hidden" asp-for="IdNumber" name="patientId" value="@Model.IdNumber" />
+                            <input type="hidden" asp-for="PersonId" name="patientId" value="@Model.PersonId" />
 
                             <!-- USER INFORMATION FIELD SET -->
                             <fieldset>
@@ -296,26 +242,26 @@
                                         </select>
                                         <span asp-validation-for="Title" class="text-danger"></span>
                                         @*<span class="error1" style="display: none;">
-                                            <i class="error-log fa fa-exclamation-triangle"></i>
-                                        </span>*@
+                    <i class="error-log fa fa-exclamation-triangle"></i>
+                </span>*@
                                     </div>
                                     <!-- End What's Your First Name Field -->
 
                                     <div class="form-group form-inline">
                                         <label for="firstName">First Name <span>*</span></label>
-                                        <input asp-for="FirstName" type="text" name="firstName" class="form-control" id="firstName" placeholder="">
+                                        <input asp-for="FirstName"   type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="middleName">Middle Name</label>
-                                        <input asp-for="SecondName" type="text" class="form-control" id="middleName" placeholder="">
+                                        <input asp-for="SecondName" type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="SecondName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="lastName">Last Name <span>*</span></label>
-                                        <input asp-for="LastName" type="text" name="lastName" class="form-control" id="lastName" placeholder="">
+                                        <input asp-for="LastName" type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
 
@@ -332,7 +278,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="dateOfBirth">Date of Birth <span>*</span></label>
-                                        <input asp-for="DateOfBirth" type="date" name="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="">
+                                        <input asp-for="DateOfBirth" type="date" class="form-control" placeholder="">
                                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                                     </div>
 
@@ -399,18 +345,42 @@
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="uploader" onclick="$('#filePhoto').click()">Add Picture</div>
-                                    <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
-                                    <div>
-                                        <p>Scan and upload</p>
+                                <input type="hidden" name="Image" id="Image"/> 
+                                <div class="col-sm-4">
+                                    <button type="button" style="display:block;width:255px;" data-toggle="collapse"
+                                            data-target="#takePhoto" onclick="hideSnap()" class="btn btn-default">
+                                        Take
+                                        Photo
+                                    </button>
+                                    <button type="button" style="display:block;width:255px;" data-toggle="collapse"
+                                            data-target="#uploadPhoto" onclick="showSnap()" class="btn btn-light">
+                                        Upload Documents
+                                    </button>
+                                </div>
+                                <div id="uploadPhoto" class="collapse">
+                                    <div class="col-sm-4">
+                                        <div class="uploader" onclick="$('#filePhoto').click()">Add Picture</div>
                                         <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
-                                        <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                                        <div>
+                                            <p>Scan and upload</p>
+                                            <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="col-lg-12"></div>
+                                <div id="takePhoto" class="collapse col-sm-4">
+                                    <video width="255" autoplay="true" id="videoElement"></video>
+                                    <br />
+                                    <button id="snap" data-target="#takePhoto" data-toggle="collapse">
+                                        Capture
+                                    </button>
+                                </div>
+                                <div id="snapCanvas" class=" col-sm-4">
+                                    <canvas id="canvas" width="255" height="275"> </canvas>
+                                </div>
                                 <!-- End Total Number of Constituents in Your Database Field -->
+                                <div class="col-lg-12">
+
+                                </div>
                                 <input type="submit" data-page="1" formaction="CreatePatient" name="next" class="next action-button" value="Save & Continue" />
 
                             </fieldset>
@@ -423,7 +393,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="homeTel">Home Telephone</label>
-                                        <input asp-for="HomeTelephone" type="text" class="form-control" placeholder="">
+                                        <input asp-for="Telephone1" type="text" class="form-control" placeholder="">
                                         @*<span asp-validation-for="Telephone" class="text-danger"></span>*@
                                     </div>
 
@@ -450,7 +420,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="buildingHome">Building/House <span>*</span></label>
-                                        <input asp-for="Address1" type="text" class="form-control" placeholder="">
+                                        <input asp-for="Address1" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
@@ -508,12 +478,12 @@
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="email">Email <span>*</span></label>
-                                        <input asp-for="Email1" type="email" class="form-control" " placeholder="">
+                                        <input asp-for="Email1" type="email" class="form-control" placeholder="">
                                         <span asp-validation-for="Email1" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="contactHours">Preferred Contact Hours</label>
-                                        <select name="contactHours" class="form-control" placeholder="">
+                                        <select name="contactHours" class="form-control" id="contact-methods" placeholder="">
                                             <option>--Select option--</option>
                                             <option value="anytime">Anytime</option>
                                             <option value="workinghours">Working Hours</option>
@@ -542,19 +512,19 @@
 
                                     <div class="form-group form-inline">
                                         <label for="nokName">Name <span>*</span></label>
-                                        <input asp-for="FirstName" type="text" class="form-control" placeholder="">
+                                        <input asp-for="FirstName" type="text" class="form-control" id="nokName" name="nokName" placeholder="">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="nokSurname">Surname <span>*</span></label>
-                                        <input asp-for="SecondName" type="text" class="form-control" placeholder="">
+                                        <input asp-for="SecondName" type="text" class="form-control" id="nokSurname" name="nokSurname" placeholder="">
                                         <span asp-validation-for="SecondName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="nokContact">Contact Number <span>*</span></label>
-                                        <input asp-for="CellPhone" type="text" class="form-control" placeholder="">
+                                        <input asp-for="CellPhone" type="text" class="form-control" id="nokContact" name="nokContact" placeholder="">
                                         <span asp-validation-for="CellPhone" class="text-danger"></span>
                                     </div>
 
@@ -564,13 +534,13 @@
 
                                     <div class="form-group form-inline">
                                         <label for="nokBuildingHome">Building/House <span>*</span></label>
-                                        <input asp-for="Address1" type="text" class="form-control" placeholder="">
+                                        <input asp-for="Address1" type="text" class="form-control" id="nokbuilding-house" name="nokBuildingHome" placeholder="">
                                         <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="nokStreetName">Street Name <span>*</span></label>
-                                        <input asp-for="Address2" type="text" class="form-control" placeholder="">
+                                        <input asp-for="Address2" type="text" class="form-control" id="nok-street-name" name="nokStreetName" placeholder="">
                                         <span asp-validation-for="Address2" class="text-danger"></span>
                                     </div>
 
@@ -594,7 +564,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="nokEmail">Email <span>*</span></label>
-                                        <input asp-for="Email1" type="email" class="form-control" placeholder="">
+                                        <input asp-for="Email1" type="email" class="form-control" id="nok-email" name="nokEmail" placeholder="">
                                         <span asp-validation-for="Email1" class="text-danger"></span>
                                     </div>
 
@@ -900,40 +870,20 @@
                                 <div class="clearfix"></div>
 
                                 <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
-                                <input id="submit" class="hs-button primary large action-button next" type="button" onclick="location.href='./patients'" value="Submit">
+                                <input id="submit" class="hs-button primary large action-button next" data-toggle="modal" data-target="#exampleModal"  type="submit" value="Submit">
 
                             </fieldset>
                         </form>
                     </div>
-                    
-
-                </div>
-
+                }
 
             </div>
-        </div> <!-- end col -->
 
-        <div id="successModal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create Patient</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Patient has been successfully created.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a asp-action="Index" asp-controller="Patient" class="btn btn-secondary" data-dismiss="modal">OK</a>
-                    </div>
-                </div>
-            </div>
+
         </div>
+    </div> <!-- end col -->
 
-
-    </div>
+</div>
 
 
 <!-- ============================================================== -->
@@ -1217,4 +1167,3 @@
             </div>
         </div>
     </div>
-
