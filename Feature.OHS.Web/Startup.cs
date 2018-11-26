@@ -32,6 +32,8 @@ namespace Feature.OHS.Web
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<INurseHandler, NurseHandler>();
+
+            services.AddTransient<IAccountHandler, AccountHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +55,7 @@ namespace Feature.OHS.Web
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Login}/{action=Login}");
+                    template: "{controller=Account}/{action=Login}");
             });
         }
     }

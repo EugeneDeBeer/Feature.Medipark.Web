@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.ViewModels.Response;
 
 namespace Feature.OHS.Web.Domain
 {
@@ -34,8 +35,8 @@ namespace Feature.OHS.Web.Domain
             //  To be changed once we have the login module setup
             person.UserId = 1;
 
-            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
-            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:44358/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:44358/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
             {
@@ -45,6 +46,19 @@ namespace Feature.OHS.Web.Domain
                     return responseObject;
                 }
                 return null;
+            }
+            else { return null; }
+        }
+
+        public async Task<APIResponse> Login(LoginViewModel person)
+        {          
+            // var response = _integration.ResponseFromAPIPost("", "v1/Registration/Login", person, "https://localhost:44358/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Login", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+
+            if (response != null)
+            {
+                var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+                return responseObject;
             }
             else { return null; }
         }
