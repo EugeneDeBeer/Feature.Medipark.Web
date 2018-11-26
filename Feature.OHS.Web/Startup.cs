@@ -32,6 +32,7 @@ namespace Feature.OHS.Web
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<INurseHandler, NurseHandler>();
+            services.AddTransient<IAppointmentHandler, AppointmentHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +40,7 @@ namespace Feature.OHS.Web
         {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
+              //  app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
             }
             else
