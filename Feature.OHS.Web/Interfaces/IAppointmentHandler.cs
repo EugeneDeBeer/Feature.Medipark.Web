@@ -10,5 +10,6 @@ namespace Feature.OHS.Web.Interfaces
    public interface IAppointmentHandler
     {
        IEnumerable<AppointmentViewModel> GetAppointments { get; }
+        AppointmentViewModel Create(AppointmentViewModel appointmentViewModel);      
     }
 }

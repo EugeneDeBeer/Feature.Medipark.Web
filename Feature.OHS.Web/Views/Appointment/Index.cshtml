@@ -41,31 +41,31 @@
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                             <div class="form-group form-inline">
-                                <label for="Surn">Id Number <span>*</span></label>
+                                <label for="IdNumber">Id Number <span>*</span></label>
                                 <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
-                    
+
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group form-inline">
                                 <label for="ContactNumber">Contact Number</span></label>
-                                <input asp-for="ContactNumbes" type="text" class="form-control" placeholder="">
-                                <span asp-validation-for="ContactNumbes" class="text-danger"></span>
+                                <input type="text" class="form-control" placeholder="">
+                                <span class="text-danger"></span>
                             </div>
 
                             <div class="form-group form-inline">
                                 <label for="EmailAddress">Email Address <span>*</span></label>
-                                <input asp-for="EmailAddress" type="text" class="form-control" placeholder="">
-                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                <input type="text" class="form-control" placeholder="">
+                                <span class="text-danger"></span>
                             </div>
                             <div class="form-group form-inline">
                                 <label for="ReminderType">Reminder Type <span>*</span></label>
-                                <select name="ReminderType" class="form-control"  placeholder="">
-                                    <option>--None--</option>
+                                <select name="ReminderType" class="form-control" placeholder="">
+                                    <option>-----None-----</option>
                                     <option value="0">SMS</option>
                                     <option value="1">Email</option>
-                               
+
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
@@ -100,15 +100,20 @@
                         <div class="col-sm-3">
                             <div class="form-group form-inline">
                                 <label for="Date">Time<span></span></label>
-                                <input asp-for="Start.TimeOfDay" type="time" class="form-control" placeholder="">
-                                <span asp-validation-for="Start.TimeOfDay" class="text-danger"></span>
+                                <input asp-for="Time" type="time" class="form-control" placeholder="">
+                                <span asp-validation-for="Time" class="text-danger"></span>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
             </fieldset>
+            <div class="col-sm-6">
+               
+            </div>
+            <div class="col-sm-6">
+                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+            </div>
         </form>
 
         </div>
