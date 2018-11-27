@@ -49,9 +49,9 @@ namespace Feature.OHS.Web.ViewModels
         public sbyte? IsActive { get; set; }
 
       
-        public int? UserId { get; set; }
-        public int? ContactId { get; set; }
-        public int? AddressId { get; set; }
+        //public int? UserId { get; set; }
+        //public int? ContactId { get; set; }
+        //public int? AddressId { get; set; }
       
         ////next of kin
 
