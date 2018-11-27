@@ -29,10 +29,12 @@ namespace Feature.OHS.Web.ViewModels
         public int PersonId { get; set; }
         public int PersonDetailsId { get; set; }
         public string Image { get; set; }
-
+        public int UserId { get; set; }
         public int? PatientId { get; set; }
 
         //contact address detalis
+        public int ContactId { get; set; }
+        public int AddressId { get; set; }
         public string Telephone1 { get; set; }
         public string Telephone2 { get; set; }
         public string Telephone3 { get; set; }
