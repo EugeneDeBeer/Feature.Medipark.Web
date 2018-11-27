@@ -21,7 +21,9 @@ namespace Feature.OHS.Web.Controllers
 
         public IActionResult Index()
         {
+
             var patients = _patientHandler.Patients;            
+
 
             return View(patients);
         }

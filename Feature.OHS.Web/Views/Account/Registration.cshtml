@@ -265,12 +265,12 @@
                     @if (Model != null)
                     {
                         <form class="add-patient" method="post" id="add-patient">
-                            <ul id="progressbar">
+                            @*<ul id="progressbar">
                                 <li class="active">Register User</li>
                                 <li>User Roles</li>
                                 <li>Assign Roles</li>
                                 <li>Approvals</li>
-                            </ul>
+                            </ul>*@
 
                             <fieldset>
                                 <h2 class="fs-title">Register User</h2>
@@ -362,18 +362,6 @@
                                 </div>
 
                                 <div class="col-lg-6">
-
-                                    @*<div class="form-group form-inline">
-                                            <div class="input-group" style="padding-left: 31%">
-
-                                                <input type="tel" class="form-control" aria-label="Phone Number" placeholder="Phone number" style="width: 100%">
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-eye-open" onclick="togglePassword(this);" aria-hidden="true">
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>*@
-
                                     <div class="form-group form-inline">
                                         <label>User name <span>*</span></label>
                                         <input asp-for="UserName" type="text" class="form-control" id="username" placeholder="e.g john@domain.com">
@@ -388,8 +376,13 @@
 
                                     <div class="form-group form-inline">
                                         <label for="confirmPassword">Confirm Password <span>*</span></label>
-                                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm password">
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"><br />
                                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group form-inline">
+                                            <input asp-for="IsDoctor" type="checkbox" class="form-control checkbox-circle" style="width: 30%">
+                                            <label class="label" style="width: 50%">Are you a doctor?</label>
                                     </div>
 
                                     @*<div class="form-group form-inline">
@@ -416,37 +409,228 @@
 
                                     <hr />
                                     @*Already have account? <a href="/Login/Login">sign in here</a>*@
-                                    Already have account? <a href="#">sign in here</a>
+                                    Already have account? <a href="/Account/Login">sign in here</a>
                                 </div>
                             </fieldset>
 
-                            <fieldset>
+                            @*<fieldset>
                                 <h2 class="fs-title">User Roles</h2>
                                 <h3 class="fs-subtitle"></h3>
 
-                                @*<div class="col-lg-8">
-                                        <div class="form-group form-inline">
-                                            <p class="text-center">The confirmation screen will come here</p>
-                                        </div>
-                                    </div>*@
+                                <div class="col-lg-8">
+                                    <div class="form-group form-inline">
+                                        <label for="confirmPassword">User Role Name <span>*</span></label>
+                                        <select asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm password">
+                                            <option value="1">Secretary - PP</option>
+                                            <option value="2">Doctor</option>
+                                        </select>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
 
-                                @*<div class="col-lg-12">
-                                        <div class="form-group form-inline">
-                                            <input type="button" data-page="2" name="next" class="next action-button" value="Save" />
+                                    <div class="form-group form-inline">
+                                        <label for="confirmPassword">Description <span>*</span></label>
+                                        <textarea asp-for="ConfirmPassword" type="text" class="form-control" placeholder="Doctor's description" cols="8" rows="5"></textarea>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group form-inline">
+                                        <label for="confirmPassword">User Role Name <span>*</span></label>
+                                        <select asp-for="ConfirmPassword" type="password" class="form-control">
+                                            <option value="active">Active</option>
+                                            <option value="deactivated">Deactivated</option>
+                                        </select>
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="card-box">
+                                        <img src="/images/users/avatar-2.jpg" alt="user-img" class="img-circle user-img" width="100%" height="100%">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12"></div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group form-inline col-lg-4">
+                                        <h4>All Modules</h4>
+                                    </div>
+
+                                    <div class="form-group form-inline col-lg-1"></div>
+
+                                    <div class="form-group form-inline  col-lg-4">
+                                        <h4>Selected Modules</h4>
+                                    </div>
+
+                                    <div class="form-group form-inline  col-lg-3">
+                                        <h4 class="text-center">Features</h4>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="row">
+                                        <div class="card-box col-md-4" style="min-height: 30%">
+                                            <div class="form-group form-inline ">
+                                                <ul class="list-group" id="sourceList">
+                                                    <li class="list-group-item">Account Management</li>
+                                                    <li class="list-group-item">Address Management</li>
+                                                    <li class="list-group-item">Booking Management</li>
+                                                    <li class="list-group-item">Case Management</li>
+                                                    <li class="list-group-item">Contract Management</li>
+                                                    <li class="list-group-item">Diagnosis Management</li>
+                                                    <li class="list-group-item">Healthcare Provider Management</li>
+                                                    <li class="list-group-item">Medical Insurer Management</li>
+                                                    <li class="list-group-item">Medical History Management</li>
+                                                    <li class="list-group-item">Prescription Management</li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>*@
+
+
+                                        <div class="col-md-1"></div>
+
+                                        <div class="card-box col-md-3" style="min-height: 30%">
+                                            <div class="form-group form-inline ">
+                                                <ul class="list-group" id="sourceList">
+                                                    <li class="list-group-item">Account Management</li>
+                                                    <li class="list-group-item">Address Management</li>
+                                                    <li class="list-group-item">Booking Management</li>
+                                                    <li class="list-group-item">Case Management</li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1"></div>
+
+                                        <div class="card-box col-md-3" style="min-height: 30%">
+                                            <div class="form-group form-inline ">
+                                                <ul class="list-group" id="sourceList">
+                                                    <li class="list-group-item">Appointments</li>
+                                                    <li class="list-group-item">e-Scripts</li>
+                                                    <li class="list-group-item">Patient Digital File</li>
+                                                    <li class="list-group-item">Theatre Bookings</li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="col-lg-5"></div>
+                                    <div class="col-lg-7">
+                                        <div class="form-group form-inline">
+                                            <h4>All Modules</h4>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-12">
+                                                        <table class="table table-striped table-bordered  col-lg-8">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Permission</th>
+                                                                    <th>Read</th>
+                                                                    <th>Create</th>
+                                                                    <th>Update</th>
+                                                                    <th>Delete</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Book an appointment</td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Search an appointment</td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Move an appointment</td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Reminders</td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Notifications</td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="checkbox" />
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
                                 <input type="button" data-page="2" name="next" class="next action-button" value="Save" />
                             </fieldset>
 
                             <fieldset>
                                 <h2 class="fs-title">Assign Roles</h2>
                                 <h3 class="fs-subtitle"></h3>
-
-                                @*<div class="col-lg-8">
-                                        <div class="form-group form-inline">
-                                            <p class="text-center">The confirmation screen will come here</p>
-                                        </div>
-                                    </div>*@
 
                                 <div class="col-lg-12">
                                     <div class="form-group form-inline">
@@ -459,19 +643,13 @@
                                 <h2 class="fs-title">Approvals</h2>
                                 <h3 class="fs-subtitle"></h3>
 
-                                @*<div class="col-lg-8">
-                                        <div class="form-group form-inline">
-                                            <p class="text-center">The confirmation screen will come here</p>
-                                        </div>
-                                    </div>*@
-
                                 <div class="col-lg-12">
                                     <div class="form-group form-inline">
                                         <input type="button" data-page="4" name="next" class="next action-button" value="Save" />
                                     </div>
                                 </div>
 
-                            </fieldset>
+                            </fieldset>*@
                         </form>
                     }
 

@@ -32,8 +32,9 @@ namespace Feature.OHS.Web.ViewModels
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
 
-        public bool ExpirePassword { get; set; }
-        public bool ResetPassword { get; set; }
+        //public bool ExpirePassword { get; set; }
+        //public bool ResetPassword { get; set; }
+        public bool IsDoctor { get; set; }
 
         public int PersonId { get; set; }
 
@@ -51,12 +52,14 @@ namespace Feature.OHS.Web.ViewModels
         public string IdNumber { get; set; }
 
         //  Catered for at controller level
+        public string EventDescription { get; set; }
         public string EventTypeShortDescription { get; set; }
         public string EventTypeDescription { get; set; }
         public string StatusTypeShortDescription { get; set; }
         public string StatusTypeDescription { get; set; }
         public string PersonTypeShortDescription { get; set; }
         public string PersonTypeDescription { get; set; }
+
 
         [Display(Name = "Work Telephone")]
         public string Telephone2 { get; set; }
