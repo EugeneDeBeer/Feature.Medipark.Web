@@ -17,13 +17,16 @@ namespace Feature.OHS.Web.Controllers
             _appointmentHandler = appointmentHandler;
         }
         // GET: DoctorsAppointment
-        public ActionResult Index()
+        public ActionResult Index(AppointmentViewModel model)
         {
-            return View();
+            if(model == null)
+                return View(new AppointmentViewModel());
+
+            return View(model);
         }
-        public ActionResult PopulatedIndex()
+        public ActionResult PopulatedIndex(AppointmentViewModel appointmentViewModel )
         {
-            return View("~/Views/Appointment/PopulatedIndex.cshtml");
+            return View("~/Views/Appointment/PopulatedIndex.cshtml",appointmentViewModel);
         }
 
         [HttpPost("Appointment")]
@@ -32,14 +35,12 @@ namespace Feature.OHS.Web.Controllers
             _appointmentHandler.Create(appointmentViewModel);
             return   RedirectToAction(nameof(Index));
         }
-
+       
         public ActionResult GetAppointment(string id)
         {
              var appointment =_appointmentHandler.GetAppointmentByIdNumber(id);
-
-            return RedirectToAction(nameof(PopulatedIndex), appointment);
+            return RedirectToAction(nameof(Index), appointment);
         }
-
 
         public JsonResult GetAppointments() {
             var appointments = _appointmentHandler.GetAppointments;
