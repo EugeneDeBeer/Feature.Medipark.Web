@@ -21,6 +21,10 @@ namespace Feature.OHS.Web.Controllers
         {
             return View();
         }
+        public ActionResult PopulatedIndex()
+        {
+            return View("~/Views/Appointment/PopulatedIndex.cshtml");
+        }
 
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
@@ -28,6 +32,15 @@ namespace Feature.OHS.Web.Controllers
             _appointmentHandler.Create(appointmentViewModel);
             return   RedirectToAction(nameof(Index));
         }
+
+        public ActionResult GetAppointment(string id)
+        {
+             var appointment =_appointmentHandler.GetAppointmentByIdNumber(id);
+
+            return RedirectToAction(nameof(PopulatedIndex), appointment);
+        }
+
+
         public JsonResult GetAppointments() {
             var appointments = _appointmentHandler.GetAppointments;
             return new JsonResult(appointments);

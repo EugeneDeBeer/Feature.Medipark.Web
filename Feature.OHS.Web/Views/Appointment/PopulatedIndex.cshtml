@@ -1,6 +1,5 @@
 ﻿@model Feature.OHS.Web.ViewModels.AppointmentViewModel
 
-
 @*<link href='../fullcalendar.min.css' rel='stylesheet' />
     <link href='../fullcalendar.print.min.css' rel='stylesheet' media='print' />
     <script src='../lib/moment.min.js'></script>
@@ -27,7 +26,7 @@
                     <div class="panel-body">
 
                         <div class="form-group form-inline">
-                            <a id="patientSearchId" href="~/Views/Appointment/PopulatedIndex.cshtml">  <i class="fa fa-search" aria-hidden="true"></i></a>
+                            <a id="patientSearchId" href="#">  <i class="fa fa-search" aria-hidden="true"></i></a>
                             <input asp-for="IdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Search Patient" aria-label="Search">
 
 
@@ -37,17 +36,17 @@
 
                             <div class="form-group form-inline">
                                 <label for="firstName">Name <span>*</span></label>
-                                <input asp-for="FirstName" type="text" class="form-control" placeholder="">
+                                <input asp-for="FirstName" type="text" value=@Model?.FirstName  class="form-control" placeholder="">
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                             <div class="form-group form-inline">
                                 <label for="Surname">Surname <span>*</span></label>
-                                <input asp-for="LastName" type="text" class="form-control" placeholder="">
+                                <input asp-for="LastName" type="text" value=@Model?.LastName  class="form-control" placeholder="">
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                             <div class="form-group form-inline">
                                 <label for="IdNumber">Id Number <span>*</span></label>
-                                <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
+                                <input asp-for="IdNumber" type="text" value=@Model?.IdNumber class="form-control" placeholder="">
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
 
@@ -127,7 +126,7 @@
 <script>
 
     $(document).ready(function () {
-  
+
                 var appointments = [];
                 $.ajax({
                     type: "Get",
@@ -195,9 +194,9 @@
                 }
             });
         });
-       
-            
-        
+
+
+
 
 
 
