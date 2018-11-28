@@ -51,16 +51,13 @@ namespace Feature.OHS.Web.Domain
         }
 
         public async Task<APIResponse> Login(LoginViewModel person)
-        {          
-            // var response = _integration.ResponseFromAPIPost("", "v1/Registration/Login", person, "https://localhost:44358/", true);
-            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Login", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+        {
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration", person, "https://localhost:44358/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
 
-            if (response != null)
-            {
-                var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
-                return responseObject;
-            }
-            else { return null; }
+            //var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+            //return responseObject;
+            return response;
         }
     }
 }

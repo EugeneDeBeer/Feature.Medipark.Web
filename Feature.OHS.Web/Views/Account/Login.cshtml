@@ -94,6 +94,19 @@
                             <div class="account-content">
                                 <form asp-action="Login" asp-controller="Account" method="post" asp-antiforgery="true" id="loginForm">
                                     <div class="row">
+
+                                        @if (Model != null && !string.IsNullOrWhiteSpace(Model.UserName))
+                                        {
+                                            <div class="col-lg-12">
+                                                @*<span class="col-lg-offset-3 text-center label-danger">Incorrect username or password</span><br/>*@
+                                                
+                                                <div class="panel panel-danger">
+                                                    @*<div class="panel-heading text-center">Credentials</div>*@
+                                                    <div class="panel-body text-center">Incorrect username or password</div>
+                                                </div>
+                                            </div><br />
+                                        }
+
                                         <div class="col-lg-6">
                                             <div class="form-group has-icon focused">
                                                 <input type="email" asp-for="UserName" class="form-control form-control-lg no-b" placeholder="Email Address" /><br />
@@ -105,17 +118,18 @@
                                                 <input type="password" asp-for="Password" class="form-control form-control-lg no-b" placeholder="Password"><br />
                                                 <span asp-validation-for="Password" class="text-danger"></span>
                                                 @*<div class="input-group">
-                                                        <input type="password" class="form-control form-control-lg no-b" placeholder="Password">
-                                                        <span class="input-group-addon" id="viewPassword"><i class="fa fa-eye"></i></span>
-                                                    </div>*@
+                    <input type="password" class="form-control form-control-lg no-b" placeholder="Password">
+                    <span class="input-group-addon" id="viewPassword"><i class="fa fa-eye"></i></span>
+                </div>*@
                                             </div>
                                         </div>
+
                                         <div class="col-lg-12">
                                             <input type="submit" class="btn btn-success btn-lg btn-block" value="Login">
 
                                             @*<a href="~/Views/Dashboard/Dashboard.cshtml">
-                                                    <input type="submit" class="btn btn-success btn-lg btn-block" value="Login">
-                                                </a>*@
+                <input type="submit" class="btn btn-success btn-lg btn-block" value="Login">
+            </a>*@
                                         </div>
                                         <div class="col-lg-12">
                                             <hr />

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
+using Feature.OHS.Web.ViewModels.Response;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Feature.OHS.Web.Controllers
 {
@@ -25,7 +28,7 @@ namespace Feature.OHS.Web.Controllers
 
         public IActionResult Login()
         {
-            return View();
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
@@ -44,7 +47,7 @@ namespace Feature.OHS.Web.Controllers
 
                     if (!response.Success)
                     {
-                        return View("Error", new ErrorViewModel(){RequestId = "Model cannot be null" });
+                        return View("Error", new ErrorViewModel() { RequestId = response.Message });
                     }
 
                     var returnUrl = Convert.ToString(ViewData["ReturnUrl"]);
@@ -54,7 +57,22 @@ namespace Feature.OHS.Web.Controllers
                         return Redirect(returnUrl);
                     }
 
-                    return RedirectToAction("Dashboard", "Dashboard", response);
+                    if (response.Success)
+                    {
+                        var data = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+
+                        if (!data.Success)
+                        {
+                            return View(model);
+
+                            //ModelState.AddModelError("Credentials", data.Message);
+                            //return StatusCode((int) HttpStatusCode.NotFound, data);
+                        }
+                            
+                    }
+
+                    //return RedirectToAction("Dashboard", "Dashboard", response);
+                    return RedirectToAction("SuccessLogin", "Account", response);
                 }
                 catch (Exception ex)
                 {
@@ -66,7 +84,7 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
 
-            
+
         }
 
         public IActionResult Registration(string returnUrl)
@@ -108,7 +126,7 @@ namespace Feature.OHS.Web.Controllers
 
                     return RedirectToAction(nameof(Login));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = ex.Message.ToString() });
                 }
@@ -118,5 +136,11 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
+
+        public IActionResult SuccessLogin(APIResponse clientInfo)
+        {
+            return View(new PersonViewModel());
+        }
+
     }
 }
