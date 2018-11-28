@@ -71,8 +71,8 @@ namespace Feature.OHS.Web.Controllers
                         }                            
                     }
 
-                    return RedirectToAction("Dashboard", "Dashboard", response);
-                    //return RedirectToAction("SuccessLogin", "Account", response);
+                    //return RedirectToAction("Dashboard", "Dashboard", response);
+                    return RedirectToAction("SuccessLogin", "Account", response);
                 }
                 catch (Exception ex)
                 {
@@ -86,6 +86,20 @@ namespace Feature.OHS.Web.Controllers
 
 
         }
+
+        public IActionResult SuccessLogin(APIResponse clientInfo)
+        {
+            var temp = JsonConvert.DeserializeObject<APIResponse>(clientInfo.Message);
+
+            var personInfo = JsonConvert.DeserializeObject<PersonViewModel>(temp.Message);
+
+            if(personInfo != null)
+                return View(personInfo);
+
+            return View(new PersonViewModel());
+        }
+
+
 
         public IActionResult Registration(string returnUrl)
         {
@@ -135,16 +149,6 @@ namespace Feature.OHS.Web.Controllers
             {
                 return View(model);
             }
-        }
-
-        //public IActionResult SuccessLogin(APIResponse clientInfo)
-        //{
-        //    var temp = JsonConvert.DeserializeObject<APIResponse>(clientInfo.Message);
-
-        //    var personInfo = JsonConvert.DeserializeObject<PersonViewModel>(temp.Message);
-
-        //    return View(new PersonViewModel());
-        //}
-
+        }       
     }
 }

@@ -8,13 +8,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
     <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
-    
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#successModal').modal('show');            
+        $(document).ready(function() {
+            $('#successModal').modal('show');
         });
+
+        if (typeof (Storage) !== "undefined") {
+
+            sessionStorage.removeItem("userId");
+            sessionStorage.removeItem("firstName");
+            sessionStorage.removeItem("lastName");
+            sessionStorage.removeItem("idNumber");
+            sessionStorage.removeItem("title");
+            sessionStorage.removeItem("userRole");
+
+
+            //console.log("Your browser does support Web Storage...");
+
+            // Store data without expiration
+            @*localStorage.setItem("userId", @Model?.UserId.ToString());
+            localStorage.setItem("firstName", @Model?.FirstName);
+            localStorage.setItem("lastName", @Model?.LastName);
+            localStorage.setItem("idNumber", @Model?.IdNumber);
+            localStorage.setItem("title", @Model?.Title);
+            localStorage.setItem("userRole", (@Model?.IsDoctor) ? "doctor" : "secretary" );*@
+
+            // Store data with expiration
+            //if (@Model !== null) {
+            sessionStorage.setItem("userId", "@Model?.UserId.ToString()");
+            sessionStorage.setItem("firstName", "@Model?.FirstName");
+            sessionStorage.setItem("lastName", "@Model?.LastName");
+            sessionStorage.setItem("idNumber", "@Model?.IdNumber");
+            sessionStorage.setItem("title", "@Model?.Title");
+            //sessionStorage.setItem("userRole", (@Model?.IsDoctor) ? "doctor" : "secretary");
+            //}
+
+
+            // Retrieve
+            //console.log(sessionStorage.getItem("userId"));
+            //console.log(sessionStorage.getItem("firstName"));
+            //console.log(sessionStorage.getItem("lastName"));
+            //console.log(sessionStorage.getItem("idNumber"));
+            //console.log(sessionStorage.getItem("title"));
+            //console.log(sessionStorage.getItem("userRole"));
+
+
+        } else {
+            console.log("Sorry, your browser does not support Web Storage...");
+        }
+
     </script>
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
