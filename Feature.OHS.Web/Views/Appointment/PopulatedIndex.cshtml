@@ -1,5 +1,4 @@
 ﻿@model Feature.OHS.Web.ViewModels.AppointmentViewModel
-
 @*<link href='../fullcalendar.min.css' rel='stylesheet' />
     <link href='../fullcalendar.print.min.css' rel='stylesheet' media='print' />
     <script src='../lib/moment.min.js'></script>
@@ -7,8 +6,6 @@
     <script src='../fullcalendar.min.js'></script>*@
 
 <style>
-
-
 
     #calendar {
         max-width: 800px;
@@ -28,28 +25,43 @@
                         <div class="form-group form-inline">
                             <a id="patientSearchId" href="#">  <i class="fa fa-search" aria-hidden="true"></i></a>
                             <input asp-for="IdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Search Patient" aria-label="Search">
-
-
                         </div>
 
                         <div class="col-sm-4 ">
 
                             <div class="form-group form-inline">
                                 <label for="firstName">Name <span>*</span></label>
-                                <input asp-for="FirstName" type="text" value=@Model?.FirstName  class="form-control" placeholder="">
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                                @if (Model?.FirstName == null)
+
+                                {
+                                    <input asp-for="FirstName" type="text" class="form-control" placeholder="">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                }
+                                else
+                                {
+                                    <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                }
                             </div>
                             <div class="form-group form-inline">
-                                <label for="Surname">Surname <span>*</span></label>
-                                <input asp-for="LastName" type="text" value=@Model?.LastName  class="form-control" placeholder="">
-                                <span asp-validation-for="LastName" class="text-danger"></span>
+                                @if (Model?.LastName == null)
+                                {
+                                    <label for="Surname">Surname <span>*</span></label>
+                                    <input asp-for="LastName" type="text" class="form-control" placeholder="">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                }
+                                else
+                                {
+                                    <label for="Surname">Surname <span>*</span></label>
+                                    <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                }
                             </div>
                             <div class="form-group form-inline">
                                 <label for="IdNumber">Id Number <span>*</span></label>
-                                <input asp-for="IdNumber" type="text" value=@Model?.IdNumber class="form-control" placeholder="">
+                                <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
-
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group form-inline">
@@ -69,14 +81,12 @@
                                     <option>-----None-----</option>
                                     <option value="0">SMS</option>
                                     <option value="1">Email</option>
-
                                 </select>
                                 <span class="text-danger"></span>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </fieldset>
             <fieldset>
                 <div class="panel panel-default">
@@ -108,18 +118,15 @@
                                 <span asp-validation-for="Time" class="text-danger"></span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </fieldset>
             <div class="col-sm-6">
-
             </div>
             <div class="col-sm-6">
                 <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
             </div>
         </form>
-
     </div>
 </div>
 <div id="appdiv"></div>
@@ -127,37 +134,37 @@
 
     $(document).ready(function () {
 
-                var appointments = [];
-                $.ajax({
-                    type: "Get",
-                    url: "/Appointment/GetAppointments",
-                    success: function (data) {
-                        //console.log(data);
+        var appointments = [];
+        $.ajax({
+            type: "Get",
+            url: "/Appointment/GetAppointments",
+            success: function (data) {
+                //console.log(data);
 
-                        $.each(data, function (i, v) {
-                            //console.log(v);
+                $.each(data, function (i, v) {
+                    //console.log(v);
 
-                            appointments.push({
-                                id: v.AppointmentId,
-                                title: v.Title,
-                                description: v.Description,
-                                start: v.Start,//.format('YYYY-MM-DD'),
-                                end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
-                                allDay: false
-                            });
-                        });
+                    appointments.push({
+                        id: v.AppointmentId,
+                        title: v.Title,
+                        description: v.Description,
+                        start: v.Start,//.format('YYYY-MM-DD'),
+                        end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
+                        allDay: false
+                    });
+                });
 
-                        console.log(appointments);
+                console.log(appointments);
 
-                        //  GenerateCalender(appointments);
-                    },
-                    error: function (error) {
-                        alert('failed')
+                //  GenerateCalender(appointments);
+            },
+            error: function (error) {
+                alert('failed')
 
-                    }
-                }
+            }
+        }
 
-                );
+        );
 
         $("#patientSearchId").on("click", function (e) {
             //e.preventDefault();
@@ -167,7 +174,7 @@
             $.ajax({
                 type: "Get",
                 url: "/Appointment/GetAppointment",
-                data: {id: idNumber},
+                data: { id: idNumber },
                 success: function (data) {
                     //console.log(data);
 
@@ -195,40 +202,34 @@
             });
         });
 
+        // function GenerateCalender(appointments) {
+        // $('calender').fullCalendar('destroy');
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay,agenda'
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            eventColor: '#00bfff'
+            , events: "/Appointment/GetAppointments",
+            eventClick: function (calEvent, jsEvent, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $description.append($('<p />').html('<b>Start:</b>' + calEvent.start));
+                $description.append($('<p />').html('<b>End:</b>' + calEvent.end));
+                $description.append($('<p />').html('<b>Description:</b>' + calEvent.description));
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+                $('#appointmentModal').modal();
+            }
 
+        })
+        // }
 
-
-
-
-
-                // function GenerateCalender(appointments) {
-                // $('calender').fullCalendar('destroy');
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,basicWeek,basicDay,agenda'
-                    },
-                    defaultDate: new Date(),
-                    navLinks: true, // can click day/week names to navigate views
-                    editable: true,
-                    eventLimit: true, // allow "more" link when too many events
-                    eventColor: '#00bfff'
-                    , events: "/Appointment/GetAppointments",
-                    eventClick: function (calEvent, jsEvent, view) {
-                        $('#appointmentModal');
-                        var $description = $('#appdiv').html('content');
-                        $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start));
-                        $description.append($('<p/>').html('<b>End:</b>' + calEvent.end));
-                        $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
-                        $('#appointmentModal #appointmentDetails').empty().html($description);
-                        $('#appointmentModal').modal();
-                    }
-
-                })
-                // }
-
-            });
+    });
 </script>
 <!-- Button trigger modal -->
 <!-- Modal -->

@@ -18,7 +18,7 @@ namespace Feature.OHS.Web.Domain
             get
             {
 
-                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments", "https://dev-feature-ohs-appointments-dot-medipark-hospital.appspot.com/", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments", "https://localhost:44370", "GET");
                 if (request != null)
                 {
                     var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
@@ -51,7 +51,7 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://dev-feature-ohs-appointments-dot-medipark-hospital.appspot.com/", true);
+            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370/", true);
 
             if (_response != null)
             {
@@ -71,7 +71,7 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?Id=" + id, "https://dev-admissions-dot-medipark-hospital.appspot.com/", "GET");
+            var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?Id=" + id, "http://localhost:61820/", "GET");
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
