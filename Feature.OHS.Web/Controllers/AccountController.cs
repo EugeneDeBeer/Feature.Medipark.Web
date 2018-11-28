@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Feature.OHS.Search.Modela;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
@@ -67,12 +68,11 @@ namespace Feature.OHS.Web.Controllers
 
                             //ModelState.AddModelError("Credentials", data.Message);
                             //return StatusCode((int) HttpStatusCode.NotFound, data);
-                        }
-                            
+                        }                            
                     }
 
-                    //return RedirectToAction("Dashboard", "Dashboard", response);
-                    return RedirectToAction("SuccessLogin", "Account", response);
+                    return RedirectToAction("Dashboard", "Dashboard", response);
+                    //return RedirectToAction("SuccessLogin", "Account", response);
                 }
                 catch (Exception ex)
                 {
@@ -137,10 +137,14 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-        public IActionResult SuccessLogin(APIResponse clientInfo)
-        {
-            return View(new PersonViewModel());
-        }
+        //public IActionResult SuccessLogin(APIResponse clientInfo)
+        //{
+        //    var temp = JsonConvert.DeserializeObject<APIResponse>(clientInfo.Message);
+
+        //    var personInfo = JsonConvert.DeserializeObject<PersonViewModel>(temp.Message);
+
+        //    return View(new PersonViewModel());
+        //}
 
     }
 }
