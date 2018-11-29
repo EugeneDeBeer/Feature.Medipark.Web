@@ -114,7 +114,7 @@ namespace Feature.OHS.Web.Domain
 
             if (_response != null)
             {
-                var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_response.Message);
+                var response = JsonConvert.DeserializeObject<dynamic>(_response.Message);
                 if (response != null)
                 {
                     return response;
