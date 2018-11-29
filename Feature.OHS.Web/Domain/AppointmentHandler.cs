@@ -17,14 +17,25 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-
+               
                 var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments", "https://localhost:44370", "GET");
                 if (request != null)
                 {
+                    var i = 0;
                     var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
-                    if (Response != null)
+                    var appointmentList = new List<AppointmentViewModel>();
+                   
+                    foreach (var item in Response)
                     {
-                        return Response;
+                    
+                        appointmentList.Add(item);
+                        appointmentList[i].Id = item.AppointmentId;
+                        i++; 
+                    }
+                 
+                    if (appointmentList != null)
+                    {
+                        return appointmentList;
                     }
                     return null;
                 }

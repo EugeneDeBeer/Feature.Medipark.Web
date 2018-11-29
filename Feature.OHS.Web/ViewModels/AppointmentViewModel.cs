@@ -9,6 +9,7 @@ namespace Feature.OHS.Web.ViewModels
     {
         public int UserId { get; set; }
         public int Id { get; set; }
+        public int AppointmentId { get; set; }
         public string AppointmentShortTypeDescription { get; set; }
         public string AppointmentTypeDescription { get; set; }
         public string EventTypeShortDescription { get; set; }
