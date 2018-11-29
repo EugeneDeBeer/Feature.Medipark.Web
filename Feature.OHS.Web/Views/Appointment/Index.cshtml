@@ -240,31 +240,68 @@
                 $description.append($('<p />').html('<b>Description:</b>' + calEvent.description));
                 $('#appointmentModal #appointmentDetails').empty().html($description);
                 $('#appointmentModal').modal();
+            },
+            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $description.append($('<p />').html('<b>Start:</b>' + event.start));
+                $description.append($('<p />').html('<b>End:</b>' + event.end));
+                $description.append($('<p />').html('<b>Description:</b>' + event.description));
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+                var aDate = new Date(
+                    Date.parse(event.start)
+                );
+                var timeString = "";
+                $("#start").val(aDate);
+                var h = aDate.getHours();
+                var m = aDate.getMinutes();
+                var s = aDate.getSeconds();
+                if (h < 10) h = '0' + h;
+                if (m < 10) m = '0' + m;
+                if (s < 10) s = '0' + s;
+                timeString = h + ':' + m + ':' + s;
+                $('#time').val(timeString);
+                $("#title").val(event.title);
+                $("#desc").val(event.description);
+                $('#appointmentModal').modal();
             }
 
         })
-        // }
+        
 
     });
 </script>
 <!-- Button trigger modal -->
 <!-- Modal -->
 <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="display:grid;height:30%; width:70%;" role="document">
+    <div class="modal-dialog" style="display:grid;height:60%; width:50%;" role="document">
         <div class="modal-content" style="width:100%">
             <div class="modal-header">
+                <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                 <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
-            <div class="modal-body" style="height:50%; width:70%;">
-                <p id="appointmentDetails"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-primary">Save Appointment</button>-->
-            </div>
+
+            <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
+                <div class="modal-body" style="height:70%; width:100%;">
+
+                    <div class=" col-sm-12">
+                        <input asp-for="AppointmentId" type="hidden" />
+                        <input asp-for="IdNumber" type="hidden" />
+                        <label for="Date">Date <span>*</span></label>
+                        <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
+                        <label for="Time">Time <span>*</span></label>
+                        <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
+                        <label for="Title">Subject <span>*</span></label>
+                        <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                        <label for="Description">Description <span>*</span></label>
+                        <textarea id="desc" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
