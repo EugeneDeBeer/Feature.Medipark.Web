@@ -24,11 +24,7 @@ namespace Feature.OHS.Web.Controllers
 
             return View(model);
         }
-        public ActionResult PopulatedIndex(AppointmentViewModel appointmentViewModel )
-        {
-            return View("~/Views/Appointment/PopulatedIndex.cshtml",appointmentViewModel);
-        }
-
+     
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {

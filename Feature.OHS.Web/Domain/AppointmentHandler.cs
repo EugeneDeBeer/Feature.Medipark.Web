@@ -16,7 +16,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments", "https://localhost:44370", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments", "https://dev-feature-ohs-appointments-dot-medipark-hospital.appspot.com", "GET");
                 if (request != null)
                 {
                     var patientIndex = 0;
@@ -59,7 +59,7 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370/", true);
+            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://dev-feature-ohs-appointments-dot-medipark-hospital.appspot.com", true);
 
             if (_response != null)
             {
@@ -109,7 +109,7 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, "https://localhost:44370/", true);
+            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, "https://dev-feature-ohs-appointments-dot-medipark-hospital.appspot.com/", true);
 
             if (_response != null)
             {
