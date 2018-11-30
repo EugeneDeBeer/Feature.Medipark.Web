@@ -78,7 +78,7 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?Id=" + id, "http://localhost:61820/", "GET");
+            var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?Id=" + id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
@@ -94,7 +94,7 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        public AppointmentViewModel Update(AppointmentViewModel appointmentViewModel)
+        public dynamic Update(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";
             appointmentViewModel.AppointmentTypeDescription = "doctor";
@@ -105,7 +105,6 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-
             appointmentViewModel.UserId = 1;
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
