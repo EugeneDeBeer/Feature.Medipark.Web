@@ -11,6 +11,7 @@ namespace Feature.OHS.Web.Interfaces
     {
        IEnumerable<AppointmentViewModel> GetAppointments { get; }
        AppointmentViewModel GetAppointmentByIdNumber(string id);
-       AppointmentViewModel Create(AppointmentViewModel appointmentViewModel);      
+       AppointmentViewModel Create(AppointmentViewModel appointmentViewModel);
+        AppointmentViewModel Update(AppointmentViewModel appointmentViewModel); 
     }
 }

@@ -33,9 +33,16 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             _appointmentHandler.Create(appointmentViewModel);
-            return   RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
        
+        [HttpPost("Update")]
+        public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel )
+        {
+            _appointmentHandler.Update(appointmentViewModel);
+            return RedirectToAction(nameof(Index));
+        }
+             
         public ActionResult GetAppointment(string id)
         {
              var appointment =_appointmentHandler.GetAppointmentByIdNumber(id);
