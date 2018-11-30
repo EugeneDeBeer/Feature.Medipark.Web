@@ -102,7 +102,7 @@
                             </div>
                             <div class="form-group form-inline">
                                 <label for="description">Description:</label>
-                                <textarea class="form-control" rows="2"></textarea>
+                                <textarea asp-for="Description" class="form-control" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -177,49 +177,8 @@
             button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
             button.click();
 
-            //$("#IdNumber").on('keyup', function (e) { 
-            //    var idNumber = $(this).val();
-
-            //    //patientSearchId
-
-
-
-            //});
-
-
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/Appointment/GetAppointment",
-            //    data: { id: idNumber },
-            //    success: function (data) {
-            //        //console.log(data);
-                   
-            //        $.each(data, function (i, v) {
-            //            //console.log(v);
-
-            //            appointments.push({
-            //                id: v.AppointmentId,
-            //                title: v.Title,
-            //                description: v.Description,
-            //                start: v.Start,//.format('YYYY-MM-DD'),
-            //                end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
-            //                allDay: false
-            //            });
-            //        });
-
-            //        console.log(appointments);
-
-            //        //  GenerateCalender(appointments);
-            //    },
-            //    error: function (error) {
-            //        alert('failed')
-            //        console.log(error);
-            //    }
-            //});
         });
 
-        // function GenerateCalender(appointments) {
-        // $('calender').fullCalendar('destroy');
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -246,17 +205,21 @@
                     Date.parse(event.start)
                 );
                 var timeString = "";
-                $("#start").val(aDate);
-                var h = aDate.getHours();
-                var m = aDate.getMinutes();
-                var s = aDate.getSeconds();
-                if (h < 10) h = '0' + h;
-                if (m < 10) m = '0' + m;
-               // if (s < 10) s = '0' + s;
-                timeString = h + ':' + m 
+             
+                var hour = aDate.getHours();
+                var minute = aDate.getMinutes();
+                var second = aDate.getSeconds();
+                var year = aDate.getFullYear();
+                var month = aDate.getMonth();
+                var day = aDate.getDay();
+                var date = year+'-'+ month + '-'+ day;
+                if (hour < 10) hour = '0' + hour;
+                if (minute < 10) minute = '0' + minute;
+                timeString = hour + ':' + minute; 
+                $("#start").val(date);
                 $('#time').val(timeString);
                 $("#title").val(event.title);
-                $("#desc").val(event.description);
+                $("#description").val(event.description);
                 $('#appointmentModal').modal();
             }
 
@@ -288,7 +251,7 @@
                         <label for="Title">Subject <span>*</span></label>
                         <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
                         <label for="Description">Description <span>*</span></label>
-                        <textarea id="desc" class="form-control" rows="2"></textarea>
+                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
                     </div>
                 </div>
                 <div class="row">
