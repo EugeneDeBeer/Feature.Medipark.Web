@@ -2,7 +2,6 @@
 using Feature.OHS.Web.ViewModels;
 using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Feature.OHS.Web.Domain
@@ -17,14 +16,23 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-
                 var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments", "https://localhost:44370", "GET");
                 if (request != null)
                 {
+                    var patientIndex = 0;
                     var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
-                    if (Response != null)
+                    var appointmentList = new List<AppointmentViewModel>();
+
+                    foreach (var item in Response)
                     {
-                        return Response;
+                        appointmentList.Add(item);
+                        appointmentList[patientIndex].Id = item.AppointmentId;
+                        patientIndex++;
+                    }
+
+                    if (appointmentList != null)
+                    {
+                        return appointmentList;
                     }
                     return null;
                 }
@@ -37,11 +45,11 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel Create(AppointmentViewModel appointmentViewModel)
         {
-            appointmentViewModel.AppointmentShortTypeDescription="appointment";
+            appointmentViewModel.AppointmentShortTypeDescription = "appointment";
             appointmentViewModel.AppointmentTypeDescription = "doctor";
-            appointmentViewModel.EventDescription=$"creating doctor appointment for{appointmentViewModel.FirstName}" ;
+            appointmentViewModel.EventDescription = $"creating doctor appointment for{appointmentViewModel.FirstName}";
             appointmentViewModel.EventTypeDescription = "book appointment";
-            appointmentViewModel.EventTypeShortDescription = "private practise";
+            appointmentViewModel.EventTypeShortDescription = "private practice";
             appointmentViewModel.StatusTypeDescription = "booked";
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
@@ -58,7 +66,6 @@ namespace Feature.OHS.Web.Domain
                 var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_response.Message);
                 if (response != null)
                 {
-
                     return response;
                 }
                 else
@@ -71,7 +78,7 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?Id=" + id, "http://localhost:61820/", "GET");
+            var request = _integration.ResponseFromAPIGet("", "/v1/Patient/Get/Patient?Id=" + id, "https://dev-feature-medipark-admissions-dot-medipark-hospital.appspot.com/", "GET");
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
@@ -79,12 +86,44 @@ namespace Feature.OHS.Web.Domain
                 {
                     return _response;
                 }
-                return null;    
+                return null;
             }
             else
             {
                 return null;
             }
+        }
+
+        public dynamic Update(AppointmentViewModel appointmentViewModel)
+        {
+            appointmentViewModel.AppointmentShortTypeDescription = "appointment";
+            appointmentViewModel.AppointmentTypeDescription = "doctor";
+            appointmentViewModel.EventDescription = $"updating doctor appointment for{appointmentViewModel.FirstName}";
+            appointmentViewModel.EventTypeDescription = "book appointment";
+            appointmentViewModel.EventTypeShortDescription = "private practice";
+            appointmentViewModel.StatusTypeDescription = "booked";
+            appointmentViewModel.StatusTypeShortDescription = "appointment";
+            appointmentViewModel.PersonTypeDescription = "individual";
+            appointmentViewModel.PersonTypeShortDescription = "person";
+            appointmentViewModel.UserId = 1;
+            var tm = TimeSpan.Parse(appointmentViewModel.Time);
+            appointmentViewModel.Start += tm;
+            appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
+            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, "https://localhost:44370/", true);
+
+            if (_response != null)
+            {
+                var response = JsonConvert.DeserializeObject<dynamic>(_response.Message);
+                if (response != null)
+                {
+                    return response;
+                }
+                else
+                    throw new Exception("failed to deserialize the response from the server");
+            }
+            else
+
+                throw new Exception("the response from the server is null");
         }
     }
 }

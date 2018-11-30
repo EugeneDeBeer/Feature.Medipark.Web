@@ -130,7 +130,8 @@ namespace Feature.OHS.Web.Domain
             var response = _integration.ResponseFromAPIPost("", "v1/Ward/edit", ward, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
 
             if (response != null)
-            {
+         
+   {
                 var dynamicResponse = JsonConvert.DeserializeObject<WardViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {

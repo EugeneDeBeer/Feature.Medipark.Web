@@ -102,7 +102,7 @@
                             </div>
                             <div class="form-group form-inline">
                                 <label for="description">Description:</label>
-                                <textarea class="form-control" rows="2"></textarea>
+                                <textarea asp-for="Description" class="form-control" rows="2"></textarea>
                             </div>
                         </div>
                         <div class="col-sm-3">
@@ -177,49 +177,8 @@
             button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
             button.click();
 
-            //$("#IdNumber").on('keyup', function (e) { 
-            //    var idNumber = $(this).val();
-
-            //    //patientSearchId
-
-
-
-            //});
-
-
-            //$.ajax({
-            //    type: "POST",
-            //    url: "/Appointment/GetAppointment",
-            //    data: { id: idNumber },
-            //    success: function (data) {
-            //        //console.log(data);
-                   
-            //        $.each(data, function (i, v) {
-            //            //console.log(v);
-
-            //            appointments.push({
-            //                id: v.AppointmentId,
-            //                title: v.Title,
-            //                description: v.Description,
-            //                start: v.Start,//.format('YYYY-MM-DD'),
-            //                end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
-            //                allDay: false
-            //            });
-            //        });
-
-            //        console.log(appointments);
-
-            //        //  GenerateCalender(appointments);
-            //    },
-            //    error: function (error) {
-            //        alert('failed')
-            //        console.log(error);
-            //    }
-            //});
         });
 
-        // function GenerateCalender(appointments) {
-        // $('calender').fullCalendar('destroy');
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -235,36 +194,74 @@
             eventClick: function (calEvent, jsEvent, view) {
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
-                $description.append($('<p />').html('<b>Start:</b>' + calEvent.start));
-                $description.append($('<p />').html('<b>End:</b>' + calEvent.end));
-                $description.append($('<p />').html('<b>Description:</b>' + calEvent.description));
                 $('#appointmentModal #appointmentDetails').empty().html($description);
+                $('#appointmentModal').modal();
+            },
+            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+                var aDate = new Date(
+                    Date.parse(event.start)
+                );
+                var timeString = "";
+             
+                var hour = aDate.getHours();
+                var minute = aDate.getMinutes();
+                var second = aDate.getSeconds();
+                var year = aDate.getFullYear();
+                var month = aDate.getMonth();
+                var day = aDate.getDay();
+                var date = year+'-'+ month + '-'+ day;
+                if (hour < 10) hour = '0' + hour;
+                if (minute < 10) minute = '0' + minute;
+                timeString = hour + ':' + minute; 
+                $("#start").val(date);
+                $('#time').val(timeString);
+                $("#title").val(event.title);
+                $("#description").val(event.description);
                 $('#appointmentModal').modal();
             }
 
         })
-        // }
+        
 
     });
 </script>
 <!-- Button trigger modal -->
 <!-- Modal -->
 <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" style="display:grid;height:30%; width:70%;" role="document">
-        <div class="modal-content" style="width:100%">
-            <div class="modal-header">
-                <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="height:50%; width:70%;">
-                <p id="appointmentDetails"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-primary">Save Appointment</button>-->
+
+    <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
+        <div class="modal-dialog" style="display:grid;height:70%; width:50%;" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
+                </div>
+                <div class="modal-body" style="height:70%; width:100%;">
+
+                    <div class=" col-sm-12">
+                        <input asp-for="AppointmentId" type="hidden" />
+                        <input asp-for="IdNumber" type="hidden" />
+                        <label for="Date">Date <span>*</span></label>
+                        <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
+                        <label for="Time">Time <span>*</span></label>
+                        <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
+                        <label for="Title">Subject <span>*</span></label>
+                        <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                        <label for="Description">Description <span>*</span></label>
+                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
+       
 </div>
