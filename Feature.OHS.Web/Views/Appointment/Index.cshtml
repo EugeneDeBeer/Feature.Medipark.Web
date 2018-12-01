@@ -1,10 +1,12 @@
 ﻿@model Feature.OHS.Web.ViewModels.AppointmentViewModel
 
-@*<link href='../fullcalendar.min.css' rel='stylesheet' />
-    <link href='../fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <script src='../lib/moment.min.js'></script>
-    <script src='../lib/jquery.min.js'></script>
-    <script src='../fullcalendar.min.js'></script>*@
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="containerbox">
+        <h3 class="text-danger page-message">@ViewBag.ErrorMessage</h3>
+    </div>
+}
+
 
 <style>
 
@@ -168,7 +170,7 @@
         );
 
         $("#patientSearchId").on("click", function (e) {
-           // e.preventDefault();
+            // e.preventDefault();
 
             var idNumber = $("#SearchIdNumber").val();
 
@@ -178,6 +180,7 @@
             button.click();
 
         });
+
 
         $('#calendar').fullCalendar({
             header: {
@@ -205,17 +208,17 @@
                     Date.parse(event.start)
                 );
                 var timeString = "";
-             
+
                 var hour = aDate.getHours();
                 var minute = aDate.getMinutes();
                 var second = aDate.getSeconds();
                 var year = aDate.getFullYear();
                 var month = aDate.getMonth();
                 var day = aDate.getDay();
-                var date = year+'-'+ month + '-'+ day;
+                var date = year + '-' + month + '-' + day;
                 if (hour < 10) hour = '0' + hour;
                 if (minute < 10) minute = '0' + minute;
-                timeString = hour + ':' + minute; 
+                timeString = hour + ':' + minute;
                 $("#start").val(date);
                 $('#time').val(timeString);
                 $("#title").val(event.title);
@@ -224,7 +227,7 @@
             }
 
         })
-        
+
 
     });
 </script>
@@ -252,16 +255,19 @@
                         <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
                         <label for="Description">Description <span>*</span></label>
                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+
+
                     </div>
                 </div>
                 <div class="row">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
+                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />
                 </div>
             </div>
         </div>
     </form>
-       
+
 </div>

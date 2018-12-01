@@ -6,6 +6,7 @@ using Feature.OHS.Web.Authentication;
 using Feature.OHS.Web.Domain;
 using Feature.OHS.Web.Integration;
 using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,8 @@ namespace Feature.OHS.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.Configure<IntegrationSettings>(Configuration.GetSection("GlobalSettings"));
 
             services.AddTransient<IPatientHandler, PatientHandler>();
             services.AddTransient<IDoctorHandler, DoctoHandler>();

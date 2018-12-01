@@ -28,12 +28,27 @@ namespace Feature.OHS.Web.Controllers
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
-            _appointmentHandler.Create(appointmentViewModel);
-            return RedirectToAction(nameof(Index));
+            try { 
+
+            var result = _appointmentHandler.Create(appointmentViewModel);
+                if(result != null) { 
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Oops something went wrong please try again";
+                    return View("Index");
+                }
+            }
+            catch(Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Index");
+            }
         }
        
         [HttpPost("Update")]
-        public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel )
+        public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel)
         {
             _appointmentHandler.Update(appointmentViewModel);
             return RedirectToAction(nameof(Index));
@@ -50,5 +65,23 @@ namespace Feature.OHS.Web.Controllers
             return new JsonResult(appointments);
         }
 
+        public ActionResult CancelAppointment(AppointmentViewModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    ViewBag.Error = "Ooops something went wrong please try again";
+                    return View("Index");
+                }
+
+                var result = _appointmentHandler.CancelAppointment(model);
+                return View("Index", result);
+            }catch(Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Index");
+            }
+        }
     }
 }
