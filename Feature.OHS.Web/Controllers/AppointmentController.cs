@@ -17,17 +17,34 @@ namespace Feature.OHS.Web.Controllers
             _appointmentHandler = appointmentHandler;
         }
         // GET: DoctorsAppointment
-        public ActionResult Index()
+        public ActionResult Index(AppointmentViewModel model)
         {
-            return View();
-        }
+            if(model == null)
+                return View(new AppointmentViewModel());
 
+            return View(model);
+        }
+     
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             _appointmentHandler.Create(appointmentViewModel);
-            return   RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
+       
+        [HttpPost("Update")]
+        public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel )
+        {
+            _appointmentHandler.Update(appointmentViewModel);
+            return RedirectToAction(nameof(Index));
+        }
+             
+        public ActionResult GetAppointment(string id)
+        {
+             var appointment =_appointmentHandler.GetAppointmentByIdNumber(id);
+            return RedirectToAction(nameof(Index), appointment);
+        }
+
         public JsonResult GetAppointments() {
             var appointments = _appointmentHandler.GetAppointments;
             return new JsonResult(appointments);
