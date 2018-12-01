@@ -15,222 +15,125 @@
         margin: 0 auto;
     }
 </style>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6" id='calendar'></div>
+@*<div class="container">*@
+<div class="row">
+    <div class="col-sm-6" id='calendar'></div>
 
-        <form asp-action="Create" asp-controller="Appointment" method="post" id="add-appointment">
-            <fieldset>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Patient Information </div>
-                    <div class="panel-body">
+    <form asp-action="Create" asp-controller="Appointment" method="post" id="add-appointment">
+        <fieldset>
+            <div class="panel panel-default">
+                <div class="panel-heading">Patient Information </div>
+                <div class="panel-body">
+
+                    <div class="form-group form-inline">
+                        <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"></i></a>
+                        <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Search Patient" aria-label="Search">
+                    </div>
+
+                    <div class="col-sm-4 ">
 
                         <div class="form-group form-inline">
-                            <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"></i></a>
-                            <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Search Patient" aria-label="Search">
+                            <label for="firstName">Name <span>*</span></label>
+                            @if (Model?.FirstName == null)
+
+                            {
+                                <input asp-for="FirstName" type="text" class="form-control" placeholder="">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            }
+                            else
+                            {
+                                <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            }
                         </div>
-
-                        <div class="col-sm-4 ">
-
-                            <div class="form-group form-inline">
-                                <label for="firstName">Name <span>*</span></label>
-                                @if (Model?.FirstName == null)
-
-                                {
-                                    <input asp-for="FirstName" type="text" class="form-control" placeholder="">
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                                }
-                                else
-                                {
-                                    <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                                }
-                            </div>
-                            <div class="form-group form-inline">
-                                @if (Model?.LastName == null)
-                                {
-                                    <label for="Surname">Surname <span>*</span></label>
-                                    <input asp-for="LastName" type="text" class="form-control" placeholder="">
-                                    <span asp-validation-for="LastName" class="text-danger"></span>
-                                }
-                                else
-                                {
-                                    <label for="Surname">Surname <span>*</span></label>
-                                    <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
-                                    <span asp-validation-for="LastName" class="text-danger"></span>
-                                }
-                            </div>
-                            <div class="form-group form-inline">
-                                <label for="IdNumber">Id Number <span>*</span></label>
-                                <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
+                        <div class="form-group form-inline">
+                            @if (Model?.LastName == null)
+                            {
+                                <label for="Surname">Surname <span>*</span></label>
+                                <input asp-for="LastName" type="text" class="form-control" placeholder="">
                                 <span asp-validation-for="LastName" class="text-danger"></span>
-                            </div>
+                            }
+                            else
+                            {
+                                <label for="Surname">Surname <span>*</span></label>
+                                <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            }
                         </div>
-                        <div class="col-sm-4">
-                            <div class="form-group form-inline">
-                                <label for="ContactNumber">Contact Number</span></label>
-                                <input type="text" class="form-control" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
+                        <div class="form-group form-inline">
+                            <label for="IdNumber">Id Number <span>*</span></label>
+                            <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group form-inline">
+                            <label for="ContactNumber">Contact Number</span></label>
+                            <input type="text" class="form-control" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
 
-                            <div class="form-group form-inline">
-                                <label for="EmailAddress">Email Address <span>*</span></label>
-                                <input type="text" class="form-control" placeholder="">
-                                <span class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-inline">
-                                <label for="ReminderType">Reminder Type <span>*</span></label>
-                                <select name="ReminderType" class="form-control" placeholder="">
-                                    <option>-----None-----</option>
-                                    <option value="0">SMS</option>
-                                    <option value="1">Email</option>
-                                </select>
-                                <span class="text-danger"></span>
-                            </div>
+                        <div class="form-group form-inline">
+                            <label for="EmailAddress">Email Address <span>*</span></label>
+                            <input type="text" class="form-control" placeholder="">
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-inline">
+                            <label for="ReminderType">Reminder Type <span>*</span></label>
+                            <select name="ReminderType" class="form-control" placeholder="">
+                                <option>-----None-----</option>
+                                <option value="0">SMS</option>
+                                <option value="1">Email</option>
+                            </select>
+                            <span class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </fieldset>
-            <fieldset>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Appointment Information </div>
-                    <div class="panel-body">
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="panel panel-default">
+                <div class="panel-heading">Appointment Information </div>
+                <div class="panel-body">
 
-                        <div class="col-sm-4 ">
-                            <div class="form-group form-inline">
-                                <label for="Title">Appointment Subject <span></span></label>
-                                <input asp-for="Title" type="text" class="form-control" placeholder="">
-                                <span asp-validation-for="Title" class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-inline">
-                                <label for="description">Description:</label>
-                                <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-                            </div>
+                    <div class="col-sm-4 ">
+                        <div class="form-group form-inline">
+                            <label for="Title">Appointment Subject <span></span></label>
+                            <input asp-for="Title" type="text" class="form-control" placeholder="">
+                            <span asp-validation-for="Title" class="text-danger"></span>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="form-group form-inline">
-                                <label for="Date">Date<span></span></label>
-                                <input asp-for="Start" type="date" class="form-control" placeholder="">
-                                <span asp-validation-for="Start" class="text-danger"></span>
-                            </div>
+                        <div class="form-group form-inline">
+                            <label for="description">Description:</label>
+                            <textarea asp-for="Description" class="form-control" rows="2"></textarea>
                         </div>
-                        <div class="col-sm-3">
-                            <div class="form-group form-inline">
-                                <label for="Date">Time<span></span></label>
-                                <input asp-for="Time" type="time" class="form-control" placeholder="">
-                                <span asp-validation-for="Time" class="text-danger"></span>
-                            </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-inline">
+                            <label for="Date">Date<span></span></label>
+                            <input asp-for="Start" type="date" class="form-control" placeholder="">
+                            <span asp-validation-for="Start" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-inline">
+                            <label for="Date">Time<span></span></label>
+                            <input asp-for="Time" type="time" class="form-control" placeholder="">
+                            <span asp-validation-for="Time" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </fieldset>
-            <div class="col-sm-6">
             </div>
-            <div class="col-sm-6">
-                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
-            </div>
-        </form>
-    </div>
+        </fieldset>
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+            <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+        </div>
+    </form>
 </div>
+@*</div>*@
 <div id="appdiv"></div>
-<script>
 
-    $(document).ready(function () {
-
-        var appointments = [];
-        $.ajax({
-            type: "Get",
-            url: "/Appointment/GetAppointments",
-            success: function (data) {
-                //console.log(data);
-
-                $.each(data, function (i, v) {
-                    //console.log(v);
-
-                    appointments.push({
-                        id: v.AppointmentId,
-                        title: v.Title,
-                        description: v.Description,
-                        start: v.Start,//.format('YYYY-MM-DD'),
-                        end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
-                        allDay: false
-                    });
-                });
-
-                console.log(appointments);
-
-                //  GenerateCalender(appointments);
-            },
-            error: function (error) {
-                alert('failed')
-
-            }
-        }
-
-        );
-
-        $("#patientSearchId").on("click", function (e) {
-            // e.preventDefault();
-
-            var idNumber = $("#SearchIdNumber").val();
-
-            var button = $(this);
-
-            button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
-            button.click();
-
-        });
-
-
-        $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,basicWeek,basicDay,agenda'
-            },
-            defaultDate: new Date(),
-            navLinks: true, // can click day/week names to navigate views
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            eventColor: '#00bfff'
-            , events: "/Appointment/GetAppointments",
-            eventClick: function (calEvent, jsEvent, view) {
-                $('#appointmentModal');
-                var $description = $('#appdiv').html('content');
-                $('#appointmentModal #appointmentDetails').empty().html($description);
-                $('#appointmentModal').modal();
-            },
-            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
-                $('#appointmentModal');
-                var $description = $('#appdiv').html('content');
-                $('#appointmentModal #appointmentDetails').empty().html($description);
-                var aDate = new Date(
-                    Date.parse(event.start)
-                );
-                var timeString = "";
-
-                var hour = aDate.getHours();
-                var minute = aDate.getMinutes();
-                var second = aDate.getSeconds();
-                var year = aDate.getFullYear();
-                var month = aDate.getMonth();
-                var day = aDate.getDay();
-                var date = year + '-' + month + '-' + day;
-                if (hour < 10) hour = '0' + hour;
-                if (minute < 10) minute = '0' + minute;
-                timeString = hour + ':' + minute;
-                $("#start").val(date);
-                $('#time').val(timeString);
-                $("#title").val(event.title);
-                $("#description").val(event.description);
-                $('#appointmentModal').modal();
-            }
-
-        })
-
-
-    });
-</script>
 <!-- Button trigger modal -->
 <!-- Modal -->
 <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
@@ -271,3 +174,104 @@
     </form>
 
 </div>
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            var appointments = [];
+            $.ajax({
+                type: "Get",
+                url: "/Appointment/GetAppointments",
+                success: function (data) {
+                    //console.log(data);
+
+                    $.each(data, function (i, v) {
+                        //console.log(v);
+
+                        appointments.push({
+                            id: v.AppointmentId,
+                            title: v.Title,
+                            description: v.Description,
+                            start: v.Start,//.format('YYYY-MM-DD'),
+                            end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
+                            allDay: false
+                        });
+                    });
+
+                    console.log(appointments);
+
+                    //  GenerateCalender(appointments);
+                },
+                error: function (error) {
+                    alert('failed')
+
+                }
+            }
+
+            );
+
+            $("#patientSearchId").on("click", function (e) {
+                // e.preventDefault();
+
+                var idNumber = $("#SearchIdNumber").val();
+
+                var button = $(this);
+
+                button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
+                button.click();
+
+            });
+
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay,agenda'
+                },
+                defaultDate: new Date(),
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                eventColor: '#00bfff'
+                , events: "/Appointment/GetAppointments",
+                eventClick: function (calEvent, jsEvent, view) {
+                    $('#appointmentModal');
+                    var $description = $('#appdiv').html('content');
+                    $('#appointmentModal #appointmentDetails').empty().html($description);
+                    $('#appointmentModal').modal();
+                },
+                eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                    $('#appointmentModal');
+                    var $description = $('#appdiv').html('content');
+                    $('#appointmentModal #appointmentDetails').empty().html($description);
+                    var aDate = new Date(
+                        Date.parse(event.start)
+                    );
+                    var timeString = "";
+
+                    var hour = aDate.getHours();
+                    var minute = aDate.getMinutes();
+                    var second = aDate.getSeconds();
+                    var year = aDate.getFullYear();
+                    var month = aDate.getMonth();
+                    var day = aDate.getDay();
+                    var date = year + '-' + month + '-' + day;
+                    if (hour < 10) hour = '0' + hour;
+                    if (minute < 10) minute = '0' + minute;
+                    timeString = hour + ':' + minute;
+                    $("#start").val(date);
+                    $('#time').val(timeString);
+                    $("#title").val(event.title);
+                    $("#description").val(event.description);
+                    $('#appointmentModal').modal();
+                }
+
+            })
+
+
+        });
+    </script>
+    
