@@ -69,17 +69,13 @@ namespace Feature.OHS.Web.Domain
 
             if (_response != null)
             {
-                var response = JsonConvert.DeserializeObject<dynamic>(_response.Message);
-                if (response != null)
-                {
-                    return response;
-                }
-                else
-                    throw new Exception("failed to deserialize the response from the server");
+                var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_response.Message);
+                return response;
+
             }
             else
-
-                throw new Exception("the response from the server is null");
+                return null;
+            
         }
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
