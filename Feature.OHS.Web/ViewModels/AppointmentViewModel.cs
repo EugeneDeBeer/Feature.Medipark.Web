@@ -22,6 +22,7 @@ namespace Feature.OHS.Web.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string IdNumber { get; set; }
+        public string SearchIdNumber { get; set; }
         public string Time { get; set; }
         public DateTime? DateCreated { get; set; }
         public bool? IsActive { get; set; }
