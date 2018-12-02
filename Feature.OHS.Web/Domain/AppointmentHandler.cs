@@ -22,7 +22,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-              var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment/Appointments",_integrationSettings.AppointmentsDevApiUrl , "GET");
+              var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment",_integrationSettings.AppointmentsDevApiUrl , "GET");
 
                 if (request != null)
                 {
@@ -66,8 +66,8 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-
+              var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+           // var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370/", true);
 
             if (_response != null)
             {
@@ -132,6 +132,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.UserId = 1;
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
+            appointmentViewModel.AppointmentId = appointmentViewModel.Id;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
             var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
 

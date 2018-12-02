@@ -148,8 +148,7 @@
                 <div class="modal-body" style="height:70%; width:100%;">
 
                     <div class=" col-sm-12">
-                        <input asp-for="AppointmentId" type="hidden" />
-                        <input asp-for="IdNumber" type="hidden" />
+                        <input name="id" id="id" type="hidden" />
                         <label for="Date">Date <span>*</span></label>
                         <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
                         <label for="Time">Time <span>*</span></label>
@@ -247,23 +246,13 @@
                     $('#appointmentModal');
                     var $description = $('#appdiv').html('content');
                     $('#appointmentModal #appointmentDetails').empty().html($description);
-                    var aDate = new Date(
-                        Date.parse(event.start)
-                    );
-                    var timeString = "";
+            
+                    var d = moment(event.start).format("YYYY-MM-DD");
+                    var t = moment(event.start).format("HH:mm:ss"); 
 
-                    var hour = aDate.getHours();
-                    var minute = aDate.getMinutes();
-                    var second = aDate.getSeconds();
-                    var year = aDate.getFullYear();
-                    var month = aDate.getMonth();
-                    var day = aDate.getDay();
-                    var date = year + '-' + month + '-' + day;
-                    if (hour < 10) hour = '0' + hour;
-                    if (minute < 10) minute = '0' + minute;
-                    timeString = hour + ':' + minute;
-                    $("#start").val(date);
-                    $('#time').val(timeString);
+                    $('#id').val(event.id);
+                    $("#start").val(d);
+                    $('#time').val(t);
                     $("#title").val(event.title);
                     $("#description").val(event.description);
                     $('#appointmentModal').modal();
