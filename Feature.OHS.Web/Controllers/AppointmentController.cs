@@ -68,22 +68,18 @@ namespace Feature.OHS.Web.Controllers
 
                 var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
                 return RedirectToAction(nameof(Index), appointment);
-            }
-            catch (Exception e)
+            }catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View("Index");
             }
         }
 
-        public JsonResult GetAppointments()
-        {
-            try
-            {
+        public JsonResult GetAppointments() {
+            try { 
                 var appointments = _appointmentHandler.GetAppointments;
                 return new JsonResult(appointments);
-            }
-            catch (Exception e)
+            }catch(Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return null;
@@ -101,7 +97,7 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var result = _appointmentHandler.CancelAppointment(model);
-                if (result == null)
+                if(result == null)
                 {
                     ViewBag.ErrorMessage = "Oops sorry, failed to cancel the appointment please try again";
                     return View("Index");

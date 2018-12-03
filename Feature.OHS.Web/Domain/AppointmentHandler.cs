@@ -86,10 +86,10 @@ namespace Feature.OHS.Web.Domain
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
-
-                return _response;
-
-
+               
+                    return _response;
+                
+                
             }
             else
             {
@@ -109,7 +109,7 @@ namespace Feature.OHS.Web.Domain
             }
             else
                 return null;
-
+           
         }
 
 
