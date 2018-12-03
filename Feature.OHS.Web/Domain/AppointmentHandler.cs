@@ -1,4 +1,4 @@
-﻿using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Settings;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.Extensions.Options;
