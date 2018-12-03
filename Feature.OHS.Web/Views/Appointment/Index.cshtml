@@ -1,4 +1,4 @@
-﻿@model Feature.OHS.Web.ViewModels.AppointmentViewModel
+@model Feature.OHS.Web.ViewModels.AppointmentViewModel
 
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
@@ -19,119 +19,8 @@
 <div class="row">
     <div class="col-sm-12" id='calendar'></div>
 
-    @*<form asp-action="Create" asp-controller="Appointment" method="post" id="add-appointment">
-        <fieldset>
-            <div class="panel panel-default">
-                <div class="panel-heading">Patient Information </div>
-                <div class="panel-body">
 
-                    <div class="form-group form-inline">
-                        <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"></i></a>
-                        <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Search Patient" aria-label="Search">
-                    </div>
-
-                    <div class="col-sm-4 ">
-
-                        <div class="form-group form-inline">
-                            <label for="firstName">Name <span>*</span></label>
-                            @if (Model?.FirstName == null)
-
-                            {
-                                <input asp-for="FirstName" type="text" class="form-control" placeholder="">
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
-                            }
-                            else
-                            {
-                                <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
-                                <span asp-validation-for="FirstName" class="text-danger"></span>
-                            }
-                        </div>
-                        <div class="form-group form-inline">
-                            @if (Model?.LastName == null)
-                            {
-                                <label for="Surname">Surname <span>*</span></label>
-                                <input asp-for="LastName" type="text" class="form-control" placeholder="">
-                                <span asp-validation-for="LastName" class="text-danger"></span>
-                            }
-                            else
-                            {
-                                <label for="Surname">Surname <span>*</span></label>
-                                <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
-                                <span asp-validation-for="LastName" class="text-danger"></span>
-                            }
-                        </div>
-                        <div class="form-group form-inline">
-                            <label for="IdNumber">Id Number <span>*</span></label>
-                            <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group form-inline">
-                            <label for="ContactNumber">Contact Number</span></label>
-                            <input type="text" class="form-control" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group form-inline">
-                            <label for="EmailAddress">Email Address <span>*</span></label>
-                            <input type="text" class="form-control" placeholder="">
-                            <span class="text-danger"></span>
-                        </div>
-                        <div class="form-group form-inline">
-                            <label for="ReminderType">Reminder Type <span>*</span></label>
-                            <select name="ReminderType" class="form-control" placeholder="">
-                                <option>-----None-----</option>
-                                <option value="0">SMS</option>
-                                <option value="1">Email</option>
-                            </select>
-                            <span class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <div class="panel panel-default">
-                <div class="panel-heading">Appointment Information </div>
-                <div class="panel-body">
-
-                    <div class="col-sm-4 ">
-                        <div class="form-group form-inline">
-                            <label for="Title">Appointment Subject <span></span></label>
-                            <input asp-for="Title" type="text" class="form-control" placeholder="">
-                            <span asp-validation-for="Title" class="text-danger"></span>
-                        </div>
-                        <div class="form-group form-inline">
-                            <label for="description">Description:</label>
-                            <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group form-inline">
-                            <label for="Date">Date<span></span></label>
-                            <input asp-for="Start" type="date" class="form-control" placeholder="">
-                            <span asp-validation-for="Start" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="form-group form-inline">
-                            <label for="Date">Time<span></span></label>
-                            <input asp-for="Time" type="time" class="form-control" placeholder="">
-                            <span asp-validation-for="Time" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <div class="col-sm-6">
-        </div>
-        <div class="col-sm-6">
-            <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
-        </div>
-    </form>
-</div>*@
-    </div>
+</div>
 <div id="appdiv"></div>
 
 <!-- Button trigger modal -->
@@ -401,5 +290,5 @@
         })
 
 
-    });
-</script>
+            });
+        </script>
