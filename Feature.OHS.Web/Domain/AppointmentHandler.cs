@@ -86,11 +86,10 @@ namespace Feature.OHS.Web.Domain
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
-                if (_response != null)
-                {
-                    return _response;
-                }
-                return null;
+
+                return _response;
+
+
             }
             else
             {
@@ -105,16 +104,12 @@ namespace Feature.OHS.Web.Domain
             if (_response != null)
             {
                 var response = JsonConvert.DeserializeObject<dynamic>(_response.Message);
-                if (response != null)
-                {
-                    return response;
-                }
-                else
-                    throw new Exception("failed to deserialize the response from the server");
+                return response;
+
             }
             else
+                return null;
 
-                throw new Exception("the response from the server is null");
         }
 
 

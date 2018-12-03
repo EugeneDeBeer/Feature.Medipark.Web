@@ -58,14 +58,36 @@ namespace Feature.OHS.Web.Controllers
 
         public ActionResult GetAppointment(string id)
         {
-            var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
-            return RedirectToAction(nameof(Index), appointment);
+            try
+            {
+                if (id == null)
+                {
+                    ViewBag.ErrorMessage = "Please Enter a valid ID Number";
+                    return View("Index");
+                }
+
+                var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
+                return RedirectToAction(nameof(Index), appointment);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Index");
+            }
         }
 
         public JsonResult GetAppointments()
         {
-            var appointments = _appointmentHandler.GetAppointments;
-            return new JsonResult(appointments);
+            try
+            {
+                var appointments = _appointmentHandler.GetAppointments;
+                return new JsonResult(appointments);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return null;
+            }
         }
 
         public ActionResult CancelAppointment(AppointmentViewModel model)
@@ -79,6 +101,11 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var result = _appointmentHandler.CancelAppointment(model);
+                if (result == null)
+                {
+                    ViewBag.ErrorMessage = "Oops sorry, failed to cancel the appointment please try again";
+                    return View("Index");
+                }
                 return View("Index", result);
             }
             catch (Exception e)
