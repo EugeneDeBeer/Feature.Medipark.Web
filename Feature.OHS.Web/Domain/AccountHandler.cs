@@ -1,4 +1,5 @@
-﻿using Feature.OHS.Web.Interfaces;
+﻿using DevOne.Security.Cryptography.BCrypt;
+using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.ViewModels;
 using Newtonsoft.Json;
 using System;
@@ -22,7 +23,7 @@ namespace Feature.OHS.Web.Domain
         {
             //  Giving more information on what this event is for
             person.EventTypeDescription = "user registration";
-            person.EventTypeShortDescription = "private practise";
+            person.EventTypeShortDescription = "private practice";
 
             person.StatusTypeDescription = "Incomplete";
             person.StatusTypeShortDescription = "person";
@@ -52,12 +53,66 @@ namespace Feature.OHS.Web.Domain
 
         public async Task<APIResponse> Login(LoginViewModel person)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Registration", person, "https://localhost:44358/", true);
-            //var response = _integration.ResponseFromAPIPost("", "v1/Registration", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration", person, "https://localhost:44358/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration", person, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
 
             //var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
             //return responseObject;
             return response;
         }
+
+
+
+        //public async Task<APIResponse> FindUserByEmail(ForgotPasswordViewModel model)
+        public async Task<UserViewModel> FindUserByEmail(ForgotPasswordViewModel model)
+        {
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/FindUserByEmail", model, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/FindUserByEmail", model, "https://localhost:5001/", true);
+
+            if (response != null)
+            {
+                //var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+                var responseObject = JsonConvert.DeserializeObject<UserViewModel>(response.Message);
+                return responseObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<APIResponse> SetUserPasswordResetToken(UpdatePasswordResetTokenModel model)
+        {
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/SetUserPasswordResetToken", new { userId = model.UserId, resetToken = model.ResetToken }, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+
+            if (response != null)
+            {
+                var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+                return responseObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<APIResponse> ResetPasswordAsync(ResetPasswordViewModel model)
+        {
+            // encrypt before transmission
+            model.Password = BCryptHelper.HashPassword(model.Password, BCryptHelper.GenerateSalt());
+            model.ConfirmPassword = model.Password;
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/ResetPasswordAsync", model, "https://dev-feature-ohs-users-dot-medipark-hospital.appspot.com/", true);
+
+            if (response != null)
+            {
+                var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+                return responseObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
