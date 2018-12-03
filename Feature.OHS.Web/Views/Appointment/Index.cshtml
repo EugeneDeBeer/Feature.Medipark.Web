@@ -28,7 +28,7 @@
 <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
     <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
-        <div class="modal-dialog" style="display:grid;height:70%; width:50%;" role="document">
+        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
             <div class="modal-content" style="width:100%">
                 <div class="modal-header">
                     <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
@@ -51,11 +51,26 @@
                     </div>
                 </div>
                 <div class="row">
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
-                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />
+
+
+                    <input type="submit" name="answer" value="Update Appointment" class=" col-sm-12 btn btn-primary" />
+
+                    <br />
+                    <br />
+                    <br />
+                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
+    background-color: #bd2522!important;
+    border: 1px solid #841a18 !important;
+" />
+
+
+                    @*<br />
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>*@
                 </div>
             </div>
         </div>
