@@ -66,7 +66,7 @@
 <div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
     <form asp-action="Create" asp-controller="Appointment" method="post">
-        <div class="modal-dialog" style="display:grid;height:70%; width:80%;" role="document">
+        <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
             <div class="modal-content" style="width:100%">
                 <div class="modal-header">
                     <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
@@ -235,7 +235,7 @@
         );
 
         $("#patientSearchId").on("click", function (e) {
-            // e.preventDefault();
+             //e.preventDefault();
 
             var idNumber = $("#SearchIdNumber").val();
 
@@ -243,7 +243,7 @@
 
             button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
             button.click();
-
+           
         });
 
 
@@ -264,6 +264,16 @@
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
+                $('#appointmentModal').modal();
+
+                var d = moment(event.start).format("YYYY-MM-DD");
+                var t = moment(event.start).format("HH:mm:ss");
+
+                $('#id').val(event.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(event.title);
+                $("#description").val(event.description);
                 $('#appointmentModal').modal();
             }, dayClick: function (date, calEvent, jsEvent, view) {
                 $('#CreateAppointmentModal').modal();

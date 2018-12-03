@@ -95,7 +95,7 @@ namespace Feature.OHS.Web.Controllers
                     ViewBag.Error = "Ooops something went wrong please try again";
                     return View("Index");
                 }
-
+                model.AppointmentId = model.Id;
                 var result = _appointmentHandler.CancelAppointment(model);
                 if(result == null)
                 {
