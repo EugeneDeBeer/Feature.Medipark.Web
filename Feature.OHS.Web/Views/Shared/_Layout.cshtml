@@ -240,10 +240,11 @@
                             </ul>
                         </li>
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Doctors</span> <span class="menu-arrow"></span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span>Nurse</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="/Doctors/Create">Add Nurse</a></li>
-                                <li><a asp-controller="Nurses" asp-action="Doctors">Manage Nurses</a></li>
+                                <li><a asp-controller="Nurses" asp-action="Nurses">Manage Nurses</a></li>
+
                             </ul>
                         </li>
 
@@ -256,6 +257,14 @@
                             </ul>
                         </li>
                         <li class="has_sub">
+
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Appointment</span> <span class="menu-arrow active"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a asp-controller="Appointment" asp-action="Index">View Calender</a></li>
+                            </ul>
+                        </li>
+                        <li class="has_sub">
+
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Wards</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
                                 <li><a asp-controller="Wards" asp-action="Create">Add Ward</a></li>
@@ -428,7 +437,7 @@
 
         <script src="~/js/site.js" asp-append-version="true"></script>
         @*<script src="~/js/jquery.core.js" asp-append-version="true"></script>
-            <script src="~/js/jquery.app.js" asp-append-version="true"></script>*@
+        <script src="~/js/jquery.app.js" asp-append-version="true"></script>*@
         @*<script src="~/js/add-patient.js"></script>*@
 
         <script src="~/js/detect.js" asp-append-version="true"></script>
@@ -439,7 +448,8 @@
         @*<script src="~/js/modals.js"></script>*@
         @*<script src="~/js/waves.js"></script>*@
 
-
+        <script src="~/js/jquery.core.js"></script>
+        <script src="~/js/jquery.app.js"></script>
 
         @*<script src="~/js/add-patient-admission.js"></script>*@
         <script src="~/js/waves.js" asp-append-version="true"></script>
