@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.Interfaces
 {
-   public interface IAppointmentHandler
+    public interface IAppointmentHandler
     {
-       IEnumerable<AppointmentViewModel> GetAppointments { get; }
-       AppointmentViewModel GetAppointmentByIdNumber(string id);
-       AppointmentViewModel Create(AppointmentViewModel appointmentViewModel);
-       dynamic Update(AppointmentViewModel appointmentViewModel); 
+        IEnumerable<AppointmentViewModel> GetAppointments { get; }
+        AppointmentViewModel GetAppointmentByIdNumber(string id);
+        AppointmentViewModel Create(AppointmentViewModel appointmentViewModel);
+        AppointmentViewModel CancelAppointment(AppointmentViewModel model);
+        dynamic Update(AppointmentViewModel appointmentViewModel);
     }
 }
