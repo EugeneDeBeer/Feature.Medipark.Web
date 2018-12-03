@@ -56,7 +56,26 @@ namespace Feature.OHS.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public ActionResult GetAppointment(string id)
+        //public ActionResult GetAppointment(string id)
+        //{
+        //    try
+        //    {
+        //        if (id == null)
+        //        {
+        //            ViewBag.ErrorMessage = "Please Enter a valid ID Number";
+        //            return View("Index");
+        //        }
+
+        //        var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
+        //        return RedirectToAction(nameof(Index), appointment);
+        //    }catch (Exception e)
+        //    {
+        //        ViewBag.ErrorMessage = e.Message;
+        //        return View("Index");
+        //    }
+        //}
+
+        public IActionResult GetAppointment(string id)
         {
             try
             {
@@ -67,8 +86,9 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
-                return RedirectToAction(nameof(Index), appointment);
-            }catch (Exception e)
+                return PartialView("_CreateAppointmentModal", appointment);
+            }
+            catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View("Index");

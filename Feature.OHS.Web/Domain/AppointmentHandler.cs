@@ -82,7 +82,7 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id, _integrationSettings.AppointmentsDevApiUrl, "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id, _integrationSettings.AdmissionsDevApiUrl, "GET");
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);

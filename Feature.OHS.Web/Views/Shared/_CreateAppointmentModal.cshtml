@@ -1,0 +1,135 @@
+﻿@model Feature.OHS.Web.ViewModels.AppointmentViewModel
+
+<div class="modal fade" id="CreateDoctorAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+
+    <form asp-action="Create" asp-controller="Appointment" method="post">
+        <div class="modal-dialog" style="display:grid;height:70%; width:80%;" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
+                </div>
+                <div class="modal-body" style="height:70%; width:100%;">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Patient Information </div>
+                        <div class="panel-body">
+
+                            <div class="form-group form-inline">
+                                <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Enter ID Number" aria-label="Search">
+                                <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"> Search</i></a>
+                            </div>
+
+                            <div class="col-sm-6 ">
+
+                                <div class="form-group form-inline">
+                                    <label for="firstName">Name <span>*</span></label>
+                                    @if (Model?.FirstName == null)
+
+                                    {
+                                        <input asp-for="FirstName" type="text" class="form-control" placeholder="">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    }
+                                </div>
+                                <div class="form-group form-inline">
+                                    @if (Model?.LastName == null)
+                                    {
+                                        <label for="Surname">Surname <span>*</span></label>
+                                        <input asp-for="LastName" type="text" class="form-control" placeholder="">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    }
+                                    else
+                                    {
+                                        <label for="Surname">Surname <span>*</span></label>
+                                        <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    }
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="IdNumber">Id Number <span>*</span></label>
+                                    <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-inline">
+                                    <label for="ContactNumber">Contact Number</span></label>
+                                    <input type="text" class="form-control" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="EmailAddress">Email Address <span>*</span></label>
+                                    <input type="text" class="form-control" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="ReminderType">Reminder Type <span>*</span></label>
+                                    <select name="ReminderType" class="form-control" placeholder="">
+                                        <option>-----None-----</option>
+                                        <option value="0">SMS</option>
+                                        <option value="1">Email</option>
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Appointment Information </div>
+                        <div class="panel-body">
+
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label for="Title">Appointment Subject <span></span></label>
+                                    <input asp-for="Title" type="text" class="form-control" placeholder="">
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="Date">Date<span></span></label>
+                                    <input asp-for="Start" type="date" class="form-control" placeholder="">
+                                    <span asp-validation-for="Start" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="Date">Time<span></span></label>
+                                    <input asp-for="Time" type="time" class="form-control" placeholder="">
+                                    <span asp-validation-for="Time" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-12">
+                        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="
+    width: 70% !Important;
+">
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    @*<input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
+                        <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />*@
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

@@ -22,6 +22,7 @@
 
 </div>
 <div id="appdiv"></div>
+<div id="modalView"></div>
 
 <!-- Button trigger modal -->
 <!-- Modal -->
@@ -227,7 +228,7 @@
                 //  GenerateCalender(appointments);
             },
             error: function (error) {
-                alert('failed')
+                alert('failed');
 
             }
         }
@@ -241,9 +242,34 @@
 
             var button = $(this);
 
-            button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
-            button.click();
+            //button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
+            //button.click();
 
+            $.ajax({
+                    type: "Get",
+                url: "/Appointment/GetAppointment",
+                data: { id: idNumber },
+                success: function (data) {
+
+                    $("#modalView").empty().html(data);
+
+                    $('#appointmentModal').modal('hide');
+                    $("#CreateAppointmentModal").modal('hide');
+                    
+                    $("#CreateDoctorAppointmentModal").modal('show');
+
+
+                    //  GenerateCalender(appointments);
+                },
+                    error: function (error) {
+                        alert('failed');
+
+                    }
+                }
+
+            );
+
+            e.preventDefault();
         });
 
 
