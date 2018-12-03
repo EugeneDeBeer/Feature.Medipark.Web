@@ -265,6 +265,16 @@
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
                 $('#appointmentModal').modal();
+
+                var d = moment(event.start).format("YYYY-MM-DD");
+                var t = moment(event.start).format("HH:mm:ss");
+
+                $('#id').val(event.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(event.title);
+                $("#description").val(event.description);
+                $('#appointmentModal').modal();
             }, dayClick: function (date, calEvent, jsEvent, view) {
                 $('#CreateAppointmentModal').modal();
             },
