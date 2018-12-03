@@ -109,8 +109,13 @@ namespace Feature.OHS.Web.Domain
 
             if (response != null)
             {
-                var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
-                return responseObject;
+                if (response.Success)
+                {
+                    var responseObject = JsonConvert.DeserializeObject<APIResponse>(response.Message);
+                    return responseObject;
+                }
+
+                return null;
             }
             else
             {

@@ -191,7 +191,7 @@ namespace Feature.OHS.Web.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -205,7 +205,9 @@ namespace Feature.OHS.Web.Controllers
 
                 string code = GeneratePasswordResetToken();
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.StatusCode, code = code });
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.UserId, code = code });
+
+                var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.UserId, code = code }, protocol: HttpContext.Request.Scheme);
+
 
                 // update the user table with code
                 var pwdResetToken = new UpdatePasswordResetTokenModel();
@@ -279,6 +281,9 @@ namespace Feature.OHS.Web.Controllers
             MailMessage mail = new MailMessage(from, to);
             SmtpClient client = new SmtpClient();
             client.Port = 25;
+            //client.Port = 465;
+            //client.Port = 587;            
+
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Host = "smtp.gmail.com";
@@ -286,7 +291,8 @@ namespace Feature.OHS.Web.Controllers
             //  Added by TS MOTSWAINE
             client.EnableSsl = true;
 
-            NetworkCredential credentials = new System.Net.NetworkCredential("dev-omeyah@gmail.com", "Omeyah@18");
+            NetworkCredential credentials = new System.Net.NetworkCredential("tsepo@mgibagroup.com", "Omeyah@18");
+            
             client.Credentials = credentials;
             mail.IsBodyHtml = true;
 
