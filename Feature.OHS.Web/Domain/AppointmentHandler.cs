@@ -1,4 +1,4 @@
-﻿using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Settings;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.Extensions.Options;
@@ -22,7 +22,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-              var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment",_integrationSettings.AppointmentsDevApiUrl , "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Appointment", _integrationSettings.AppointmentsDevApiUrl, "GET");
 
                 if (request != null)
                 {
@@ -66,8 +66,8 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-              var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-           // var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370/", true);
+            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+            // var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370/", true);
 
             if (_response != null)
             {
@@ -77,12 +77,12 @@ namespace Feature.OHS.Web.Domain
             }
             else
                 return null;
-            
+
         }
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id,_integrationSettings.AppointmentsDevApiUrl , "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id, _integrationSettings.AppointmentsDevApiUrl, "GET");
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
@@ -116,7 +116,7 @@ namespace Feature.OHS.Web.Domain
 
                 throw new Exception("the response from the server is null");
         }
-    
+
 
         public dynamic Update(AppointmentViewModel appointmentViewModel)
         {
