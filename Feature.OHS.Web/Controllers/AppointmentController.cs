@@ -24,7 +24,13 @@ namespace Feature.OHS.Web.Controllers
 
             return View(model);
         }
+        public ActionResult Search(AppointmentViewModel model)
+        {
+            if (model == null)
+                return View(new AppointmentViewModel());
 
+            return View(model);
+        }
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
@@ -67,7 +73,8 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
-                return RedirectToAction(nameof(Index), appointment);
+              
+                return RedirectToAction(nameof(Search), appointment);
             }catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
