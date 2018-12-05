@@ -19,19 +19,27 @@ namespace Feature.OHS.Web.Controllers
         // GET: DoctorsAppointment
         public ActionResult Index(AppointmentViewModel model)
         {
-            if(model == null)
+            if (model == null)
                 return View(new AppointmentViewModel());
 
             return View(model);
         }
-     
+        public ActionResult Search(AppointmentViewModel model)
+        {
+            if (model == null)
+                return View(new AppointmentViewModel());
+
+            return View(model);
+        }
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
-            try { 
+            try
+            {
 
-            var result = _appointmentHandler.Create(appointmentViewModel);
-                if(result != null) { 
+                var result = _appointmentHandler.Create(appointmentViewModel);
+                if (result != null)
+                {
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -40,29 +48,49 @@ namespace Feature.OHS.Web.Controllers
                     return View("Index");
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View("Index");
             }
         }
-       
+
         [HttpPost("Update")]
         public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel)
         {
             _appointmentHandler.Update(appointmentViewModel);
             return RedirectToAction(nameof(Index));
         }
-             
+
         public ActionResult GetAppointment(string id)
         {
-             var appointment =_appointmentHandler.GetAppointmentByIdNumber(id);
-            return RedirectToAction(nameof(Index), appointment);
+            try
+            {
+                if (id == null)
+                {
+                    ViewBag.ErrorMessage = "Please Enter a valid ID Number";
+                    return View("Index");
+                }
+
+                var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
+              
+                return RedirectToAction(nameof(Search), appointment);
+            }catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Index");
+            }
         }
 
         public JsonResult GetAppointments() {
-            var appointments = _appointmentHandler.GetAppointments;
-            return new JsonResult(appointments);
+            try { 
+                var appointments = _appointmentHandler.GetAppointments;
+                return new JsonResult(appointments);
+            }catch(Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return null;
+            }
         }
 
         public ActionResult CancelAppointment(AppointmentViewModel model)
@@ -74,10 +102,16 @@ namespace Feature.OHS.Web.Controllers
                     ViewBag.Error = "Ooops something went wrong please try again";
                     return View("Index");
                 }
-
+                model.AppointmentId = model.Id;
                 var result = _appointmentHandler.CancelAppointment(model);
+                if(result == null)
+                {
+                    ViewBag.ErrorMessage = "Oops sorry, failed to cancel the appointment please try again";
+                    return View("Index");
+                }
                 return View("Index", result);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View("Index");

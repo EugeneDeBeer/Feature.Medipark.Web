@@ -10,12 +10,15 @@ using Feature.OHS.Web.ViewModels;
 using Feature.OHS.Web.ViewModels.Response;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Mail;
+
 
 namespace Feature.OHS.Web.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IAccountHandler _accountHandler;
+        private string systemEmailAddress = "no-reply@ohs.com";
 
         public AccountController(IAccountHandler accountHandler)
         {
@@ -71,8 +74,8 @@ namespace Feature.OHS.Web.Controllers
                         }                            
                     }
 
-                    //return RedirectToAction("Dashboard", "Dashboard", response);
-                    return RedirectToAction("SuccessLogin", "Account", response);
+                    return RedirectToAction("Dashboard", "Dashboard", response);
+                    //return RedirectToAction("SuccessLogin", "Account", response);
                 }
                 catch (Exception ex)
                 {
@@ -149,6 +152,159 @@ namespace Feature.OHS.Web.Controllers
             {
                 return View(model);
             }
-        }       
+        }
+
+
+        /** START FORGOT PASSWORD
+         */
+
+        /// <summary>
+        /// Step 1: Render the forgot password form
+        /// Takes in the email for which the password should
+        /// </summary>
+        /// <param name="returnURL"></param>
+        /// <returns>view</returns>
+        public IActionResult ForgotPassword(string returnURL)
+        {
+            var model = new ForgotPasswordViewModel();
+
+            if (!string.IsNullOrWhiteSpace(returnURL))
+            {
+                ViewData["ReturnUrl"] = returnURL;
+            }
+            else
+            {
+                ViewData["ReturnUrl"] = string.Empty;
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Step 2: Injest the submitted forgot password form
+        /// details. 
+        /// 1. Check that the email exists, 
+        /// 2. Generate a token
+        /// 3. Persist the token
+        /// 4. Email link to requested user
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _accountHandler.FindUserByEmail(model);
+                if (user == null)
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return View("ForgotPasswordConfirmation");
+                }
+
+                string code = GeneratePasswordResetToken();
+                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.StatusCode, code = code });
+
+                var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.UserId, code = code }, protocol: HttpContext.Request.Scheme);
+
+
+                // update the user table with code
+                var pwdResetToken = new UpdatePasswordResetTokenModel();
+                pwdResetToken.UserId = user.UserId;
+                pwdResetToken.ResetToken = code;
+
+                _accountHandler.SetUserPasswordResetToken(pwdResetToken);
+
+                // email the user
+                SendEmailAsync(model.Email, systemEmailAddress, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                TempData["ViewBagLink"] = callbackUrl;
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            ViewBag.Link = TempData["ViewBagLink"];
+            return View();
+        }
+
+        public ActionResult ResetPassword(string code)
+        {
+            return code == null ? View("Error") : View(new ResetPasswordViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            ForgotPasswordViewModel fpvm = new ForgotPasswordViewModel();
+            fpvm.Email = model.Email;
+
+            var user = await _accountHandler.FindUserByEmail(fpvm);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return RedirectToAction("ResetPasswordConfirmation", "Account");
+            }
+
+            var result = await _accountHandler.ResetPasswordAsync(model);
+            if (result != null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation", "Account");
+            }
+
+            return View();
+        }
+
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+        private String GeneratePasswordResetToken()
+        {
+            return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        }
+
+        private async void SendEmailAsync(string to, string from, string subject, string body)
+        {
+            MailMessage mail = new MailMessage(from, to);
+            SmtpClient client = new SmtpClient();
+            client.Port = 25;
+            //client.Port = 465;
+            //client.Port = 587;            
+
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Host = "smtp.gmail.com";
+
+            //  Added by TS MOTSWAINE
+            client.EnableSsl = true;
+
+            NetworkCredential credentials = new System.Net.NetworkCredential("tsepo@mgibagroup.com", "Omeyah@18");
+            
+            client.Credentials = credentials;
+            mail.IsBodyHtml = true;
+
+            mail.Subject = subject;
+            mail.Body = body;
+
+
+            client.Send(mail);
+
+            return;
+        }
+
+
     }
 }
