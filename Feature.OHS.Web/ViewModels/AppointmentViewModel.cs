@@ -10,6 +10,7 @@ namespace Feature.OHS.Web.ViewModels
         public int UserId { get; set; }
         public int Id { get; set; }
         public int AppointmentId { get; set; }
+        public int PersonId { get; set; }
         public string AppointmentShortTypeDescription { get; set; }
         public string AppointmentTypeDescription { get; set; }
         public string EventTypeShortDescription { get; set; }
@@ -30,5 +31,7 @@ namespace Feature.OHS.Web.ViewModels
         public DateTime End { get; set; }
         public string Description { get; set; }
         public string Title { get; set; }
+        public string CellPhone { get; set; }
+        public string Email1 { get; set; }
     }
 }

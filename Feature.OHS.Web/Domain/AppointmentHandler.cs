@@ -61,23 +61,48 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-            //this value suppose to be recieved from the logged in user
             appointmentViewModel.UserId = 1;
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-            // var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370/", true);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
 
-            if (_response != null)
+
+
+
+
+            if (_appointmentResponse != null)
             {
-                var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_response.Message);
-                return response;
+                var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_appointmentResponse.Message);
+
+
+                var patientContact = new AppointmentViewModel()
+                {
+                    PersonId = response.PersonId,
+                    CellPhone = appointmentViewModel.CellPhone,
+                    Email1 = appointmentViewModel.Email1
+                };
+                var _contactResponse = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", patientContact, _integrationSettings.AdmissionsDevApiUrl, true);
+
+                if (_contactResponse != null)
+                {
+                    var response2 = JsonConvert.DeserializeObject<AppointmentViewModel>(_appointmentResponse.Message);
+
+                    return new AppointmentViewModel()
+                    {
+                        FirstName = response.FirstName,
+                        LastName = response.LastName,
+                        CellPhone = response2.CellPhone,
+                        Email1 = response2.Email1,
+                        Description = response.Description,
+                        Title = response.Title
+                    };
+
+                }
+                else throw new Exception (_contactResponse.Message);
 
             }
-            else
-                return null;
-
+            else throw new Exception(_appointmentResponse.Message);
         }
 
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
