@@ -6,22 +6,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.Settings;
+using Microsoft.Extensions.Options;
 
 namespace Feature.OHS.Web.Domain
 {
     public class WardHandler : IWard
     {
         private readonly IAPIIntegration _integration;
+        private readonly IntegrationSettings _integrationSettings;
 
-        public WardHandler(IAPIIntegration integration)
+        public WardHandler(IAPIIntegration integration, IOptions<IntegrationSettings> integrationOptions)
         {
             _integration = integration;
+            _integrationSettings = integrationOptions.Value;
 
         }
 
        public dynamic CreateBed(BedViewModel bed)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Ward/Create/bed", bed, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Ward/Create/bed", bed, _integrationSettings.HospitalWardsApiUrl, true);
 
             if (response != null)
             {
@@ -43,7 +47,7 @@ namespace Feature.OHS.Web.Domain
         {
             room.EventDescription = "room";
             room.StatusDescription = "Created";
-            var response = _integration.ResponseFromAPIPost("", "v1/ward/create/room", room, "https://dev-feature-ohs-hopsitalwards-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ward/create/room", room,_integrationSettings.HospitalWardsApiUrl , true);
 
             if (response != null)
             {
@@ -65,7 +69,7 @@ namespace Feature.OHS.Web.Domain
         {
             ward.EventShortDescription = "ward";
             ward.EventDescription = "Created";
-            var response = _integration.ResponseFromAPIPost("", "v1/Ward/create", ward, "https://dev-feature-ohs-hopsitalwards-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Ward/create", ward, _integrationSettings.HospitalWardsApiUrl, true);
 
             if (response != null)
             {
@@ -85,7 +89,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic EditBed(BedViewModel bed)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Ward/edit/bed", bed, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Ward/edit/bed", bed, _integrationSettings.HospitalWardsApiUrl, true);
 
             if (response != null)
             {
@@ -107,7 +111,7 @@ namespace Feature.OHS.Web.Domain
         {
             room.EventDescription = "room";
             room.StatusDescription = "Updated";
-            var response = _integration.ResponseFromAPIPost("", "v1/ward/modify/room", room, "https://dev-feature-ohs-hopsitalwards-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/ward/modify/room", room, _integrationSettings.HospitalWardsApiUrl, true);
 
             if (response != null)
             {
@@ -127,7 +131,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic EditWard(WardViewModel ward)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Ward/edit", ward, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Ward/edit", ward, _integrationSettings.HospitalWardsApiUrl, true);
 
             if (response != null)
          
@@ -148,7 +152,7 @@ namespace Feature.OHS.Web.Domain
 
         public List<WardListViewModel> GetWardList(int HospitalId)
         {
-            var response = _integration.ResponseFromAPIGet("", $"get/roomlist/{HospitalId}", "https://dev-admissions-dot-medipark-hospital.appspot.com/",null);
+            var response = _integration.ResponseFromAPIGet("", $"get/roomlist/{HospitalId}", _integrationSettings.HospitalWardsApiUrl,null);
 
             if (response != null)
             {
@@ -169,7 +173,7 @@ namespace Feature.OHS.Web.Domain
 
         public List<RoomListViewModel> GetRoomList(int wardId)
         {
-            var response = _integration.ResponseFromAPIGet("", $"get/roomlist/{wardId}", "https://dev-admissions-dot-medipark-hospital.appspot.com/", null);
+            var response = _integration.ResponseFromAPIGet("", $"get/roomlist/{wardId}", _integrationSettings.HospitalWardsApiUrl, null);
 
             if (response != null)
             {

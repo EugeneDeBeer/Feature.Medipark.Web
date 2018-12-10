@@ -14,6 +14,7 @@ namespace Feature.OHS.Web.Controllers
         private readonly IWard _WardHandler;
         public WardsController(IWard WardHandler)
         {
+
             _WardHandler = WardHandler;
         }
 
