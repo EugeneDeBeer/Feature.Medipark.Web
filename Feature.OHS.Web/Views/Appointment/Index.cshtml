@@ -8,87 +8,88 @@
 }
 
 
-<style>
 
-    #calendar {
-        max-width: 100%;
-        margin: 0 auto;
-    }
-</style>
+    <style>
 
-<div class="row">
-    <div class="col-sm-12" id='calendar'></div>
+        #calendar {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-sm-12" id='calendar'></div>
 
 
-</div>
-<div id="appdiv"></div>
+    </div>
+    <div id="appdiv"></div>
 
-<!-- Button trigger modal -->
-<!-- Modal -->
-<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
-    <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
-        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
-            <div class="modal-content" style="width:100%">
-                <div class="modal-header">
-                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                    <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
-                </div>
-                <div class="modal-body" style="height:70%; width:100%;">
+        <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
+            <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+                <div class="modal-content" style="width:100%">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                        <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
+                    </div>
+                    <div class="modal-body" style="height:70%; width:100%;">
 
-                    <div class=" col-sm-12">
-                        <input name="id" id="id" type="hidden" />
-                        <label for="Date">Date <span>*</span></label>
-                        <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
-                        <label for="Time">Time <span>*</span></label>
-                        <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
-                        <label for="Title">Subject <span>*</span></label>
-                        <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
-                        <label for="Description">Description <span>*</span></label>
-                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                        <div class=" col-sm-12">
+                            <input name="id" id="id" type="hidden" />
+                            <label for="Date">Date <span>*</span></label>
+                            <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
+                            <label for="Time">Time <span>*</span></label>
+                            <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
+                            <label for="Title">Subject <span>*</span></label>
+                            <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                            <label for="Description">Description <span>*</span></label>
+                            <textarea asp-for="Description" class="form-control" rows="2"></textarea>
 
+
+                        </div>
+                    </div>
+                    <div class="row">
 
                     </div>
-                </div>
-                <div class="row">
-
-                </div>
-                <div class="modal-footer">
+                    <div class="modal-footer">
 
 
-                    <input type="submit" name="answer" value="Update Appointment" class=" col-sm-12 btn btn-primary" />
+                        <input type="submit" name="answer" value="Update Appointment" class=" col-sm-12 btn btn-primary" />
 
-                    <br />
-                    <br />
-                    <br />
-                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
+                        <br />
+                        <br />
+                        <br />
+                        <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
     background-color: #bd2522!important;
     border: 1px solid #841a18 !important;
 " />
 
 
-                    @*<br />
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>*@
+                        @*<br />
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>*@
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-</div>
+    </div>
 
-<div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
-    <form asp-action="Create" asp-controller="Appointment" method="post">
-        <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
-            <div class="modal-content" style="width:100%">
-                <div class="modal-header">
-                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                    <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
-                </div>
-                <div class="modal-body" style="height:70%; width:100%;">
-                    
+        <form asp-action="Create" asp-controller="Appointment" method="post">
+            <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
+                <div class="modal-content" style="width:100%">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                        <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
+                    </div>
+                    <div class="modal-body" style="height:70%; width:100%;">
+
                         <div class="panel panel-default">
                             <div class="panel-heading">Patient Information </div>
                             <div class="panel-body">
@@ -136,14 +137,14 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group form-inline">
-                                        <label for="ContactNumber">Contact Number</span></label>
-                                        <input type="text" class="form-control" placeholder="">
+                                        <label for="CellNumber">Contact Number</span></label>
+                                        <input asp-for="CellPhone" class="form-control" placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
-                                        <label for="EmailAddress">Email Address <span>*</span></label>
-                                        <input type="text" class="form-control" placeholder="">
+                                        <label for="Email1">Email Address <span>*</span></label>
+                                        <input asp-for="Email1" class="form-control" placeholder="">
                                         <span class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
@@ -158,7 +159,7 @@
                                 </div>
                             </div>
                         </div>
-                   
+
                         <div class="panel panel-default">
                             <div class="panel-heading">Appointment Information </div>
                             <div class="panel-body">
@@ -173,15 +174,15 @@
                                         <label for="description">Description:</label>
                                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>
                                     </div>
-                               
-                                
+
+
                                     <div class="form-group ">
                                         <label for="Date">Date<span></span></label>
                                         <input asp-for="Start" type="date" class="form-control" placeholder="">
                                         <span asp-validation-for="Start" class="text-danger"></span>
                                     </div>
-                                
-                                
+
+
                                     <div class="form-group">
                                         <label for="Date">Time<span></span></label>
                                         <input asp-for="Time" type="time" class="form-control" placeholder="">
@@ -191,129 +192,129 @@
                                 </div>
                             </div>
                         </div>
-                    
-                    
-                    <div class="col-sm-12">
-                        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="
+
+
+                        <div class="col-sm-12">
+                            <input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="
     width: 70% !Important;
 ">
+                        </div>
+                    </div>
+                    <div class="row">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        @*<input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
+                            <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />*@
                     </div>
                 </div>
-                <div class="row">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    @*<input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
-                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />*@
-                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-</div>
+    </div>
 
 
-<script>
+    <script>
 
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        var appointments = [];
-        $.ajax({
-            type: "Get",
-            url: "/Appointment/GetAppointments",
-            success: function (data) {
-                //console.log(data);
+            var appointments = [];
+            $.ajax({
+                type: "Get",
+                url: "/Appointment/GetAppointments",
+                success: function (data) {
+                    //console.log(data);
 
-                $.each(data, function (i, v) {
-                    //console.log(v);
+                    $.each(data, function (i, v) {
+                        //console.log(v);
 
-                    appointments.push({
-                        id: v.AppointmentId,
-                        title: v.Title,
-                        description: v.Description,
-                        start: v.Start,//.format('YYYY-MM-DD'),
-                        end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
-                        allDay: false
+                        appointments.push({
+                            id: v.AppointmentId,
+                            title: v.Title,
+                            description: v.Description,
+                            start: v.Start,//.format('YYYY-MM-DD'),
+                            end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
+                            allDay: false
+                        });
                     });
-                });
 
-                console.log(appointments);
+                    console.log(appointments);
 
-                //  GenerateCalender(appointments);
-            },
-            error: function (error) {
-                alert('failed')
+                    //  GenerateCalender(appointments);
+                },
+                error: function (error) {
+                    alert('failed')
 
-            }
-        }
-
-        );
-
-        $("#patientSearchId").on("click", function (e) {
-             //e.preventDefault();
-
-            var idNumber = $("#SearchIdNumber").val();
-
-            var button = $(this);
-
-            button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
-            button.click();
-           
-        });
-
-
-        $('#calendar').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,basicWeek,basicDay,agenda'
-            },
-            defaultDate: new Date(),
-            navLinks: true, // can click day/week names to navigate views
-            editable: true,
-            selectable: true,
-            eventLimit: true, // allow "more" link when too many events
-            eventColor: '#00bfff'
-            , events: "/Appointment/GetAppointments",
-            eventClick: function (calEvent, jsEvent, view) {
-                $('#appointmentModal');
-                var $description = $('#appdiv').html('content');
-                $('#appointmentModal #appointmentDetails').empty().html($description);
-                $('#appointmentModal').modal();
-
-                var d = moment(event.start).format("YYYY-MM-DD");
-                var t = moment(event.start).format("HH:mm:ss");
-
-                $('#id').val(event.id);
-                $("#start").val(d);
-                $('#time').val(t);
-                $("#title").val(event.title);
-                $("#description").val(event.description);
-                $('#appointmentModal').modal();
-            }, dayClick: function (date, calEvent, jsEvent, view) {
-                $('#CreateAppointmentModal').modal();
-            },
-            select: function (startDate, endDate,calEvent,jsEvent,view) {
-                $('#CreateAppointmentModal').modal();
-            },
-             eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
-                $('#appointmentModal');
-                var $description = $('#appdiv').html('content');
-                $('#appointmentModal #appointmentDetails').empty().html($description);
-
-                var d = moment(event.start).format("YYYY-MM-DD");
-                var t = moment(event.start).format("HH:mm:ss");
-
-                $('#id').val(event.id);
-                $("#start").val(d);
-                $('#time').val(t);
-                $("#title").val(event.title);
-                $("#description").val(event.description);
-                $('#appointmentModal').modal();
+                }
             }
 
-        })
+            );
 
+            $("#patientSearchId").on("click", function (e) {
+                //e.preventDefault();
+
+                var idNumber = $("#SearchIdNumber").val();
+
+                var button = $(this);
+
+                button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
+                button.click();
 
             });
-        </script>
+
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay,agenda'
+                },
+                defaultDate: new Date(),
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                selectable: true,
+                eventLimit: true, // allow "more" link when too many events
+                eventColor: '#00bfff'
+                , events: "/Appointment/GetAppointments",
+                eventClick: function (calEvent, jsEvent, view) {
+                    $('#appointmentModal');
+                    var $description = $('#appdiv').html('content');
+                    $('#appointmentModal #appointmentDetails').empty().html($description);
+                    $('#appointmentModal').modal();
+
+                    var d = moment(event.start).format("YYYY-MM-DD");
+                    var t = moment(event.start).format("HH:mm:ss");
+
+                    $('#id').val(event.id);
+                    $("#start").val(d);
+                    $('#time').val(t);
+                    $("#title").val(event.title);
+                    $("#description").val(event.description);
+                    $('#appointmentModal').modal();
+                }, dayClick: function (date, calEvent, jsEvent, view) {
+                    $('#CreateAppointmentModal').modal();
+                },
+                select: function (startDate, endDate, calEvent, jsEvent, view) {
+                    $('#CreateAppointmentModal').modal();
+                },
+                eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                    $('#appointmentModal');
+                    var $description = $('#appdiv').html('content');
+                    $('#appointmentModal #appointmentDetails').empty().html($description);
+
+                    var d = moment(event.start).format("YYYY-MM-DD");
+                    var t = moment(event.start).format("HH:mm:ss");
+
+                    $('#id').val(event.id);
+                    $("#start").val(d);
+                    $('#time').val(t);
+                    $("#title").val(event.title);
+                    $("#description").val(event.description);
+                    $('#appointmentModal').modal();
+                }
+
+            })
+
+
+        });
+    </script>

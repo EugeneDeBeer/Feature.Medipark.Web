@@ -215,78 +215,6 @@
                 </div><!-- end container -->
             </div><!-- end navbar -->
         </div>
-        <!-- Top Bar End -->
-        <!-- ========== Left Sidebar Start ========== -->
-        <div class="left side-menu">
-            <div class="sidebar-inner slimscrollleft">
-
-                <!--- Sidemenu -->
-                <div id="sidebar-menu">
-                    <ul>
-                        <li class="menu-title">Navigation</li>
-
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span class="label label-success pull-right"></span> <span> Dashboard </span> </a>
-                            <ul class="list-unstyled">
-                                <li><a href="dashboard.html">Dashboard </a></li>
-                            </ul>
-                        </li>
-
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Doctors</span> <span class="menu-arrow"></span></a>
-                            <ul class="list-unstyled">
-                                <li><a href="/Doctors/Create">Add Doctor</a></li>
-                                <li><a asp-controller="Doctors" asp-action="Doctors">Manage Doctors</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span>Nurse</span> <span class="menu-arrow"></span></a>
-                            <ul class="list-unstyled">
-                                <li><a href="/Doctors/Create">Add Nurse</a></li>
-                                <li><a asp-controller="Nurses" asp-action="Nurses">Manage Nurses</a></li>
-
-                            </ul>
-                        </li>
-
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Patients</span> <span class="menu-arrow active"></span></a>
-                            <ul class="list-unstyled">
-                                <li><a asp-controller="Patient" asp-action="Create">Add Patient</a></li>
-                                <li><a asp-controller="Patient" asp-action="Index">Manage Patients</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Appointment</span> <span class="menu-arrow active"></span></a>
-                            <ul class="list-unstyled">
-                                <li><a asp-controller="Appointment" asp-action="Index">View Calender</a></li>
-                            </ul>
-                        </li>
-                        <li class="has_sub">
-
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Wards</span> <span class="menu-arrow active"></span></a>
-                            <ul class="list-unstyled">
-                                <li><a asp-controller="Wards" asp-action="Create">Add Ward</a></li>
-                                @*<li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>*@
-
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-                <!-- Sidebar -->
-                <div class="clearfix"></div>
-
-
-            </div>
-            <!-- Sidebar -left -->
-
-        </div>
-        <!-- Left Sidebar End -->
-
-
-
     </div>
 
 
@@ -437,7 +365,7 @@
 
         <script src="~/js/site.js" asp-append-version="true"></script>
         @*<script src="~/js/jquery.core.js" asp-append-version="true"></script>
-        <script src="~/js/jquery.app.js" asp-append-version="true"></script>*@
+            <script src="~/js/jquery.app.js" asp-append-version="true"></script>*@
         @*<script src="~/js/add-patient.js"></script>*@
 
         <script src="~/js/detect.js" asp-append-version="true"></script>
