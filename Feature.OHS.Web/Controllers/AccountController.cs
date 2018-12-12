@@ -11,6 +11,7 @@ using Feature.OHS.Web.ViewModels.Response;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace Feature.OHS.Web.Controllers
@@ -71,11 +72,38 @@ namespace Feature.OHS.Web.Controllers
 
                             //ModelState.AddModelError("Credentials", data.Message);
                             //return StatusCode((int) HttpStatusCode.NotFound, data);
-                        }                            
+                        }
+
+                        var resData = JsonConvert.DeserializeObject<PersonViewModel>(data.Message);
+
+                        if (resData != null && resData.UserRoleId > 0)
+                        {
+                            //  Lands user to the calendar view based on Roles
+
+                            if (resData.UserRoleId == 3)    
+                            {
+                                //return RedirectToAction("Index", "Appointment", response);
+                                return RedirectToAction("Index", "Appointment");
+                            }
+                            else if (resData.UserRoleId == 2)
+                            {
+                                return RedirectToAction("Index", "Appointment");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Dashboard", "Dashboard");
+                            }
+
+
+                            //if (resData.RoleName.ToLowerInvariant().Equals("superuser"))    //  Lands user to the calendar view 
+                            //{
+                            //    return RedirectToAction("Index", "Appointment", response);
+                            //}
+                        }
                     }
 
-                    return RedirectToAction("Dashboard", "Dashboard", response);
-                    //return RedirectToAction("SuccessLogin", "Account", response);
+                    return RedirectToAction("Login", "Account");
+                    //return RedirectToAction("Dashboard", "Dashboard", response);
                 }
                 catch (Exception ex)
                 {
@@ -104,9 +132,10 @@ namespace Feature.OHS.Web.Controllers
 
 
 
-        public IActionResult Registration(string returnUrl)
+        public async Task<IActionResult> Registration(string returnUrl)
         {
-            var model = new PersonViewModel();
+            //var model = new PersonViewModel();
+            var model = new RegistrationViewModel();
 
             if (!string.IsNullOrWhiteSpace(returnUrl))
             {
@@ -115,6 +144,22 @@ namespace Feature.OHS.Web.Controllers
             else
             {
                 ViewData["ReturnUrl"] = string.Empty;
+            }
+
+            var results = await _accountHandler.GetAllRoles();
+
+            if (results != null)
+            {
+                var roles = JsonConvert.DeserializeObject<List<UserRole>>(results.Message);
+
+                if (roles.Any())
+                {
+                    ViewData["UserRoles"] = new SelectList(roles.Select(u => new
+                    {
+                        u.UserRoleId,
+                        u.RoleName
+                    }), "UserRoleId", "RoleName");
+                }                
             }
 
             return View(model);
