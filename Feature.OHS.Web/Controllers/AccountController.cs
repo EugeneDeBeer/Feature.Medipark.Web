@@ -11,6 +11,7 @@ using Feature.OHS.Web.ViewModels.Response;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 
@@ -74,18 +75,30 @@ namespace Feature.OHS.Web.Controllers
                             //return StatusCode((int) HttpStatusCode.NotFound, data);
                         }
 
-                        var resData = JsonConvert.DeserializeObject<PersonViewModel>(data.Message);
+                        var responseData = JsonConvert.DeserializeObject<PersonViewModel>(data.Message);
 
-                        if (resData != null && resData.UserRoleId > 0)
+                        if (responseData != null && responseData.UserRoleId > 0)
                         {
+                            // Requires: using Microsoft.AspNetCore.Http;
+                            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && !string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+                            {
+                                //  Remove old Session
+                                HttpContext.Session.Remove("Username");
+                                HttpContext.Session.Remove("Password");                                
+                            }
+
+                            //  Set Session based on the current logged in person
+                            HttpContext.Session.SetString("Username", model.UserName);
+                            HttpContext.Session.SetString("Password", model.Password);
+
                             //  Lands user to the calendar view based on Roles
 
-                            if (resData.UserRoleId == 3)    
+                            if (responseData.UserRoleId == 3)    
                             {
                                 //return RedirectToAction("Index", "Appointment", response);
                                 return RedirectToAction("Index", "Appointment");
                             }
-                            else if (resData.UserRoleId == 2)
+                            else if (responseData.UserRoleId == 2)
                             {
                                 return RedirectToAction("Index", "Appointment");
                             }
@@ -93,12 +106,6 @@ namespace Feature.OHS.Web.Controllers
                             {
                                 return RedirectToAction("Dashboard", "Dashboard");
                             }
-
-
-                            //if (resData.RoleName.ToLowerInvariant().Equals("superuser"))    //  Lands user to the calendar view 
-                            //{
-                            //    return RedirectToAction("Index", "Appointment", response);
-                            //}
                         }
                     }
 
@@ -114,8 +121,24 @@ namespace Feature.OHS.Web.Controllers
             {
                 return View(model);
             }
+        }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            var user = HttpContext.User;
 
+            //  Clear session here
+
+            // Requires: using Microsoft.AspNetCore.Http;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && !string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+            {
+                HttpContext.Session.Remove("Username");
+                HttpContext.Session.Remove("Password");               
+            }
+
+            return RedirectToAction(nameof(Login), "Account");
         }
 
         public IActionResult SuccessLogin(APIResponse clientInfo)
