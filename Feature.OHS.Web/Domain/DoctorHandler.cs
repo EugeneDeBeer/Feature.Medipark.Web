@@ -1,5 +1,7 @@
 ﻿using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Settings;
 using Feature.OHS.Web.ViewModels;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,19 +10,20 @@ using System.Threading.Tasks;
 
 namespace Feature.OHS.Web.Domain
 {
-    public class DoctoHandler : IDoctorHandler
+    public class DoctorHandler : IDoctorHandler
     {
         private readonly IAPIIntegration _integration;
-
-        public DoctoHandler(IAPIIntegration integration)
+        private readonly IntegrationSettings _integrationSettings;
+        public DoctorHandler(IAPIIntegration integration, IOptions<IntegrationSettings> integrationSettings)
         {
             _integration = integration;
+            _integrationSettings = integrationSettings.Value;
         }
       
 
         public DoctorNurseViewModel AddDoctor(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -41,7 +44,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddContact(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", doctorVM, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -64,7 +67,7 @@ namespace Feature.OHS.Web.Domain
 
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", "http://localhost:61820", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", _integrationSettings.AdmissionsDevApiUrl, "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<DoctorNurseViewModel>>(request.Message);
@@ -82,7 +85,7 @@ namespace Feature.OHS.Web.Domain
         }
         public DoctorNurseViewModel GetDoctorByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Doctor/Get/DoctorNurse?Id=" + id, "http://localhost:61820", "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Doctor/Get/DoctorNurse?Id=" + id, _integrationSettings.AdmissionsDevApiUrl, "GET");
             if (request != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<DoctorNurseViewModel>(request.Message);
@@ -100,7 +103,7 @@ namespace Feature.OHS.Web.Domain
         public dynamic UpdateDoctor(DoctorNurseViewModel model)
         {
 
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -118,7 +121,7 @@ namespace Feature.OHS.Web.Domain
         }
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", doctorVM, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -138,7 +141,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Doctor", doctorVM, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Doctor", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -157,7 +160,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddQualification(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", doctorVM, "http://localhost:61820", true);
+            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {

@@ -31,7 +31,7 @@ namespace Feature.OHS.Web
             services.Configure<IntegrationSettings>(Configuration.GetSection("GlobalSettings"));
 
             services.AddTransient<IPatientHandler, PatientHandler>();
-            services.AddTransient<IDoctorHandler, DoctoHandler>();
+            services.AddTransient<IDoctorHandler, DoctorHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<INurseHandler, NurseHandler>();
