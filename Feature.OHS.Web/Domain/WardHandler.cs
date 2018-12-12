@@ -69,14 +69,16 @@ namespace Feature.OHS.Web.Domain
         {
             ward.EventShortDescription = "ward";
             ward.EventDescription = "Created";
-            var response = _integration.ResponseFromAPIPost("", "v1/Ward/create", ward, _integrationSettings.HospitalWardsApiUrl, true);
+            ward.UserId = 1;
+            ward.FloorPlanId = 1;
+            ward.HospitalId = 1;
+            var response = _integration.ResponseFromAPIPost("", "v1/ward/create", ward, _integrationSettings.HospitalWardsApiUrl, true);
 
             if (response != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<WardViewModel>(response.Message);
                 if (dynamicResponse != null)
                 {
-
                     return dynamicResponse;
                 }
                 return null;
@@ -152,22 +154,23 @@ namespace Feature.OHS.Web.Domain
 
         public List<WardListViewModel> GetWardList(int HospitalId)
         {
-            var response = _integration.ResponseFromAPIGet("", $"get/roomlist/{HospitalId}", _integrationSettings.HospitalWardsApiUrl,null);
+            var response = _integration.ResponseFromAPIGet("", $"v1/Ward/get/wardlist/{HospitalId}", _integrationSettings.HospitalWardsApiUrl,null);
 
             if (response != null)
             {
-                var dynamicResponse = JsonConvert.DeserializeObject<List<WardListViewModel>>(response.Message);
-                if (dynamicResponse != null)
+                if (response.Success)
                 {
-
+                    var dynamicResponse = JsonConvert.DeserializeObject<List<WardListViewModel>>(response.Message);
                     return dynamicResponse;
                 }
-                return null;
+                else
+                {
+                    return null;
+                }
             }
-            else
-            {
                 return null;
-            }
+            
+          
 
         }
 
