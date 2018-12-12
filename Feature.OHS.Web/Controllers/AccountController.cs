@@ -134,9 +134,8 @@ namespace Feature.OHS.Web.Controllers
 
         public async Task<IActionResult> Registration(string returnUrl)
         {
-            //var model = new PersonViewModel();
-            var model = new RegistrationViewModel();
-
+            var model = new PersonViewModel();
+            
             if (!string.IsNullOrWhiteSpace(returnUrl))
             {
                 ViewData["ReturnUrl"] = returnUrl;
