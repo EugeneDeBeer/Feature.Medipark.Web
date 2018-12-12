@@ -14,5 +14,6 @@ namespace Feature.OHS.Web.Settings
         public string SearchDevApiUrl { get; set; }
         
         public string AdmissionsDevApiUrl { get; set; }
+        public string HospitalWardsApiUrl { get; set; }
     }
 }
