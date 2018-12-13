@@ -40,10 +40,11 @@ namespace Feature.OHS.Web.Controllers
 
         public ActionResult SearchAppointment(AppointmentViewModel model)
         {
-            if (model == null)
-                return View(new AppointmentViewModel());
+            var appointments = _appointmentHandler.GetAppointments;
+            //if (model == null)
+            //    return View(new AppointmentViewModel(),appointments);
 
-            return View(model);
+            return View(appointments);
         }
 
         public ActionResult Theatre(AppointmentViewModel model)

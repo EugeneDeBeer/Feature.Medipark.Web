@@ -1,6 +1,8 @@
-﻿<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+﻿@model IEnumerable<Feature.OHS.Web.ViewModels.AppointmentViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 <link href="~/css/searchAppointment.css" rel="stylesheet" />
 <script src="~/js/searchAppointment.js"></script>
 <!------ Include the above in your HEAD tag ---------->
@@ -20,13 +22,14 @@
             <table class="table" id="table">
                 <thead>
                     <tr>
-                        <th>First Name</th>
-                        <th>Ref number</th>
+                        <th>Appointment Id</th>
+                        <th>Patient Name</th>
+                        <th> Subject</th>
                         <th>Appointment date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <!--  <tr>
                         <td>Shawn Tembe</td>
                         <td>#565615651</td>
                         <td>2018-02-08</td>
@@ -40,7 +43,28 @@
                         <td>Jack</td>
                         <td>#88986</td>
                         <td>2017-03-08</td>
+                    </tr>-->
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                       
+                        <td> @Html.DisplayFor(modelItem => item.AppointmentId)</td>
+                        <td> @Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td> @Html.DisplayFor(modelItem => item.Title)</td>
+                        <td> @Html.DisplayFor(modelItem => item.Start)</td>
+
+
+
+
+                        <td>
+                            <!-- <a
+            <i class="mdi mdi-pencil-box-outline text-success"></i>
+        </a>-->
+                            @Html.ActionLink("Edit", "EditPatient", new { id = item.IdNumber }, null)
+                        </td>
                     </tr>
+
+                    }
                 </tbody>
             </table>
             <hr>
