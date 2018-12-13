@@ -4,6 +4,7 @@ using Feature.OHS.Web.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Feature.OHS.Web.Domain
@@ -56,7 +57,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointment", _integrationSettings.SearchDevApiUrl, "GET");
 
                 if (request != null)
                 {
@@ -162,7 +163,7 @@ namespace Feature.OHS.Web.Domain
             else throw new Exception(_appointmentResponse.Message);
         }
 
-        public AppointmentViewModel GetAppointmentByIdNumber(string id)
+        public AppointmentViewModel GetPatientByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id, _integrationSettings.AdmissionsDevApiUrl, "GET");
 
@@ -172,6 +173,22 @@ namespace Feature.OHS.Web.Domain
                
                     return _response;
                  
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<AppointmentViewModel> GetAppointmentsByIdNumber(string id)
+        {
+            var request = _integration.ResponseFromAPIGet("", "/Get/Appointment?Id=" + id, _integrationSettings.SearchDevApiUrl, "GET");
+
+            if (request != null)
+            {
+                var _response = JsonConvert.DeserializeObject<List<AppointmentViewModel>>(request.Message);
+
+                return _response;
+
             }
             else
             {

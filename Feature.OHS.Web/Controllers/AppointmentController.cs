@@ -25,6 +25,8 @@ namespace Feature.OHS.Web.Controllers
         // GET: DoctorsAppointment
         public ActionResult Index(AppointmentViewModel model)
         {
+
+            //ViewBag.appointmentList = appointment;
             if (model == null)
                 return View(new AppointmentViewModel());
 
@@ -38,13 +40,35 @@ namespace Feature.OHS.Web.Controllers
             return View(model);
         }
 
-        public ActionResult SearchAppointment(AppointmentViewModel model)
-        {
-            var appointments = _appointmentHandler.GetAppointments;
-            //if (model == null)
-            //    return View(new AppointmentViewModel(),appointments);
+        //public ActionResult SearchAppointment(AppointmentViewModel model)
+        //{
+        //    var appointments = _appointmentHandler.GetAppointments;
+        //    ViewBag.appointmentList = appointments;
+        //    //if (model == null)
+        //    //    return View(new AppointmentViewModel(),appointments);
 
-            return View(appointments);
+        //    return View(appointments);
+        //}
+        public ActionResult SearchAppointment(string id)
+        {
+            try
+            {
+                if (id == null)
+                {
+
+                    ViewBag.ErrorMessage = "Please Enter a valid ID Number";
+                    return View("Index");
+                }
+
+                var appointment = _appointmentHandler.GetAppointmentsByIdNumber(id);
+                ViewBag.appointmentList = appointment;
+                return View("Index",new AppointmentViewModel());
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Index");
+            }
         }
 
         public ActionResult Theatre(AppointmentViewModel model)
@@ -134,7 +158,7 @@ namespace Feature.OHS.Web.Controllers
                     return View("Index");
                 }
 
-                var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
+                var appointment = _appointmentHandler.GetPatientByIdNumber(id);
               
                 return RedirectToAction(nameof(SearchPatient), appointment);
             }catch (Exception e)
