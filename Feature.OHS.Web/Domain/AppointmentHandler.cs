@@ -12,11 +12,13 @@ namespace Feature.OHS.Web.Domain
     {
         private readonly IAPIIntegration _integration;
         private readonly IntegrationSettings _integrationSettings;
+        private readonly IDoctorHandler _doctorHandler;
 
-        public AppointmentHandler(IAPIIntegration aPIIntegration, IOptions<IntegrationSettings> integrationOptions)
+        public AppointmentHandler(IAPIIntegration aPIIntegration, IOptions<IntegrationSettings> integrationOptions,IDoctorHandler doctorHandler)
         {
             _integration = aPIIntegration;
             _integrationSettings = integrationOptions.Value;
+            _doctorHandler = doctorHandler;
         }
         public IEnumerable<AppointmentViewModel> GetAppointments
         {
@@ -50,6 +52,37 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
+        public IEnumerable<AppointmentViewModel> GetTheatreAppointments
+        {
+            get
+            {
+                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+
+                if (request != null)
+                {
+                    var patientIndex = 0;
+                    var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
+                    var appointmentList = new List<AppointmentViewModel>();
+
+                    foreach (var item in Response)
+                    {
+                        appointmentList.Add(item);
+                        appointmentList[patientIndex].Id = item.AppointmentId;
+                        patientIndex++;
+                    }
+
+                    if (appointmentList != null)
+                    {
+                        return appointmentList;
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         public AppointmentViewModel Create(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";
@@ -66,10 +99,6 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
             var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-
-
-
-
 
             if (_appointmentResponse != null)
             {
@@ -105,6 +134,34 @@ namespace Feature.OHS.Web.Domain
             else throw new Exception(_appointmentResponse.Message);
         }
 
+        public AppointmentViewModel TheatreCreate(AppointmentViewModel appointmentViewModel)
+        {
+            appointmentViewModel.AppointmentShortTypeDescription = "appointment";
+            appointmentViewModel.AppointmentTypeDescription = "theatre";
+            appointmentViewModel.EventDescription = $"creating doctor appointment for{appointmentViewModel.FirstName}";
+            appointmentViewModel.EventTypeDescription = "book appointment";
+            appointmentViewModel.EventTypeShortDescription = "private practice";
+            appointmentViewModel.StatusTypeDescription = "booked";
+            appointmentViewModel.StatusTypeShortDescription = "appointment";
+            appointmentViewModel.PersonTypeDescription = "individual";
+            appointmentViewModel.PersonTypeShortDescription = "person";
+            appointmentViewModel.UserId = 1;
+            var tm = TimeSpan.Parse(appointmentViewModel.Time);
+            appointmentViewModel.Start += tm;
+            appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+
+            if (_appointmentResponse != null)
+            {
+                var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_appointmentResponse.Message);
+
+                return response;
+               
+               
+            }
+            else throw new Exception(_appointmentResponse.Message);
+        }
+
         public AppointmentViewModel GetAppointmentByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id, _integrationSettings.AdmissionsDevApiUrl, "GET");
@@ -114,8 +171,7 @@ namespace Feature.OHS.Web.Domain
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
                
                     return _response;
-                
-                
+                 
             }
             else
             {
