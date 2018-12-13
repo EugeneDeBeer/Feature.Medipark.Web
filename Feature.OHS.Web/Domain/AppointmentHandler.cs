@@ -62,7 +62,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
             //this value suppose to be recieved from the logged in user
-            appointmentViewModel.UserId = 1;
+            //appointmentViewModel.UserId = 1;
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);

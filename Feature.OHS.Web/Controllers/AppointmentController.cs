@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.Helper;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,8 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             try
-            {
+            {                
+                appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
 
                 var result = _appointmentHandler.Create(appointmentViewModel);
                 if (result != null)

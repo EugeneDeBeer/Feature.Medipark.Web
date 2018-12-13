@@ -38,7 +38,7 @@ namespace Feature.OHS.Web.Domain
             person.EventDescription = $"Created  {person.FirstName} {person.LastName} as user";
 
             //  To be changed once we have the login module setup
-            person.UserId = 1;
+            //person.UserId = 1;
 
             //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:5001/", true);
             var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, _integrationSettings.UsersDevApiUrl, true);
