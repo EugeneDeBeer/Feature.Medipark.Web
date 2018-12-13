@@ -14,15 +14,17 @@ namespace Feature.OHS.Web.Controllers
         private readonly IWard _WardHandler;
         public WardsController(IWard WardHandler)
         {
+
             _WardHandler = WardHandler;
         }
 
         // GET: Wards
-        public ActionResult Index()
+        public ActionResult List()
         {
             var response = _WardHandler.GetWardList(1);
-            if(response.Count < 1)
+            if(response == null)
             {
+                ViewBag.ErrorMessage = "Failed to create a ward please try again";
                 return View();
             }
             return View("List", model: response);
@@ -56,7 +58,7 @@ namespace Feature.OHS.Web.Controllers
                         return NotFound();
                     }
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(List));
 
                 }
                 return View();
@@ -79,12 +81,25 @@ namespace Feature.OHS.Web.Controllers
         // POST: Wards/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(WardViewModel model)
         {
             try
             {
-                // TODO: Add update logic here
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    var response = _WardHandler.EditWard(model);
+
+                    if (response == null)
+                    {
+                        return NotFound();
+                    }
+
+                    return RedirectToAction(nameof(List));
+
+                }
+                return View();
+                // TODO: Add insert logic here
+                //  return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -107,7 +122,7 @@ namespace Feature.OHS.Web.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(List));
             }
             catch
             {
