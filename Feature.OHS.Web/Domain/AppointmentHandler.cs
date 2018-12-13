@@ -61,7 +61,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-            appointmentViewModel.UserId = 1;
+            //appointmentViewModel.UserId = 1;
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
@@ -150,7 +150,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-            appointmentViewModel.UserId = 1;
+            //appointmentViewModel.UserId = 1;
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.AppointmentId = appointmentViewModel.Id;

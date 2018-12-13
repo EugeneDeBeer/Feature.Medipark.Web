@@ -33,9 +33,9 @@ namespace Feature.OHS.Web.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = "")
         {
-            return View(new LoginViewModel());
+            return View(new LoginViewModel(){ReturnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -55,13 +55,6 @@ namespace Feature.OHS.Web.Controllers
                     if (!response.Success)
                     {
                         return View("Error", new ErrorViewModel() { RequestId = response.Message });
-                    }
-
-                    var returnUrl = Convert.ToString(ViewData["ReturnUrl"]);
-
-                    if (!string.IsNullOrWhiteSpace(returnUrl))
-                    {
-                        return Redirect(returnUrl);
                     }
 
                     if (response.Success)
@@ -100,6 +93,13 @@ namespace Feature.OHS.Web.Controllers
 
                             //  Set Session based on the current logged in person
                             HttpContext.Session.SetObject("User", responseData);
+
+                            
+                            if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
+                            {
+                                return Redirect(model.ReturnUrl);
+                                //return Redirect(model.ReturnUrl + "?returnUrl=" + model.ReturnUrl);
+                            }
 
                             //  Lands user to the calendar view based on Roles
 
@@ -166,9 +166,18 @@ namespace Feature.OHS.Web.Controllers
         }
 
 
-
         public async Task<IActionResult> Registration(string returnUrl)
         {
+            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            {
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
+            }
+
+            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+
+            if (user == null)
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
+            
             var model = new PersonViewModel();
             
             if (!string.IsNullOrWhiteSpace(returnUrl))

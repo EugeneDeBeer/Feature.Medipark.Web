@@ -67,8 +67,8 @@ namespace Feature.OHS.Web.Domain
 
         public async Task<APIResponse> GetAllRoles()
         {
-            //var response = _integration.ResponseFromAPIGet("Get Roles", "v1/Registration/GetRoles", "https://localhost:5001/", "GET");
-            var response = _integration.ResponseFromAPIGet("Get Roles", "v1/Registration/GetRoles", _integrationSettings.SearchDevApiUrl, "GET");
+            var response = _integration.ResponseFromAPIGet("Get Roles", "v1/Registration/GetRoles", "https://localhost:5001/", "GET");
+            //var response = _integration.ResponseFromAPIGet("Get Roles", "v1/Registration/GetRoles", _integrationSettings.UsersDevApiUrl, "GET");
 
             return response;
         }

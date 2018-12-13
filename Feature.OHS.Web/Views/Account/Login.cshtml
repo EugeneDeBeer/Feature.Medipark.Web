@@ -86,6 +86,8 @@
 
 @{
     Layout = null;
+
+    ViewData["ReturnUrl"] = Model?.ReturnUrl;
 }
 
 <body class="bg-transparent">
@@ -147,7 +149,7 @@
                                 <h4 class="text-uppercase font-bold m-b-0">Welcome to MediPark</h4>
                             </div>
                             <div class="account-content">
-                                <form asp-action="Login" asp-controller="Account" method="post" asp-antiforgery="true" id="loginForm">
+                                <form asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model?.ReturnUrl" method="post" asp-antiforgery="true" id="loginForm">
                                     <div class="row">
 
                                         @if (Model != null && !string.IsNullOrWhiteSpace(Model.UserName))

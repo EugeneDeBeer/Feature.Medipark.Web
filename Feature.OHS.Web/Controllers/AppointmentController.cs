@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Feature.OHS.Web.Helper;
 using Feature.OHS.Web.Interfaces;
+using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,14 +18,46 @@ namespace Feature.OHS.Web.Controllers
         {
             _appointmentHandler = appointmentHandler;
         }
+
+        // GET: DoctorsAppointment
+        //public ActionResult Index()
+        //{
+        //    if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+        //    {
+        //        return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+        //    }
+            
+        //    return View(new AppointmentViewModel());
+        //}
+
         // GET: DoctorsAppointment
         public ActionResult Index(AppointmentViewModel model)
         {
-            if (model == null)
-                return View(new AppointmentViewModel());
+            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            {
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+            }
 
-            return View(model);
+            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+
+            if(user == null)
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+
+            if (user.UserRoleId == 3)
+            {
+                //return RedirectToAction("Index", "Appointment", response);
+                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            }
+            else if (user.UserRoleId == 2)
+            {
+                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Dashboard");
+            }            
         }
+
         public ActionResult Search(AppointmentViewModel model)
         {
             if (model == null)
@@ -60,10 +93,12 @@ namespace Feature.OHS.Web.Controllers
         [HttpPost("Update")]
         public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel)
         {
+            appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
+
             _appointmentHandler.Update(appointmentViewModel);
             return RedirectToAction(nameof(Index));
         }
-
+         
         public ActionResult GetAppointment(string id)
         {
             try
