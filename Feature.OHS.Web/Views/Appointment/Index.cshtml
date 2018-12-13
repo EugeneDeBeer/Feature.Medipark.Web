@@ -18,10 +18,77 @@
     </style>
 
     <div class="row">
-        <div class="col-sm-12" id='calendar'></div>
+
+        <div class="col-sm-8">
+            <form>
+                <div class="form-group search-box">
+                    <input asp-for="PatientIdNumber" type="text"  class="form-control product-search" placeholder="Search appointment here...">
+                    <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
+
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+            <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
+        </div>
+        <div class="col-sm-2">
+            <a href="add-doctor.html" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
+        </div>
+
+        <div class="col-sm-8" id="advanced-search">
+            <form>
+                <div class="form-group search-box">
+
+                    <input for="checkbox5" type="checkbox"> ID Number
+
+                    <input type="checkbox" name="sameaddress" value="" id=""> First Name
+
+                    <input type="checkbox" name="sameaddress" value="" id=""> Patient ID
+
+                </div>
+            </form>
+        </div>
+        
+        @if (ViewBag.appointmentList != null)
+        {
+            <div id="patientsearch">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table" id="table">
+                            <thead>
+                                <tr>
+                                    <th>Appointment Id</th>
+                                    <th>Patient Name</th>
+                                    <th> Subject</th>
+                                    <th>Appointment date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in ViewBag?.appointmentList)
+                                {
+                                    <tr>
+
+                                        <td> @item?.AppointmentId</td>
+                                        <td> @item?.FirstName</td>
+                                        <td> @item?.Title</td>
+                                        <td> @item?.Start</td>
+                                    </tr>
+
+                                }
+                                
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        }
+            <div class="col-sm-12" id='calendar'></div>
 
 
-    </div>
+        </div>
     <div id="appdiv"></div>
 
     <!-- Button trigger modal -->
@@ -215,7 +282,14 @@
 
 
     <script>
-
+        function myFunction() {
+            var x = document.getElementById("patientsearchId");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
         $(document).ready(function () {
 
             var appointments = [];
@@ -263,6 +337,17 @@
             });
 
 
+            $("#appointmentSearchId").on("click", function (e) {
+                //e.preventDefault();
+
+                var idNumber = $("#PatientIdNumber").val();
+
+                var button = $(this);
+
+                button.attr("href", "/Appointment/SearchAppointment?id=" + idNumber);
+                button.click();
+
+            });
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
