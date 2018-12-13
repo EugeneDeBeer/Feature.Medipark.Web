@@ -1,0 +1,11 @@
+.row-padding {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.search-appointment{
+    background: #c1c1c1;
+    border: 1px solid #ababab;
+    padding: 3%;
+
+}

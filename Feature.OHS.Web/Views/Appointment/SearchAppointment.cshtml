@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Feature.OHS.Web.ViewModels.AppointmentViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/searchAppointment.css" rel="stylesheet" />
+<script src="~/js/searchAppointment.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+
+    <div class="row">
+
+    </div>
+    <div class="row">
+        <div class="col-lg-8 search-appointment">
+            <input type="search" id="search" value="" class="form-control" placeholder="Search appointment">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th>Appointment Id</th>
+                        <th>Patient Name</th>
+                        <th> Subject</th>
+                        <th>Appointment date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--  <tr>
+                        <td>Shawn Tembe</td>
+                        <td>#565615651</td>
+                        <td>2018-02-08</td>
+                    </tr>
+                    <tr>
+                        <td>Vuyiswa</td>
+                        <td>#989898</td>
+                        <td>2018-08-12</td>
+                    </tr>
+                    <tr>
+                        <td>Jack</td>
+                        <td>#88986</td>
+                        <td>2017-03-08</td>
+                    </tr>-->
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                       
+                        <td> @Html.DisplayFor(modelItem => item.AppointmentId)</td>
+                        <td> @Html.DisplayFor(modelItem => item.FirstName)</td>
+                        <td> @Html.DisplayFor(modelItem => item.Title)</td>
+                        <td> @Html.DisplayFor(modelItem => item.Start)</td>
+
+
+
+
+                        <td>
+                            <!-- <a
+            <i class="mdi mdi-pencil-box-outline text-success"></i>
+        </a>-->
+                            @Html.ActionLink("Edit", "EditPatient", new { id = item.IdNumber }, null)
+                        </td>
+                    </tr>
+
+                    }
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+</div>
+
+<script src="//rawgithub.com/stidges/jquery-searchable/master/dist/jquery.searchable-1.0.0.min.js"></script>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,15 +9,19 @@ using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Feature.OHS.Web.Controllers
 {
     public class AppointmentController : Controller
     {
         private readonly IAppointmentHandler _appointmentHandler;
-        public AppointmentController(IAppointmentHandler appointmentHandler)
+        private readonly IDoctorHandler _doctorHandler;
+        public AppointmentController(IAppointmentHandler appointmentHandler,IDoctorHandler doctorHandler)
         {
             _appointmentHandler = appointmentHandler;
+            _doctorHandler = doctorHandler;
+
         }
 
         // GET: DoctorsAppointment
@@ -58,13 +63,69 @@ namespace Feature.OHS.Web.Controllers
             }            
         }
 
-        public ActionResult Search(AppointmentViewModel model)
+        public ActionResult SearchPatient(AppointmentViewModel model)
         {
             if (model == null)
                 return View(new AppointmentViewModel());
 
             return View(model);
         }
+
+        public ActionResult SearchAppointment(AppointmentViewModel model)
+        {
+            var appointments = _appointmentHandler.GetAppointments;
+            //if (model == null)
+            //    return View(new AppointmentViewModel(),appointments);
+
+            return View(appointments);
+        }
+
+        public ActionResult Theatre(AppointmentViewModel model)
+        {
+            var doctors = _doctorHandler.Doctors;
+         
+            if (doctors.Any())
+            {
+
+              
+                    ViewData["Doctors"] = new SelectList(doctors.Select(u => new
+                    {
+                        u.DoctorId,
+                        u.FirstName
+                    }), "DoctorId", "FirstName");
+                
+            }
+ 
+
+            return View(model);
+        }
+
+        [HttpPost("Appointment/Theatre")]
+        public ActionResult TheatreApppointment(AppointmentViewModel appointmentViewModel)
+        {
+            try
+            {
+
+                var result = _appointmentHandler.TheatreCreate(appointmentViewModel);
+                if (result != null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Oops something went wrong please try again";
+                    return View("Theatre");
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return View("Theatre");
+            }
+        }
+
+
+
         [HttpPost("Appointment")]
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
@@ -111,13 +172,14 @@ namespace Feature.OHS.Web.Controllers
 
                 var appointment = _appointmentHandler.GetAppointmentByIdNumber(id);
               
-                return RedirectToAction(nameof(Search), appointment);
+                return RedirectToAction(nameof(SearchPatient), appointment);
             }catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View("Index");
             }
         }
+
 
         public JsonResult GetAppointments() {
             try { 
@@ -129,7 +191,19 @@ namespace Feature.OHS.Web.Controllers
                 return null;
             }
         }
-
+        public JsonResult GetTheatreAppointments()
+        {
+            try
+            {
+                var appointments = _appointmentHandler.GetTheatreAppointments;
+                return new JsonResult(appointments);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return null;
+            }
+        }
         public ActionResult CancelAppointment(AppointmentViewModel model)
         {
             try
