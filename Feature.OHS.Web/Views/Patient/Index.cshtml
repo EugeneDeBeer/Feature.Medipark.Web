@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<Feature.OHS.Web.ViewModels.PatientPayloadViewModel>
+﻿@model IEnumerable<Feature.OHS.Web.ViewModels.PatientPayloadViewModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -88,7 +87,7 @@
                                 <th>ID Number</th>
 
                                 <th>Modify Doctor</th>
-
+                                <th>View Patient File</th>
                             </tr>
                         </thead>
 
@@ -120,6 +119,14 @@
                                             <i class="mdi mdi-pencil-box-outline text-success"></i>
                                         </a>-->
                                         @Html.ActionLink("Edit", "EditPatient", new { id = item.IdNumber }, null)
+                                    </td>
+                                    
+                                    <td>
+                                        <!-- <a
+                                            <i class="mdi mdi-pencil-box-outline text-success"></i>
+                                        </a>-->
+
+                                        @Html.ActionLink("View File", "EditPatient", new { id = item.IdNumber }, new { @class = "mdi mdi-account-box-outline text-success btn btn-default" })
                                     </td>
                                 </tr>
 
