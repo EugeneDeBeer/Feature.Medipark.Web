@@ -179,22 +179,7 @@ namespace Feature.OHS.Web.Domain
                 return null;
             }
         }
-        public List<AppointmentViewModel> GetAppointmentsByIdNumber(string id)
-        {
-            var request = _integration.ResponseFromAPIGet("", "/Get/Appointment?Id=" + id, _integrationSettings.SearchDevApiUrl, "GET");
-
-            if (request != null)
-            {
-                var _response = JsonConvert.DeserializeObject<List<AppointmentViewModel>>(request.Message);
-
-                return _response;
-
-            }
-            else
-            {
-                return null;
-            }
-        }
+        
         public List<AppointmentViewModel> GetAppointmentsByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "/Get/Appointment?Id=" + id, _integrationSettings.SearchDevApiUrl, "GET");
