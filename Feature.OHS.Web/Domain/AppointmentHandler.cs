@@ -4,6 +4,7 @@ using Feature.OHS.Web.ViewModels;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Feature.OHS.Web.Domain
@@ -14,7 +15,7 @@ namespace Feature.OHS.Web.Domain
         private readonly IntegrationSettings _integrationSettings;
         private readonly IDoctorHandler _doctorHandler;
 
-        public AppointmentHandler(IAPIIntegration aPIIntegration, IOptions<IntegrationSettings> integrationOptions,IDoctorHandler doctorHandler)
+        public AppointmentHandler(IAPIIntegration aPIIntegration, IOptions<IntegrationSettings> integrationOptions, IDoctorHandler doctorHandler)
         {
             _integration = aPIIntegration;
             _integrationSettings = integrationOptions.Value;
@@ -56,7 +57,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointment", _integrationSettings.SearchDevApiUrl, "GET");
 
                 if (request != null)
                 {
@@ -94,7 +95,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-            //appointmentViewModel.UserId = 1;
+
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
@@ -128,7 +129,7 @@ namespace Feature.OHS.Web.Domain
                     };
 
                 }
-                else throw new Exception (_contactResponse.Message);
+                else throw new Exception(_contactResponse.Message);
 
             }
             else throw new Exception(_appointmentResponse.Message);
@@ -145,7 +146,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-            appointmentViewModel.UserId = 1;
+
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
@@ -156,22 +157,38 @@ namespace Feature.OHS.Web.Domain
                 var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_appointmentResponse.Message);
 
                 return response;
-               
-               
+
+
             }
             else throw new Exception(_appointmentResponse.Message);
         }
 
-        public AppointmentViewModel GetAppointmentByIdNumber(string id)
+        public AppointmentViewModel GetPatientByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?Id=" + id, _integrationSettings.AdmissionsDevApiUrl, "GET");
 
             if (request != null)
             {
                 var _response = JsonConvert.DeserializeObject<AppointmentViewModel>(request.Message);
-               
-                    return _response;
-                 
+
+                return _response;
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<AppointmentViewModel> GetAppointmentsByIdNumber(string id)
+        {
+            var request = _integration.ResponseFromAPIGet("", "/Get/Appointment?Id=" + id, _integrationSettings.SearchDevApiUrl, "GET");
+
+            if (request != null)
+            {
+                var _response = JsonConvert.DeserializeObject<List<AppointmentViewModel>>(request.Message);
+
+                return _response;
+
             }
             else
             {
@@ -191,7 +208,7 @@ namespace Feature.OHS.Web.Domain
             }
             else
                 return null;
-           
+
         }
 
 
@@ -206,7 +223,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-            //appointmentViewModel.UserId = 1;
+
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.AppointmentId = appointmentViewModel.Id;
