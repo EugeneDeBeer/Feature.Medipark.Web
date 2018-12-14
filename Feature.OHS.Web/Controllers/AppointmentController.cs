@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.Helper;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
@@ -16,22 +17,52 @@ namespace Feature.OHS.Web.Controllers
     {
         private readonly IAppointmentHandler _appointmentHandler;
         private readonly IDoctorHandler _doctorHandler;
-        public AppointmentController(IAppointmentHandler appointmentHandler,IDoctorHandler doctorHandler)
+        public AppointmentController(IAppointmentHandler appointmentHandler, IDoctorHandler doctorHandler)
         {
             _appointmentHandler = appointmentHandler;
             _doctorHandler = doctorHandler;
 
         }
+
+        // GET: DoctorsAppointment
+        //public ActionResult Index()
+        //{
+        //    if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+        //    {
+        //        return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+        //    }
+
+        //    return View(new AppointmentViewModel());
+        //}
+
         // GET: DoctorsAppointment
         public ActionResult Index(AppointmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            {
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+            }
 
-            //ViewBag.appointmentList = appointment;
-            if (model == null)
-                return View(new AppointmentViewModel());
+            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
 
-            return View(model);
+            if (user == null)
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+
+            if (user.UserRoleId == 3)
+            {
+                //return RedirectToAction("Index", "Appointment", response);
+                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            }
+            else if (user.UserRoleId == 2)
+            {
+                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            }
+            else
+            {
+                return RedirectToAction("Dashboard", "Dashboard");
+            }
         }
+
         public ActionResult SearchPatient(AppointmentViewModel model)
         {
             if (model == null)
@@ -62,7 +93,7 @@ namespace Feature.OHS.Web.Controllers
 
                 var appointment = _appointmentHandler.GetAppointmentsByIdNumber(id);
                 ViewBag.appointmentList = appointment;
-                return View("Index",new AppointmentViewModel());
+                return View("Index", new AppointmentViewModel());
             }
             catch (Exception e)
             {
@@ -74,19 +105,16 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult Theatre(AppointmentViewModel model)
         {
             var doctors = _doctorHandler.Doctors;
-         
+
             if (doctors.Any())
             {
+                ViewData["Doctors"] = new SelectList(doctors.Select(u => new
+                {
+                    u.DoctorId,
+                    u.FirstName
+                }), "DoctorId", "FirstName");
 
-              
-                    ViewData["Doctors"] = new SelectList(doctors.Select(u => new
-                    {
-                        u.DoctorId,
-                        u.FirstName
-                    }), "DoctorId", "FirstName");
-                
             }
- 
 
             return View(model);
         }
@@ -122,6 +150,7 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
+                appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
 
                 var result = _appointmentHandler.Create(appointmentViewModel);
                 if (result != null)
@@ -144,6 +173,8 @@ namespace Feature.OHS.Web.Controllers
         [HttpPost("Update")]
         public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel)
         {
+            appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
+
             _appointmentHandler.Update(appointmentViewModel);
             return RedirectToAction(nameof(Index));
         }
@@ -159,9 +190,10 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetPatientByIdNumber(id);
-              
+
                 return RedirectToAction(nameof(SearchPatient), appointment);
-            }catch (Exception e)
+            }
+            catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return View("Index");
@@ -169,11 +201,14 @@ namespace Feature.OHS.Web.Controllers
         }
 
 
-        public JsonResult GetAppointments() {
-            try { 
+        public JsonResult GetAppointments()
+        {
+            try
+            {
                 var appointments = _appointmentHandler.GetAppointments;
                 return new JsonResult(appointments);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 ViewBag.ErrorMessage = e.Message;
                 return null;
@@ -203,7 +238,7 @@ namespace Feature.OHS.Web.Controllers
                 }
                 model.AppointmentId = model.Id;
                 var result = _appointmentHandler.CancelAppointment(model);
-                if(result == null)
+                if (result == null)
                 {
                     ViewBag.ErrorMessage = "Oops sorry, failed to cancel the appointment please try again";
                     return View("Index");

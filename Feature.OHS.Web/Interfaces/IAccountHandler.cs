@@ -10,6 +10,9 @@ namespace Feature.OHS.Web.Interfaces
         Task<PersonViewModel> Register(PersonViewModel person);
         Task<APIResponse> Login(LoginViewModel model);
 
+        //  Roles
+        Task<APIResponse> GetAllRoles();
+
         //  FORGOT PASSWORD STARTS HERE
         //Task<APIResponse> FindUserByEmail(ForgotPasswordViewModel model);
         Task<UserViewModel> FindUserByEmail(ForgotPasswordViewModel model);

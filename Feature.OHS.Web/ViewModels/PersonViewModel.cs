@@ -67,6 +67,9 @@ namespace Feature.OHS.Web.ViewModels
         [Display(Name = "Cell Number <span>*</span>")]
         public string CellPhone { get; set; }
 
+        public int? UserRoleId { get; set; }
+        public string RoleName { get; set; }    //  With help reduce API requests when looking up role information
+
         //public DateTime? DateOfBirth { get; set; }
 
         //public string PassportNumber { get; set; }
@@ -75,7 +78,6 @@ namespace Feature.OHS.Web.ViewModels
         //public string Citizenship { get; set; }
         //public int PersonDetailsId { get; set; }
         //public int? EventId { get; set; }        
-        //public int? UserRoleId { get; set; }
         //public string EventDescription { get; set; }
         //public sbyte? IsActive { get; set; }
     }
