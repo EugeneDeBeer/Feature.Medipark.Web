@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Feature.OHS.Web.Helper;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
@@ -44,12 +45,17 @@ namespace Feature.OHS.Web.Controllers
         [HttpPost]
         public ActionResult CreatePatient(PatientPayloadViewModel model)
         {
+            //if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            //{
+            //    return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(PatientController.CreatePatient), nameof(Patient)) });
+            //}
+
             if (ModelState.IsValid)
             {
 
                 try
                 {
-                    model.UserId = 1;
+                    model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
                     var result =  _patientHandler.AddPatient(model);
                     PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));

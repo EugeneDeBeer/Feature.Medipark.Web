@@ -11,6 +11,9 @@ using Feature.OHS.Web.ViewModels.Response;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using Feature.OHS.Web.Helper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace Feature.OHS.Web.Controllers
@@ -30,9 +33,9 @@ namespace Feature.OHS.Web.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = "")
         {
-            return View(new LoginViewModel());
+            return View(new LoginViewModel(){ReturnUrl = returnUrl });
         }
 
         [HttpPost]
@@ -54,13 +57,6 @@ namespace Feature.OHS.Web.Controllers
                         return View("Error", new ErrorViewModel() { RequestId = response.Message });
                     }
 
-                    var returnUrl = Convert.ToString(ViewData["ReturnUrl"]);
-
-                    if (!string.IsNullOrWhiteSpace(returnUrl))
-                    {
-                        return Redirect(returnUrl);
-                    }
-
                     if (response.Success)
                     {
                         var data = JsonConvert.DeserializeObject<APIResponse>(response.Message);
@@ -71,11 +67,60 @@ namespace Feature.OHS.Web.Controllers
 
                             //ModelState.AddModelError("Credentials", data.Message);
                             //return StatusCode((int) HttpStatusCode.NotFound, data);
-                        }                            
+                        }
+
+                        var responseData = JsonConvert.DeserializeObject<PersonViewModel>(data.Message);
+
+                        if (responseData != null && responseData.UserRoleId > 0)
+                        {
+                            // Requires: using Microsoft.AspNetCore.Http;
+                            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && !string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+                            //{
+                            //    //  Remove old Session
+                            //    HttpContext.Session.Remove("Username");
+                            //    HttpContext.Session.Remove("Password");                                
+                            //}
+
+                            //  Set Session based on the current logged in person
+                            //HttpContext.Session.SetString("Username", model.UserName);
+                            //HttpContext.Session.SetString("Password", model.Password);
+
+                            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("User")))
+                            {
+                                //  Remove old Session
+                                HttpContext.Session.Remove("User");
+                            }
+
+                            //  Set Session based on the current logged in person
+                            HttpContext.Session.SetObject("User", responseData);
+
+                            
+                            if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
+                            {
+                                return Redirect(model.ReturnUrl);
+                                //return Redirect(model.ReturnUrl + "?returnUrl=" + model.ReturnUrl);
+                            }
+
+                            //  Lands user to the calendar view based on Roles
+
+                            if (responseData.UserRoleId == 3)    
+                            {
+                                //return RedirectToAction("Index", "Appointment", response);
+                                return RedirectToAction("Index", "Appointment");
+                            }
+                            else if (responseData.UserRoleId == 2)
+                            {
+                                return RedirectToAction("Index", "Appointment");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Dashboard", "Dashboard");
+                            }
+                        }
                     }
 
-                    return RedirectToAction("Dashboard", "Dashboard", response);
-                    //return RedirectToAction("SuccessLogin", "Account", response);
+                    return RedirectToAction("Login", "Account");
+                    //return RedirectToAction("Dashboard", "Dashboard", response);
                 }
                 catch (Exception ex)
                 {
@@ -86,8 +131,26 @@ namespace Feature.OHS.Web.Controllers
             {
                 return View(model);
             }
+        }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            //  Clear session here
 
+            // Requires: using Microsoft.AspNetCore.Http;
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("User")))
+            {
+                HttpContext.Session.Remove("User");
+            }
+            //if (!string.IsNullOrEmpty(HttpContext.Session.GetString("Username")) && !string.IsNullOrEmpty(HttpContext.Session.GetString("Password")))
+            //{
+            //    HttpContext.Session.Remove("Username");
+            //    HttpContext.Session.Remove("Password");               
+            //}
+
+            return RedirectToAction(nameof(Login), "Account");
         }
 
         public IActionResult SuccessLogin(APIResponse clientInfo)
@@ -103,11 +166,20 @@ namespace Feature.OHS.Web.Controllers
         }
 
 
-
-        public IActionResult Registration(string returnUrl)
+        public async Task<IActionResult> Registration(string returnUrl)
         {
-            var model = new PersonViewModel();
+            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            {
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
+            }
 
+            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+
+            if (user == null)
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
+            
+            var model = new PersonViewModel();
+            
             if (!string.IsNullOrWhiteSpace(returnUrl))
             {
                 ViewData["ReturnUrl"] = returnUrl;
@@ -115,6 +187,22 @@ namespace Feature.OHS.Web.Controllers
             else
             {
                 ViewData["ReturnUrl"] = string.Empty;
+            }
+
+            var results = await _accountHandler.GetAllRoles();
+
+            if (results != null)
+            {
+                var roles = JsonConvert.DeserializeObject<List<UserRole>>(results.Message);
+
+                if (roles.Any())
+                {
+                    ViewData["UserRoles"] = new SelectList(roles.Select(u => new
+                    {
+                        u.UserRoleId,
+                        u.RoleName
+                    }), "UserRoleId", "RoleName");
+                }                
             }
 
             return View(model);
@@ -131,6 +219,7 @@ namespace Feature.OHS.Web.Controllers
                     if (model == null) return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = "Model passed cannot be null" });
 
                     model.IdNumber = model.IdentityNumber.ToString();
+                    model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
 
                     var response = await _accountHandler.Register(model);
 

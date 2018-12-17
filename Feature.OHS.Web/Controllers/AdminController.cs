@@ -12,5 +12,15 @@ namespace Feature.OHS.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public IActionResult RegistrationUserRoles(string[] items)
+        {
+            return View(nameof(Create));
+        }
     }
 }

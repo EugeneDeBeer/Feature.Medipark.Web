@@ -31,7 +31,7 @@ namespace Feature.OHS.Web
             services.Configure<IntegrationSettings>(Configuration.GetSection("GlobalSettings"));
 
             services.AddTransient<IPatientHandler, PatientHandler>();
-            services.AddTransient<IDoctorHandler, DoctoHandler>();
+            services.AddTransient<IDoctorHandler, DoctorHandler>();
             services.AddTransient<IServiceAuthentication, ServiceAuthentication>();
             services.AddTransient<IAPIIntegration, APIIntegration>();
             services.AddTransient<INurseHandler, NurseHandler>();
@@ -41,6 +41,15 @@ namespace Feature.OHS.Web
  
             services.AddTransient<IAccountHandler, AccountHandler>();
 
+            //  Session setup
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.Cookie.HttpOnly = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +66,7 @@ namespace Feature.OHS.Web
             }
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

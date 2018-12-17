@@ -15,6 +15,8 @@ namespace Feature.OHS.Web.ViewModels
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
+
+        public string ReturnUrl { get; set; }
     }
 
     public class ResetPasswordViewModel

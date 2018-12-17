@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Feature.OHS.Search.Modela;
+using Feature.OHS.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,10 +10,12 @@ namespace Feature.OHS.Web.ViewModels
 {
     public class AppointmentViewModel
     {
+      
         public int UserId { get; set; }
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public int PersonId { get; set; }
+        public int DoctorId { get; set; }
         public string AppointmentShortTypeDescription { get; set; }
         public string AppointmentTypeDescription { get; set; }
         public string EventTypeShortDescription { get; set; }
@@ -24,6 +29,7 @@ namespace Feature.OHS.Web.ViewModels
         public string LastName { get; set; }
         public string IdNumber { get; set; }
         public string SearchIdNumber { get; set; }
+        public string PatientIdNumber { get; set; }
         public string Time { get; set; }
         public DateTime? DateCreated { get; set; }
         public bool? IsActive { get; set; }
@@ -33,5 +39,9 @@ namespace Feature.OHS.Web.ViewModels
         public string Title { get; set; }
         public string CellPhone { get; set; }
         public string Email1 { get; set; }
+        public List<string> Theatre { get; set; }
+        public int RoomId { get; set; }
+        public string DoctorName { get; set; }
+       
     }
 }
