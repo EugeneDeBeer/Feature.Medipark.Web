@@ -57,7 +57,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
 
                 if (request != null)
                 {
@@ -150,7 +150,7 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, "https://localhost:44370", true);
 
             if (_appointmentResponse != null)
             {
