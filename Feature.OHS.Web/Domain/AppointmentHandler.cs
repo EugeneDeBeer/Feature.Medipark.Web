@@ -57,7 +57,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointment", _integrationSettings.SearchDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "/Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
 
                 if (request != null)
                 {

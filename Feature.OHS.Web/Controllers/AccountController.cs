@@ -93,8 +93,9 @@ namespace Feature.OHS.Web.Controllers
 
                             //  Set Session based on the current logged in person
                             HttpContext.Session.SetObject("User", responseData);
+                            //ViewData["UserName"] = $"{responseData?.FirstName} {responseData?.LastName}";
 
-                            
+
                             if (!string.IsNullOrWhiteSpace(model.ReturnUrl))
                             {
                                 return Redirect(model.ReturnUrl);
@@ -168,44 +169,51 @@ namespace Feature.OHS.Web.Controllers
 
         public async Task<IActionResult> Registration(string returnUrl)
         {
-            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            try
             {
-                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
-            }
-
-            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
-
-            if (user == null)
-                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
-            
-            var model = new PersonViewModel();
-            
-            if (!string.IsNullOrWhiteSpace(returnUrl))
-            {
-                ViewData["ReturnUrl"] = returnUrl;
-            }
-            else
-            {
-                ViewData["ReturnUrl"] = string.Empty;
-            }
-
-            var results = await _accountHandler.GetAllRoles();
-
-            if (results != null)
-            {
-                var roles = JsonConvert.DeserializeObject<List<UserRole>>(results.Message);
-
-                if (roles.Any())
+                if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
                 {
-                    ViewData["UserRoles"] = new SelectList(roles.Select(u => new
-                    {
-                        u.UserRoleId,
-                        u.RoleName
-                    }), "UserRoleId", "RoleName");
-                }                
-            }
+                    return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
+                }
 
-            return View(model);
+                var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+
+                if (user == null)
+                    return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
+
+                var model = new PersonViewModel();
+
+                if (!string.IsNullOrWhiteSpace(returnUrl))
+                {
+                    ViewData["ReturnUrl"] = returnUrl;
+                }
+                else
+                {
+                    ViewData["ReturnUrl"] = string.Empty;
+                }
+
+                var results = await _accountHandler.GetAllRoles();
+
+                if (results != null)
+                {
+                    var roles = JsonConvert.DeserializeObject<List<UserRole>>(results.Message);
+
+                    if (roles.Any())
+                    {
+                        ViewData["UserRoles"] = new SelectList(roles.Select(u => new
+                        {
+                            u.UserRoleId,
+                            u.RoleName
+                        }), "UserRoleId", "RoleName");
+                    }
+                }
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return View("Error", new ErrorViewModel(){ RequestId = ex.Message });
+            }            
         }
 
         [HttpPost]
