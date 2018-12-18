@@ -243,7 +243,7 @@
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span>Nurse</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
                                 <li><a href="/Doctors/Create">Add Nurse</a></li>
-                                <li><a asp-controller="Nurses" asp-action="Nurses">Manage Nurses</a></li>
+                                <li><a asp-controller="Nurses" asp-action="Index">Manage Nurses</a></li>
 
                             </ul>
                         </li>
@@ -269,7 +269,8 @@
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Wards</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
                                 <li><a asp-controller="Wards" asp-action="Create">Add Ward</a></li>
-                                @*<li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>*@
+                                <li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>
+                                <li><a asp-controller="Room" asp-action="Create">Add Room</a></li>
 
                             </ul>
                         </li>
