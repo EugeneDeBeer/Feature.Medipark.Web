@@ -145,7 +145,7 @@ namespace Feature.OHS.Web.Controllers
 
 
 
-        [HttpPost("Appointment")]
+ 
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             try
