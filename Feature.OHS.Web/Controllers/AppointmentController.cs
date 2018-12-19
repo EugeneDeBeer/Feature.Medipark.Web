@@ -190,7 +190,7 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetPatientByIdNumber(id);
-
+              
                 return RedirectToAction(nameof(SearchPatient), appointment);
             }
             catch (Exception e)
@@ -206,6 +206,7 @@ namespace Feature.OHS.Web.Controllers
             try
             {
                 var appointments = _appointmentHandler.GetAppointments;
+                ViewBag.Patients = appointments;
                 return new JsonResult(appointments);
             }
             catch (Exception e)

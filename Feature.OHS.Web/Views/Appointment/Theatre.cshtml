@@ -212,6 +212,30 @@
 
             );
 
+          
+            var patients = [];
+            $.ajax({
+                type: "Get",
+                url: "/Appointment/GetAppointments",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+
+
+                        patients.push({
+                            id: v.AppointmentId,
+                            FirstName: v.FirstName,
+                            LastName: v.LastName
+                        });
+                    });
+
+                    console.log(patients);
+                },
+                error: function (error) {
+                    alert('failed')
+
+                }
+            });
+
             $("#patientSearchId").on("click", function (e) {
                 //e.preventDefault();
 
@@ -230,7 +254,10 @@
                     left: 'prev,next today',
                     center: 'title',
                     right: 'month,basicWeek,basicDay,agenda'
-                },
+                }, buttonText: {
+                    agenda:'Hours'
+                }
+                ,
                 defaultDate: new Date(),
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
