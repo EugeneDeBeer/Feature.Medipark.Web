@@ -108,11 +108,17 @@ namespace Feature.OHS.Web.Controllers
 
             if (doctors.Any())
             {
+                //ViewData["Doctors"] = new SelectList(doctors.Select(u => new
+                //{
+                //    u.DoctorId,
+                //    u.FirstName
+                //}), "DoctorId", "FirstName");
+
                 ViewData["Doctors"] = new SelectList(doctors.Select(u => new
                 {
-                    u.DoctorId,
-                    u.FirstName
-                }), "DoctorId", "FirstName");
+                    DoctorId = u.DoctorId,
+                    FullName = $"{u.FirstName} {u.LastName}"
+                }), "DoctorId", "FullName");
 
             }
 
