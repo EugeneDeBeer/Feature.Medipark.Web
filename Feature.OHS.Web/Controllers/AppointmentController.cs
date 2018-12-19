@@ -128,7 +128,7 @@ namespace Feature.OHS.Web.Controllers
                 var result = _appointmentHandler.TheatreCreate(appointmentViewModel);
                 if (result != null)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Theatre));
                 }
                 else
                 {
