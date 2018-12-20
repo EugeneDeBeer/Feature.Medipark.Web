@@ -104,6 +104,11 @@ namespace Feature.OHS.Web.Controllers
 
         public ActionResult Theatre(AppointmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            {
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Theatre), "Appointment") });
+            }
+
             var doctors = _doctorHandler.Doctors;
 
             if (doctors.Any())
@@ -122,7 +127,8 @@ namespace Feature.OHS.Web.Controllers
 
             }
 
-            return View(model);
+            return View(model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            //return View(model);
         }
 
         [HttpPost("Appointment/Theatre")]
