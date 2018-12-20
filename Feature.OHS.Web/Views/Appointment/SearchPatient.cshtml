@@ -47,13 +47,11 @@
                         <label for="Date">Date <span>*</span></label>
                         <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
                         <label for="Time">Time <span>*</span></label>
-                        <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
+                        <input asp-for="Time" id="time" type="time" min="07:00" max="19:00" class="form-control" placeholder="">
                         <label for="Title">Subject <span>*</span></label>
                         <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
                         <label for="Description">Description <span>*</span></label>
                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-
-
                     </div>
                 </div>
                 <div class="row">

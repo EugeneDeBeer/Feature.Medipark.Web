@@ -43,24 +43,24 @@ namespace Feature.OHS.Web.Controllers
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
             }
 
-            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+            return View(model.AppointmentId > 0 ? model : new AppointmentViewModel());
 
-            if (user == null)
-                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
-
-            if (user.UserRoleId == 3)
-            {
-                //return RedirectToAction("Index", "Appointment", response);
-                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
-            }
-            else if (user.UserRoleId == 2)
-            {
-                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
-            }
-            else
-            {
-                return RedirectToAction("Dashboard", "Dashboard");
-            }
+            //var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+            //if (user == null)
+            //    return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+            //if (user.UserRoleId == 3)
+            //{
+            //    //return RedirectToAction("Index", "Appointment", response);
+            //    return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            //}
+            //else if (user.UserRoleId == 2)
+            //{
+            //    return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Dashboard", "Dashboard");
+            //}
         }
 
         public ActionResult SearchPatient(AppointmentViewModel model)
