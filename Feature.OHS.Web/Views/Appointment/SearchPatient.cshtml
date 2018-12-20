@@ -99,62 +99,71 @@
                         <div class="panel-heading">Patient Information </div>
                         <div class="panel-body">
 
-                            <div class="form-group form-inline">
-                                <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Enter ID Number" aria-label="Search">
-                                <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"> Search</i></a>
+                            @*<div class="form-group form-inline">
+                                    <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Enter ID Number" aria-label="Search">
+                                    <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"> Search</i></a>
+                                </div>*@
+
+                            <div class="col-sm-12">
+                                <div class="col-md-6">
+                                    <div class="form-group search-box">
+                                        <input asp-for="SearchIdNumber" type="text" class="form-control product-search" placeholder="Enter ID Number">
+                                        <a href="javascript:void(0)" id="patientSearchId" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-sm-6 ">
 
                                 <div class="form-group form-inline">
-                                    <label for="firstName">Name <span>*</span></label>
+                                    <label for="firstName" class="col-md-12">Name <span>*</span></label>
                                     @if (Model?.FirstName == null)
 
                                     {
-                                        <input asp-for="FirstName" type="text" class="form-control" placeholder="">
+                                        <input asp-for="FirstName" type="text" class="form-control col-md-12" style="width:100%" placeholder="">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     }
                                     else
                                     {
-                                        <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
+                                        <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control col-md-12" style="width:100%">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     }
                                 </div>
                                 <div class="form-group form-inline">
                                     @if (Model?.LastName == null)
                                     {
-                                        <label for="Surname">Surname <span>*</span></label>
-                                        <input asp-for="LastName" type="text" class="form-control" placeholder="">
+                                        <label for="Surname" class="col-md-12">Surname <span>*</span></label>
+                                        <input asp-for="LastName" type="text" class="form-control col-md-12" style="width:100%" placeholder="">
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     }
                                     else
                                     {
-                                        <label for="Surname">Surname <span>*</span></label>
-                                        <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
+                                        <label for="Surname" class="col-md-12">Surname <span>*</span></label>
+                                        <input asp-for="LastName" type="text" class="form-control col-md-12" style="width:100%" value="@Model.LastName">
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     }
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label for="IdNumber">Id Number <span>*</span></label>
-                                    <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
+                                    <label for="IdNumber" class="col-md-12">Id Number <span>*</span></label>
+                                    <input asp-for="IdNumber" type="text" class="form-control col-md-12" style="width:100%" placeholder="">
                                     <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-inline">
-                                    <label for="ContactNumber">Contact Number</span></label>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <label for="ContactNumber" class="col-md-12">Contact Number</span></label>
+                                    <input type="text" class="form-control col-md-12" style="width:100%" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group form-inline">
-                                    <label for="EmailAddress">Email Address <span>*</span></label>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <label for="EmailAddress" class="col-md-12">Email Address <span>*</span></label>
+                                    <input type="email" class="form-control col-md-12" style="width:100%" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="form-group form-inline">
-                                    <label for="ReminderType">Reminder Type <span>*</span></label>
-                                    <select name="ReminderType" class="form-control" placeholder="">
+                                    <label for="ReminderType" class="col-md-12">Reminder Type <span>*</span></label>
+                                    <select name="ReminderType" class="form-control col-md-12" style="width:100%" placeholder="">
                                         <option>-----None-----</option>
                                         <option value="0">SMS</option>
                                         <option value="1">Email</option>
@@ -171,8 +180,20 @@
 
                             <div class="col-sm-12 ">
                                 <div class="form-group">
-                                    <label for="Title">Appointment Subject <span></span></label>
-                                    <input asp-for="Title" type="text" class="form-control" placeholder="">
+                                    <label for="Title">Appointment Type <span></span></label>
+                                    <select asp-for="Title" type="text" class="form-control" placeholder="">
+                                        <optgroup label="Consultation">
+                                            <option value="New Patient">New Patient</option>
+                                            <option value="First Appointment">First Appointment</option>
+                                            <option value="Prescription">Prescription</option>
+                                            <option value="Follow-Up">Follow-Up</option>
+                                            <option value="Emergency"> Emergency </option>
+                                            <option value="Emergency Consultation">Emergency Consultation</option>
+
+                                            <option value="Off-site Consultation">Off-site Consultation</option>
+                                            <option value="Hospital Consultation">Hospital Consultation</option>
+                                        </optgroup>
+                                    </select>
                                     <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
@@ -200,7 +221,7 @@
 
 
                     <div class="col-sm-12">
-                        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="
+                        <input id="submit" class="btn btn-block btn-rounded m-b-30 action-button next" type="submit" value="Create Appointment" style="
     width: 70% !Important;
 ">
                     </div>
@@ -273,6 +294,16 @@
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,basicWeek,basicDay,agenda'
+            },
+            eventRender: function (event, $el) {
+                $el.popover({
+                    title: event.title,
+                    content: `Time:${moment(event.start).format("HH:mm:ss")}
+                    ${event.description}`,
+                    trigger: 'hover',
+                    placement: 'top',
+                    container: 'body'
+                });
             },
             defaultDate: new Date(),
             navLinks: true, // can click day/week names to navigate views
