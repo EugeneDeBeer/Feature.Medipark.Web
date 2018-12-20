@@ -258,7 +258,7 @@
                         </li>
                         <li class="has_sub">
 
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Appointment</span> <span class="menu-arrow active"></span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-calendar-check"></i><span> Appointment</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
                                 <li><a asp-controller="Appointment" asp-action="Index">Doctor Calendar</a></li>
                                 <li><a asp-controller="Appointment" asp-action="Theatre">Theatre Calendar</a></li>
@@ -274,7 +274,16 @@
 
                             </ul>
                         </li>
+                        
 
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account-box-outline"></i><span> Users </span> <span class="menu-arrow active"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a asp-controller="Account" asp-action="Registration">Add User</a></li>
+                                @*<li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>*@
+
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- Sidebar -->
