@@ -55,31 +55,46 @@
         <div id="patientsearch">
             <div class="row">
                 <div class="col-lg-12">
-                    <table class="table" id="table">
-                        <thead>
-                            <tr>
-                                <th>Appointment Id</th>
-                                <th>Patient Name</th>
-                                <th> Subject</th>
-                                <th>Appointment date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    
+                    <div class="card-box">
+                        <h4 class="header-title m-t-0 m-b-30 text-center">Search Results</h4>
 
-                            @foreach (var item in ViewBag?.appointmentList)
-                            {
-                                <tr>
+                        <div class="inbox-widget slimscroll-alt" style="min-height: 30%;">
+                            <div class="col-lg-12">
+                                <table class="table table-hover mails m-0 table table-actions-bar" id="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Appointment #</th>
+                                        <th>Patient Name</th>
+                                        @*<th> Subject</th>*@
+                                        <th>Appointment date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    @{
+                                        var counter = 0;
 
-                                    <td> @item?.AppointmentId</td>
-                                    <td> @item?.FirstName</td>
-                                    <td> @item?.Title</td>
-                                    <td> @item?.Start</td>
-                                </tr>
-
-                            }
-
-                        </tbody>
-                    </table>
+                                        foreach (var item in ViewBag?.appointmentList)
+                                        {
+                                            counter++;
+                                            
+                                        <tr>
+                                            @*<td> @item?.AppointmentId</td>*@
+                                            <td> @counter</td>
+                                            <td> @item?.FirstName @item?.LastName</td>
+                                            @*<td> @item?.Title</td>*@
+                                            <td> @item?.Start</td>
+                                        </tr>
+                                         }
+                                    }
+                                    
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
                     <hr>
                 </div>
             </div>
@@ -337,7 +352,7 @@
                     });
                 });
 
-                console.log(appointments);
+                //console.log(appointments);
 
                 //  GenerateCalender(appointments);
             },
@@ -400,21 +415,25 @@
             eventColor: '#00bfff'
             , events: "/Appointment/GetAppointments",
             eventClick: function (calEvent, jsEvent, view) {
+
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
                 $('#appointmentModal').modal();
 
-                var d = moment(event.start).format("YYYY-MM-DD");
-                var t = moment(event.start).format("HH:mm:ss");
+                var d = moment(calEvent.start).format("YYYY-MM-DD");
+                var t = moment(calEvent.start).format("HH:mm:ss");
 
-                $('#id').val(event.id);
+                $('#id').val(calEvent.id);
                 $("#start").val(d);
                 $('#time').val(t);
-                $("#title").val(event.title);
-                $("#description").val(event.description);
+                $("#title").val(calEvent.title);
+                $("#Description").val(calEvent.description);
                 $('#appointmentModal').modal();
+
             }, dayClick: function (date, calEvent, jsEvent, view) {
+
+                $("#Start").val(date.format("YYYY-MM-DD"));
                 $('#CreateAppointmentModal').modal();
             },
             select: function (startDate, endDate, calEvent, jsEvent, view) {
