@@ -47,13 +47,11 @@
                         <label for="Date">Date <span>*</span></label>
                         <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
                         <label for="Time">Time <span>*</span></label>
-                        <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
+                        <input asp-for="Time" id="time" type="time" min="07:00" max="19:00" class="form-control" placeholder="">
                         <label for="Title">Subject <span>*</span></label>
                         <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
                         <label for="Description">Description <span>*</span></label>
                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-
-
                     </div>
                 </div>
                 <div class="row">
@@ -313,21 +311,24 @@
             eventColor: '#00bfff'
             , events: "/Appointment/GetAppointments",
             eventClick: function (calEvent, jsEvent, view) {
+
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
                 $('#appointmentModal').modal();
 
-                var d = moment(event.start).format("YYYY-MM-DD");
-                var t = moment(event.start).format("HH:mm:ss");
+                var d = moment(calEvent.start).format("YYYY-MM-DD");
+                var t = moment(calEvent.start).format("HH:mm:ss");
 
-                $('#id').val(event.id);
+                $('#id').val(calEvent.id);
                 $("#start").val(d);
                 $('#time').val(t);
-                $("#title").val(event.title);
-                $("#description").val(event.description);
+                $("#title").val(calEvent.title);
+                $("#Description").val(calEvent.description);
                 $('#appointmentModal').modal();
+
             }, dayClick: function (date, calEvent, jsEvent, view) {
+                $("#Start").val(date.format("YYYY-MM-DD"));
                 $('#CreateAppointmentModal').modal();
             },
             select: function (startDate, endDate, calEvent, jsEvent, view) {
