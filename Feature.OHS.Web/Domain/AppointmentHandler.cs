@@ -139,7 +139,7 @@ namespace Feature.OHS.Web.Domain
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";
             appointmentViewModel.AppointmentTypeDescription = "theatre";
-            appointmentViewModel.EventDescription = $"creating doctor appointment for{appointmentViewModel.FirstName}";
+            appointmentViewModel.EventDescription = $"creating theatre appointment for{appointmentViewModel.FirstName}";
             appointmentViewModel.EventTypeDescription = "book appointment";
             appointmentViewModel.EventTypeShortDescription = "private practice";
             appointmentViewModel.StatusTypeDescription = "booked";
@@ -150,7 +150,7 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, "https://localhost:44370", true);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
 
             if (_appointmentResponse != null)
             {
