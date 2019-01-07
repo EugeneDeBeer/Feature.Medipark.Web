@@ -9,397 +9,454 @@
 
 
 
-    <style>
+<style>
 
-        #calendar {
-            max-width: 100%;
-            margin: 0 auto;
-        }
-    </style>
+    #calendar {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+</style>
 
-    <div class="row">
+<div class="row">
 
-        <div class="col-sm-8">
-            <form>
-                <div class="form-group search-box">
-                    <input asp-for="PatientIdNumber" type="text"  class="form-control product-search" placeholder="Search appointment here...">
-                    <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
+    <div class="col-sm-8">
+        <form>
+            <div class="form-group search-box">
+                <input asp-for="PatientIdNumber" type="text" class="form-control product-search" placeholder="Search appointment here...">
+                <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
 
-                </div>
-            </form>
-        </div>
-
-        <div class="col-sm-2">
-            <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
-        </div>
-        <div class="col-sm-2">
-            <a href="add-doctor.html" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
-        </div>
-
-        <div class="col-sm-8" id="advanced-search">
-            <form>
-                <div class="form-group search-box">
-
-                    <input for="checkbox5" type="checkbox"> ID Number
-
-                    <input type="checkbox" name="sameaddress" value="" id=""> First Name
-
-                    <input type="checkbox" name="sameaddress" value="" id=""> Patient ID
-
-                </div>
-            </form>
-        </div>
-        
-        @if (ViewBag.appointmentList != null)
-        {
-            <div id="patientsearch">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <table class="table" id="table">
-                            <thead>
-                                <tr>
-                                    <th>Appointment Id</th>
-                                    <th>Patient Name</th>
-                                    <th> Subject</th>
-                                    <th>Appointment date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var item in ViewBag?.appointmentList)
-                                {
-                                    <tr>
-
-                                        <td> @item?.AppointmentId</td>
-                                        <td> @item?.FirstName</td>
-                                        <td> @item?.Title</td>
-                                        <td> @item?.Start</td>
-                                    </tr>
-
-                                }
-                                
-                            </tbody>
-                        </table>
-                        <hr>
-                    </div>
-                </div>
             </div>
-        }
-            <div class="col-sm-12" id='calendar'></div>
+        </form>
+    </div>
 
+    <div class="col-sm-2">
+        <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
+    </div>
+    <div class="col-sm-2">
+        <a href="/Doctors/Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
+    </div>
 
-        </div>
-    <div id="appdiv"></div>
+    <div class="col-sm-8" id="advanced-search">
+        <form>
+            <div class="form-group search-box">
 
-    <!-- Button trigger modal -->
-    <!-- Modal -->
-    <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+                <input for="checkbox5" type="checkbox"> ID Number
 
-        <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
-            <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
-                <div class="modal-content" style="width:100%">
-                    <div class="modal-header">
-                        <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                        <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
-                    </div>
-                    <div class="modal-body" style="height:70%; width:100%;">
+                <input type="checkbox" name="sameaddress" value="" id=""> First Name
 
-                        <div class=" col-sm-12">
-                            <input name="id" id="id" type="hidden" />
-                            <label for="Date">Date <span>*</span></label>
-                            <input asp-for="Start"   id="start" type="date" class="form-control" placeholder="">
-                            <label for="Time">Time <span>*</span></label>
-                            <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
-                            <label for="Title">Subject <span>*</span></label>
-                            <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
-                            <label for="Description">Description <span>*</span></label>
-                            <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                <input type="checkbox" name="sameaddress" value="" id=""> Patient ID
 
+            </div>
+        </form>
+    </div>
 
+    @if (ViewBag.appointmentList != null)
+    {
+        <div id="patientsearch">
+            <div class="row">
+                <div class="col-lg-12">
+                    
+                    <div class="card-box">
+                        <h4 class="header-title m-t-0 m-b-30 text-center">Search Results</h4>
+
+                        <div class="inbox-widget slimscroll-alt" style="min-height: 30%;">
+                            <div class="col-lg-12">
+                                <table class="table table-hover mails m-0 table table-actions-bar" id="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Appointment #</th>
+                                        <th>Patient Name</th>
+                                        @*<th> Subject</th>*@
+                                        <th>Appointment date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    @{
+                                        var counter = 0;
+
+                                        foreach (var item in ViewBag?.appointmentList)
+                                        {
+                                            counter++;
+                                            
+                                        <tr>
+                                            @*<td> @item?.AppointmentId</td>*@
+                                            <td> @counter</td>
+                                            <td> @item?.FirstName @item?.LastName</td>
+                                            @*<td> @item?.Title</td>*@
+                                            <td> @item?.Start</td>
+                                        </tr>
+                                         }
+                                    }
+                                    
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <h2 class="col-sm-12 text-center">Doctor Schedule Bookings</h2>
+        <div class="col-sm-12" id='calendar'></div>
+    </div>
+
+
+
+</div>
+<div id="appdiv"></div>
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+
+    <form asp-action="UpdateAppointment" asp-controller="Appointment" method="post">
+        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <h5 class="modal-title" id="appointmentModalLabel">Doctor Appointment</h5>
+                </div>
+                <div class="modal-body" style="height:70%; width:100%;">
+
+                    <div class=" col-sm-12">
+                        <input name="id" id="id" type="hidden" />
+                        <label for="Date">Date <span>*</span></label>
+                        <input asp-for="Start" id="start" type="date" class="form-control" placeholder="">
+                        <label for="Time">Time <span>*</span></label>
+                        <input asp-for="Time" id="time" type="time" min="07:00" max="19:00" class="form-control" placeholder="">
+                        <label for="Title">Subject <span>*</span></label>
+                        <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                        <label for="Description">Description <span>*</span></label>
+                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+
 
                     </div>
-                    <div class="modal-footer">
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="modal-footer">
 
 
-                        <input type="submit" name="answer" value="Update Appointment" class=" col-sm-12 btn btn-primary" />
+                    <input type="submit" name="answer" value="Update Appointment" class=" col-sm-12 btn btn-primary" />
 
-                        <br />
-                        <br />
-                        <br />
-                        <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
+                    <br />
+                    <br />
+                    <br />
+                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
     background-color: #bd2522!important;
     border: 1px solid #841a18 !important;
 " />
 
 
-                        @*<br />
-                            <div class="col-sm-12">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>*@
-                    </div>
+                    @*<br />
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>*@
                 </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-    </div>
+</div>
 
-    <div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+<div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
-        <form asp-action="Create" asp-controller="Appointment" method="post">
-            <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
-                <div class="modal-content" style="width:100%">
-                    <div class="modal-header">
-                        <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
-                        <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
-                    </div>
-                    <div class="modal-body" style="height:70%; width:100%;">
+    <form asp-action="Create" asp-controller="Appointment" method="post">
+        <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                    <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
+                </div>
+                <div class="modal-body" style="height:70%; width:100%;">
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Patient Information </div>
-                            <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Patient Information </div>
+                        <div class="panel-body">
+
+                            <div class="col-sm-12">
+                                <div class="col-md-6">
+                                    @*<div class="form-group search-box form-inline">
+                                            <input asp-for="SearchIdNumber" class="form-control product-search col-md-6" placeholder="Enter ID Number">
+                                            <a href=""><i class="fa fa-search"></i></a>
+                                        </div>*@
+
+                                    <div class="form-group search-box">
+                                        <input asp-for="SearchIdNumber" type="text" class="form-control product-search" placeholder="Enter ID Number">
+                                        <a href="javascript:void(0)" id="patientSearchId" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 ">
+                                <div class="form-group form-inline">
+                                    <label for="firstName" class="col-md-12">Name <span>*</span></label>
+                                    @if (Model?.FirstName == null)
+
+                                    {
+                                        <input asp-for="FirstName" type="text" class="form-control col-md-12" style="width:100%" placeholder="">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    }
+                                    else
+                                    {
+                                        <input asp-for="FirstName" type="text" value=@Model.FirstName style="width:100%" class="form-control col-md-12">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    }
+                                </div>
+                                <div class="form-group form-inline">
+                                    @if (Model?.LastName == null)
+                                    {
+                                        <label for="Surname" class="col-md-12">Surname <span>*</span></label>
+                                        <input asp-for="LastName" type="text" class="form-control col-md-12" style="width:100%" placeholder="">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    }
+                                    else
+                                    {
+                                        <label for="Surname" class="col-md-12">Surname <span>*</span></label>
+                                        <input asp-for="LastName" type="text" class="form-control col-md-12" style="width:100%" value="@Model.LastName">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    }
+                                </div>
+                                <div class="form-group form-inline">
+                                    <label for="IdNumber" class="col-md-12">Id Number <span>*</span></label>
+                                    <input asp-for="IdNumber" type="text" class="form-control col-md-12" style="width:100%" placeholder="">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-inline">
+                                    <label for="CellNumber" class="col-md-12">Contact Number</span></label>
+                                    <input asp-for="CellPhone" class="form-control col-md-12" style="width:100%" placeholder="">
+                                    <span class="text-danger"></span>
+                                </div>
 
                                 <div class="form-group form-inline">
-                                    <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Enter ID Number" aria-label="Search">
-                                    <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"> Search</i></a>
+                                    <label for="Email1" class="col-md-12">Email Address <span>*</span></label>
+                                    <input asp-for="Email1" type="email" class="form-control col-md-12" style="width:100%" placeholder="">
+                                    <span class="text-danger"></span>
                                 </div>
-
-                                <div class="col-sm-6 ">
-
-                                    <div class="form-group form-inline">
-                                        <label for="firstName">Name <span>*</span></label>
-                                        @if (Model?.FirstName == null)
-
-                                        {
-                                            <input asp-for="FirstName" type="text" class="form-control" placeholder="">
-                                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                                        }
-                                        else
-                                        {
-                                            <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control">
-                                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                                        }
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        @if (Model?.LastName == null)
-                                        {
-                                            <label for="Surname">Surname <span>*</span></label>
-                                            <input asp-for="LastName" type="text" class="form-control" placeholder="">
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
-                                        }
-                                        else
-                                        {
-                                            <label for="Surname">Surname <span>*</span></label>
-                                            <input asp-for="LastName" type="text" class="form-control" value="@Model.LastName">
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
-                                        }
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        <label for="IdNumber">Id Number <span>*</span></label>
-                                        <input asp-for="IdNumber" type="text" class="form-control" placeholder="">
-                                        <span asp-validation-for="LastName" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group form-inline">
-                                        <label for="CellNumber">Contact Number</span></label>
-                                        <input asp-for="CellPhone" class="form-control" placeholder="">
-                                        <span class="text-danger"></span>
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="Email1">Email Address <span>*</span></label>
-                                        <input asp-for="Email1" class="form-control" placeholder="">
-                                        <span class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        <label for="ReminderType">Reminder Type <span>*</span></label>
-                                        <select name="ReminderType" class="form-control" placeholder="">
-                                            <option>-----None-----</option>
-                                            <option value="0">SMS</option>
-                                            <option value="1">Email</option>
-                                        </select>
-                                        <span class="text-danger"></span>
-                                    </div>
+                                <div class="form-group form-inline">
+                                    <label for="ReminderType" class="col-md-12">Reminder Type <span>*</span></label>
+                                    <select name="ReminderType" class="form-control col-md-12" style="width:100%" placeholder="">
+                                        <option>-----None-----</option>
+                                        <option value="0">SMS</option>
+                                        <option value="1">Email</option>
+                                    </select>
+                                    <span class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Appointment Information </div>
-                            <div class="panel-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Appointment Information </div>
+                        <div class="panel-body">
 
-                                <div class="col-sm-12 ">
-                                    <div class="form-group">
-                                        <label for="Title">Appointment Subject <span></span></label>
-                                        <input asp-for="Title" type="text" class="form-control" placeholder="">
-                                        <span asp-validation-for="Title" class="text-danger"></span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="description">Description:</label>
-                                        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-                                    </div>
+                            <div class="col-sm-12 ">
+                                <div class="form-group">
+                                    <label for="Title">Appointment Type <span></span></label>
+                                    <select asp-for="Title" type="text" class="form-control" placeholder="">
+                                        <optgroup label="Consultation">
+                                            <option value="New Patient">New Patient</option>
+                                            <option value="First Appointment">First Appointment</option>
+                                            <option value="Prescription">Prescription</option>
+                                            <option value="Follow-Up">Follow-Up</option>
+                                            <option value="Emergency"> Emergency </option>
+                                            <option value="Emergency Consultation">Emergency Consultation</option>
 
-
-                                    <div class="form-group ">
-                                        <label for="Date">Date<span></span></label>
-                                        <input asp-for="Start" type="date" class="form-control" placeholder="">
-                                        <span asp-validation-for="Start" class="text-danger"></span>
-                                    </div>
+                                            <option value="Off-site Consultation">Off-site Consultation</option>
+                                            <option value="Hospital Consultation">Hospital Consultation</option>
+                                        </optgroup>
 
 
-                                    <div class="form-group">
-                                        <label for="Date">Time<span></span></label>
-                                        <input asp-for="Time" type="time" class="form-control" placeholder="">
-                                        <span asp-validation-for="Time" class="text-danger"></span>
-                                    </div>
-
+                                    </select>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea asp-for="Description" class="form-control" rows="2"></textarea>
+                                </div>
+
+
+                                <div class="form-group ">
+                                    <label for="Date">Date<span></span></label>
+                                    <input asp-for="Start" type="date" class="form-control" placeholder="">
+                                    <span asp-validation-for="Start" class="text-danger"></span>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="Date">Time<span></span></label>
+                                    <input asp-for="Time" type="time" class="form-control" placeholder="">
+                                    <span asp-validation-for="Time" class="text-danger"></span>
+                                </div>
+
                             </div>
                         </div>
+                    </div>
 
 
-                        <div class="col-sm-12">
-                            <input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="
-    width: 70% !Important;
-">
-                        </div>
-                    </div>
-                    <div class="row">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        @*<input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
-                            <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />*@
+                    <div class="col-sm-12">
+                        <input class="btn btn-block btn-rounded m-b-30 action-button next" type="submit" value="Create Appointment" style="width: 70% !Important;" input />
                     </div>
                 </div>
+                <div class="row">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    @*<input type="submit" name="answer" value="Update Appointment" class="btn btn-primary" />
+                        <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="btn btn-danger" />*@
+                </div>
             </div>
-        </form>
+        </div>
+    </form>
 
-    </div>
+</div>
 
 
-    <script>
-        function myFunction() {
-            var x = document.getElementById("patientsearchId");
-            if (x.style.display === "none") {
-                x.style.display = "block";
-            } else {
-                x.style.display = "none";
+<script>
+    function myFunction() {
+        var x = document.getElementById("patientsearchId");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+    $(document).ready(function () {
+
+        var appointments = [];
+        $.ajax({
+            type: "Get",
+            url: "/Appointment/GetAppointments",
+            success: function (data) {
+                //console.log(data);
+
+                $.each(data, function (i, v) {
+                    //console.log(v);
+
+                    appointments.push({
+                        id: v.AppointmentId,
+                        title: v.Title,
+                        description: v.Description,
+                        start: v.Start,//.format('YYYY-MM-DD'),
+                        end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
+                        allDay: false
+                    });
+                });
+
+                //console.log(appointments);
+
+                //  GenerateCalender(appointments);
+            },
+            error: function (error) {
+                alert('failed')
+
             }
         }
-        $(document).ready(function () {
 
-            var appointments = [];
-            $.ajax({
-                type: "Get",
-                url: "/Appointment/GetAppointments",
-                success: function (data) {
-                    //console.log(data);
+        );
 
-                    $.each(data, function (i, v) {
-                        //console.log(v);
+        $("#patientSearchId").on("click", function (e) {
+            //e.preventDefault();
 
-                        appointments.push({
-                            id: v.AppointmentId,
-                            title: v.Title,
-                            description: v.Description,
-                            start: v.Start,//.format('YYYY-MM-DD'),
-                            end: v.End,//v.End != null ? moment(v.End).format('YYYY-MM-DD') : null,
-                            allDay: false
-                        });
-                    });
+            var idNumber = $("#SearchIdNumber").val();
 
-                    console.log(appointments);
+            var button = $(this);
 
-                    //  GenerateCalender(appointments);
-                },
-                error: function (error) {
-                    alert('failed')
-
-                }
-            }
-
-            );
-
-            $("#patientSearchId").on("click", function (e) {
-                //e.preventDefault();
-
-                var idNumber = $("#SearchIdNumber").val();
-
-                var button = $(this);
-
-                button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
-                button.click();
-
-            });
-
-
-            $("#appointmentSearchId").on("click", function (e) {
-                //e.preventDefault();
-
-                var idNumber = $("#PatientIdNumber").val();
-
-                var button = $(this);
-
-                button.attr("href", "/Appointment/SearchAppointment?id=" + idNumber);
-                button.click();
-
-            });
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,basicWeek,basicDay,agenda'
-                },
-                defaultDate: new Date(),
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                selectable: true,
-                eventLimit: true, // allow "more" link when too many events
-                eventColor: '#00bfff'
-                , events: "/Appointment/GetAppointments",
-                eventClick: function (calEvent, jsEvent, view) {
-                    $('#appointmentModal');
-                    var $description = $('#appdiv').html('content');
-                    $('#appointmentModal #appointmentDetails').empty().html($description);
-                    $('#appointmentModal').modal();
-
-                    var d = moment(event.start).format("YYYY-MM-DD");
-                    var t = moment(event.start).format("HH:mm:ss");
-
-                    $('#id').val(event.id);
-                    $("#start").val(d);
-                    $('#time').val(t);
-                    $("#title").val(event.title);
-                    $("#description").val(event.description);
-                    $('#appointmentModal').modal();
-                }, dayClick: function (date, calEvent, jsEvent, view) {
-                    $('#CreateAppointmentModal').modal();
-                },
-                select: function (startDate, endDate, calEvent, jsEvent, view) {
-                    $('#CreateAppointmentModal').modal();
-                },
-                eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
-                    $('#appointmentModal');
-                    var $description = $('#appdiv').html('content');
-                    $('#appointmentModal #appointmentDetails').empty().html($description);
-
-                    var d = moment(event.start).format("YYYY-MM-DD");
-                    var t = moment(event.start).format("HH:mm:ss");
-
-                    $('#id').val(event.id);
-                    $("#start").val(d);
-                    $('#time').val(t);
-                    $("#title").val(event.title);
-                    $("#description").val(event.description);
-                    $('#appointmentModal').modal();
-                }
-
-            })
-
+            button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
+            button.click();
 
         });
-    </script>
+
+
+        $("#appointmentSearchId").on("click", function (e) {
+            //e.preventDefault();
+
+            var idNumber = $("#PatientIdNumber").val();
+
+            var button = $(this);
+
+            button.attr("href", "/Appointment/SearchAppointment?id=" + idNumber);
+            button.click();
+
+        });
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay,agenda'
+            },
+            buttonText: {
+                agenda: 'Hours'
+            },
+            eventRender: function(event, $el) {
+                $el.popover({
+                    title: event.title,
+                    content: `Time:${moment(event.start).format("HH:mm:ss")}
+                    ${event.description}`,
+                    trigger: 'hover',
+                    placement: 'top',
+                    container: 'body'
+                });
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            selectable: true,
+            eventLimit: true, // allow "more" link when too many events
+            eventColor: '#00bfff'
+            , events: "/Appointment/GetAppointments",
+            eventClick: function (calEvent, jsEvent, view) {
+
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+                $('#appointmentModal').modal();
+
+                var d = moment(calEvent.start).format("YYYY-MM-DD");
+                var t = moment(calEvent.start).format("HH:mm:ss");
+
+                $('#id').val(calEvent.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(calEvent.title);
+                $("#Description").val(calEvent.description);
+                $('#appointmentModal').modal();
+
+            }, dayClick: function (date, calEvent, jsEvent, view) {
+
+                $("#Start").val(date.format("YYYY-MM-DD"));
+                $('#CreateAppointmentModal').modal();
+            },
+            select: function (startDate, endDate, calEvent, jsEvent, view) {
+                $('#CreateAppointmentModal').modal();
+            },
+            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+
+                var d = moment(event.start).format("YYYY-MM-DD");
+                var t = moment(event.start).format("HH:mm:ss");
+
+                $('#id').val(event.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(event.title);
+                $("#description").val(event.description);
+                $('#appointmentModal').modal();
+            }
+
+        })
+
+
+    });
+</script>

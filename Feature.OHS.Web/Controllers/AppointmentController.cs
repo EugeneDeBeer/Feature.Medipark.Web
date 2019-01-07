@@ -43,24 +43,24 @@ namespace Feature.OHS.Web.Controllers
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
             }
 
-            var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+            return View(model.AppointmentId > 0 ? model : new AppointmentViewModel());
 
-            if (user == null)
-                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
-
-            if (user.UserRoleId == 3)
-            {
-                //return RedirectToAction("Index", "Appointment", response);
-                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
-            }
-            else if (user.UserRoleId == 2)
-            {
-                return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
-            }
-            else
-            {
-                return RedirectToAction("Dashboard", "Dashboard");
-            }
+            //var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+            //if (user == null)
+            //    return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+            //if (user.UserRoleId == 3)
+            //{
+            //    //return RedirectToAction("Index", "Appointment", response);
+            //    return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            //}
+            //else if (user.UserRoleId == 2)
+            //{
+            //    return View("Index", model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Dashboard", "Dashboard");
+            //}
         }
 
         public ActionResult SearchPatient(AppointmentViewModel model)
@@ -104,19 +104,31 @@ namespace Feature.OHS.Web.Controllers
 
         public ActionResult Theatre(AppointmentViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            {
+                return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Theatre), "Appointment") });
+            }
+
             var doctors = _doctorHandler.Doctors;
 
             if (doctors.Any())
             {
+                //ViewData["Doctors"] = new SelectList(doctors.Select(u => new
+                //{
+                //    u.DoctorId,
+                //    u.FirstName
+                //}), "DoctorId", "FirstName");
+
                 ViewData["Doctors"] = new SelectList(doctors.Select(u => new
                 {
-                    u.DoctorId,
-                    u.FirstName
-                }), "DoctorId", "FirstName");
+                    DoctorId = u.DoctorId,
+                    FullName = $"{u.FirstName} {u.LastName}"
+                }), "DoctorId", "FullName");
 
             }
 
-            return View(model);
+            return View(model.AppointmentId > 0 ? model : new AppointmentViewModel());
+            //return View(model);
         }
 
         [HttpPost("Appointment/Theatre")]
@@ -128,7 +140,7 @@ namespace Feature.OHS.Web.Controllers
                 var result = _appointmentHandler.TheatreCreate(appointmentViewModel);
                 if (result != null)
                 {
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Theatre));
                 }
                 else
                 {
@@ -145,7 +157,7 @@ namespace Feature.OHS.Web.Controllers
 
 
 
-        [HttpPost("Appointment")]
+ 
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             try
@@ -190,7 +202,7 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetPatientByIdNumber(id);
-
+              
                 return RedirectToAction(nameof(SearchPatient), appointment);
             }
             catch (Exception e)
@@ -206,6 +218,7 @@ namespace Feature.OHS.Web.Controllers
             try
             {
                 var appointments = _appointmentHandler.GetAppointments;
+                ViewBag.Patients = appointments;
                 return new JsonResult(appointments);
             }
             catch (Exception e)

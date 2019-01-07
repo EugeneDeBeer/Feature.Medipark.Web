@@ -18,7 +18,7 @@
 </style>
 
 <div class="row">
-
+    <h2 class="text-center">Surgical Ward Schedule Bookings</h2>
     <div class="col-sm-12" id='calendar'></div>
 
 
@@ -98,54 +98,88 @@
 
                                 <div class="form-group form-inline">
                                     <label for="firstName">Date <span>*</span></label>
-                                    <input asp-for="Start" type="date" class="form-control" placeholder="">
+                                    <input asp-for="Start" type="date" class="form-control" style="width:100%" placeholder="">
                                     <span asp-validation-for="Start" class="text-danger"></span>
 
                                 </div>
-                                <div class="form-group form-inline">
-                                    <label for="Docotr">Doctor <span>*</span></label>
-                                    <select asp-for="DoctorId" asp-items="ViewBag.Doctors" class="form-control" style="width:50%"></select>
-                                </div>
+
                                 <div class="form-group form-inline">
                                     <label for="ReminderType">Reminder<span>*</span></label>
-                                    <select name="ReminderType" class="form-control" style="width:50%" placeholder="">
+                                    <select name="ReminderType" class="form-control" style="width:100%" placeholder="">
                                         <option>-----None-----</option>
                                         <option value="0">1 Day</option>
                                         <option value="1">1 Week</option>
                                     </select>
                                     <span class="text-danger"></span>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
+                                
                                 <div class="form-group form-inline">
-                                    <label for="Time">Time<span></span></label>
-                                    <input asp-for="Time" type="time" class="form-control" placeholder="">
+                                    <label for="procedure-category"> Procedure Code Category <span>*</span></label>
+                                    <select name="ReminderType" class="form-control select2 procedure-category" id="procedure-category" style="width:100%" placeholder="">
+                                        <option>-----None-----</option>
+                                        <option value="AAA"> AAA </option>
+                                        <option value="AMP"> AMP </option>
+                                    </select>
                                     <span class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group form-inline">
-                                    <label for="Email1">Procedure Code<span>*</span></label>
-                                    <select class="form-control" style="width:50%" placeholder="">
-                                        <option>-----None-----</option>
-                                        <option value="0">123SDF3</option>
-                                        <option value="1">244DDSW</option>
-                                    </select>
+                                    <label for="Docotr">Doctor <span>*</span></label>
+                                    <select asp-for="DoctorId" asp-items="ViewBag.Doctors" class="form-control" style="width:100%"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-inline">
+                                    <label for="Time">Time<span></span></label>
+                                    <input asp-for="Time" type="time" min="07:00" max="19:00" class="form-control" style="width:100%" placeholder="" >
                                     <span class="text-danger"></span>
                                 </div>
+                                
                                 <div class="form-group form-inline">
                                     <label for="ReminderType">Reminder Via <span>*</span></label>
-                                    <select name="ReminderType" class="form-control" placeholder="">
+                                    <select name="ReminderType" class="form-control" style="width:100%" placeholder="">
                                         <option>-----None-----</option>
                                         <option value="0">SMS</option>
                                         <option value="1">Email</option>
                                     </select>
                                     <span class="text-danger"></span>
                                 </div>
+
+                                <div class="form-group form-inline">
+                                    <label for="procedure-codes"> Procedure Code (ICD-10-PCS Codes) <span>*</span></label>
+                                    <select class="form-control select2 procedure-codes" style="width:100%" placeholder="" id="procedure-codes">
+                                        @*<option>-----None-----</option>
+                                        <option value="0">04B00ZZ (AAA)</option>
+                                        <option value="1">04B04ZZ (AAA)</option>
+                                        <option value="2">04R007Z (AAA)</option>
+
+                                        <option value="3">0X600ZZ (AMP)</option>
+                                        <option value="4">0X610ZZ (AMP)</option>
+                                        <option value="5">0X620ZZ (AMP)</option>*@
+                                    </select>
+                                    <span class="text-danger"></span>
+                                </div>
+                                
                             </div>
                             <div class="col-sm-12 ">
                                 <div class="form-group">
-                                    <label for="Title">Appointment Subject <span></span></label>
-                                    <input asp-for="Title" type="text" class="form-control" placeholder="">
+                                    <label for="Title">Appointment Type <span>*</span></label>
+                                    @*<input asp-for="Title" type="text" class="form-control" placeholder="">*@
+                                    <select asp-for="Title" type="text" class="form-control" placeholder="">
+                                        <optgroup label="Consultation">
+                                            <option value="New Patient">New Patient</option>
+                                            <option value="First Appointment">First Appointment</option>
+                                            <option value="Prescription">Prescription</option>
+                                            <option value="Follow-Up">Follow-Up</option>
+                                            <option value="Emergency"> Emergency </option>
+                                            <option value="Emergency Consultation">Emergency Consultation</option>
+
+                                            <option value="Off-site Consultation">Off-site Consultation</option>
+                                            <option value="Hospital Consultation">Hospital Consultation</option>
+                                        </optgroup>
+
+                                        
+                                    </select>
                                     <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
@@ -180,6 +214,49 @@
 
         $(document).ready(function () {
 
+            //  PROCEDURE CODES DROPDOWN FIXES
+
+            //  HARD-CODED FOR DEMO
+
+            var data = {
+                "AAA": [
+                    { id: "04B00ZZ", text: "04B00ZZ" },
+                    { id: "04B04ZZ", text: "04B04ZZ" },
+                    { id: "04R007Z", text: "04R007Z" }
+                ],
+                "AMP": [
+                    { id: "0X600ZZ", text: "0X600ZZ" },
+                    { id: "0X610ZZ", text: "0X610ZZ" },
+                    { id: "0X620ZZ", text: "0X620ZZ" }
+                ]
+            };
+
+            //
+                var $categorySelector = $("#procedure-category");            
+
+                $categorySelector.on("change", (e) => {
+                e.preventDefault();
+
+                //var selected = $("#procedure-category option:selected").text();
+                var selected = $("#procedure-category option:selected").val();
+
+                var children = data[selected];
+
+                //var options = [];
+
+                var codes = $("#procedure-codes");
+                codes.empty();
+                for (var i = 0; i < children.length; i++) {
+
+                    codes.append(`<option value="${children[i].id}"> ${children[i].text} </option>`);
+
+                    //options.push(`<option value="${children[i].id}"> ${children[i].text} </option>`);
+                }
+              
+            });
+
+
+
             var appointments = [];
             $.ajax({
                 type: "Get",
@@ -200,17 +277,41 @@
                         });
                     });
 
-                    console.log(appointments);
+                    //console.log(appointments);
 
                     //  GenerateCalender(appointments);
                 },
                 error: function (error) {
-                    alert('failed')
+                    alert('failed');
 
                 }
             }
 
             );
+
+          
+            var patients = [];
+            $.ajax({
+                type: "Get",
+                url: "/Appointment/GetAppointments",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+
+
+                        patients.push({
+                            id: v.AppointmentId,
+                            FirstName: v.FirstName,
+                            LastName: v.LastName
+                        });
+                    });
+
+                    //console.log(patients);
+                },
+                error: function (error) {
+                    alert('failed')
+
+                }
+            });
 
             $("#patientSearchId").on("click", function (e) {
                 //e.preventDefault();
@@ -230,36 +331,50 @@
                     left: 'prev,next today',
                     center: 'title',
                     right: 'month,basicWeek,basicDay,agenda'
+                }, buttonText: {
+                    agenda:'Hours'
+                },
+                eventRender: function(event, $el) {
+                    $el.popover({
+                        title: event.title,
+                        content: `Time:${moment(event.start).format("HH:mm:ss")}
+                    ${event.description}`,
+                        trigger: 'hover',
+                        placement: 'top',
+                        container: 'body'
+                    });
                 },
                 defaultDate: new Date(),
                 navLinks: true, // can click day/week names to navigate views
                 editable: true,
                 selectable: true,
                 eventLimit: true, // allow "more" link when too many events
-                eventColor: '#00bfff'
-                , events: "/Appointment/GetTheatreAppointments",
-                eventClick: function (calEvent, jsEvent, view) {
+                eventColor: '#00bfff',
+                events: "/Appointment/GetTheatreAppointments",
+                eventClick: function(calEvent, jsEvent, view) {
                     $('#appointmentModal');
                     var $description = $('#appdiv').html('content');
                     $('#appointmentModal #appointmentDetails').empty().html($description);
                     $('#appointmentModal').modal();
 
-                    var d = moment(event.start).format("YYYY-MM-DD");
-                    var t = moment(event.start).format("HH:mm:ss");
+                    var d = moment(calEvent.start).format("YYYY-MM-DD");
+                    var t = moment(calEvent.start).format("HH:mm:ss");
 
-                    $('#id').val(event.id);
+                    $('#id').val(calEvent.id);
                     $("#start").val(d);
                     $('#time').val(t);
-                    $("#title").val(event.title);
-                    $("#description").val(event.description);
+                    $("#title").val(calEvent.title);
+                    $("#Description").val(calEvent.description);
                     $('#appointmentModal').modal();
-                }, dayClick: function (date, calEvent, jsEvent, view) {
+                },
+                dayClick: function (date, calEvent, jsEvent, view) {
+                    $("#Start").val(date.format("YYYY-MM-DD"));
                     $('#CreateAppointmentModal').modal();
                 },
-                select: function (startDate, endDate, calEvent, jsEvent, view) {
+                select: function(startDate, endDate, calEvent, jsEvent, view) {
                     $('#CreateAppointmentModal').modal();
                 },
-                eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
                     $('#appointmentModal');
                     var $description = $('#appdiv').html('content');
                     $('#appointmentModal #appointmentDetails').empty().html($description);
@@ -275,8 +390,39 @@
                     $('#appointmentModal').modal();
                 }
 
-            })
+            });
 
+            
+            
+
+            
+
+            //var category = [{ "id": 1, "text": "AAA" }, { "id": 2, "text": "AMP" } ];
+
+            //$(".select2.procedure-category").select2({ placeholder: { id: "-1", placeholder: "Please choose procedure category" }, data: category });
+            //$(".select2.procedure-category").select2({
+            //    placeholder: "Please choose procedure category",
+            //    data: category
+            //    [
+            //        { id: "aaa", text: "AAA" }, { id: "amp", text: "AMP" }
+            //    ]
+            //});
+
+            //var codes =
+            //[
+            //        { "id": 3, "text": "04B00ZZ (AAA)" }, { "id": 4, "text": "04B04ZZ (AAA)" }, { "id": 5, "text": "04R007Z (AAA)" },
+            //        { "id": 6, "text": "0X600ZZ  (AMP)" }, { "id": 7, "text": "0X610ZZ (AMP)" }, { "id": 8, "text": "0X620ZZ (AMP)" }
+            //];
+
+            //$(".select2.procedure-codes").select2({ placeholder: "Please select procedure code" });
+            //$(".select2.procedure-codes").select2({
+            //    placeholder: "Please select procedure code",
+            //    data: codes
+            //    [
+            //        { id: "04B00ZZ", text: "04B00ZZ (AAA)" }, { id: "04B04ZZ", text: "04B04ZZ (AAA)" }, { id: "04R007Z", text: "04R007Z (AAA)" },
+            //        { id: "0X600ZZ", text: "0X600ZZ  (AMP)" }, { id: "0X610ZZ", text: "0X610ZZ (AMP)" }, { id: "0X620ZZ", text: "0X620ZZ (AMP)" }
+            //    ]
+            //});
 
         });
 </script>

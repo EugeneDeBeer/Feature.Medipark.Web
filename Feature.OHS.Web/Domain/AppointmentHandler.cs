@@ -179,7 +179,7 @@ namespace Feature.OHS.Web.Domain
                 return null;
             }
         }
-        
+
         public List<AppointmentViewModel> GetAppointmentsByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "/Get/Appointment?Id=" + id, _integrationSettings.SearchDevApiUrl, "GET");
@@ -211,7 +211,6 @@ namespace Feature.OHS.Web.Domain
                 return null;
 
         }
-
 
         public dynamic Update(AppointmentViewModel appointmentViewModel)
         {

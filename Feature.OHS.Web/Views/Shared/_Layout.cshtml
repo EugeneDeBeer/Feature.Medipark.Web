@@ -228,7 +228,7 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-view-dashboard"></i><span class="label label-success pull-right"></span> <span> Dashboard </span> </a>
                             <ul class="list-unstyled">
-                                <li><a href="dashboard.html">Dashboard </a></li>
+                                <li><a href="/Dashboard/Dashboard">Dashboard </a></li>
                             </ul>
                         </li>
 
@@ -258,10 +258,11 @@
                         </li>
                         <li class="has_sub">
 
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Appointment</span> <span class="menu-arrow active"></span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-calendar-check"></i><span> Appointment</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
-                                <li><a asp-controller="Appointment" asp-action="Index">Doctor Calender</a></li>
-                                <li><a asp-controller="Appointment" asp-action="Theatre">Theatre Calender</a></li>
+                                <li><a asp-controller="Appointment" asp-action="Index">Doctor Calendar</a></li>
+                                <li><a asp-controller="Appointment" asp-action="Theatre">Theatre Calendar</a></li>
+                                <li><a asp-controller="Profile" asp-action="Summary">User Summary </a></li>
                             </ul>
                         </li>
                         <li class="has_sub">
@@ -274,7 +275,16 @@
 
                             </ul>
                         </li>
+                        
 
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-account-box-outline"></i><span> Users </span> <span class="menu-arrow active"></span></a>
+                            <ul class="list-unstyled">
+                                <li><a asp-controller="Account" asp-action="Registration">Add User</a></li>
+                                @*<li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>*@
+
+                            </ul>
+                        </li>
                     </ul>
                 </div>
                 <!-- Sidebar -->
