@@ -3,6 +3,7 @@ using Feature.OHS.Web.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +28,11 @@ namespace Feature.OHS.Web.ViewModels
         public string EventDescription { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        [Required]
+        [StringLength(13, ErrorMessage = "Id Number must not be null", MinimumLength =13)]
         public string IdNumber { get; set; }
+
         public string SearchIdNumber { get; set; }
         public string PatientIdNumber { get; set; }
         public string Time { get; set; }
