@@ -24,7 +24,8 @@ namespace Feature.OHS.Web.Controllers
         // GET: Patient
         public ActionResult Index()
         {
-            return View();
+            var patient = _patientHandler.Patients;
+            return View(patient);
         }
 
         // GET: Patient/Details/5
