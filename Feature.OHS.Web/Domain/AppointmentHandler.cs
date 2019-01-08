@@ -1,11 +1,13 @@
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Settings;
 using Feature.OHS.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Feature.OHS.Web.Domain
 {
@@ -21,6 +23,28 @@ namespace Feature.OHS.Web.Domain
             _integrationSettings = integrationOptions.Value;
             _doctorHandler = doctorHandler;
         }
+     
+
+        List<SelectListItem> IAppointmentHandler.AvailableTime(string time)
+        {
+            
+            List<SelectListItem> slots = new List<SelectListItem>()
+            {
+            new SelectListItem { Text = "08:00", Value = "08:00" },
+                new SelectListItem { Text = "09:00", Value = "09:00" },
+                new SelectListItem { Text = "10:00", Value = "10:00" },
+                new SelectListItem { Text = "11:00", Value = "11:00" },
+                 new SelectListItem { Text = "12:00", Value = "12:00" },
+                new SelectListItem { Text = "13:00", Value = "13:00" },
+                new SelectListItem { Text = "14:00", Value = "14:00" },
+                new SelectListItem { Text = "15:00", Value = "15:00" },
+                   new SelectListItem { Text = "16:00", Value = "16:00" },
+                new SelectListItem { Text = "17:00", Value = "17:00" },
+
+            };
+            return  slots;
+        }
+
         public IEnumerable<AppointmentViewModel> GetAppointments
         {
             get
@@ -57,7 +81,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.AppointmentsDevApiUrl, "GET");
 
                 if (request != null)
                 {
@@ -257,5 +281,6 @@ namespace Feature.OHS.Web.Domain
                 throw new Exception("the response from the server is null");
         }
 
+   
     }
 }

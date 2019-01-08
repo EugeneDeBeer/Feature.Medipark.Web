@@ -38,6 +38,8 @@ namespace Feature.OHS.Web.Controllers
         // GET: DoctorsAppointment
         public ActionResult Index(AppointmentViewModel model)
         {
+            List<SelectListItem> slots = _appointmentHandler.AvailableTime("20");
+            ViewData["Timeslots"] = slots;
             if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
             {
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
@@ -215,10 +217,13 @@ namespace Feature.OHS.Web.Controllers
 
         public JsonResult GetAppointments()
         {
+         
             try
             {
                 var appointments = _appointmentHandler.GetAppointments;
                 ViewBag.Patients = appointments;
+                
+
                 return new JsonResult(appointments);
             }
             catch (Exception e)

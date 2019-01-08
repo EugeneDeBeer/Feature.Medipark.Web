@@ -1,4 +1,5 @@
 ﻿using Feature.OHS.Web.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,5 +18,6 @@ namespace Feature.OHS.Web.Interfaces
         AppointmentViewModel TheatreCreate(AppointmentViewModel appointmentViewModel);
         AppointmentViewModel CancelAppointment(AppointmentViewModel model);
         dynamic Update(AppointmentViewModel appointmentViewModel);
+        List<SelectListItem> AvailableTime(string time);
     }
 }

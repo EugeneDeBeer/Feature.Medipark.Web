@@ -78,7 +78,7 @@
                                         foreach (var item in ViewBag?.appointmentList)
                                         {
                                             counter++;
-                                            
+
                                         <tr>
                                             @*<td> @item?.AppointmentId</td>*@
                                             <td> @counter</td>
@@ -86,7 +86,7 @@
                                             @*<td> @item?.Title</td>*@
                                             <td> @item?.Start</td>
                                         </tr>
-                                         }
+                                        }
                                     }
                                     
                                     </tbody>
@@ -99,7 +99,7 @@
                 </div>
             </div>
         </div>
-    }
+                                        }
 
     <div class="row">
         <h2 class="col-sm-12 text-center">Doctor Schedule Bookings</h2>
@@ -149,7 +149,7 @@
                     <br />
                     <br />
                     <br />
-                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
+                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment", "Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
     background-color: #bd2522!important;
     border: 1px solid #841a18 !important;
 " />
@@ -290,14 +290,17 @@
                                     <input asp-for="Start" type="date" class="form-control" placeholder="">
                                     <span asp-validation-for="Start" class="text-danger"></span>
                                 </div>
+                                
 
-
-                                <div class="form-group">
+                              <!--  <div class="form-group">
                                     <label for="Date">Time<span></span></label>
                                     <input asp-for="Time" type="time" class="form-control" placeholder="">
                                     <span asp-validation-for="Time" class="text-danger"></span>
+                                </div>-->
+                                <div class="form-group">
+                                    <!--@Html.DropDownList("slots", new SelectList((IEnumerable<SelectListItem>)ViewData["Timeslots"], "Value", "Text"), new { @class = "form-control" })-->
+                                    <select asp-for="Time" asp-items="ViewBag.Timeslots" class="form-control" style="width:100%"></select>
                                 </div>
-
                             </div>
                         </div>
                     </div>
