@@ -99,7 +99,7 @@ namespace Feature.OHS.Web.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.ErrorMessage = e.Message;
+                ViewBag.ErrorMessage = "Oops something went wrong please try again";
                 return View("Index");
             }
         }
@@ -159,7 +159,7 @@ namespace Feature.OHS.Web.Controllers
 
 
 
- 
+
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             try
@@ -179,7 +179,7 @@ namespace Feature.OHS.Web.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.ErrorMessage = e.Message;
+                ViewBag.ErrorMessage = "Oops something went wrong please try again";
                 return View("Index");
             }
         }
@@ -188,9 +188,17 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
+            try
+            {
+                _appointmentHandler.Update(appointmentViewModel);
+                return RedirectToAction(nameof(Index));
 
-            _appointmentHandler.Update(appointmentViewModel);
-            return RedirectToAction(nameof(Index));
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "Oops something went wrong please try again";
+                return View("Index");
+            }
         }
 
         public ActionResult GetAppointment(string id)
@@ -204,7 +212,7 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetPatientByIdNumber(id);
-              
+
                 return RedirectToAction(nameof(SearchPatient), appointment);
             }
             catch (Exception e)
@@ -217,12 +225,12 @@ namespace Feature.OHS.Web.Controllers
 
         public JsonResult GetAppointments()
         {
-         
+
             try
             {
                 var appointments = _appointmentHandler.GetAppointments;
                 ViewBag.Patients = appointments;
-                
+
 
                 return new JsonResult(appointments);
             }
