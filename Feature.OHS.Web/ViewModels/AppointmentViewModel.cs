@@ -29,8 +29,10 @@ namespace Feature.OHS.Web.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        
+        [StringLength(13, ErrorMessage = "Id Number must be  13 digits", MinimumLength =13)]
+        [DataType(DataType.Text)]
         [Required]
-        [StringLength(13, ErrorMessage = "Id Number must not be null", MinimumLength =13)]
         public string IdNumber { get; set; }
 
         public string SearchIdNumber { get; set; }

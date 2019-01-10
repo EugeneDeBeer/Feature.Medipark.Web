@@ -227,7 +227,7 @@
                     <div class="custom-modal-text text-left">
 
                         <!-- Modal -info -->
-                        <form class="add-patient" asp-action="Create" asp-controller="Staff" method="post" id="add-staff">
+                        <form class="add-patient" asp-action="Create" asp-controller="Nurses" method="post" id="add-staff">
                             <ul id="progressbar">
                                 <li class="active">Personal Information</li>
                                 <li>Contact Information</li>
@@ -236,7 +236,7 @@
                                 <li>Declaration</li>
                             </ul>
 
-                            <input type="hidden" asp-for="DoctorId" name="patientId" value="@Model.DoctorId" />
+                            <input type="hidden" asp-for="NurseId"  value="@Model.NurseId" />
 
                             <!-- USER INFORMATION FIELD SET -->
                             <fieldset>
@@ -279,13 +279,13 @@
 
                                     <div class="form-group form-inline">
                                         <label for="middleName">Middle Name</label>
-                                        <input asp-for="SecondName" type="text" name="middleName" class="form-control" id="middleName" placeholder="">
+                                        <input asp-for="SecondName" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="SecondName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="lastName">Last Name <span>*</span></label>
-                                        <input asp-for="LastName" type="text" name="lastName" class="form-control" id="lastName" placeholder="">
+                                        <input asp-for="LastName" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
 
@@ -302,7 +302,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="dateOfBirth">Date of Birth <span>*</span></label>
-                                        <input asp-for="DateOfBirth" type="date" name="dateOfBirth" class="form-control" id="dateOfBirth" placeholder="">
+                                        <input asp-for="DateOfBirth" type="date" class="form-control" id="dateOfBirth" placeholder="">
                                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                                     </div>
 
@@ -322,8 +322,8 @@
 
                                         <select asp-for="IdentityType" name="identityType" class="form-control" id="identityType" placeholder="">
                                             <option>--Select option--</option>
-                                            <option value="male">ID Document</option>
-                                            <option value="female">Passport</option>
+                                            <option >ID Document</option>
+                                            <option >Passport</option>
                                         </select>
                                         <span asp-validation-for="IdentityType" class="text-danger"></span>
                                     </div>
@@ -381,7 +381,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="homeTel">Home Telephone</label>
-                                        <input asp-for="HomeTelephone" type="text" class="form-control" name="telephone" id="homeTel" placeholder="">
+                                        <input asp-for="HomeTelephone" type="text" class="form-control" placeholder="">
                                         @*<span asp-validation-for="Telephone" class="text-danger"></span>*@
                                     </div>
 
@@ -402,24 +402,24 @@
                                     </div>
 
                                     <div class="form-group form-inline">
-                                        <label for="occupation">Residential Address:</label>
+                                        <label for="">Residential Address:</label>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="buildingHome">Building/House <span>*</span></label>
-                                        <input asp-for="Address1" type="text" class="form-control" id="building-house" name="resAddress1" placeholder="">
+                                        <input asp-for="Address1" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="streetName">Street Name <span>*</span></label>
-                                        <input asp-for="Address2" type="text" class="form-control" name="resAddress2" id="street-name" placeholder="">
+                                        <input asp-for="Address2" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="Address2" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="suburbTown">Suburb/Town <span>*</span></label>
-                                        <input asp-for="Address3" type="text" class="form-control" name="resSurbub" id="suburbTown" placeholder="">
+                                        <input asp-for="Address3" type="text" class="form-control"   placeholder="">
                                         <span asp-validation-for="Address3" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
@@ -457,12 +457,12 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <label for="cellNumber">Cell Number <span>*</span></label>
-                                        <input asp-for="CellPhone" type="text" class="form-control" name="cellphone" id="cell-number" placeholder="">
+                                        <input asp-for="CellPhone" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="CellPhone" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
                                         <label for="email">Email <span>*</span></label>
-                                        <input asp-for="Email1" type="email" class="form-control" name="email" id="email" placeholder="">
+                                        <input asp-for="Email1" type="email" class="form-control" placeholder="">
                                         <span asp-validation-for="Email1" class="text-danger"></span>
                                     </div>
                                     <div class="form-group form-inline">
@@ -491,7 +491,7 @@
                   
                                     <div class="form-group form-inline">
                                         <label for="practiceNumber">Practice Number<span>*</span></label>
-                                        <input asp-for="PracticeNumber" name="practiceNumber" class="form-control" id="practiceNumber" placeholder="">
+                                        <input asp-for="PracticeNumber" class="form-control"  placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -517,17 +517,17 @@
 
                                     <div class="form-group form-inline">
                                         <label for="telephone">Telephone <span>*</span></label>
-                                        <input asp-for="Telephone1" name="telephone" class="form-control" id="telephone" placeholder="">
+                                        <input asp-for="Telephone1" class="form-control" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="yearsInPractice">Number of Years in Practice <span>*</span></label>
-                                        <input asp-for="NumberOfYearsInPractice" name="yearsInPractice" class="form-control" id="numOfYrs" placeholder="">
+                                        <input asp-for="NumberOfYearsInPractice"  class="form-control" placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="emergencyNumber">Emergency Number<span>*</span></label>
-                                        <input asp-for="Telephone2" name="emergencyNumber" class="form-control" id="emergencyNumber" placeholder="">
+                                        <input asp-for="Telephone2" class="form-control"     placeholder="">
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -596,11 +596,6 @@
                                 <h2 class="fs-title">Qualification Information</h2>
                                 <h3 class="fs-subtitle"></h3>
                                 <div class="col-lg-6">
-
-                                    <div class="form-group form-inline">
-                                        <label for="generalPractioner">General Practioner <span>*</span></label>
-                                        <input type="text" name="generalPractioner" class="form-control" id="generalPractioner" placeholder="">
-                                    </div>
 
                                     <div class="form-group form-inline">
                                         <label for="speciality">Speciality <span>*</span></label>
