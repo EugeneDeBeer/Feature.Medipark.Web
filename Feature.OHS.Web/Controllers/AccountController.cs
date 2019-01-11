@@ -15,7 +15,6 @@ using Feature.OHS.Web.Helper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-
 namespace Feature.OHS.Web.Controllers
 {
     public class AccountController : Controller
