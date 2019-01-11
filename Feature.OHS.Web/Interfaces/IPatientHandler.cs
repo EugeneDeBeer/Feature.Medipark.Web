@@ -10,8 +10,9 @@ namespace Feature.OHS.Web.Interfaces
 {
     public interface IPatientHandler
     {
+        PatientPayloadViewModel AddPerson(PatientPayloadViewModel patient);
         PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient);
-       dynamic AddAddress(PatientPayloadViewModel address);
+        dynamic AddAddress(PatientPayloadViewModel address);
         dynamic AddContact(PatientPayloadViewModel patient);
         dynamic AddNextOfKin(PatientPayloadViewModel patient);
         IEnumerable<PatientPayloadViewModel> Patients { get; }

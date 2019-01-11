@@ -381,7 +381,7 @@
                                 <div class="col-lg-12">
 
                                 </div>
-                                <input type="submit" data-page="1" formaction="CreatePatient" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="submit" data-page="1" formaction="CreatePerson" name="next" class="next action-button" value="Save & Continue" />
 
                             </fieldset>
 
@@ -512,19 +512,19 @@
 
                                     <div class="form-group form-inline">
                                         <label for="nokName">Name <span>*</span></label>
-                                        <input asp-for="FirstName" type="text" class="form-control" id="nokName" name="nokName" placeholder="">
+                                        <input asp-for="FirstName" type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="nokSurname">Surname <span>*</span></label>
-                                        <input asp-for="SecondName" type="text" class="form-control" id="nokSurname" name="nokSurname" placeholder="">
+                                        <input asp-for="SecondName" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="SecondName" class="text-danger"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="nokContact">Contact Number <span>*</span></label>
-                                        <input asp-for="CellPhone" type="text" class="form-control" id="nokContact" name="nokContact" placeholder="">
+                                        <input asp-for="CellPhone" type="text" class="form-control"  placeholder="">
                                         <span asp-validation-for="CellPhone" class="text-danger"></span>
                                     </div>
 
@@ -534,7 +534,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="nokBuildingHome">Building/House <span>*</span></label>
-                                        <input asp-for="Address1" type="text" class="form-control" id="nokbuilding-house" name="nokBuildingHome" placeholder="">
+                                        <input asp-for="Address1" type="text" class="form-control" placeholder="">
                                         <span asp-validation-for="Address1" class="text-danger"></span>
                                     </div>
 
@@ -593,7 +593,7 @@
                                 <div class="col-lg-12"></div>
                                 <!-- End Next of kin Field -->
                                 <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
-                                <input type="submit" data-page="3" formaction="CreateNextOfKin" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="submit" data-page="3" formaction="CreatePatient" name="next" class="next action-button" value="Save & Continue" />
 
                             </fieldset>
 

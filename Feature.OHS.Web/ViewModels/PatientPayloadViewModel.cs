@@ -48,14 +48,14 @@ namespace Feature.OHS.Web.ViewModels
  
         public sbyte? IsActive { get; set; }
 
-      
+
         //public int? UserId { get; set; }
         //public int? ContactId { get; set; }
         //public int? AddressId { get; set; }
-      
+
         ////next of kin
 
-        //public string Allergies { get; set; }
+        public string Allergies { get; set; }
         //public string NokFirstName { get; set; }
         //public string NokLastName { get; set; }
         //public string NokEmail1 { get; set; }

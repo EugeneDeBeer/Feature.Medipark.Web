@@ -26,7 +26,7 @@ namespace Feature.OHS.Web.Domain
 
         }
 
-        public PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient)
+        public PatientPayloadViewModel AddPerson(PatientPayloadViewModel patient)
         {
             var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, _integrationSettings.AdmissionsDevApiUrl, true);
 
@@ -47,6 +47,25 @@ namespace Feature.OHS.Web.Domain
 
         }
 
+        public PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient)
+        {
+            var response = _integration.ResponseFromAPIPost("", "v1/Patient/Create", patient, _integrationSettings.AdmissionsDevApiUrl , true);
+
+            if (response != null)
+            {
+                var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
+                if (dynamicResponse != null)
+                {
+
+                    return dynamicResponse;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public PatientPayloadViewModel GetPatientByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "v1/Patient/Get/Patient?id=" + id, _integrationSettings.AdmissionsDevApiUrl, "GET");
@@ -179,5 +198,6 @@ namespace Feature.OHS.Web.Domain
                 return null;
             }
         }
+
     }
 }
