@@ -101,8 +101,8 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            //var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-            var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370", true);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+            //var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370", true);
 
             if (_appointmentResponse != null)
             {

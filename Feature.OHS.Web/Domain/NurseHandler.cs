@@ -21,7 +21,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Nurses", "/v1/Doctor/Get/Nurses", "http://localhost:61820", "GET");
+                var request = _integration.ResponseFromAPIGet("Get Nurses", "/v1/Practice/Get/Nurses", "http://localhost:61820", "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<DoctorNurseViewModel>>(request.Message);
@@ -79,7 +79,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddNurse(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", nurseVM, "https://dev-admissions-dot-medipark-hospital.appspot.com/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Nurse", nurseVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -99,7 +99,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Create/Nurse", nurseVM, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, "http://localhost:61820/", true);
 
             if (response != null)
             {
@@ -137,7 +137,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel GetDoctorByIdNumber(string id)
         {
-            var request = _integration.ResponseFromAPIGet("", "v1/Doctor/Get/DoctorNurse?Id=" + id, "http://localhost:61820/", "GET");
+            var request = _integration.ResponseFromAPIGet("", "v1/Practice/Get/DoctorNurse?Id=" + id, "http://localhost:61820/", "GET");
             if (request != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<DoctorNurseViewModel>(request.Message);
@@ -157,7 +157,7 @@ namespace Feature.OHS.Web.Domain
         {
             try
             {
-                var response = _integration.ResponseFromAPIGet("", $"v1/Doctor/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "http://localhost:50566/", "GET");
+                var response = _integration.ResponseFromAPIGet("", $"v1/Practice/AdvanceSearch?FirstName={condition.FirstName}&LastName={condition.LastName}&IdNumber={condition.IdNumber}&PassportNumber={condition.PassportNumber}&HomeTel={condition.HomeTel}&WorkTel={condition.WorkTel}", "http://localhost:50566/", "GET");
 
                 if (response != null)
                 {
@@ -181,7 +181,7 @@ namespace Feature.OHS.Web.Domain
 
         public dynamic UpdateNurse(DoctorNurseViewModel model)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Doctor/Update/Doctor", model, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Update/Doctor", model, "http://localhost:61820/", true);
 
             if (response != null)
             {
