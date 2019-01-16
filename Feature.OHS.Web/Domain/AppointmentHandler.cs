@@ -57,7 +57,8 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", "http://localhost:50577", "GET");
+                //var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
 
                 if (request != null)
                 {
@@ -84,6 +85,38 @@ namespace Feature.OHS.Web.Domain
                 }
             }
         }
+
+        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId)
+        {           
+                var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}", "http://localhost:50577", "GET");
+                //var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+
+                if (request != null)
+                {
+                    var patientIndex = 0;
+                    var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
+                    var appointmentList = new List<AppointmentViewModel>();
+
+                    foreach (var item in Response)
+                    {
+                        appointmentList.Add(item);
+                        appointmentList[patientIndex].Id = item.AppointmentId;
+                        patientIndex++;
+                    }
+
+                    if (appointmentList != null)
+                    {
+                        return appointmentList;
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }           
+        }
+
+
         public AppointmentViewModel Create(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";

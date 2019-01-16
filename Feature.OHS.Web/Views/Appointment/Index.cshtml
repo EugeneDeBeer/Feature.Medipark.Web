@@ -103,10 +103,24 @@
 
     <div class="row">
         <h2 class="col-sm-12 text-center">Doctor Schedule Bookings</h2>
+
+        @*<div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2 class="col-sm-12 text-center">Dr. D Matukane's Schedule Bookings</h2>
+                    </div>
+                    <div class="col-md-2">                
+                        <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
         <div class="col-sm-12" id='calendar'></div>
     </div>
 
-
+    
 
 </div>
 <div id="appdiv"></div>
@@ -168,7 +182,7 @@
 
 <div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
-    <form asp-action="Create" asp-controller="Appointment" method="post">
+    <form id="doctorApppointmentCreateForm" asp-action="Create" asp-controller="Appointment" method="post">
         <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
             <div class="modal-content" style="width:100%">
                 <div class="modal-header">
@@ -176,7 +190,13 @@
                     <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
                 </div>
                 <div class="modal-body" style="height:70%; width:100%;">
-
+                    <div id="incompleteFormError" class="containerbox hidden">       
+                        <div class="card-box">
+                            <div class="card-body">
+                                <h3 class="text-danger page-message text-center" id="errorMessage">Please Enter all the required fields</h3>
+                            </div>
+                        </div>        
+                    </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">Patient Information </div>
                         <div class="panel-body">
@@ -304,7 +324,8 @@
 
 
                     <div class="col-sm-12">
-                        <input class="btn btn-block btn-rounded m-b-30 action-button next" type="submit" value="Create Appointment" style="width: 70% !Important;" input />
+                        @*<input class="btn btn-block btn-rounded m-b-30 action-button next" type="submit" value="Create Appointment" style="width: 70% !Important;" input />*@
+                        <input class="btn btn-block btn-rounded m-b-30 action-button next" type="button" id="submit" value="Create Appointment" style="width: 70% !Important;" />
                     </div>
                 </div>
                 <div class="row">
@@ -320,6 +341,38 @@
 
 </div>
 
+<div class="modal fade" id="appointmentSuccess" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    
+    <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+        <div class="modal-content" style="width:100%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalLabel">Confirmation</h5>
+            </div>
+            <div class="modal-body" style="height:70%; width:100%;">
+
+                <div class=" col-sm-12">
+                    <div class="containerbox">
+                        <div class="card-box">
+                            <div class="card-body">
+                                <h3 class="text-success text-center">Appointment has been created successfully!</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+</div>
 
 <script>
     function myFunction() {
@@ -399,9 +452,19 @@
             },
             eventRender: function(event, $el) {
                 $el.popover({
+                    html: true,
                     title: event.title,
-                    content: `Time:${moment(event.start).format("HH:mm:ss")}
-                    ${event.description}`,
+                    //content: `Time:${moment(event.start).format("HH:mm:ss")} ${event.description}`,
+                    content: `
+                            <div class="row">
+                                <div class="col-md-12">
+                                     <p>Time: <b>${moment(event.start).format("HH:mm:ss")}</b></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p>Description: <b>${event.description}</b></p>
+                                </div>
+                            </div>
+                        `,
                     trigger: 'hover',
                     placement: 'top',
                     container: 'body'
@@ -412,9 +475,9 @@
             editable: true,
             selectable: true,
             eventLimit: true, // allow "more" link when too many events
-            eventColor: '#00bfff'
-            , events: "/Appointment/GetAppointments",
-            eventClick: function (calEvent, jsEvent, view) {
+            eventColor: '#00bfff',
+            events: "/Appointment/GetAppointments",
+            eventClick: function(calEvent, jsEvent, view) {
 
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
@@ -431,15 +494,16 @@
                 $("#Description").val(calEvent.description);
                 $('#appointmentModal').modal();
 
-            }, dayClick: function (date, calEvent, jsEvent, view) {
+            },
+            dayClick: function(date, calEvent, jsEvent, view) {
 
                 $("#Start").val(date.format("YYYY-MM-DD"));
                 $('#CreateAppointmentModal').modal();
             },
-            select: function (startDate, endDate, calEvent, jsEvent, view) {
+            select: function(startDate, endDate, calEvent, jsEvent, view) {
                 $('#CreateAppointmentModal').modal();
             },
-            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+            eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
@@ -454,9 +518,47 @@
                 $("#description").val(event.description);
                 $('#appointmentModal').modal();
             }
+        });
 
-        })
 
+        $("#submit").on('click', function(event) {
+            event.preventDefault();
+
+            var formData = $("#doctorApppointmentCreateForm").serializeArray();
+
+            console.log(getFormData(formData));
+
+            $.ajax({
+                type: "POST",
+                //url: "/Appointment/Create",
+                url: "/Appointment/Create",
+                //data: JSON.stringify(formData),
+                data: formData,
+                success: function (response) {
+                    $("#CreateAppointmentModal").modal("hide");
+
+                    $("#appointmentSuccess").modal("show");
+
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+
+                    $("#incompleteFormError").removeClass("hidden");
+                }
+            });
+        });
+
+        function getFormData(data) {
+            var unindexed_array = data;
+            var indexed_array = {};
+
+            $.map(unindexed_array, function (n, i) {
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
+        }
 
     });
 </script>

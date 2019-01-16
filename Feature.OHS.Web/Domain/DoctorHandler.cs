@@ -23,7 +23,9 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddDoctor(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, "http://localhost:51020/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Doctor/Create/Doctor", doctorVM, "http://localhost:51020/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -67,7 +69,7 @@ namespace Feature.OHS.Web.Domain
 
             get
             {
-                var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", _integrationSettings.AdmissionsDevApiUrl, "GET");
+                var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", "http://localhost:51020" /*_integrationSettings.AdmissionsDevApiUrl*/, "GET");
                 if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<DoctorNurseViewModel>>(request.Message);
