@@ -183,7 +183,7 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Theatre", appointmentViewModel,_integrationSettings.AppointmentsDevApiUrl, true);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
 
             if (_appointmentResponse != null)
             {
@@ -212,7 +212,7 @@ namespace Feature.OHS.Web.Domain
                 return null;
             }
         }
-        
+
         public List<AppointmentViewModel> GetAppointmentsByIdNumber(string id)
         {
             var request = _integration.ResponseFromAPIGet("", "/Get/Appointment?Id=" + id, _integrationSettings.SearchDevApiUrl, "GET");
@@ -232,19 +232,29 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel CancelAppointment(AppointmentViewModel model)
         {
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Cancel", model, _integrationSettings.AppointmentsDevApiUrl, true);
-
-            if (_response != null)
             {
-                var response = JsonConvert.DeserializeObject<dynamic>(_response.Message);
-                return response;
+                model.AppointmentShortTypeDescription = "appointment";
+                model.AppointmentTypeDescription = "theatre";
+                model.EventDescription = $"creating doctor appointment for{model?.FirstName}";
+                model.EventTypeDescription = "book appointment";
+                model.EventTypeShortDescription = "private practice";
+                model.StatusTypeDescription = "booked";
+                model.StatusTypeShortDescription = "appointment";
+                model.PersonTypeDescription = "individual";
+                model.PersonTypeShortDescription = "person";
+                var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Cancel", model,_integrationSettings.AppointmentsDevApiUrl, true);
+
+                if (_response != null)
+                {
+                    var response = JsonConvert.DeserializeObject<dynamic>(_response.Message);
+                    return response;
+
+                }
+                else
+                    return null;
 
             }
-            else
-                return null;
-
         }
-
 
         public dynamic Update(AppointmentViewModel appointmentViewModel)
         {
@@ -279,5 +289,6 @@ namespace Feature.OHS.Web.Domain
 
                 throw new Exception("the response from the server is null");
         }
+
     }
 }
