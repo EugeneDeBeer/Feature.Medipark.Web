@@ -39,6 +39,8 @@ namespace Feature.OHS.Web.Controllers
         // GET: DoctorsAppointment
         public ActionResult Index(AppointmentViewModel model)
         {
+            List<SelectListItem> slots = _appointmentHandler.AvailableTime("20");
+            ViewData["Timeslots"] = slots;
             if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
             {
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
@@ -98,7 +100,7 @@ namespace Feature.OHS.Web.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.ErrorMessage = e.Message;
+                ViewBag.ErrorMessage = "Oops something went wrong please try again";
                 return View("Index");
             }
         }
@@ -120,10 +122,8 @@ namespace Feature.OHS.Web.Controllers
                 //    u.FirstName
                 //}), "DoctorId", "FirstName");
 
-                var doctorSelectList = new SelectList(doctors.Select(u => 
+                ViewData["Doctors"] = new SelectList(doctors.Select(u =>
                     new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), "Value", "Text");
-
-                ViewData["Doctors"] = doctorSelectList;
 
                 //var doctorSelectList = new SelectList(doctors.Select(u => new List<SelectListItem>
                 //{
@@ -168,7 +168,7 @@ namespace Feature.OHS.Web.Controllers
                 {
                     ViewBag.ErrorMessage = "Please Enter all the required fields";
 
-                    return StatusCode((int) HttpStatusCode.BadRequest, ViewBag.ErrorMessage);
+                    return StatusCode((int)HttpStatusCode.BadRequest, ViewBag.ErrorMessage);
 
                     //return View("Theatre", appointmentViewModel);
                 }
@@ -182,7 +182,7 @@ namespace Feature.OHS.Web.Controllers
 
 
 
- 
+
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             try
@@ -211,7 +211,7 @@ namespace Feature.OHS.Web.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.ErrorMessage = e.Message;
+                ViewBag.ErrorMessage = "Oops something went wrong please try again";
                 return View("Index");
             }
         }
@@ -220,9 +220,16 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult UpdateAppointment(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
-
-            _appointmentHandler.Update(appointmentViewModel);
-            return RedirectToAction(nameof(Theatre));
+            try
+            {
+                _appointmentHandler.Update(appointmentViewModel);
+                return RedirectToAction(nameof(Theatre));
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "Oops something went wrong please try again";
+                return View("Index");
+            }
         }
 
         public ActionResult GetAppointment(string id)
@@ -236,7 +243,7 @@ namespace Feature.OHS.Web.Controllers
                 }
 
                 var appointment = _appointmentHandler.GetPatientByIdNumber(id);
-              
+
                 return RedirectToAction(nameof(SearchPatient), appointment);
             }
             catch (Exception e)
@@ -249,10 +256,13 @@ namespace Feature.OHS.Web.Controllers
 
         public JsonResult GetAppointments()
         {
+
             try
             {
                 var appointments = _appointmentHandler.GetAppointments;
                 ViewBag.Patients = appointments;
+
+
                 return new JsonResult(appointments);
             }
             catch (Exception e)

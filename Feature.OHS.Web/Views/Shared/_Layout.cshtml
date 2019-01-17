@@ -242,8 +242,8 @@
                         <li class="has_sub">
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span>Nurse</span> <span class="menu-arrow"></span></a>
                             <ul class="list-unstyled">
-                                <li><a href="/Doctors/Create"><i class="fa fa-user-plus"></i>Add Nurse</a></li>
-                                <li><a asp-controller="Nurses" asp-action="Nurses">Manage Nurses</a></li>
+                                <li><a href="/Nurses/Create"><i class="fa fa-user-plus"></i>Add Nurse</a></li>
+                                <li><a asp-controller="Nurses" asp-action="Index">Manage Nurses</a></li>
 
                             </ul>
                         </li>
@@ -270,8 +270,8 @@
                             <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span> Wards</span> <span class="menu-arrow active"></span></a>
                             <ul class="list-unstyled">
                                 <li><a asp-controller="Wards" asp-action="Create"><i class="fas fa-plus-circle"></i>Add Ward</a></li>
-                                @*<li><a asp-controller="Wards" asp-action="Index">Manage Wards</a></li>*@
-
+                                <li><a asp-controller="Wards" asp-action="List">Manage Wards</a></li>
+                                <li><a asp-controller="Room" asp-action="Create"><i class="fa fa-user-plus"></i>Add Room</a></li>
                             </ul>
                         </li>
                         
