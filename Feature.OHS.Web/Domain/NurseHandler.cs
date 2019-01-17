@@ -111,6 +111,7 @@ namespace Feature.OHS.Web.Domain
             var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
             //var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, "http://localhost:61820/", true);
 
+
             if (response != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<DoctorNurseViewModel>(response.Message);
@@ -130,6 +131,7 @@ namespace Feature.OHS.Web.Domain
         {
             var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
             //var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", nurseVM, "http://localhost:61820/", true);
+
 
             if (response != null)
             {

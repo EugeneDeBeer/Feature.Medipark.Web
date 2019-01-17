@@ -41,6 +41,54 @@ namespace Feature.OHS.Web.Controllers
         {
             return View("~/Views/Nurses/Create.cshtml", new DoctorNurseViewModel());
         }
+
+        [HttpPost]
+        public ActionResult PracticeInfo(DoctorNurseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.PersonId = PersonId.Id;
+                    var practiceInfo = _nurseHandler.AddPracticeInformation(model);
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Please enter all the required fields");
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CreateQualification(DoctorNurseViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.PersonId = PersonId.Id;
+                    var practiceInfo = _nurseHandler.AddQualification(model);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Please enter all the required fields");
+                return View(model);
+            }
+        }
+
         [HttpPost]
         public ActionResult CreateNurse(DoctorNurseViewModel model)
         {
