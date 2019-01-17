@@ -67,6 +67,9 @@ namespace Feature.OHS.Web.Domain
 
             get
             {
+                //var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Practice/Get/Doctors", "http://localhost:51020", "GET");
+                //var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Doctor/Get/Doctors", "http://localhost:51020" /*_integrationSettings.AdmissionsDevApiUrl*/, "GET");
+
                 var request = _integration.ResponseFromAPIGet("Get Doctors", "v1/Practice/Get/Doctors", _integrationSettings.AdmissionsDevApiUrl, "GET");
                 if (request != null)
                 {
