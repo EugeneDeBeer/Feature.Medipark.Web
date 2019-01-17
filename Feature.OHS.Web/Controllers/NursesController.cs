@@ -53,7 +53,7 @@ namespace Feature.OHS.Web.Controllers
                    PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (Exception e)
                 {
                     return View();
                 }
@@ -64,6 +64,7 @@ namespace Feature.OHS.Web.Controllers
                 return View(model);
             }
         }
+
         [HttpPost]
         public ActionResult CreateContactAddress(DoctorNurseViewModel model)
         {
@@ -87,6 +88,7 @@ namespace Feature.OHS.Web.Controllers
                 ModelState.AddModelError("Error", "Please enter all the required fields");
                 return View(model);
             }
+          
         }
 
     }

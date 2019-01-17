@@ -15,7 +15,7 @@ namespace Feature.OHS.Web.ViewModels
         public string HpcnaregistrationNumber { get; set; }
         public int? NumberOfYearsInPractice { get; set; }
         public string RegistrationNumber { get; set; }
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
         public string Allergies { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
@@ -27,10 +27,11 @@ namespace Feature.OHS.Web.ViewModels
         public string CellPhone { get; set; }
         public DateTime? Created { get; set; }
         public int? DoctorId { get; set; }
+        public int? NurseId { get; set; }
         public int? QualificationId { get; set; }
         public string Title { get; set; }
         public string Initials { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
         public string Occupation { get; set; }

@@ -24,7 +24,8 @@ namespace Feature.OHS.Web.Controllers
         // GET: Patient
         public ActionResult Index()
         {
-            return View();
+            var patient = _patientHandler.Patients;
+            return View(patient);
         }
 
         // GET: Patient/Details/5
@@ -34,7 +35,7 @@ namespace Feature.OHS.Web.Controllers
         }
 
 
-       
+
         public ActionResult Create()
         {
             return View(new PatientPayloadViewModel());
@@ -55,7 +56,7 @@ namespace Feature.OHS.Web.Controllers
                 try
                 {
                     model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
-                    var result =  _patientHandler.AddPatient(model);
+                    var result = _patientHandler.AddPatient(model);
                     PersonId.Id = result.PersonId;
                     return RedirectToAction(nameof(Index));
                 }
@@ -66,7 +67,37 @@ namespace Feature.OHS.Web.Controllers
             }
             else
             {
-                ModelState.AddModelError("Error","Please enter all the required fields");
+                ModelState.AddModelError("Error", "Please enter all the required fields");
+                return View(model);
+            }
+
+        }
+        [HttpPost]
+        public ActionResult CreatePerson(PatientPayloadViewModel model)
+        {
+            //if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
+            //{
+            //    return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(PatientController.CreatePatient), nameof(Patient)) });
+            //}
+
+            if (ModelState.IsValid)
+            {
+
+                try
+                {
+                    model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+                    var result = _patientHandler.AddPerson(model);
+                    PersonId.Id = result.PersonId;
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Error", "Please enter all the required fields");
                 return View(model);
             }
 
