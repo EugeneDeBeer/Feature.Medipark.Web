@@ -20,11 +20,13 @@ namespace Feature.OHS.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountHandler _accountHandler;
+        private readonly IDoctorHandler _doctorHandler;
         private string systemEmailAddress = "no-reply@ohs.com";
 
-        public AccountController(IAccountHandler accountHandler)
+        public AccountController(IAccountHandler accountHandler, IDoctorHandler doctorHandler)
         {
             _accountHandler = accountHandler;
+            _doctorHandler = doctorHandler;
         }
 
         public IActionResult Index()
@@ -205,6 +207,14 @@ namespace Feature.OHS.Web.Controllers
                         u.RoleName
                     }), "UserRoleId", "RoleName");
                 }                
+            }
+
+            var doctors = _doctorHandler.Doctors;
+
+            if (doctors.Any())
+            {
+                ViewData["Doctors"] = new SelectList(doctors.Select(u =>
+                    new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), "Value", "Text");                
             }
 
             return View(model);
