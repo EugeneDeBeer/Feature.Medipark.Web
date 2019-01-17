@@ -22,7 +22,7 @@ namespace Feature.OHS.Web.Controllers
         public ActionResult List()
         {
             var response = _WardHandler.GetWardList(1);
-            if(response == null)
+            if (response == null)
             {
                 ViewBag.ErrorMessage = "Failed to create a ward please try again";
                 return View();

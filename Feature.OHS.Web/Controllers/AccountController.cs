@@ -20,6 +20,7 @@ namespace Feature.OHS.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountHandler _accountHandler;
+        private readonly IDoctorHandler _doctorHandler;
         private string systemEmailAddress = "no-reply@ohs.com";
         private readonly IDoctorHandler _doctorHandler;
         public AccountController(IAccountHandler accountHandler,IDoctorHandler doctorHandler)
@@ -177,7 +178,10 @@ namespace Feature.OHS.Web.Controllers
 
             if (user == null)
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
-            
+
+            if (user.UserRoleId != 1)
+                return RedirectToAction("Index", "Appointment", new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+
             var model = new PersonViewModel();
             
             if (!string.IsNullOrWhiteSpace(returnUrl))
@@ -204,6 +208,14 @@ namespace Feature.OHS.Web.Controllers
                     }), "UserRoleId", "RoleName");
                 }                
             }
+
+            var doctors = _doctorHandler.Doctors;
+
+            if (doctors.Any())
+            {
+                ViewData["Doctors"] = new SelectList(doctors.Select(u =>
+                    new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), "Value", "Text");                
+            }
             var doctors = _doctorHandler.Doctors;
             if (doctors.Any())
             {
@@ -229,6 +241,7 @@ namespace Feature.OHS.Web.Controllers
 
                     model.IdNumber = model.IdentityNumber.ToString();
                     model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+                    model.PersonId = HttpContext.Session.GetObject<PersonViewModel>("User").PersonId;
 
                     var response = await _accountHandler.Register(model);
 

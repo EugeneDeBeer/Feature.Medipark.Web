@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Feature.OHS.Web.Helper;
 using Feature.OHS.Web.Interfaces;
@@ -121,11 +122,22 @@ namespace Feature.OHS.Web.Controllers
                 //    u.FirstName
                 //}), "DoctorId", "FirstName");
 
-                ViewData["Doctors"] = new SelectList(doctors.Select(u => new
-                {
-                    DoctorId = u.DoctorId,
-                    FullName = $"{u.FirstName} {u.LastName}"
-                }), "DoctorId", "FullName");
+                ViewData["Doctors"] = new SelectList(doctors.Select(u =>
+                    new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), "Value", "Text");
+
+                //var doctorSelectList = new SelectList(doctors.Select(u => new List<SelectListItem>
+                //{
+                //    new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }
+                //}), "Value", "Text");
+
+
+                //ViewData["Doctors"] = new SelectList(doctors.Select(u => new
+                //{
+                //    u.DoctorId,
+                //    FullName = $"{u.FirstName} {u.LastName}"
+                //}), "DoctorId", "FullName");
+
+
 
             }
 
@@ -138,16 +150,27 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
-
-                var result = _appointmentHandler.TheatreCreate(appointmentViewModel);
-                if (result != null)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction(nameof(Theatre));
+                    var result = _appointmentHandler.TheatreCreate(appointmentViewModel);
+                    if (result != null)
+                    {
+                        return StatusCode((int)HttpStatusCode.OK);
+                        //return RedirectToAction(nameof(Theatre));
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "Oops something went wrong please try again";
+                        return View("Theatre");
+                    }
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Oops something went wrong please try again";
-                    return View("Theatre");
+                    ViewBag.ErrorMessage = "Please Enter all the required fields";
+
+                    return StatusCode((int)HttpStatusCode.BadRequest, ViewBag.ErrorMessage);
+
+                    //return View("Theatre", appointmentViewModel);
                 }
             }
             catch (Exception e)
@@ -164,17 +187,26 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
-                appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
-
-                var result = _appointmentHandler.Create(appointmentViewModel);
-                if (result != null)
+                if (ModelState.IsValid)
                 {
-                    return RedirectToAction(nameof(Index));
+                    appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+
+                    var result = _appointmentHandler.Create(appointmentViewModel);
+                    if (result != null)
+                    {
+                        //return RedirectToAction(nameof(Index));
+                        return StatusCode((int)HttpStatusCode.OK);
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "Oops something went wrong please try again";
+                        //return View("Index");
+                        return StatusCode((int)HttpStatusCode.BadRequest);
+                    }
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Oops something went wrong please try again";
-                    return View("Index");
+                    return StatusCode((int)HttpStatusCode.BadRequest);
                 }
             }
             catch (Exception e)
@@ -191,8 +223,7 @@ namespace Feature.OHS.Web.Controllers
             try
             {
                 _appointmentHandler.Update(appointmentViewModel);
-                return RedirectToAction(nameof(Index));
-
+                return RedirectToAction(nameof(Theatre));
             }
             catch (Exception e)
             {
@@ -253,6 +284,23 @@ namespace Feature.OHS.Web.Controllers
                 return null;
             }
         }
+
+        //[HttpGet("{doctorId}")]
+        public JsonResult GetTheaterAppointmentsByDoctorId(int doctorId)
+        {
+            try
+            {
+                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId);
+                return new JsonResult(appointments);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = e.Message;
+                return null;
+            }
+        }
+
+
         public ActionResult CancelAppointment(AppointmentViewModel model)
         {
             try

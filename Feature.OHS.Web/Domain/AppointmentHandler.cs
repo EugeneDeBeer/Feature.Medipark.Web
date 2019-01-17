@@ -58,6 +58,7 @@ namespace Feature.OHS.Web.Domain
         {
             get
             {
+                //var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", "http://localhost:50577", "GET");
                 var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
 
                 if (request != null)
@@ -83,6 +84,36 @@ namespace Feature.OHS.Web.Domain
                 {
                     return null;
                 }
+            }
+        }
+
+        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId)
+        {
+            //var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}", "http://localhost:50577", "GET");
+            var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
+
+            if (request != null)
+            {
+                var patientIndex = 0;
+                var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
+                var appointmentList = new List<AppointmentViewModel>();
+
+                foreach (var item in Response)
+                {
+                    appointmentList.Add(item);
+                    appointmentList[patientIndex].Id = item.AppointmentId;
+                    patientIndex++;
+                }
+
+                if (appointmentList != null)
+                {
+                    return appointmentList;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -151,7 +182,7 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
             var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-          
+
             if (_appointmentResponse != null)
             {
                 var response = JsonConvert.DeserializeObject<AppointmentViewModel>(_appointmentResponse.Message);
