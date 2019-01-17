@@ -1,6 +1,7 @@
 ﻿using Feature.OHS.Web.ViewModels;
 using System.Threading.Tasks;
 using Feature.OHS.Web.ViewModels.Response;
+using System;
 
 namespace Feature.OHS.Web.Interfaces
 {
@@ -18,5 +19,8 @@ namespace Feature.OHS.Web.Interfaces
         Task<UserViewModel> FindUserByEmail(ForgotPasswordViewModel model);
         Task<APIResponse> SetUserPasswordResetToken(UpdatePasswordResetTokenModel model);
         Task<APIResponse> ResetPasswordAsync(ResetPasswordViewModel model);
+        String GeneratePasswordResetToken();
+        dynamic SendEmail(MailViewModel mailViewModel);
+
     }
 }

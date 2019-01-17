@@ -99,7 +99,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -118,7 +118,7 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddQualification(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", nurseVM, "http://localhost:61820/", true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Qualification/Create", nurseVM, "http://localhost:61820", true);
 
             if (response != null)
             {

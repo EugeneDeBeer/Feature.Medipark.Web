@@ -269,7 +269,7 @@ namespace Feature.OHS.Web.Controllers
         }
 
         /// <summary>
-        /// Step 2: Injest the submitted forgot password form
+        /// Step 2: Inject the submitted forgot password form
         /// details. 
         /// 1. Check that the email exists, 
         /// 2. Generate a token
@@ -291,7 +291,8 @@ namespace Feature.OHS.Web.Controllers
                     return View("ForgotPasswordConfirmation");
                 }
 
-                string code = GeneratePasswordResetToken();
+                //string code = GeneratePasswordResetToken();
+                string code = _accountHandler.GeneratePasswordResetToken();
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.StatusCode, code = code });
 
                 var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.UserId, code = code }, protocol: HttpContext.Request.Scheme);
@@ -305,7 +306,19 @@ namespace Feature.OHS.Web.Controllers
                 _accountHandler.SetUserPasswordResetToken(pwdResetToken);
 
                 // email the user
-                SendEmailAsync(model.Email, systemEmailAddress, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                //SendEmailAsync(model.Email, systemEmailAddress, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                var mailVM = new MailViewModel()
+                {
+                    MailContent = "Please reset your password by clicking < a href =\"" + callbackUrl + "\">here</a>",
+                    MailDestination = model.Email,
+                    MailSource = systemEmailAddress,
+                    MailSubject = "Reset Password",
+                    SmtpServer = "smtp.gmail.com",
+                    MailTitle = "Omeyah Health System",
+                    SmtpPortNumber = 587
+                };
+                _accountHandler.SendEmail(mailVM);
+
                 TempData["ViewBagLink"] = callbackUrl;
                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -359,39 +372,7 @@ namespace Feature.OHS.Web.Controllers
             return View();
         }
 
-        private String GeneratePasswordResetToken()
-        {
-            return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-        }
-
-        private async void SendEmailAsync(string to, string from, string subject, string body)
-        {
-            MailMessage mail = new MailMessage(from, to);
-            SmtpClient client = new SmtpClient();
-            client.Port = 25;
-            //client.Port = 465;
-            //client.Port = 587;            
-
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Host = "smtp.gmail.com";
-
-            //  Added by TS MOTSWAINE
-            client.EnableSsl = true;
-
-            NetworkCredential credentials = new System.Net.NetworkCredential("tsepo@mgibagroup.com", "Omeyah@18");
-            
-            client.Credentials = credentials;
-            mail.IsBodyHtml = true;
-
-            mail.Subject = subject;
-            mail.Body = body;
-
-
-            client.Send(mail);
-
-            return;
-        }
+      
 
 
     }
