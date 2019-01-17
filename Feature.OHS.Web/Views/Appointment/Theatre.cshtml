@@ -2,8 +2,13 @@
 
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
-    <div class="containerbox">
-        <h3 class="text-danger page-message">@ViewBag.ErrorMessage</h3>
+    <div class="containerbox hidden">
+        
+        <div class="card-box">
+            <div class="card-body">
+                <h3 class="text-danger page-message text-center" id="errorMessage">@ViewBag.ErrorMessage</h3>
+            </div>
+        </div>        
     </div>
 }
 
@@ -19,6 +24,115 @@
 
 <div class="row">
     <h2 class="text-center">Surgical Ward Schedule Bookings</h2>
+    
+    
+    <div class="col-sm-12">
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#doctorFilter">Filter By Doctor</a>
+                    </h4>
+                </div>
+                <div id="doctorFilter" class="panel-collapse collapse">                    
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form>
+                                    <div class="form-group search-box">
+                                        <input asp-for="PatientIdNumber" type="text" class="form-control product-search" placeholder="Search appointment here...">
+                                        <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
+
+                                    </div>
+                                </form>
+                            </div>
+
+                            @*<div class="col-sm-2">
+                <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
+            </div>
+            <div class="col-sm-2">
+                <a href="/Doctors/Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
+            </div>*@
+                        </div>
+
+                        @if (ViewBag.Doctors != null)
+                        {
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+                                
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                </ol>
+                                <div class="carousel-inner" role="listbox">
+
+                                    @{
+                                        var counter = 1;
+
+                                        foreach (var doctor in ViewBag.Doctors as SelectList)
+                                        {
+                                            
+                                            //if (Convert.ToInt32(doctor.Value) % 6 != 0)
+                                            if (counter <= 6)
+                                            {
+                                                <div class="item active">
+                                                    <a href="void:javascript(0)" onclick="redrawCalendar(@doctor.Value);">
+
+                                                        <div class="col-sm-2">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-10">
+                                                                <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:100% height:100% />
+                                                                <h4 class="text-primary text-center">@doctor.Text</h4>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="item">
+                                                    <a href="void:javascript(0)" onclick="redrawCalendar(@doctor.Value);">
+
+                                                        <div class="col-sm-2">
+                                                            <div class="col-sm-1"></div>
+                                                            <div class="col-sm-10">
+                                                                <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:100% height:100% />
+                                                                <h4 class="text-primary text-center">@doctor.Text</h4>
+                                                            </div>
+                                                            <div class="col-sm-1"></div>
+
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            }
+
+                                            counter++;
+                                        }
+                                    }
+
+                                </div>
+                                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="clearfix">
+        <hr/>
+    </div>
     <div class="col-sm-12" id='calendar'></div>
 
 
@@ -64,9 +178,9 @@
                     <br />
                     <br />
                     <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment","Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
-    background-color: #bd2522!important;
-    border: 1px solid #841a18 !important;
-" />
+                                                                                                                                                                                                                                                                               background-color: #bd2522!important;
+                                                                                                                                                                                                                                                                               border: 1px solid #841a18 !important;
+                                                                                                                                                                                                                                                                           " />
 
 
                     @*<br />
@@ -80,9 +194,75 @@
 
 </div>
 
-<div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+<div class="modal fade" id="appointmentSuccess" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    
+        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">Confirmation</h5>
+                </div>
+                <div class="modal-body" style="height:70%; width:100%;">
 
-    <form asp-action="TheatreApppointment" asp-controller="Appointment" method="post">
+                    <div class=" col-sm-12">
+                        <div class="containerbox">
+                            <div class="card-box">
+                                <div class="card-body">
+                                    <h3 class="text-success text-center">Appointment has been created successfully!</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+
+</div>
+
+@*<div class="modal fade" id="appointmentErrorModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+
+    <form asp-action="appointmentError" asp-controller="Appointment" method="post">
+        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+            <div class="modal-content" style="width:100%">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="appointmentModalLabel">ERROR: Theater Appointment</h5>
+                </div>
+                <div class="modal-body" style="height:70%; width:100%;">
+
+                    <div class=" col-sm-12">
+                        <div class="containerbox">        
+                            <div class="card-box">
+                                <div class="card-body">
+                                    <h3 class="text-danger page-message text-center">@ViewBag.ErrorMessage</h3>
+                                </div>
+                            </div>        
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>*@
+
+<div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">   
+    <form id="theaterApppointmentCreateForm" asp-action="TheatreApppointment" asp-controller="Appointment" method="post">
         <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
             <div class="modal-content" style="width:100%">
                 <div class="modal-header">
@@ -90,7 +270,16 @@
                     <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
                 </div>
                 <div class="modal-body" style="height:70%; width:100%;">
-
+                    
+                        <div id="incompleteFormError" class="containerbox hidden">
+        
+                            <div class="card-box">
+                                <div class="card-body">
+                                    <h3 class="text-danger page-message text-center" id="errorMessage">Please Enter all the required fields</h3>
+                                </div>
+                            </div>        
+                        </div>
+                    
                     <div class="panel panel-default">
                         <div class="panel-heading">Patient Information </div>
                         <div class="panel-body">
@@ -132,7 +321,7 @@
                                 <div class="form-group form-inline">
                                     <label for="Time">Time<span></span></label>
                                     <input asp-for="Time" type="time" min="07:00" max="19:00" class="form-control" style="width:100%" placeholder="" >
-                                    <span class="text-danger"></span>
+                                    <span asp-validation-for="Time" class="text-danger"></span>
                                 </div>
                                 
                                 <div class="form-group form-inline">
@@ -164,7 +353,6 @@
                             <div class="col-sm-12 ">
                                 <div class="form-group">
                                     <label for="Title">Appointment Type <span>*</span></label>
-                                    @*<input asp-for="Title" type="text" class="form-control" placeholder="">*@
                                     <select asp-for="Title" type="text" class="form-control" placeholder="">
                                         <optgroup label="Consultation">
                                             <option value="New Patient">New Patient</option>
@@ -177,8 +365,6 @@
                                             <option value="Off-site Consultation">Off-site Consultation</option>
                                             <option value="Hospital Consultation">Hospital Consultation</option>
                                         </optgroup>
-
-                                        
                                     </select>
                                     <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
@@ -192,8 +378,8 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="
-    width: 70% !Important;">
+                        @*<input id="submit" class="hs-button primary large action-button next" type="submit" value="Create Appointment" style="width: 70% !Important;">*@
+                        <input id="submit" class="hs-button primary large action-button next" type="button" value="Create Appointment" style="width: 70% !Important;">
                     </div>
                 </div>
                 <div class="row">
@@ -212,53 +398,64 @@
 
 <script>
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            //  PROCEDURE CODES DROPDOWN FIXES
+        //var errorMsg = $("#errorMessage").text();
 
-            //  HARD-CODED FOR DEMO
 
-            var data = {
-                "AAA": [
-                    { id: "04B00ZZ", text: "04B00ZZ" },
-                    { id: "04B04ZZ", text: "04B04ZZ" },
-                    { id: "04R007Z", text: "04R007Z" }
-                ],
-                "AMP": [
-                    { id: "0X600ZZ", text: "0X600ZZ" },
-                    { id: "0X610ZZ", text: "0X610ZZ" },
-                    { id: "0X620ZZ", text: "0X620ZZ" }
-                ]
-            };
+        //console.log(`ERROR: ${errorMsg}`);
 
-            //
-                var $categorySelector = $("#procedure-category");            
+        //if (errorMsg !== null || errorMsg !== undefined || errorMsg !== "") {
+        //    if (errorMsg.length > 5) {
+        //        $("#appointmentErrorModal").modal("show");
+        //    }                
+        //} else {
+        //    $("#appointmentErrorModal").modal("hide");
+        //}
 
-                $categorySelector.on("change", (e) => {
-                e.preventDefault();
+        //  PROCEDURE CODES DROPDOWN FIXES
 
-                //var selected = $("#procedure-category option:selected").text();
-                var selected = $("#procedure-category option:selected").val();
+        //  HARD-CODED FOR DEMO
 
-                var children = data[selected];
+        var data = {
+            "AAA": [
+                { id: "04B00ZZ", text: "04B00ZZ" },
+                { id: "04B04ZZ", text: "04B04ZZ" },
+                { id: "04R007Z", text: "04R007Z" }
+            ],
+            "AMP": [
+                { id: "0X600ZZ", text: "0X600ZZ" },
+                { id: "0X610ZZ", text: "0X610ZZ" },
+                { id: "0X620ZZ", text: "0X620ZZ" }
+            ]
+        };
 
-                //var options = [];
+        //
+        var $categorySelector = $("#procedure-category");            
 
-                var codes = $("#procedure-codes");
-                codes.empty();
-                for (var i = 0; i < children.length; i++) {
+        $categorySelector.on("change", (e) => {
+            e.preventDefault();
 
-                    codes.append(`<option value="${children[i].id}"> ${children[i].text} </option>`);
+            //var selected = $("#procedure-category option:selected").text();
+            var selected = $("#procedure-category option:selected").val();
 
-                    //options.push(`<option value="${children[i].id}"> ${children[i].text} </option>`);
-                }
+            var children = data[selected];
+
+            //var options = [];
+
+            var codes = $("#procedure-codes");
+            codes.empty();
+            for (var i = 0; i < children.length; i++) {
+
+                codes.append(`<option value="${children[i].id}"> ${children[i].text} </option>`);
+
+                //options.push(`<option value="${children[i].id}"> ${children[i].text} </option>`);
+            }
               
-            });
+        });
 
-
-
-            var appointments = [];
-            $.ajax({
+        var appointments = [];
+        $.ajax({
                 type: "Get",
                 url: "/Appointment/GetTheatreAppointments",
                 success: function (data) {
@@ -287,142 +484,271 @@
                 }
             }
 
-            );
+        );
 
           
-            var patients = [];
-            $.ajax({
-                type: "Get",
-                url: "/Appointment/GetAppointments",
-                success: function (data) {
-                    $.each(data, function (i, v) {
+        var patients = [];
+        $.ajax({
+            type: "Get",
+            url: "/Appointment/GetAppointments",
+            success: function (data) {
+                $.each(data, function (i, v) {
 
 
-                        patients.push({
-                            id: v.AppointmentId,
-                            FirstName: v.FirstName,
-                            LastName: v.LastName
-                        });
+                    patients.push({
+                        id: v.AppointmentId,
+                        FirstName: v.FirstName,
+                        LastName: v.LastName
                     });
+                });
 
-                    //console.log(patients);
-                },
-                error: function (error) {
-                    alert('failed')
+                //console.log(patients);
+            },
+            error: function (error) {
+                alert('failed')
 
-                }
-            });
+            }
+        });
 
-            $("#patientSearchId").on("click", function (e) {
-                //e.preventDefault();
+        $("#patientSearchId").on("click", function (e) {
+            //e.preventDefault();
 
-                var idNumber = $("#SearchIdNumber").val();
+            var idNumber = $("#SearchIdNumber").val();
 
-                var button = $(this);
+            var button = $(this);
 
-                button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
-                button.click();
-
-            });
-
-
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,basicWeek,basicDay,agenda'
-                }, buttonText: {
-                    agenda:'Hours'
-                },
-                eventRender: function(event, $el) {
-                    $el.popover({
-                        title: event.title,
-                        content: `Time:${moment(event.start).format("HH:mm:ss")}
-                    ${event.description}`,
-                        trigger: 'hover',
-                        placement: 'top',
-                        container: 'body'
-                    });
-                },
-                defaultDate: new Date(),
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                selectable: true,
-                eventLimit: true, // allow "more" link when too many events
-                eventColor: '#00bfff',
-                events: "/Appointment/GetTheatreAppointments",
-                eventClick: function(calEvent, jsEvent, view) {
-                    $('#appointmentModal');
-                    var $description = $('#appdiv').html('content');
-                    $('#appointmentModal #appointmentDetails').empty().html($description);
-                    $('#appointmentModal').modal();
-
-                    var d = moment(calEvent.start).format("YYYY-MM-DD");
-                    var t = moment(calEvent.start).format("HH:mm:ss");
-
-                    $('#id').val(calEvent.id);
-                    $("#start").val(d);
-                    $('#time').val(t);
-                    $("#title").val(calEvent.title);
-                    $("#Description").val(calEvent.description);
-                    $('#appointmentModal').modal();
-                },
-                dayClick: function (date, calEvent, jsEvent, view) {
-                    $("#Start").val(date.format("YYYY-MM-DD"));
-                    $('#CreateAppointmentModal').modal();
-                },
-                select: function(startDate, endDate, calEvent, jsEvent, view) {
-                    $('#CreateAppointmentModal').modal();
-                },
-                eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
-                    $('#appointmentModal');
-                    var $description = $('#appdiv').html('content');
-                    $('#appointmentModal #appointmentDetails').empty().html($description);
-
-                    var d = moment(event.start).format("YYYY-MM-DD");
-                    var t = moment(event.start).format("HH:mm:ss");
-
-                    $('#id').val(event.id);
-                    $("#start").val(d);
-                    $('#time').val(t);
-                    $("#title").val(event.title);
-                    $("#description").val(event.description);
-                    $('#appointmentModal').modal();
-                }
-
-            });
-
-            
-            
-
-            
-
-            //var category = [{ "id": 1, "text": "AAA" }, { "id": 2, "text": "AMP" } ];
-
-            //$(".select2.procedure-category").select2({ placeholder: { id: "-1", placeholder: "Please choose procedure category" }, data: category });
-            //$(".select2.procedure-category").select2({
-            //    placeholder: "Please choose procedure category",
-            //    data: category
-            //    [
-            //        { id: "aaa", text: "AAA" }, { id: "amp", text: "AMP" }
-            //    ]
-            //});
-
-            //var codes =
-            //[
-            //        { "id": 3, "text": "04B00ZZ (AAA)" }, { "id": 4, "text": "04B04ZZ (AAA)" }, { "id": 5, "text": "04R007Z (AAA)" },
-            //        { "id": 6, "text": "0X600ZZ  (AMP)" }, { "id": 7, "text": "0X610ZZ (AMP)" }, { "id": 8, "text": "0X620ZZ (AMP)" }
-            //];
-
-            //$(".select2.procedure-codes").select2({ placeholder: "Please select procedure code" });
-            //$(".select2.procedure-codes").select2({
-            //    placeholder: "Please select procedure code",
-            //    data: codes
-            //    [
-            //        { id: "04B00ZZ", text: "04B00ZZ (AAA)" }, { id: "04B04ZZ", text: "04B04ZZ (AAA)" }, { id: "04R007Z", text: "04R007Z (AAA)" },
-            //        { id: "0X600ZZ", text: "0X600ZZ  (AMP)" }, { id: "0X610ZZ", text: "0X610ZZ (AMP)" }, { id: "0X620ZZ", text: "0X620ZZ (AMP)" }
-            //    ]
-            //});
+            button.attr("href", "/Appointment/GetAppointment?id=" + idNumber);
+            button.click();
 
         });
+
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay,agenda'
+            }, buttonText: {
+                agenda:'Hours'
+            },
+            eventRender: function(event, $el) {
+                $el.popover({
+                    html: true,
+                    title: event.title,
+                    //content: `Time:${moment(event.start).format("HH:mm:ss")} ${event.description}`,
+                    content: `
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-10">                
+                                            <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-12">
+                                             <h4 class="text-primary text-center">${event.doctorName}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                     <p>Time: <b>${moment(event.start).format("HH:mm:ss")}</b></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p>Description: <b>${event.description}</b></p>
+                                </div>
+                            </div>
+                        `, 
+                    trigger: 'hover',
+                    placement: 'top',
+                    container: 'body'
+                });
+            },
+            defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            selectable: true,
+            eventLimit: true, // allow "more" link when too many events
+            eventColor: '#00bfff',
+            events: "/Appointment/GetTheatreAppointments",
+            eventClick: function(calEvent, jsEvent, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+                $('#appointmentModal').modal();
+
+                var d = moment(calEvent.start).format("YYYY-MM-DD");
+                var t = moment(calEvent.start).format("HH:mm:ss");
+
+                $('#id').val(calEvent.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(calEvent.title);
+                $("#Description").val(calEvent.description);
+                $('#appointmentModal').modal();
+            },
+            dayClick: function (date, calEvent, jsEvent, view) {
+                $("#Start").val(date.format("YYYY-MM-DD"));
+                $('#CreateAppointmentModal').modal();
+            },
+            select: function(startDate, endDate, calEvent, jsEvent, view) {
+                $('#CreateAppointmentModal').modal();
+            },
+            eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+
+                var d = moment(event.start).format("YYYY-MM-DD");
+                var t = moment(event.start).format("HH:mm:ss");
+
+                $('#id').val(event.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(event.title);
+                $("#description").val(event.description);
+                $('#appointmentModal').modal();
+            }
+
+        });
+
+
+        $("#submit").on('click', function(event) {
+            event.preventDefault();
+
+            var formData = $("#theaterApppointmentCreateForm").serializeArray();
+
+            console.log(getFormData(formData));
+
+            $.ajax({
+                type: "POST",
+                //url: "/Appointment/TheatreApppointment",
+                url: "/Appointment/Theatre",
+                //data: JSON.stringify(formData),
+                data: formData,
+                success: function (response) {
+                    $("#CreateAppointmentModal").modal("hide");
+
+                    $("#appointmentSuccess").modal("show");
+
+                    window.location.reload();
+                    //document.location.href = "/Appointment/Theatre";
+                    //window.location.reload(true);
+                },
+                error: function (error) {
+                    //errorHandle();
+                    console.log(error);
+
+                    $("#incompleteFormError").removeClass("hidden");
+                }
+            });
+
+
+        });
+
+        function getFormData(data) {
+            var unindexed_array = data;
+            var indexed_array = {};
+
+            $.map(unindexed_array, function (n, i) {
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
+        }
+        
+    });
+</script>
+
+<script type="text/javascript">
+    function redrawCalendar(doctorId) {
+        $('#calendar').fullCalendar('destroy');
+
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay,agenda'
+            }, buttonText: {
+                agenda: 'Hours'
+            },
+            eventRender: function (event, $el) {
+                $el.popover({
+                    html: true,
+                    title: event.title,
+                    //content: `Time:${moment(event.start).format("HH:mm:ss")} ${event.description}`,
+                    content: `
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-10">                
+                                            <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
+                                        </div>
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-12">
+                                             <h4 class="text-primary text-center">${event.doctorName}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                     <p>Time: <b>${moment(event.start).format("HH:mm:ss")}</b></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p>Description: <b>${event.description}</b></p>
+                                </div>
+                            </div>
+                        `,
+                    trigger: 'hover',
+                    placement: 'top',
+                    container: 'body'
+                });
+            },
+            //defaultDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            selectable: true,
+            eventLimit: true, // allow "more" link when too many events
+            eventColor: '#00bfff',
+            events: `/Appointment/GetTheaterAppointmentsByDoctorId?doctorId=${doctorId}`,
+            eventClick: function (calEvent, jsEvent, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+                $('#appointmentModal').modal();
+
+                var d = moment(calEvent.start).format("YYYY-MM-DD");
+                var t = moment(calEvent.start).format("HH:mm:ss");
+
+                $('#id').val(calEvent.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(calEvent.title);
+                $("#Description").val(calEvent.description);
+                $('#appointmentModal').modal();
+            },
+            dayClick: function (date, calEvent, jsEvent, view) {
+                $("#Start").val(date.format("YYYY-MM-DD"));
+                $('#CreateAppointmentModal').modal();
+            },
+            select: function (startDate, endDate, calEvent, jsEvent, view) {
+                $('#CreateAppointmentModal').modal();
+            },
+            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+                $('#appointmentModal');
+                var $description = $('#appdiv').html('content');
+                $('#appointmentModal #appointmentDetails').empty().html($description);
+
+                var d = moment(event.start).format("YYYY-MM-DD");
+                var t = moment(event.start).format("HH:mm:ss");
+
+                $('#id').val(event.id);
+                $("#start").val(d);
+                $('#time').val(t);
+                $("#title").val(event.title);
+                $("#description").val(event.description);
+                $('#appointmentModal').modal();
+            }
+
+        });
+    }
 </script>

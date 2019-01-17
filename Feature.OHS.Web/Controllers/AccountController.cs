@@ -176,7 +176,10 @@ namespace Feature.OHS.Web.Controllers
 
             if (user == null)
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
-            
+
+            if (user.UserRoleId != 1)
+                return RedirectToAction("Index", "Appointment", new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+
             var model = new PersonViewModel();
             
             if (!string.IsNullOrWhiteSpace(returnUrl))
@@ -219,6 +222,7 @@ namespace Feature.OHS.Web.Controllers
 
                     model.IdNumber = model.IdentityNumber.ToString();
                     model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+                    model.PersonId = HttpContext.Session.GetObject<PersonViewModel>("User").PersonId;
 
                     var response = await _accountHandler.Register(model);
 

@@ -40,8 +40,8 @@ namespace Feature.OHS.Web.Domain
             //  To be changed once we have the login module setup
             //person.UserId = 1;
 
-            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:5001/", true);
-            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, _integrationSettings.UsersDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:5001/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, _integrationSettings.UsersDevApiUrl, true);
 
             if (response != null)
             {

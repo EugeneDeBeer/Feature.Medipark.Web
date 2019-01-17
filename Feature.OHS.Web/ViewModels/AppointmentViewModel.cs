@@ -16,6 +16,8 @@ namespace Feature.OHS.Web.ViewModels
         public int Id { get; set; }
         public int AppointmentId { get; set; }
         public int PersonId { get; set; }
+
+        //[Required]
         public int DoctorId { get; set; }
         public string AppointmentShortTypeDescription { get; set; }
         public string AppointmentTypeDescription { get; set; }
@@ -37,12 +39,16 @@ namespace Feature.OHS.Web.ViewModels
 
         public string SearchIdNumber { get; set; }
         public string PatientIdNumber { get; set; }
+
+        [Required]
         public string Time { get; set; }
         public DateTime? DateCreated { get; set; }
         public bool? IsActive { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string Description { get; set; }
+
+        //[Required]
         public string Title { get; set; }
         public string CellPhone { get; set; }
         public string Email1 { get; set; }
