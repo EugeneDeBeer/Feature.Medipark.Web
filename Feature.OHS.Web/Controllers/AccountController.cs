@@ -22,7 +22,6 @@ namespace Feature.OHS.Web.Controllers
         private readonly IAccountHandler _accountHandler;
         private readonly IDoctorHandler _doctorHandler;
         private string systemEmailAddress = "no-reply@ohs.com";
-        private readonly IDoctorHandler _doctorHandler;
         public AccountController(IAccountHandler accountHandler,IDoctorHandler doctorHandler)
         {
             _accountHandler = accountHandler;
