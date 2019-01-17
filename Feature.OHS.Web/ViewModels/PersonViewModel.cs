@@ -19,7 +19,7 @@ namespace Feature.OHS.Web.ViewModels
 
         [Required]
         public string LastName { get; set; }
-      
+        public int DoctorId { get; set; }
         [Required]
         [MinLength(10)]
         [MaxLength(20)]
