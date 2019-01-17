@@ -215,15 +215,6 @@ namespace Feature.OHS.Web.Controllers
                 ViewData["Doctors"] = new SelectList(doctors.Select(u =>
                     new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), "Value", "Text");                
             }
-            var doctors = _doctorHandler.Doctors;
-            if (doctors.Any())
-            {
-                ViewData["Doctors"] = new SelectList(doctors.Select(u => new
-                {
-                    DoctorId = u.DoctorId,
-                    FullName = $"{u.FirstName} {u.LastName}"
-                }), "DoctorId", "FullName");
-            }
 
             return View(model);
         }
