@@ -128,6 +128,55 @@ namespace Feature.OHS.Web.Domain
                 return null;
             }
         }
+          public String GeneratePasswordResetToken()
+        {
+            return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+        }
 
+        public dynamic SendEmail(MailViewModel mailViewModel)
+        {
+
+            var response = _integration.ResponseFromAPIPost("", "/v1/Mail/Mail", mailViewModel, _integrationSettings.EmailDevApiUrl, true);
+
+            if (response != null)
+            {
+                if (response.Success)
+                {
+                    var responseObject = JsonConvert.DeserializeObject<dynamic>(response.Message);
+                    return responseObject;
+                }
+
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+            //MailMessage mail = new MailMessage(from, to);
+            //SmtpClient client = new SmtpClient();
+            //client.Port = 25;
+            ////client.Port = 465;
+            ////client.Port = 587;            
+
+            //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //client.UseDefaultCredentials = false;
+            //client.Host = "smtp.gmail.com";
+
+            ////  Added by TS MOTSWAINE
+            //client.EnableSsl = true;
+
+            //NetworkCredential credentials = new System.Net.NetworkCredential("tsepo@mgibagroup.com", "Omeyah@18");
+
+            //client.Credentials = credentials;
+            //mail.IsBodyHtml = true;
+
+            //mail.Subject = subject;
+            //mail.Body = body;
+
+
+            //client.Send(mail);
+
+
+        }
     }
 }

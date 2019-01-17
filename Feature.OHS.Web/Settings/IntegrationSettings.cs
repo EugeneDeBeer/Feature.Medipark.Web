@@ -12,7 +12,7 @@ namespace Feature.OHS.Web.Settings
         public string UsersDevApiUrl { get; set; }
 
         public string SearchDevApiUrl { get; set; }
-        
+        public string EmailDevApiUrl { get; set; } 
         public string AdmissionsDevApiUrl { get; set; }
         public string HospitalWardsApiUrl { get; set; }
     }
