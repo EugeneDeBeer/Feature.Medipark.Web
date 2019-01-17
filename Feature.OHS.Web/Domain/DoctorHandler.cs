@@ -23,9 +23,9 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddDoctor(DoctorNurseViewModel doctorVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, "http://localhost:51020/", true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, "http://localhost:51020/", true);
             //var response = _integration.ResponseFromAPIPost("", "v1/Doctor/Create/Doctor", doctorVM, "http://localhost:51020/", true);
-            //var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", doctorVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
