@@ -214,6 +214,19 @@
             }
 
 
+            $("#UserRoleId").on('change', function(e) {
+                var selected = $(this).find("option:selected").text();
+
+                console.log("Selected: " + selected);
+
+                if (selected === "secretary") {
+                    $("#doctorSelect").removeClass("hidden");
+                } else {
+                    $("#doctorSelect").addClass("hidden");
+                }
+            });
+
+
         });
     </script>
 
@@ -409,6 +422,18 @@
                                     <div class="form-group form-inline">
                                         <label class="label" style="width: 100%">Role Given</label>
                                         <select asp-for="UserRoleId" asp-items="ViewBag.UserRoles" class="form-control" style="width:90%"></select>
+                                    </div>
+                                    <div id="doctorSelect" class="form-group form-inline hidden">
+                                        <label class="label" style="width: 100%">Employer</label>
+                                        @if (ViewBag.Doctors != null)
+                                        {
+                                            <select asp-for="DoctorId" asp-items="ViewBag.Doctors" class="form-control" style="width:90%"></select>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-center text-warning">Oops something went wrong while loading doctors. Please try again</p>
+                                        }
+
                                     </div>
                                     @*<div class="form-group form-inline">
             <input asp-for="ResetPassword" type="checkbox" class="form-control" style="width: 30%">
