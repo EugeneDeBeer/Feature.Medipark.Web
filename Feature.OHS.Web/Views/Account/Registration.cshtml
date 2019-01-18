@@ -1,8 +1,7 @@
 ﻿@model Feature.OHS.Web.ViewModels.PersonViewModel
-
 @*@{
-    Layout = "~/Views/Shared/_CustomLayout.cshtml";
-}*@
+        Layout = "~/Views/Shared/_CustomLayout.cshtml";
+    }*@
 
 @section Scripts{
     @*<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>*@
@@ -12,9 +11,9 @@
     <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            var showSuccessModal = function() {
+            var showSuccessModal = function () {
                 $('#successModal').modal('show');
             };
 
@@ -24,29 +23,29 @@
             $(".add-patient").validate({
                 errorClass: 'invalid',
                 errorElement: 'span',
-                errorPlacement: function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.next('span').children());
                 },
-                highlight: function(element) {
+                highlight: function (element) {
                     $(element).next('span').show();
                 },
-                unhighlight: function(element) {
+                unhighlight: function (element) {
                     $(element).next('span').hide();
                 }
             });
 
-            $(".next").click(function() {
+            $(".next").click(function () {
 
                 $(".add-patient").validate({
                     errorClass: 'invalid',
                     errorElement: 'span',
-                    errorPlacement: function(error, element) {
+                    errorPlacement: function (error, element) {
                         error.insertAfter(element.next('span').children());
                     },
-                    highlight: function(element) {
+                    highlight: function (element) {
                         $(element).next('span').show();
                     },
-                    unhighlight: function(element) {
+                    unhighlight: function (element) {
                         $(element).next('span').hide();
                     }
                 });
@@ -66,10 +65,10 @@
                 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
                 next_fs.show();
                 current_fs.animate({
-                        opacity: 0
-                    },
+                    opacity: 0
+                },
                     {
-                        step: function(now, mx) {
+                        step: function (now, mx) {
                             scale = 1 - (1 - now) * 0.2;
                             left = (now * 50) + "%";
                             opacity = 1 - now;
@@ -82,7 +81,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function() {
+                        complete: function () {
                             current_fs.hide();
                             animating = false;
                         },
@@ -90,7 +89,7 @@
                     });
             });
 
-            $(".previous").click(function() {
+            $(".previous").click(function () {
                 if (animating) return false;
                 animating = true;
                 current_fs = $(this).parent();
@@ -98,10 +97,10 @@
                 $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
                 previous_fs.show();
                 current_fs.animate({
-                        opacity: 0
-                    },
+                    opacity: 0
+                },
                     {
-                        step: function(now, mx) {
+                        step: function (now, mx) {
                             scale = 0.8 + (1 - now) * 0.2;
                             left = ((1 - now) * 50) + "%";
                             opacity = 1 - now;
@@ -114,7 +113,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function() {
+                        complete: function () {
                             current_fs.hide();
                             animating = false;
                         },
@@ -206,7 +205,7 @@
                 var indexed_array = {};
 
                 $.map(unindexed_array,
-                    function(n, i) {
+                    function (n, i) {
                         indexed_array[n['name']] = n['value'];
                     });
 
@@ -214,7 +213,7 @@
             }
 
 
-            $("#UserRoleId").on('change', function(e) {
+            $("#UserRoleId").on('change', function (e) {
                 var selected = $(this).find("option:selected").text();
 
                 console.log("Selected: " + selected);
@@ -249,8 +248,29 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-<!-- Begin page -->
-<div id="wrapper">
+
+@if (@ViewData["IsAdmin"] != null && !Convert.ToBoolean(@ViewData["IsAdmin"]))
+{
+    <div class="col-lg-12">
+        @*<span class="col-lg-offset-3 text-center label-danger">Incorrect username or password</span><br/>*@
+
+        <div class="panel panel-danger">            
+            <div class="col-sm-12">
+                <div class="panel-body">
+                    <h4 class=" text-center text-danger col-sm-12">You do not have the right privileges to view this page. If you believe this is not correct, please contact the site Administrator</h4>
+                </div>
+                
+                <a href='@ViewData["ReturnUrl"]' class="btn btn-primary col-sm-offset-6"><i class="fa fa-arrow-left"></i> Go back</a>
+            </div>
+
+           
+        </div>
+    </div>
+}
+else
+{
+    <!-- Begin page -->
+    <div id="wrapper">
     <div class="row">
         <div class="col-xs-12">
             <div class="page-title-box">
@@ -282,11 +302,11 @@
                     {
                         <form class="add-patient" method="post" id="add-patient">
                             @*<ul id="progressbar">
-                                <li class="active">Register User</li>
-                                <li>User Roles</li>
-                                <li>Assign Roles</li>
-                                <li>Approvals</li>
-                            </ul>*@
+                                    <li class="active">Register User</li>
+                                    <li>User Roles</li>
+                                    <li>Assign Roles</li>
+                                    <li>Approvals</li>
+                                </ul>*@
 
                             <fieldset>
                                 <h2 class="fs-title">Register User</h2>
@@ -326,7 +346,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="firstName">First Name <span>*</span></label>
-                                        <input asp-for="FirstName" type="text" class="form-control" id="firstName" placeholder=""><br />
+                                        <input asp-for="FirstName" type="text" class="form-control" id="firstName" placeholder=""><br/>
                                         <span asp-validation-for="FirstName" class="text-danger col-md-offset-4"></span>
                                     </div>
 
@@ -338,8 +358,8 @@
 
                                     <div class="form-group form-inline">
                                         <label for="lastName">Last Name <span>*</span></label>
-                                        <input asp-for="LastName" type="text" class="form-control" id="lastName" placeholder=""><br />
-                                        <span asp-validation-for="LastName" class="text-danger col-md-offset-4"></span><br />
+                                        <input asp-for="LastName" type="text" class="form-control" id="lastName" placeholder=""><br/>
+                                        <span asp-validation-for="LastName" class="text-danger col-md-offset-4"></span><br/>
                                     </div>
 
                                     <div class="form-group form-inline">
@@ -350,7 +370,7 @@
 
                                     <div class="form-group form-inline">
                                         <label for="idNumber">Identity Number <span>*</span></label>
-                                        <input asp-for="IdentityNumber" type="text" class="form-control" id="idNumber" placeholder="Enter ID number"><br />
+                                        <input asp-for="IdentityNumber" type="text" class="form-control" id="idNumber" placeholder="Enter ID number"><br/>
                                         <span asp-validation-for="IdentityNumber" class="text-danger col-md-offset-4"></span>
                                     </div>
 
@@ -365,26 +385,26 @@
 
                                     <div class="form-group form-inline">
                                         <label for="cellNumber">Cell Number <span>*</span></label>
-                                        <input asp-for="CellPhone" type="text" class="form-control" id="cellNumber" placeholder=""><br />
+                                        <input asp-for="CellPhone" type="text" class="form-control" id="cellNumber" placeholder=""><br/>
                                         <span asp-validation-for="CellPhone" class="text-danger col-md-offset-4"></span>
                                     </div>
-                                    
+
                                     @*<div class="col-lg-12">
-                                        <div class="form-group form-inline">
-                                            <h4>Role</h4>
+                                            <div class="form-group form-inline">
+                                                <h4>Role</h4>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group form-inline">
+                                        <div class="form-group form-inline">
 
-                                        <label class="label" style="width: 100%">Role Given</label>
-                                        <select asp-for="UserRoleId" class="form-control" style="width:90%">
-                                            <option value="superuser">Super User</option>
-                                            <option value="doctor">Doctor</option>
-                                            <option value="secretary">Secretary</option>
-                                        </select>
+                                            <label class="label" style="width: 100%">Role Given</label>
+                                            <select asp-for="UserRoleId" class="form-control" style="width:90%">
+                                                <option value="superuser">Super User</option>
+                                                <option value="doctor">Doctor</option>
+                                                <option value="secretary">Secretary</option>
+                                            </select>
 
-                                    </div>*@
+                                        </div>*@
 
                                 </div>
 
@@ -403,13 +423,13 @@
 
                                     <div class="form-group form-inline">
                                         <label for="password">Enter Password <span>*</span></label>
-                                        <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Enter password"><br />
+                                        <input asp-for="Password" type="password" class="form-control" id="password" placeholder="Enter password"><br/>
                                         <span asp-validation-for="Password" class="text-danger col-md-offset-4"></span>
                                     </div>
 
                                     <div class="form-group form-inline">
                                         <label for="confirmPassword">Confirm Password <span>*</span></label>
-                                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"><br />
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPassword" placeholder="Confirm password"><br/>
                                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                     </div>
 
@@ -421,13 +441,13 @@
 
                                     <div class="form-group form-inline">
                                         <label class="label" style="width: 100%">Role Given</label>
-                                        <select asp-for="UserRoleId" asp-items="ViewBag.UserRoles" class="form-control" style="width:90%"></select>
+                                        <select asp-for="UserRoleId" asp-items="ViewBag.UserRoles" class="form-control" style="width: 90%"></select>
                                     </div>
                                     <div id="doctorSelect" class="form-group form-inline hidden">
                                         <label class="label" style="width: 100%">Employer</label>
                                         @if (ViewBag.Doctors != null)
                                         {
-                                            <select asp-for="DoctorId" asp-items="ViewBag.Doctors" class="form-control" style="width:90%"></select>
+                                            <select asp-for="DoctorId" asp-items="ViewBag.Doctors" class="form-control" style="width: 90%"></select>
                                         }
                                         else
                                         {
@@ -436,22 +456,22 @@
 
                                     </div>
                                     @*<div class="form-group form-inline">
-            <input asp-for="ResetPassword" type="checkbox" class="form-control" style="width: 30%">
-            <label class="label" style="width: 50%">Reset password at next login</label>
+                                            <input asp-for="ResetPassword" type="checkbox" class="form-control" style="width: 30%">
+                                            <label class="label" style="width: 50%">Reset password at next login</label>
 
-            <input asp-for="ExpirePassword" type="checkbox" class="form-control" style="width: 30%">
-            <label class="label" style="width: 50%">Expire password</label>
-        </div>*@
+                                            <input asp-for="ExpirePassword" type="checkbox" class="form-control" style="width: 30%">
+                                            <label class="label" style="width: 50%">Expire password</label>
+                                        </div>*@
                                 </div>
 
                                 <div class="col-lg-6"></div>
                                 <div class="col-lg-12"></div>
 
-                                <input type="submit" data-page="1" name="next" class="next action-button" value="Save" />
+                                <input type="submit" data-page="1" name="next" class="next action-button" value="Save"/>
 
                                 <div class="col-lg-12">
 
-                                    <hr />
+                                    <hr/>
                                     @*Already have account? <a href="/Login/Login">sign in here</a>*@
                                     Already have account? <a href="/Account/Login">sign in here</a>
                                 </div>
@@ -506,4 +526,6 @@
         </div>
     </div>
 
-</div>
+    </div>
+
+}

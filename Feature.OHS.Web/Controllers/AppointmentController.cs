@@ -256,10 +256,11 @@ namespace Feature.OHS.Web.Controllers
 
         public JsonResult GetAppointments()
         {
-
             try
             {
-                var appointments = _appointmentHandler.GetAppointments;
+                var userId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+
+                var appointments = _appointmentHandler.GetTheaterAppointmentsBySecretaryUserId(userId);
                 ViewBag.Patients = appointments;
 
 
@@ -270,6 +271,19 @@ namespace Feature.OHS.Web.Controllers
                 ViewBag.ErrorMessage = e.Message;
                 return null;
             }
+
+            //try
+            //{
+            //    var appointments = _appointmentHandler.GetAppointments;
+            //    ViewBag.Patients = appointments;
+
+            //    return new JsonResult(appointments);
+            //}
+            //catch (Exception e)
+            //{
+            //    ViewBag.ErrorMessage = e.Message;
+            //    return null;
+            //}
         }
         public JsonResult GetTheatreAppointments()
         {
@@ -300,6 +314,24 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
+        //public JsonResult GetDoctorsAppointmentsBySecretaryId()
+        //{
+        //    try
+        //    {
+        //        var userId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+
+        //        var appointments = _appointmentHandler.GetTheaterAppointmentsBySecretaryUserId(userId);
+        //        ViewBag.Patients = appointments;
+
+
+        //        return new JsonResult(appointments);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ViewBag.ErrorMessage = e.Message;
+        //        return null;
+        //    }
+        //}
 
         public ActionResult CancelAppointment(AppointmentViewModel model)
         {

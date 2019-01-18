@@ -117,6 +117,36 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
+        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsBySecretaryUserId(int secretaryId)
+        {
+            var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsBySecretaryId/{secretaryId}", "http://localhost:50577", "GET");
+            //var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsBySecretaryId/{secretaryId}", _integrationSettings.SearchDevApiUrl, "GET");
+
+            if (request != null)
+            {
+                var patientIndex = 0;
+                var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
+                var appointmentList = new List<AppointmentViewModel>();
+
+                foreach (var item in Response)
+                {
+                    appointmentList.Add(item);
+                    appointmentList[patientIndex].Id = item.AppointmentId;
+                    patientIndex++;
+                }
+
+                if (appointmentList != null)
+                {
+                    return appointmentList;
+                }
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public AppointmentViewModel Create(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";

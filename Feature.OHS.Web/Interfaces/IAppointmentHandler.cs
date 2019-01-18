@@ -13,6 +13,7 @@ namespace Feature.OHS.Web.Interfaces
         IEnumerable<AppointmentViewModel> GetAppointments { get; }
         IEnumerable<AppointmentViewModel> GetTheatreAppointments { get; }
         IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId);
+        IEnumerable<AppointmentViewModel> GetTheaterAppointmentsBySecretaryUserId(int secretaryId);
 
         AppointmentViewModel GetPatientByIdNumber(string id);
         List<AppointmentViewModel> GetAppointmentsByIdNumber(string id);
