@@ -22,7 +22,6 @@ namespace Feature.OHS.Web.Controllers
         private readonly IAccountHandler _accountHandler;
         private readonly IDoctorHandler _doctorHandler;
         private string systemEmailAddress = "no-reply@ohs.com";
-    
         public AccountController(IAccountHandler accountHandler,IDoctorHandler doctorHandler)
         {
             _accountHandler = accountHandler;
@@ -182,7 +181,7 @@ namespace Feature.OHS.Web.Controllers
             if (user.UserRoleId != 1)
                 return RedirectToAction("Index", "Appointment", new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
 
-            
+            var model = new PersonViewModel();
             
             if (!string.IsNullOrWhiteSpace(returnUrl))
             {
@@ -210,25 +209,22 @@ namespace Feature.OHS.Web.Controllers
             }
 
             var doctors = _doctorHandler.Doctors;
+
             if (doctors.Any())
             {
-               
-                    ViewData["Doctors"] = new SelectList(doctors.Select(u =>
-                      new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }),
-                      "Value", "Text");
-                
-
+                ViewData["Doctors"] = new SelectList(doctors.Select(u =>
+                    new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), "Value", "Text");                
             }
 
-            return View(new PersonViewModel());
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration(PersonViewModel model)
         {
-           // if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
                 try
                 {
                     if (model == null) return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = "Model passed cannot be null" });
@@ -252,19 +248,11 @@ namespace Feature.OHS.Web.Controllers
                 {
                     return StatusCode((int)System.Net.HttpStatusCode.InternalServerError, new ErrorMessage { message = ex.Message.ToString() });
                 }
-         //   }
-          //else
-          //{
-                var doctors = _doctorHandler.Doctors;
-                if (doctors.Any())
-                {
-                    ViewData["Doctors"] = new SelectList(doctors.Select(u =>
-                      new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }), 
-                      "Value", "Text");
-                }
-
+            }
+            else
+            {
                 return View(model);
-           // }
+            }
         }
 
 
