@@ -87,9 +87,9 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId)
+        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId ,int typeId)
         {
-            var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}", "http://localhost:50577", "GET");
+            var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}/{typeId}", _integrationSettings.SearchDevApiUrl, "GET");
             //var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
 
             if (request != null)
@@ -283,6 +283,24 @@ namespace Feature.OHS.Web.Domain
             new SelectListItem {Value = "15:00",  Text = "15:00 "},
             new SelectListItem {Value = "16:00",  Text = "16:00 "}
             };
+        }
+
+        public int GetDoctorIdByUseId(int userId)
+        {
+            //var request = _integration.ResponseFromAPIGet("", "Get/DoctorId?=" + userId,
+            //    _integrationSettings.SearchDevApiUrl, "GET");
+            var request = _integration.ResponseFromAPIGet("", "Get/DoctorId?=" + userId,
+              _integrationSettings.SearchDevApiUrl, "GET");
+
+            if (request != null)
+            {
+                var _response = JsonConvert.DeserializeObject<int>(request.Message);
+                return _response;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

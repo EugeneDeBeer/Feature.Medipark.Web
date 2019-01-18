@@ -35,9 +35,6 @@ namespace Feature.OHS.Web.ViewModels
         //public bool ExpirePassword { get; set; }
         //public bool ResetPassword { get; set; }
         public bool IsDoctor { get; set; }
-
-        public int DoctorId { get; set; }
-
         public int PersonId { get; set; }
 
         [Required(ErrorMessage="Please enter your email address as your {0}")]

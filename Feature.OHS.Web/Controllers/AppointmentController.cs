@@ -256,10 +256,12 @@ namespace Feature.OHS.Web.Controllers
 
         public JsonResult GetAppointments()
         {
+            var userId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
 
             try
             {
-                var appointments = _appointmentHandler.GetAppointments;
+                var doctorId = _appointmentHandler.GetDoctorIdByUseId(userId);
+                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId, 1);
                 ViewBag.Patients = appointments;
 
 
@@ -290,7 +292,7 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
-                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId);
+                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId,2);
                 return new JsonResult(appointments);
             }
             catch (Exception e)

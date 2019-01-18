@@ -45,8 +45,8 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddAddress(DoctorNurseViewModel nurseVM)
         {
-            //var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", nurseVM, "http://localhost:61820", true);
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", nurseVM, "http://localhost:61820", true);
+            //var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Address/Create", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
             if (response != null)
             {
@@ -65,8 +65,8 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddContact(DoctorNurseViewModel nurseVM)
         {
-            //var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", nurseVM, "http://localhost:61820", true);
-            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", nurseVM, "http://localhost:61820", true);
+            //var response = _integration.ResponseFromAPIPost("", "/v1/ContactAddress/Contact/Create", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
 
 
             if (response != null)
@@ -87,8 +87,8 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddNurse(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
-            //var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Nurse", nurseVM, "http://localhost:61820", true);
+            //var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Nurse", nurseVM, "http://localhost:61820", true);
 
             if (response != null)
             {
@@ -108,8 +108,8 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddPracticeInformation(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
-            //var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, "http://localhost:61820/", true);
+            //var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, "http://localhost:61820/", true);
 
 
             if (response != null)
@@ -129,8 +129,8 @@ namespace Feature.OHS.Web.Domain
 
         public DoctorNurseViewModel AddQualification(DoctorNurseViewModel nurseVM)
         {
-            var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
-            //var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", nurseVM, "http://localhost:61820/", true);
+            //var response = _integration.ResponseFromAPIPost("", "/v1/Practice/Create/Nurse", nurseVM, _integrationSettings.AdmissionsDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "/api/Qualification/Create", nurseVM, "http://localhost:61820/", true);
 
 
             if (response != null)
