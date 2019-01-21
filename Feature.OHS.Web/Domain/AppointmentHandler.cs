@@ -227,7 +227,12 @@ namespace Feature.OHS.Web.Domain
 
         public AppointmentViewModel CancelAppointment(AppointmentViewModel model)
         {
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Cancel", model, _integrationSettings.AppointmentsDevApiUrl, true);
+            model.EventTypeDescription = "cancel appointment";
+            model.EventTypeShortDescription = "private practice";
+            model.StatusTypeDescription = "Cancelled";
+            model.StatusTypeShortDescription = "appointment";
+            //var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Cancel", model, _integrationSettings.AppointmentsDevApiUrl, true);
+            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Cancel",model ,"https://localhost:44370" , true);
 
             if (_response != null)
             {

@@ -224,7 +224,10 @@ namespace Feature.OHS.Web.Controllers
             try
             {
                 _appointmentHandler.Update(appointmentViewModel);
-                return RedirectToAction(nameof(Theatre));
+                if (appointmentViewModel.AppointmentTypeDescription == "doctor")
+                    return RedirectToAction(nameof(Index));
+                else
+                    return RedirectToAction(nameof(Theatre));
             }
             catch (Exception e)
             {
