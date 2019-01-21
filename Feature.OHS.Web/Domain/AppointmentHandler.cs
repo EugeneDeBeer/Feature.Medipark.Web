@@ -87,10 +87,10 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId)
+        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId, int typeId)
         {
             //var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}", "http://localhost:50577", "GET");
-            var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}", _integrationSettings.SearchDevApiUrl, "GET");
+            var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}/{typeId}", _integrationSettings.SearchDevApiUrl, "GET");
 
             if (request != null)
             {

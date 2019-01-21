@@ -304,7 +304,7 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
-                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId);
+                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId, 2);
                 return new JsonResult(appointments);
             }
             catch (Exception e)
