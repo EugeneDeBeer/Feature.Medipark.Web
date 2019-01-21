@@ -168,6 +168,7 @@ namespace Feature.OHS.Web.Controllers
 
         public async Task<IActionResult> Registration(string returnUrl)
         {
+
             if (string.IsNullOrWhiteSpace(HttpContext.Session.GetString("User")))
             {
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
@@ -179,7 +180,11 @@ namespace Feature.OHS.Web.Controllers
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AccountController.Registration), "Account") });
 
             if (user.UserRoleId != 1)
-                return RedirectToAction("Index", "Appointment", new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
+            {
+                ViewData["IsAdmin"] = false;
+            }
+                
+            //return RedirectToAction("Index", "Appointment", new { returnUrl = Url.Action(nameof(AppointmentController.Index), "Appointment") });
 
             var model = new PersonViewModel();
             
@@ -189,7 +194,7 @@ namespace Feature.OHS.Web.Controllers
             }
             else
             {
-                ViewData["ReturnUrl"] = string.Empty;
+                ViewData["ReturnUrl"] = Url.Action(nameof(AppointmentController.Index), "Appointment"); //string.Empty;
             }
 
             var results = await _accountHandler.GetAllRoles();

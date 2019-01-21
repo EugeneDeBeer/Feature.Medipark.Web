@@ -37,15 +37,15 @@
                 <div id="doctorFilter" class="panel-collapse collapse">                    
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-sm-12">
+                            @*<div class="col-sm-12">
                                 <form>
                                     <div class="form-group search-box">
-                                        <input asp-for="PatientIdNumber" type="text" class="form-control product-search" placeholder="Search appointment here...">
+                                        <input asp-for="PatientIdNumber" type="text" class="form-control product-search" placeholder="Search doctor here...">
                                         <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
 
                                     </div>
                                 </form>
-                            </div>
+                            </div>*@
 
                             @*<div class="col-sm-2">
                 <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
@@ -75,13 +75,15 @@
                                             //if (Convert.ToInt32(doctor.Value) % 6 != 0)
                                             if (counter <= 6)
                                             {
+                                                var picName = $"Dr {doctor.Text}.jpg"; 
+
                                                 <div class="item active">
                                                     <a href="void:javascript(0)" onclick="redrawCalendar(@doctor.Value);">
 
                                                         <div class="col-sm-2">
                                                             <div class="col-sm-1"></div>
                                                             <div class="col-sm-10">
-                                                                <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:100% height:100% />
+                                                                <img src="/images/doctors/@picName" alt="user-img" class="img-circle user-img" width:100% height:100% />
                                                                 <h4 class="text-primary text-center">@doctor.Text</h4>
                                                             </div>
                                                             <div class="col-sm-1"></div>
@@ -92,13 +94,16 @@
                                             }
                                             else
                                             {
+                                                var picName = $"Dr {doctor.Text}.jpg";
+
                                                 <div class="item">
                                                     <a href="void:javascript(0)" onclick="redrawCalendar(@doctor.Value);">
 
                                                         <div class="col-sm-2">
                                                             <div class="col-sm-1"></div>
                                                             <div class="col-sm-10">
-                                                                <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:100% height:100% />
+                                                                @*<img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:100% height:100% />*@
+                                                                <img src="/images/doctors/@picName" alt="user-img" class="img-circle user-img" width:100% height:100% />
                                                                 <h4 class="text-primary text-center">@doctor.Text</h4>
                                                             </div>
                                                             <div class="col-sm-1"></div>

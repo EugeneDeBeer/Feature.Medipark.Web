@@ -8,8 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
     <script src='https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js'></script>
-     
-    
+
+
     <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
             asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
@@ -18,32 +18,32 @@
     </script>
 
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
             var current_fs, next_fs, previous_fs;
             var left, opacity, scale;
             var animating;
             $(".add-patient").validate({
                 errorClass: 'invalid',
                 errorElement: 'span',
-                errorPlacement: function (error, element) {
+                errorPlacement: function(error, element) {
                     error.insertAfter(element.next('span').children());
                 },
-                highlight: function (element) {
+                highlight: function(element) {
                     $(element).next('span').show();
                 },
-                unhighlight: function (element) {
+                unhighlight: function(element) {
                     $(element).next('span').hide();
                 }
             });
 
-            $("#snap").click(function () {
+            $("#snap").click(function() {
                 var pic = document.getElementById("canvas").toDataURL("image/png");
                 pic = pic.replace('data:image/png;base64,', '');
                 $("#Image").val(pic);
 
             });
 
-            $(".next").click(function () {
+            $(".next").click(function() {
 
 
                 if (animating) return false;
@@ -53,9 +53,10 @@
                 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
                 next_fs.show();
                 current_fs.animate({
-                    opacity: 0
-                }, {
-                        step: function (now, mx) {
+                        opacity: 0
+                    },
+                    {
+                        step: function(now, mx) {
                             scale = 1 - (1 - now) * 0.2;
                             left = (now * 50) + "%";
                             opacity = 1 - now;
@@ -68,7 +69,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function () {
+                        complete: function() {
                             current_fs.hide();
                             animating = false;
                         },
@@ -76,7 +77,7 @@
                     });
             });
 
-            $(".previous").click(function () {
+            $(".previous").click(function() {
                 if (animating) return false;
                 animating = true;
                 current_fs = $(this).parent();
@@ -84,9 +85,10 @@
                 $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
                 previous_fs.show();
                 current_fs.animate({
-                    opacity: 0
-                }, {
-                        step: function (now, mx) {
+                        opacity: 0
+                    },
+                    {
+                        step: function(now, mx) {
                             scale = 0.8 + (1 - now) * 0.2;
                             left = ((1 - now) * 50) + "%";
                             opacity = 1 - now;
@@ -99,7 +101,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function () {
+                        complete: function() {
                             current_fs.hide();
                             animating = false;
                         },
@@ -107,17 +109,17 @@
                     });
             });
 
-            $(".submit").click(function () {
+            $(".submit").click(function() {
                 $(".add-patient").validate({
                     errorClass: 'invalid',
                     errorElement: 'span',
-                    errorPlacement: function (error, element) {
+                    errorPlacement: function(error, element) {
                         error.insertAfter(element.next('span').children());
                     },
-                    highlight: function (element) {
+                    highlight: function(element) {
                         $(element).next('span').show();
                     },
-                    unhighlight: function (element) {
+                    unhighlight: function(element) {
                         $(element).next('span').hide();
                     }
                 });
@@ -131,9 +133,10 @@
                 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
                 next_fs.show();
                 current_fs.animate({
-                    opacity: 0
-                }, {
-                        step: function (now, mx) {
+                        opacity: 0
+                    },
+                    {
+                        step: function(now, mx) {
                             scale = 1 - (1 - now) * 0.2;
                             left = (now * 50) + "%";
                             opacity = 1 - now;
@@ -146,7 +149,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function () {
+                        complete: function() {
                             current_fs.hide();
                             animating = false;
                         },
@@ -154,41 +157,75 @@
                     });
             });
 
-        
 
             //utility function
             function getFormData(data) {
                 var unindexed_array = data;
                 var indexed_array = {};
 
-                $.map(unindexed_array, function (n, i) {
-                    indexed_array[n['name']] = n['value'];
-                });
+                $.map(unindexed_array,
+                    function(n, i) {
+                        indexed_array[n['name']] = n['value'];
+                    });
 
                 return indexed_array;
             }
 
+            function getAge(born) {
+                var now = new Date();
 
-            $("#IdentityType").on('click', function(e) {
+                var birthday = new Date(now.getFullYear(), born.getMonth(), born.getDate());
+                if (now >= birthday)
+                    return now.getFullYear() - born.getFullYear();
+                else
+                    return now.getFullYear() - born.getFullYear() - 1;
+            }
 
-                var selected = $(this).val();
+            $("#IdentityType").on('click',
+                function(e) {
 
-                console.log("Selected: " + selected);
+                    var selected = $(this).val();
 
-                if (selected === "id") {
-                    $("#idNumberSection").removeClass("hidden");
+                    console.log("Selected: " + selected);
 
-                    $("#passportNumSection").addClass("hidden");
+                    if (selected === "id") {
+                        $("#idNumberSection").removeClass("hidden");
 
-                } else if (selected === "passport") {
-                    $("#idNumberSection").addClass("hidden");
+                        $("#passportNumSection").addClass("hidden");
 
-                    $("#passportNumSection").removeClass("hidden");
+                    } else if (selected === "passport") {
+                        $("#idNumberSection").addClass("hidden");
+
+                        $("#passportNumSection").removeClass("hidden");
+                    } else {
+                        $("#idNumberSection").addClass("hidden");
+                        $("#passportNumSection").addClass("hidden");
+                    }
+
+                });
+
+            $("input[name='dateOfBirth']").on('blur',
+                function() {
+                    var dob = new Date(this.value);
+
+                    $("input[name='age']").val(isNaN(getAge(dob)) ? "" : getAge(dob));
+                });
+
+            //  Caters for postal address if it's the same as residential
+
+            $("input[name='sameaddress']").click(function() {
+                if ($(this).prop("checked") === true) {
+                    $("input[name='postalBox']").val(
+                            `${$("input[name='Address1']").val()}, ${$("input[name='Address2']").val()}, ${$(
+                                "input[name='suburbTown']").val()}, 
+                        ${$("input[name='country']").val()}, ${$("input[name='resPostCode']").val()}`)
+                        .prop("disabled", true);
+                    $("input[name='resPostCode']").val($("input[name='resPostCode']").val()).prop("disabled", true);
                 } else {
-                    $("#idNumberSection").addClass("hidden");
-                    $("#passportNumSection").addClass("hidden");
+                    $("input[name='postalBox']").val("")
+                        .prop("disabled", false);
+                    $("input[name='resPostCode']").val("").prop("disabled", false);
                 }
-
             });
         });
     </script>
@@ -196,6 +233,70 @@
     <script>
         var resizefunc = [];
     </script>
+
+    <script>
+        // This example requires the Places library. Include the libraries=places
+        // parameter when you first load the API. For example:
+        //<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBpg2zC-njFdNzxiItXZYXoAbjjqpZdZFk&libraries=places">
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'),
+                {
+                    center: { lat: -33.8688, lng: 151.2195 },
+                    zoom: 13
+                });
+
+            var input = document.getElementById('AddressSearch');
+
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+            autocomplete.addListener('place_changed',
+                function() {
+
+                    var place = autocomplete.getPlace();
+                    if (!place.geometry) {
+                        // User entered the name of a Place that was not suggested and
+                        // pressed the Enter key, or the Place Details request failed.
+                        window.alert("No details available for input: '" + place.name + "'");
+                        return;
+                    }
+
+                    // If the place has a geometry, then present it on a map.
+                    if (place.geometry.viewport) {
+                        map.fitBounds(place.geometry.viewport);
+                    } else {
+                        map.setCenter(place.geometry.location);
+                        map.setZoom(17); // Why 17? Because it looks good.
+                    }
+
+                    var address = '';
+                    if (place.address_components) {
+                        address = [
+                            (place.address_components[0] && place.address_components[0].short_name || ''),
+                            (place.address_components[1] && place.address_components[1].short_name || ''),
+                            (place.address_components[2] && place.address_components[2].short_name || ''),
+                            (place.address_components[3] && place.address_components[3].long_name || ''),
+                            (place.address_components[5] && place.address_components[5].long_name || ''),
+                            (place.address_components[6] && place.address_components[6].long_name || ''),
+                            (place.address_components[7] && place.address_components[7].long_name || '')
+                        ].join(',');
+                    }
+
+                    console.log("The returned Address:");
+                    console.log(address);
+
+                    $("#Address1").val(address.split(',')[0]);
+                    $("#Address2").val(address.split(',')[1]);
+                    $("#suburbTown").val(`${address.split(',')[2]} ${address.split(',')[3]}`);
+
+                    $("#country").val(address.split(',')[5]);
+                    $("#postal-code").val(address.split(',')[6]);
+                });
+
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3q95tmdl9H0015RADPk9TL55O_ti8iCM&libraries=places&callback=initMap" async defer></script>
 }
 <iframe name="hiddenFrame" style="position:absolute; top:-1px; left:-1px; width:1px; height:1px;"></iframe>
 
@@ -274,8 +375,8 @@
                                         </select>
                                         <span asp-validation-for="Title" class="text-danger"></span>
                                         @*<span class="error1" style="display: none;">
-                <i class="error-log fa fa-exclamation-triangle"></i>
-            </span>*@
+                                                <i class="error-log fa fa-exclamation-triangle"></i>
+                                            </span>*@
                                     </div>
                                     <!-- End What's Your First Name Field -->
 
@@ -372,7 +473,7 @@
                                     </div>
                                 </div>
 
-                                <input type="hidden" name="Image" id="Image"/> 
+                                <input type="hidden" name="Image" id="Image" />
                                 <div class="col-sm-4">
                                     <button type="button" style="display:block;width:255px;" data-toggle="collapse"
                                             data-target="#takePhoto" onclick="hideSnap()" class="btn btn-default">
@@ -419,59 +520,59 @@
                                 <h2 class="fs-title">Contact Information</h2>
 
                                 @*<div class="col-lg-12">
-            <div class="card-box">
-                <div class="card-body" style="min-height:20%;">
-                    <h4 class="header-title m-t-0 m-b-30">Contact Details</h4>
+                                        <div class="card-box">
+                                            <div class="card-body" style="min-height:20%;">
+                                                <h4 class="header-title m-t-0 m-b-30">Contact Details</h4>
 
-                        <div class="col-lg-6">
-                            <div class="form-group form-inline">
-                                <label for="homeTel">Home Telephone</label>
-                                <input asp-for="Telephone1" type="text" class="form-control" placeholder="">
-                            </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group form-inline">
+                                                            <label for="homeTel">Home Telephone</label>
+                                                            <input asp-for="Telephone1" type="text" class="form-control" placeholder="">
+                                                        </div>
 
-                            <div class="form-group form-inline">
-                                <label for="workTel">Work Telephone</label>
-                                <input asp-for="Telephone2" type="text" class="form-control" placeholder="">
-                            </div>
+                                                        <div class="form-group form-inline">
+                                                            <label for="workTel">Work Telephone</label>
+                                                            <input asp-for="Telephone2" type="text" class="form-control" placeholder="">
+                                                        </div>
 
-                            <div class="form-group form-inline">
-                                <label for="prefferedContact">Preffered Contact Method</label>
-                                <select name="prefferedContact" class="form-control" id="prefferedContact" placeholder="">
-                                    <option>--Select option--</option>
-                                    <option value="preferredContactPhone">Phone</option>
-                                    <option value="preferredContactEmail">Email</option>
-                                    <option value="preferredContactPost">Post</option>
-                                </select>
-                            </div>
-                        </div>
+                                                        <div class="form-group form-inline">
+                                                            <label for="prefferedContact">Preffered Contact Method</label>
+                                                            <select name="prefferedContact" class="form-control" id="prefferedContact" placeholder="">
+                                                                <option>--Select option--</option>
+                                                                <option value="preferredContactPhone">Phone</option>
+                                                                <option value="preferredContactEmail">Email</option>
+                                                                <option value="preferredContactPost">Post</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
-                        <div class="col-lg-6">
-                            <div class="form-group form-inline">
-                                <label for="cellNumber">Cell Number <span>*</span></label>
-                                <input asp-for="CellPhone" type="text" class="form-control" placeholder="">
-                                <span asp-validation-for="CellPhone" class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-inline">
-                                <label for="email">Email <span>*</span></label>
-                                <input asp-for="Email1" type="email" class="form-control" placeholder="">
-                                <span asp-validation-for="Email1" class="text-danger"></span>
-                            </div>
-                            <div class="form-group form-inline">
-                                <label for="contactHours">Preferred Contact Hours</label>
-                                <select name="contactHours" class="form-control" id="contact-methods" placeholder="">
-                                    <option>--Select option--</option>
-                                    <option value="anytime">Anytime</option>
-                                    <option value="workinghours">Working Hours</option>
-                                    <option value="afterhours">After Hours</option>
+                                                    <div class="col-lg-6">
+                                                        <div class="form-group form-inline">
+                                                            <label for="cellNumber">Cell Number <span>*</span></label>
+                                                            <input asp-for="CellPhone" type="text" class="form-control" placeholder="">
+                                                            <span asp-validation-for="CellPhone" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group form-inline">
+                                                            <label for="email">Email <span>*</span></label>
+                                                            <input asp-for="Email1" type="email" class="form-control" placeholder="">
+                                                            <span asp-validation-for="Email1" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="form-group form-inline">
+                                                            <label for="contactHours">Preferred Contact Hours</label>
+                                                            <select name="contactHours" class="form-control" id="contact-methods" placeholder="">
+                                                                <option>--Select option--</option>
+                                                                <option value="anytime">Anytime</option>
+                                                                <option value="workinghours">Working Hours</option>
+                                                                <option value="afterhours">After Hours</option>
 
-                                </select>
-                            </div>
-                        </div>
+                                                            </select>
+                                                        </div>
+                                                    </div>
 
 
-                </div>
-            </div>
-        </div>*@
+                                            </div>
+                                        </div>
+                                    </div>*@
 
                                 <div class="col-lg-12">
                                     <div class="panel">
@@ -526,7 +627,7 @@
 
                                         </div>
                                     </div>
-                                
+
                                     <div class="col-lg-6">
                                         <div class="card-box">
                                             <div class="card-body" style="min-height: 80%;">
@@ -535,9 +636,29 @@
                                                 <div class="form-group form-inline">
                                                     <h4 for="occupation">Residential Address:</h4>
                                                     @*<h2 class="fs-title">Residential Address:</h2>*@
+
                                                 </div>
 
-                                                <div class="form-group form-inline">
+                                                <div class="form-group">
+
+                                                    @*<div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group search-box">
+                        <input id="AddressSearch" type="text" class="form-control product-search" placeholder="Search address here...">
+                    </div>
+                </div>
+            </div>*@
+
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group search-box">
+                                                            <input id="AddressSearch" type="text" style="width:100%" class="form-control product-search" placeholder="Search address here...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group form-inline" id="pac-card">
                                                     <label for="buildingHome">Building/House <span>*</span></label>
                                                     <input asp-for="Address1" type="text" class="form-control" placeholder="">
                                                     <span asp-validation-for="Address1" class="text-danger"></span>
@@ -589,6 +710,9 @@
                                                     <span class="text-danger"></span>
                                                 </div>
 
+                                                <div class="form-group form-inline">
+                                                    <div id="map"></div>
+                                                </div>
 
 
                                             </div>
@@ -600,9 +724,9 @@
                                             <div class="card-body" style="min-height: 80%;">
                                                 <h4 class="header-title m-t-0 m-b-30">Next of kin Details:</h4>
                                                 @*<div class="form-group form-inline">
-                            <br />
-                            <h4 for="">Next of kin:</h4>
-                        </div>*@
+                                                        <br />
+                                                        <h4 for="">Next of kin:</h4>
+                                                    </div>*@
 
                                                 <div class="form-group form-inline">
                                                     <label for="nokName">Name <span>*</span></label>
@@ -668,7 +792,7 @@
 
 
 
-                                @*<!-- Next of kin field -->
+                            @*<!-- Next of kin field -->
                                 <fieldset>
                                     <h2 class="fs-title">Next of kin</h2>
                                     <h3 class="fs-subtitle"></h3>
@@ -969,156 +1093,156 @@
 
                             <!-- person responsible -->
                             @*<fieldset>
-                                <h2 class="fs-title">PERSON RESPONSIBLE FOR ACCOUNT</h2>
-                                <h3 class="fs-subtitle"></h3>
-                                <div class="col-lg-6">
-                                    <div class="form-group form-inline">
-                                        <label for="title">Title <span>*</span></label>
-                                        <select name="title" class="form-control" id="title" placeholder="">
-                                            <option>--Select option--</option>
-                                            <option value="title">Title</option>
-                                            <option value="mr">Mr</option>
-                                            <option value="mrs">Mrs</option>
-                                            <option value="miss">Miss</option>
-                                            <option value="ms">Ms</option>
-                                            <option value="prof">Prof</option>
-                                            <option value="dr">Dr</option>
-                                            <option value="rev">Rev</option>
-                                            <option value="hon">Hon</option>
+                                    <h2 class="fs-title">PERSON RESPONSIBLE FOR ACCOUNT</h2>
+                                    <h3 class="fs-subtitle"></h3>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="title">Title <span>*</span></label>
+                                            <select name="title" class="form-control" id="title" placeholder="">
+                                                <option>--Select option--</option>
+                                                <option value="title">Title</option>
+                                                <option value="mr">Mr</option>
+                                                <option value="mrs">Mrs</option>
+                                                <option value="miss">Miss</option>
+                                                <option value="ms">Ms</option>
+                                                <option value="prof">Prof</option>
+                                                <option value="dr">Dr</option>
+                                                <option value="rev">Rev</option>
+                                                <option value="hon">Hon</option>
 
-                                        </select>
+                                            </select>
 
-                                        <span class="error1" style="display: none;">
-                                            <i class="error-log fa fa-exclamation-triangle"></i>
-                                        </span>
+                                            <span class="error1" style="display: none;">
+                                                <i class="error-log fa fa-exclamation-triangle"></i>
+                                            </span>
+                                        </div>
+
+
+                                        <div class="form-group form-inline">
+                                            <label for="accName">Name <span>*</span></label>
+                                            <input type="text" class="form-control" id="accName" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accSurname">Surname <span>*</span></label>
+                                            <input type="text" class="form-control" id="accSurname" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accIdnumber">ID Number <span>*</span></label>
+                                            <input type="text" class="form-control" id="accIdnumber" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="">Billing Address </label>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accbuildingHome">Building/House <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-building-house" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accbuildingHome">Street Name <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-street-name" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accbuildingHome">Country <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-street-name" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accbuildingHome">Suburb/Town <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-street-name" placeholder="">
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label for="accpostalCode">Postal Code <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-postal-code" placeholder="">
+
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accCountry">Country <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-country" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="">Employment Details</label>
+                                        </div>
+
+
+                                        <div class="form-group form-inline">
+                                            <label for="accEmployer">Employer <span>*</span></label>
+                                            <input type="text" class="form-control" id="employer" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accEmployerAdd">Employer Address <span>*</span></label>
+                                            <input type="text" class="form-control" id="employer-address" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="occupation">Occupation <span>*</span></label>
+                                            <input type="text" class="form-control" id="occupation" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accEmployerContact">Employer Contact<span>*</span></label>
+                                            <input type="text" class="form-control" id="employer-contact" placeholder="">
+                                        </div>
+
                                     </div>
 
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <label for="copy">Copy from </label>
+                                            <select name="copy" class="form-control" id="copy" placeholder="">
+                                                <option>--Select option--</option>
+                                                <option value="Patient">Patient</option>
+                                                <option value="Main Member">Main Member</option>
 
-                                    <div class="form-group form-inline">
-                                        <label for="accName">Name <span>*</span></label>
-                                        <input type="text" class="form-control" id="accName" placeholder="">
+
+                                            </select>
+
+                                            <span class="error1" style="display: none;">
+                                                <i class="error-log fa fa-exclamation-triangle"></i>
+                                            </span>
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accContactNum">Contact Number <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-contact-number" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="accEmail">Email Address <span>*</span></label>
+                                            <input type="text" class="form-control" id="acc-email" placeholder="">
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="title">Statement & letters sent via <span>*</span> </label>
+                                            <select name="title" class="form-control" id="title" placeholder="">
+                                                <option>--Select option--</option>
+                                                <option value="phone">Phone</option>
+                                                <option value="email">Email</option>
+                                                <option value="post">post</option>
+
+
+                                            </select>
+
+                                            <span class="error1" style="display: none;">
+                                                <i class="error-log fa fa-exclamation-triangle"></i>
+                                            </span>
+                                        </div>
+
                                     </div>
+                                    <div class="clearfix"></div>
+                                    <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+                                    <input type="button" data-page="5" name="next" class="next action-button" value="Save & Continue" />
 
-                                    <div class="form-group form-inline">
-                                        <label for="accSurname">Surname <span>*</span></label>
-                                        <input type="text" class="form-control" id="accSurname" placeholder="">
-                                    </div>
+                                </fieldset>*@
 
-                                    <div class="form-group form-inline">
-                                        <label for="accIdnumber">ID Number <span>*</span></label>
-                                        <input type="text" class="form-control" id="accIdnumber" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="">Billing Address </label>
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accbuildingHome">Building/House <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-building-house" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accbuildingHome">Street Name <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-street-name" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accbuildingHome">Country <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-street-name" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accbuildingHome">Suburb/Town <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-street-name" placeholder="">
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        <label for="accpostalCode">Postal Code <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-postal-code" placeholder="">
-
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accCountry">Country <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-country" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="">Employment Details</label>
-                                    </div>
-
-
-                                    <div class="form-group form-inline">
-                                        <label for="accEmployer">Employer <span>*</span></label>
-                                        <input type="text" class="form-control" id="employer" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accEmployerAdd">Employer Address <span>*</span></label>
-                                        <input type="text" class="form-control" id="employer-address" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="occupation">Occupation <span>*</span></label>
-                                        <input type="text" class="form-control" id="occupation" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accEmployerContact">Employer Contact<span>*</span></label>
-                                        <input type="text" class="form-control" id="employer-contact" placeholder="">
-                                    </div>
-
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="form-group form-inline">
-                                        <label for="copy">Copy from </label>
-                                        <select name="copy" class="form-control" id="copy" placeholder="">
-                                            <option>--Select option--</option>
-                                            <option value="Patient">Patient</option>
-                                            <option value="Main Member">Main Member</option>
-
-
-                                        </select>
-
-                                        <span class="error1" style="display: none;">
-                                            <i class="error-log fa fa-exclamation-triangle"></i>
-                                        </span>
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accContactNum">Contact Number <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-contact-number" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="accEmail">Email Address <span>*</span></label>
-                                        <input type="text" class="form-control" id="acc-email" placeholder="">
-                                    </div>
-
-                                    <div class="form-group form-inline">
-                                        <label for="title">Statement & letters sent via <span>*</span> </label>
-                                        <select name="title" class="form-control" id="title" placeholder="">
-                                            <option>--Select option--</option>
-                                            <option value="phone">Phone</option>
-                                            <option value="email">Email</option>
-                                            <option value="post">post</option>
-
-
-                                        </select>
-
-                                        <span class="error1" style="display: none;">
-                                            <i class="error-log fa fa-exclamation-triangle"></i>
-                                        </span>
-                                    </div>
-
-                                </div>
-                                <div class="clearfix"></div>
-                                <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
-                                <input type="button" data-page="5" name="next" class="next action-button" value="Save & Continue" />
-
-                            </fieldset>*@
-                            
                             <fieldset>
                                 <h2 class="fs-title">Terms & Conditions</h2>
                                 <h3 class="fs-subtitle"></h3>
@@ -1240,22 +1364,22 @@
 
                                 </div>
                                 @*<div class="col-lg-6">
-                                    <div class="form-group form-inline">
-                                        <input type="radio" name="sameaddress" value="" id="same-address"> Yes, I accept the terms and conditions
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        <input type="radio" name="sameaddress" value="" id="same-address">No, I don t accept the terms and conditions
-                                    </div>
-                                    <div class="form-group form-inline">
-                                        <label<label for="siganture">Signature </label>
-                                        <input type="text" class="form-control" id="signature" placeholder="">
-                                    </div>
+                                        <div class="form-group form-inline">
+                                            <input type="radio" name="sameaddress" value="" id="same-address"> Yes, I accept the terms and conditions
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <input type="radio" name="sameaddress" value="" id="same-address">No, I don t accept the terms and conditions
+                                        </div>
+                                        <div class="form-group form-inline">
+                                            <label<label for="siganture">Signature </label>
+                                            <input type="text" class="form-control" id="signature" placeholder="">
+                                        </div>
 
-                                    <div class="form-group form-inline">
-                                        <label for="date">Signature </label>
-                                        <input type="date" class="form-control" id="date" placeholder="">
-                                    </div>
-                                </div>*@
+                                        <div class="form-group form-inline">
+                                            <label for="date">Signature </label>
+                                            <input type="date" class="form-control" id="date" placeholder="">
+                                        </div>
+                                    </div>*@
                                 <div class="col-lg-6">
                                     <div class="form-group form-inline">
                                         <input type="radio" name="sameaddress" value="" id="same-address"> Yes, I accept the terms and conditions
@@ -1287,41 +1411,41 @@
 
                             </fieldset>
 
-                        @*<fieldset>
-                                <h2 class="fs-title">Terms & Conditions</h2>
-                                <h3 class="fs-subtitle"></h3>
+                            @*<fieldset>
+                                    <h2 class="fs-title">Terms & Conditions</h2>
+                                    <h3 class="fs-subtitle"></h3>
 
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
 
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                <div class="col-lg-6">
-                                    <div class="form-group form-inline">
-                                        <input type="radio" name="sameaddress" value="" id="same-address"> Yes, I accept the terms and conditions
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                    <div class="col-lg-6">
+                                        <div class="form-group form-inline">
+                                            <input type="radio" name="sameaddress" value="" id="same-address"> Yes, I accept the terms and conditions
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <input type="radio" name="sameaddress" value="" id="same-address">No, I don t accept the terms and conditions
+                                        </div>
+
+                                        <div class="form-group form-inline">
+                                            <label for="siganture">Signature </label>
+                                            <input type="text" class="form-control" id="signature" placeholder="">
+                                        </div>
+
+
+                                        <div class="form-group form-inline">
+                                            <label for="date">Signature </label>
+                                            <input type="date" class="form-control" id="date" placeholder="">
+                                        </div>
                                     </div>
 
-                                    <div class="form-group form-inline">
-                                        <input type="radio" name="sameaddress" value="" id="same-address">No, I don t accept the terms and conditions
-                                    </div>
+                                    <div class="col-lg-6"></div>
+                                    <div class="clearfix"></div>
 
-                                    <div class="form-group form-inline">
-                                        <label for="siganture">Signature </label>
-                                        <input type="text" class="form-control" id="signature" placeholder="">
-                                    </div>
+                                    <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+                                    <input id="submit" class="hs-button primary large action-button next" data-toggle="modal" data-target="#exampleModal"  type="submit" value="Submit">
 
-
-                                    <div class="form-group form-inline">
-                                        <label for="date">Signature </label>
-                                        <input type="date" class="form-control" id="date" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6"></div>
-                                <div class="clearfix"></div>
-
-                                <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
-                                <input id="submit" class="hs-button primary large action-button next" data-toggle="modal" data-target="#exampleModal"  type="submit" value="Submit">
-
-                            </fieldset>*@
+                                </fieldset>*@
                         </form>
                     </div>
                 }

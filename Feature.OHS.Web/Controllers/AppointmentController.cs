@@ -184,9 +184,6 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-
-
-
         public ActionResult Create(AppointmentViewModel appointmentViewModel)
         {
             try
@@ -249,6 +246,7 @@ namespace Feature.OHS.Web.Controllers
                 var appointment = _appointmentHandler.GetPatientByIdNumber(id);
 
                 return RedirectToAction(nameof(SearchPatient), appointment);
+                //return RedirectToAction(nameof(Index), appointment);
             }
             catch (Exception e)
             {
