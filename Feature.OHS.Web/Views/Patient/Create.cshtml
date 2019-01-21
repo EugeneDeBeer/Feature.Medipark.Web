@@ -215,11 +215,18 @@
 
             $("input[name='sameaddress']").click(function() {
                 if ($(this).prop("checked") === true) {
-                    $("input[name='postalBox']").val($("input[name='busAddress']").val()).prop("disabled", true);
+                    $("input[name='postalBox']").val(
+                            `${$("input[name='Address1']").val()}, ${$("input[name='Address2']").val()}, ${$(
+                                "input[name='suburbTown']").val()}, 
+                        ${$("input[name='country']").val()}, ${$("input[name='resPostCode']").val()}`)
+                        .prop("disabled", true);
                     $("input[name='resPostCode']").val($("input[name='resPostCode']").val()).prop("disabled", true);
+                } else {
+                    $("input[name='postalBox']").val("")
+                        .prop("disabled", false);
+                    $("input[name='resPostCode']").val("").prop("disabled", false);
                 }
             });
-
         });
     </script>
 
@@ -239,7 +246,7 @@
                     zoom: 13
                 });
 
-            var input = document.getElementById('Address1');
+            var input = document.getElementById('AddressSearch');
 
 
             var autocomplete = new google.maps.places.Autocomplete(input);
@@ -279,10 +286,10 @@
                     console.log("The returned Address:");
                     console.log(address);
 
-
+                    $("#Address1").val(address.split(',')[0]);
                     $("#Address2").val(address.split(',')[1]);
                     $("#suburbTown").val(`${address.split(',')[2]} ${address.split(',')[3]}`);
-                    
+
                     $("#country").val(address.split(',')[5]);
                     $("#postal-code").val(address.split(',')[6]);
                 });
@@ -629,7 +636,27 @@
                                                 <div class="form-group form-inline">
                                                     <h4 for="occupation">Residential Address:</h4>
                                                     @*<h2 class="fs-title">Residential Address:</h2>*@
+
                                                 </div>
+
+                                                <div class="form-group">
+
+                                                    @*<div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group search-box">
+                        <input id="AddressSearch" type="text" class="form-control product-search" placeholder="Search address here...">
+                    </div>
+                </div>
+            </div>*@
+
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group search-box">
+                                                            <input id="AddressSearch" type="text" style="width:100%" class="form-control product-search" placeholder="Search address here...">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
 
                                                 <div class="form-group form-inline" id="pac-card">
                                                     <label for="buildingHome">Building/House <span>*</span></label>
@@ -686,7 +713,7 @@
                                                 <div class="form-group form-inline">
                                                     <div id="map"></div>
                                                 </div>
-                                                
+
 
                                             </div>
                                         </div>

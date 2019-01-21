@@ -84,7 +84,7 @@
 
 <div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
-    <form asp-action="Create" asp-controller="Appointment" method="post">
+    <form id="doctorApppointmentCreateForm" asp-action="Create" asp-controller="Appointment" method="post">
         <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
             <div class="modal-content" style="width:100%">
                 <div class="modal-header">
@@ -92,18 +92,24 @@
                     <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
                 </div>
                 <div class="modal-body" style="height:70%; width:100%;">
-
+                    <div id="incompleteFormError" class="containerbox hidden">
+                        <div class="card-box">
+                            <div class="card-body">
+                                <h3 class="text-danger page-message text-center" id="errorMessage">Please Enter all the required fields</h3>
+                            </div>
+                        </div>
+                    </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">Patient Information </div>
                         <div class="panel-body">
 
-                            @*<div class="form-group form-inline">
-                                    <input asp-for="SearchIdNumber" class="form-control form-control-sm ml-3 w-75" placeholder="Enter ID Number" aria-label="Search">
-                                    <a id="patientSearchId" href="javascript:void(0)">  <i class="fa fa-search" aria-hidden="true"> Search</i></a>
-                                </div>*@
-
                             <div class="col-sm-12">
                                 <div class="col-md-6">
+                                    @*<div class="form-group search-box form-inline">
+                                            <input asp-for="SearchIdNumber" class="form-control product-search col-md-6" placeholder="Enter ID Number">
+                                            <a href=""><i class="fa fa-search"></i></a>
+                                        </div>*@
+
                                     <div class="form-group search-box">
                                         <input asp-for="SearchIdNumber" type="text" class="form-control product-search" placeholder="Enter ID Number">
                                         <a href="javascript:void(0)" id="patientSearchId" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
@@ -112,7 +118,6 @@
                             </div>
 
                             <div class="col-sm-6 ">
-
                                 <div class="form-group form-inline">
                                     <label for="firstName" class="col-md-12">Name <span>*</span></label>
                                     @if (Model?.FirstName == null)
@@ -123,7 +128,7 @@
                                     }
                                     else
                                     {
-                                        <input asp-for="FirstName" type="text" value=@Model.FirstName class="form-control col-md-12" style="width:100%">
+                                        <input asp-for="FirstName" type="text" value=@Model.FirstName style="width:100%" class="form-control col-md-12">
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     }
                                 </div>
@@ -149,14 +154,14 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-inline">
-                                    <label for="ContactNumber" class="col-md-12">Contact Number</span></label>
-                                    <input type="text" class="form-control col-md-12" style="width:100%" placeholder="">
+                                    <label for="CellNumber" class="col-md-12">Contact Number</span></label>
+                                    <input asp-for="CellPhone" class="form-control col-md-12" style="width:100%" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group form-inline">
-                                    <label for="EmailAddress" class="col-md-12">Email Address <span>*</span></label>
-                                    <input type="email" class="form-control col-md-12" style="width:100%" placeholder="">
+                                    <label for="Email1" class="col-md-12">Email Address <span>*</span></label>
+                                    <input asp-for="Email1" type="email" class="form-control col-md-12" style="width:100%" placeholder="">
                                     <span class="text-danger"></span>
                                 </div>
                                 <div class="form-group form-inline">
@@ -191,6 +196,8 @@
                                             <option value="Off-site Consultation">Off-site Consultation</option>
                                             <option value="Hospital Consultation">Hospital Consultation</option>
                                         </optgroup>
+
+
                                     </select>
                                     <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
@@ -207,21 +214,23 @@
                                 </div>
 
 
+                                <!--  <div class="form-group">
+                                      <label for="Date">Time<span></span></label>
+                                      <input asp-for="Time" type="time" class="form-control" placeholder="">
+                                      <span asp-validation-for="Time" class="text-danger"></span>
+                                  </div>-->
                                 <div class="form-group">
-                                    <label for="Date">Time<span></span></label>
-                                    <input asp-for="Time" type="time" class="form-control" placeholder="">
-                                    <span asp-validation-for="Time" class="text-danger"></span>
-                                </div>
 
+                                    <select asp-for="Time" asp-items="ViewBag.Timeslots " class="form-control" style="width:100%"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
 
 
                     <div class="col-sm-12">
-                        <input id="submit" class="btn btn-block btn-rounded m-b-30 action-button next" type="submit" value="Create Appointment" style="
-    width: 70% !Important;
-">
+                        @*<input class="btn btn-block btn-rounded m-b-30 action-button next" type="submit" value="Create Appointment" style="width: 70% !Important;" input />*@
+                        <input class="btn btn-block btn-rounded m-b-30 action-button next" type="button" id="submit" value="Create Appointment" style="width: 70% !Important;" />
                     </div>
                 </div>
                 <div class="row">
@@ -239,7 +248,14 @@
 
 
 <script>
-
+    function myFunction() {
+        var x = document.getElementById("patientsearchId");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
     $(document).ready(function () {
 
         var appointments = [];
@@ -262,7 +278,7 @@
                     });
                 });
 
-                console.log(appointments);
+                //console.log(appointments);
 
                 //  GenerateCalender(appointments);
             },
@@ -287,17 +303,41 @@
         });
 
 
+        $("#appointmentSearchId").on("click", function (e) {
+            //e.preventDefault();
+
+            var idNumber = $("#PatientIdNumber").val();
+
+            var button = $(this);
+
+            button.attr("href", "/Appointment/SearchAppointment?id=" + idNumber);
+            button.click();
+
+        });
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,basicWeek,basicDay,agenda'
             },
+            buttonText: {
+                agenda: 'Hours'
+            },
             eventRender: function (event, $el) {
                 $el.popover({
+                    html: true,
                     title: event.title,
-                    content: `Time:${moment(event.start).format("HH:mm:ss")}
-                    ${event.description}`,
+                    //content: `Time:${moment(event.start).format("HH:mm:ss")} ${event.description}`,
+                    content: `
+                            <div class="row">
+                                <div class="col-md-12">
+                                     <p>Time: <b>${moment(event.start).format("HH:mm:ss")}</b></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <p>Description: <b>${event.description}</b></p>
+                                </div>
+                            </div>
+                        `,
                     trigger: 'hover',
                     placement: 'top',
                     container: 'body'
@@ -308,8 +348,8 @@
             editable: true,
             selectable: true,
             eventLimit: true, // allow "more" link when too many events
-            eventColor: '#00bfff'
-            , events: "/Appointment/GetAppointments",
+            eventColor: '#00bfff',
+            events: "/Appointment/GetAppointments",
             eventClick: function (calEvent, jsEvent, view) {
 
                 $('#appointmentModal');
@@ -327,7 +367,9 @@
                 $("#Description").val(calEvent.description);
                 $('#appointmentModal').modal();
 
-            }, dayClick: function (date, calEvent, jsEvent, view) {
+            },
+            dayClick: function (date, calEvent, jsEvent, view) {
+
                 $("#Start").val(date.format("YYYY-MM-DD"));
                 $('#CreateAppointmentModal').modal();
             },
@@ -349,9 +391,49 @@
                 $("#description").val(event.description);
                 $('#appointmentModal').modal();
             }
+        });
 
-        })
 
+        $("#submit").on('click', function (event) {
+            event.preventDefault();
+
+            var formData = $("#doctorApppointmentCreateForm").serializeArray();
+
+            console.log(getFormData(formData));
+
+            $.ajax({
+                type: "POST",
+                //url: "/Appointment/Create",
+                url: "/Appointment/Create",
+                //data: JSON.stringify(formData),
+                data: formData,
+                success: function (response) {
+                    $("#CreateAppointmentModal").modal("hide");
+
+                    $("#appointmentSuccess").modal("show");
+
+                    console.log(window.location.href + "/Index");
+                    window.location.href = "Index";
+                    //window.location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+
+                    $("#incompleteFormError").removeClass("hidden");
+                }
+            });
+        });
+
+        function getFormData(data) {
+            var unindexed_array = data;
+            var indexed_array = {};
+
+            $.map(unindexed_array, function (n, i) {
+                indexed_array[n['name']] = n['value'];
+            });
+
+            return indexed_array;
+        }
 
     });
 </script>
