@@ -28,8 +28,9 @@ namespace Feature.OHS.Web.Domain
 
         public PatientPayloadViewModel AddPerson(PatientPayloadViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, _integrationSettings.AdmissionsDevApiUrl, true);
+           // var response = _integration.ResponseFromAPIPost("","v1/Person/Create",patient, _integrationSettings.AdmissionsDevApiUrl, true);
 
+            var response = _integration.ResponseFromAPIPost("", "v1/Person/Create", patient, "http://localhost:61820/", true);
             if (response != null)
             {
                 var dynamicResponse = JsonConvert.DeserializeObject<PatientPayloadViewModel>(response.Message);
@@ -49,7 +50,8 @@ namespace Feature.OHS.Web.Domain
 
         public PatientPayloadViewModel AddPatient(PatientPayloadViewModel patient)
         {
-            var response = _integration.ResponseFromAPIPost("", "v1/Patient/Create", patient, _integrationSettings.AdmissionsDevApiUrl , true);
+          //  var response = _integration.ResponseFromAPIPost("", "v1/Patient/Create", patient, _integrationSettings.AdmissionsDevApiUrl , true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Patient/Create", patient, "http://localhost:61820/", true);
 
             if (response != null)
             {
