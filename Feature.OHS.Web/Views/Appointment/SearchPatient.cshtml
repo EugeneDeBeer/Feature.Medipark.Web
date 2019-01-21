@@ -44,6 +44,11 @@
 
                     <div class=" col-sm-12">
                         <input name="id" id="id" type="hidden" />
+                        
+                        <input name="firstname" id="firstName" type="hidden" />
+                        <input name="lastname" id="lastName" type="hidden" />
+                        <input name="idNumber" id="idNumber" type="hidden" />
+
                         <label for="Date">Date <span>*</span></label>
                         <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
                         <label for="Time">Time <span>*</span></label>
@@ -359,6 +364,10 @@
 
                 var d = moment(calEvent.start).format("YYYY-MM-DD");
                 var t = moment(calEvent.start).format("HH:mm:ss");
+
+                $('#firstName').val(calEvent.firstName);
+                $('#lastName').val(calEvent.lastName);
+                $('#idNumber').val(calEvent.idNumber);
 
                 $('#id').val(calEvent.id);
                 $("#start").val(d);

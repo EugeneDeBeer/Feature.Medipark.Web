@@ -106,7 +106,25 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        
+        public IEnumerable<DashboardViewModel> InPatientsList()
+        {
+            var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetInPatients", "http://localhost:50577", "GET");
+            //var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetInPatients", _integrationSettings.SearchDevApiUrl, "GET");
+            if (request != null)
+                {
+                    var dynamicResponse = JsonConvert.DeserializeObject<List<DashboardViewModel>>(request.Message);
+                    if (dynamicResponse != null)
+                    {
+                        return dynamicResponse;
+                    }
+                    return null;
+                }
+                else
+                {
+                    return null;
+                }
+        }
+
         public dynamic AddContact(PatientPayloadViewModel patient)
         {
             var response = _integration.ResponseFromAPIPost("", "v1/ContactAddress/Contact/Create", patient, _integrationSettings.AdmissionsDevApiUrl, true);

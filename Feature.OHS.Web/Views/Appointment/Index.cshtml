@@ -140,6 +140,11 @@
 
                     <div class=" col-sm-12">
                         <input name="id" id="id" type="hidden" />
+
+                        <input name="firstname" id="firstName" type="hidden" />
+                        <input name="lastname" id="lastName" type="hidden" />
+                        <input name="idNumber" id="idNumber" type="hidden" />
+
                         <label for="Date">Date <span>*</span></label>
                         <input asp-for="Start" id="start" type="date" class="form-control" placeholder="">
                         <label for="Time">Time <span>*</span></label>
@@ -481,6 +486,8 @@
             eventColor: '#00bfff',
             events: "/Appointment/GetAppointments",
             eventClick: function(calEvent, jsEvent, view) {
+                console.log("Clicked appointment");
+                console.log(calEvent);
 
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
@@ -491,11 +498,18 @@
                 var t = moment(calEvent.start).format("HH:mm:ss");
 
                 $('#id').val(calEvent.id);
+
+                $('#firstName').val(calEvent.firstName);
+                $('#lastName').val(calEvent.lastName);
+                $('#idNumber').val(calEvent.idNumber);
+
                 $("#start").val(d);
                 $('#time').val(t);
                 $("#title").val(calEvent.title);
                 $("#Description").val(calEvent.description);
                 $('#appointmentModal').modal();
+
+                
 
             },
             dayClick: function(date, calEvent, jsEvent, view) {

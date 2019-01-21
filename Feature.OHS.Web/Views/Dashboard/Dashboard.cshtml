@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Feature.OHS.Web.ViewModels.PatientPayloadViewModel>
+﻿@model IEnumerable<Feature.OHS.Web.ViewModels.DashboardViewModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -61,7 +61,7 @@
         <div class="card-box">
             <h4 class="header-title m-t-0 m-b-30">Messages</h4>
 
-            <div class="inbox-widget slimscroll-alt" style="min-height: 302px;">
+            <div class="inbox-widget slimscroll-alt" style="min-height: 312px;">
                 <a href="#">
                     <div class="inbox-item">
                         <div class="inbox-item-img"><img src="assets/images/users/avatar-1.jpg" class="img-circle" alt=""></div>
@@ -136,9 +136,11 @@
     <div class="col-md-8">
         <div class="card-box">
             <h4 class="header-title m-t-0 m-b-30">
-                Recent Patients Added<h4>
+            In-patient List<h4>            
+
+            <div class="inbox-widget slimscroll-alt" style="min-height: 302px;">
                     <div class="table-responsive">
-                        <table class="table table-hover mails m-0 table table-actions-bar">
+                        <table class="table table-hover table-striped tavel-bordered mails m-0 table table-actions-bar">
                             <thead>
                                 <tr>
                                     <th style="width: 140px;">
@@ -157,7 +159,6 @@
                                             </ul>
                                         </div>
                                     </th>
-                                    <th>Patient ID</th>
                                     <th>Name</th>
                                     <th>Surname</th>
                                     <th>Email</th>
@@ -171,26 +172,25 @@
                                 {
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                <div class="checkbox checkbox-primary m-r-15 m-l-5">
-                                                    <input id="checkbox2" type="checkbox">
-                                                    <label for="checkbox2"></label>
-                                                </div>
+                                <tr>
+                                    <td>
+                                        <div class="checkbox checkbox-primary m-r-15 m-l-5">
+                                            <input id="checkbox2" type="checkbox">
+                                            <label for="checkbox2"></label>
+                                        </div>
 
-                                                <img src="assets/images/users/avatar-2.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
-                                            </td>
-                                            <td> @Html.DisplayFor(modelItem => item.PersonId)</td>
+                                        <img src="/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
+                                    </td>
 
-                                            <td> @Html.DisplayFor(modelItem => item.FirstName)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.FirstName)</td>
 
-                                            <td> @Html.DisplayFor(modelItem => item.LastName)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.LastName)</td>
 
-                                            <td> @Html.DisplayFor(modelItem => item.Email1)</td>
+                                    <td> @Html.DisplayFor(modelItem => item.Email1)</td>
 
-                                            <td> @Html.DisplayFor(modelItem => item.IdNumber)</td>
-                                        </tr>
-
+                                    <td> @Html.DisplayFor(modelItem => item.CellPhone)</td>
+                                    @*<td> @Html.DisplayFor(modelItem => item.IdNumber)</td>*@
+                                </tr>
                                     }
                                 }
 
@@ -198,7 +198,7 @@
                         </table>
 
                     </div>
-
+            </div>
 
 
 
@@ -207,9 +207,9 @@
 
 
         </div>
-        <!-- end col -->
+    <!-- end col -->
 
-    </div>
+</div>
     <!-- end row -->
 
 
