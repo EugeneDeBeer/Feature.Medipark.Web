@@ -9,7 +9,7 @@ namespace Feature.OHS.Web.ViewModels
     public class PersonViewModel
     {
         public int UserId { get; set; }
-
+        public int DoctorId { get; set; }
         [Required]
         public string Title { get; set; }
       

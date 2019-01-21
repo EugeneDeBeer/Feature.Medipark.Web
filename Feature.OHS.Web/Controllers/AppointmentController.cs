@@ -111,7 +111,8 @@ namespace Feature.OHS.Web.Controllers
             {
                 return RedirectToAction("Login", nameof(Account), new { returnUrl = Url.Action(nameof(AppointmentController.Theatre), "Appointment") });
             }
-
+            List<SelectListItem> slots = _appointmentHandler.AvailableTime("20");
+            ViewData["Timeslots"] = slots;
             var doctors = _doctorHandler.Doctors;
 
             if (doctors.Any())
@@ -190,7 +191,7 @@ namespace Feature.OHS.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     appointmentViewModel.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
-
+                    appointmentViewModel.DoctorId = _appointmentHandler.GetDoctorIdByUseId(appointmentViewModel.UserId);
                     var result = _appointmentHandler.Create(appointmentViewModel);
                     if (result != null)
                     {
@@ -257,14 +258,13 @@ namespace Feature.OHS.Web.Controllers
         public JsonResult GetAppointments()
         {
             var userId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
-
+           
             try
             {
                 var doctorId = _appointmentHandler.GetDoctorIdByUseId(userId);
                 var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId, 1);
                 ViewBag.Patients = appointments;
-
-
+             
                 return new JsonResult(appointments);
             }
             catch (Exception e)
@@ -274,7 +274,7 @@ namespace Feature.OHS.Web.Controllers
             }
         }
         public JsonResult GetTheatreAppointments()
-        {
+        {  
             try
             {
                 var appointments = _appointmentHandler.GetTheatreAppointments;
