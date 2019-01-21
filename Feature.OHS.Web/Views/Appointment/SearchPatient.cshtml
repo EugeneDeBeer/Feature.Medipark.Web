@@ -209,7 +209,7 @@
 
                                 <div class="form-group">
                                     <label for="Date">Time<span></span></label>
-                                    <input asp-for="Time" type="time" class="form-control" placeholder="">
+                                    <select asp-for="Time" asp-items="ViewBag.Timeslots " class="form-control" style="width:100%"></select>
                                     <span asp-validation-for="Time" class="text-danger"></span>
                                 </div>
 

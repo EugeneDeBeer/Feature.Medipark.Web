@@ -153,6 +153,7 @@
                 <div class="modal-body" style="height:70%; width:100%;">
 
                     <div class=" col-sm-12">
+                        <input asp-for="AppointmentTypeDescription" value="theatre" />
                         <input name="id" id="id" type="hidden" />
                         <label for="Date">Date <span>*</span></label>
                         <input asp-for="Start" id="start" type="text" class="form-control" placeholder="">
@@ -313,7 +314,7 @@
                                 </div>
 
                                 <div class="form-group form-inline">
-                                    <label for="Docotr">Doctor <span>*</span></label>
+                                    <label for="Doctor">Doctor <span>*</span></label>
                                     <select asp-for="DoctorId" asp-items="ViewBag.Doctors" class="form-control" style="width:100%"></select>
                                 </div>
                             </div>

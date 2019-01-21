@@ -169,7 +169,7 @@ namespace Feature.OHS.Web.Domain
         public AppointmentViewModel TheatreCreate(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";
-            appointmentViewModel.AppointmentTypeDescription = "theatre";
+          //  appointmentViewModel.AppointmentTypeDescription = "theatre";
             appointmentViewModel.EventDescription = $"creating theatre appointment for{appointmentViewModel.FirstName}";
             appointmentViewModel.EventTypeDescription = "book appointment";
             appointmentViewModel.EventTypeShortDescription = "private practice";
@@ -241,7 +241,7 @@ namespace Feature.OHS.Web.Domain
         public dynamic Update(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";
-            appointmentViewModel.AppointmentTypeDescription = "doctor";
+            //appointmentViewModel.AppointmentTypeDescription = "doctor";
             appointmentViewModel.EventDescription = $"updating doctor appointment for{appointmentViewModel.FirstName}";
             appointmentViewModel.EventTypeDescription = "book appointment";
             appointmentViewModel.EventTypeShortDescription = "private practice";
@@ -254,7 +254,8 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.Start += tm;
             appointmentViewModel.AppointmentId = appointmentViewModel.Id;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+           var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+          //  var _response = _integration.ResponseFromAPIPost("", "v1/Appointment/Update", appointmentViewModel, "https://localhost:44370/", true);
 
             if (_response != null)
             {

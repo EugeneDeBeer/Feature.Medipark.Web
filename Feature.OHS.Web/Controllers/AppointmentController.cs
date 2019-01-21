@@ -68,6 +68,8 @@ namespace Feature.OHS.Web.Controllers
 
         public ActionResult SearchPatient(AppointmentViewModel model)
         {
+            List<SelectListItem> slots = _appointmentHandler.AvailableTime("20");
+            ViewData["Timeslots"] = slots;
             if (model == null)
                 return View(new AppointmentViewModel());
 
@@ -85,6 +87,7 @@ namespace Feature.OHS.Web.Controllers
         //}
         public ActionResult SearchAppointment(string id)
         {
+         
             try
             {
                 if (id == null)
