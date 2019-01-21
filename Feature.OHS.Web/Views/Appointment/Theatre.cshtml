@@ -325,7 +325,9 @@
                             <div class="col-sm-6">
                                 <div class="form-group form-inline">
                                     <label for="Time">Time<span></span></label>
-                                    <input asp-for="Time" type="time" min="07:00" max="19:00" class="form-control" style="width:100%" placeholder="" >
+                                    <!--  <input asp-for="Time" type="time" min="07:00" max="19:00" class="form-control" style="width:100%" placeholder="" >-->
+
+                                    <select asp-for="Time" asp-items="ViewBag.Timeslots " class="form-control" style="width:100%"></select>
                                     <span asp-validation-for="Time" class="text-danger"></span>
                                 </div>
                                 

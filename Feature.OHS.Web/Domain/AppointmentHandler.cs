@@ -87,40 +87,10 @@ namespace Feature.OHS.Web.Domain
             }
         }
 
-        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId, int typeId)
+        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsByDoctorId(int doctorId ,int typeId)
         {
-            //var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}", "http://localhost:50577", "GET");
             var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsByDoctorId/{doctorId}/{typeId}", _integrationSettings.SearchDevApiUrl, "GET");
-
-            if (request != null)
-            {
-                var patientIndex = 0;
-                var Response = JsonConvert.DeserializeObject<IEnumerable<AppointmentViewModel>>(request.Message);
-                var appointmentList = new List<AppointmentViewModel>();
-
-                foreach (var item in Response)
-                {
-                    appointmentList.Add(item);
-                    appointmentList[patientIndex].Id = item.AppointmentId;
-                    patientIndex++;
-                }
-
-                if (appointmentList != null)
-                {
-                    return appointmentList;
-                }
-                return null;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public IEnumerable<AppointmentViewModel> GetTheaterAppointmentsBySecretaryUserId(int secretaryId)
-        {
-            var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsBySecretaryId/{secretaryId}", "http://localhost:50577", "GET");
-            //var request = _integration.ResponseFromAPIGet("Get Patient", $"AppointmentsBySecretaryId/{secretaryId}", _integrationSettings.SearchDevApiUrl, "GET");
+            //var request = _integration.ResponseFromAPIGet("Get Patient", "Get/Appointments", _integrationSettings.SearchDevApiUrl, "GET");
 
             if (request != null)
             {
@@ -158,12 +128,12 @@ namespace Feature.OHS.Web.Domain
             appointmentViewModel.StatusTypeShortDescription = "appointment";
             appointmentViewModel.PersonTypeDescription = "individual";
             appointmentViewModel.PersonTypeShortDescription = "person";
-
+            
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
             var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
-            //var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370", true);
+           // var _appointmentResponse = _integration.ResponseFromAPIPost("", "v1/Appointment/Create", appointmentViewModel, "https://localhost:44370", true);
 
             if (_appointmentResponse != null)
             {
@@ -211,7 +181,8 @@ namespace Feature.OHS.Web.Domain
             var tm = TimeSpan.Parse(appointmentViewModel.Time);
             appointmentViewModel.Start += tm;
             appointmentViewModel.End = appointmentViewModel.Start.AddMinutes(60);
-            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Create/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+            var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Theatre", appointmentViewModel, _integrationSettings.AppointmentsDevApiUrl, true);
+          //  var _appointmentResponse = _integration.ResponseFromAPIPost("", "/v1/Appointment/Theatre", appointmentViewModel, "https://localhost:44370", true);
 
             if (_appointmentResponse != null)
             {
@@ -313,6 +284,24 @@ namespace Feature.OHS.Web.Domain
             new SelectListItem {Value = "15:00",  Text = "15:00 "},
             new SelectListItem {Value = "16:00",  Text = "16:00 "}
             };
+        }
+
+        public int GetDoctorIdByUseId(int userId)
+        {
+            //var request = _integration.ResponseFromAPIGet("", "Get/DoctorId?=" + userId,
+            //    _integrationSettings.SearchDevApiUrl, "GET");
+            var request = _integration.ResponseFromAPIGet("", "Get/DoctorId?=" + userId,
+              _integrationSettings.SearchDevApiUrl, "GET");
+
+            if (request != null)
+            {
+                var _response = JsonConvert.DeserializeObject<int>(request.Message);
+                return _response;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

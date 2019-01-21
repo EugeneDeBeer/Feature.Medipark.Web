@@ -32,15 +32,15 @@ namespace Feature.OHS.Web.ViewModels
         public string LastName { get; set; }
 
         
-        [StringLength(13, ErrorMessage = "Id Number must be  13 digits", MinimumLength =13)]
-        [DataType(DataType.Text)]
-        [Required]
+        //[StringLength(13, ErrorMessage = "Id Number must be  13 digits", MinimumLength =13)]
+        //[DataType(DataType.Text)]
+        //[Required]
         public string IdNumber { get; set; }
 
         public string SearchIdNumber { get; set; }
         public string PatientIdNumber { get; set; }
 
-        [Required]
+      //  [Required]
         public string Time { get; set; }
         public DateTime? DateCreated { get; set; }
         public bool? IsActive { get; set; }

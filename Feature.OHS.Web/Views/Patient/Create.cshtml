@@ -897,7 +897,9 @@
                                                 <label for="medicalaidschemenumber">Medical Aid Scheme Number <span>*</span></label>
                                                 <input type="number" class="form-control" id="medical-aid-scheme-number" placeholder="">
                                             </div>
-
+                                            <a  class="btn btn-warning" data-toggle="modal" data-target="#iframeModal">
+                                                Verify Account <i class="fas fa-check-circle"></i>
+                                            </a>
                                             <div class="form-group form-inline">
                                                 <label for="">Main Member Details</label>
 
@@ -968,11 +970,11 @@
 
                                 <div class="col-lg-6">
                                     @*<div class="uploader" onclick="$('#filePhoto').click()">Scan & Upload Medical Aid</div>
-                                        <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+            <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
 
-                                        <div class="clearfix">
-                                            <br/>
-                                        </div>*@
+            <div class="clearfix">
+                <br/>
+            </div>*@
                                     <div class="panel">
                                         <div class="panel-body">
                                             <div class="form-group form-inline">
@@ -1031,7 +1033,33 @@
                                 @*End Average Gift Size Percent Change Field 2*@
                                 <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
                                 <input type="button" data-page="4" name="next" class="next action-button" value="Save & Continue" />
+                               
+                                <!--===============================iFRAME MODAL=================================-->
+                                <div class="modal fade" id="iframeModal" style="width:85%" tabindex="-1" role="dialog"
+                                     aria-labelledby="iframeModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="display:grid;height: 800px;width:100%;"
+                                         role="document">
+                                        <div class="modal-content" style="width:100%">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="iframeModalLabel">
+                                                    Medical Aid
+                                                    Verification
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style="height:600px">
+                                                <iframe style="width:100%; height:100%;" src="http://www.methealth.com.na/edoc/PSEMAS/member_info_psemas_results.php?username=hong001&password=atwb245"></iframe>
+                                            </div>
+                                            <div class="modal-footer">
 
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Proceed</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </fieldset>
 
 
