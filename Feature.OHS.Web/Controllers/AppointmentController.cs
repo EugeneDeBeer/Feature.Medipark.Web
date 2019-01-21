@@ -310,14 +310,28 @@ namespace Feature.OHS.Web.Controllers
             {
                 if (model == null)
                 {
-                    ViewBag.Error = "Ooops something went wrong please try again";
+                    ViewBag.ErrorMessage = "Ooops something went wrong please try again";
                     return View("Index");
                 }
+                if (model.IdNumber == null)
+                {
+                    ViewBag.ErrorMessage = "Ooops something went wrong. The patient booked has an incorrect id number";
+                    return View("Index");
+                }
+
+                if (model.FirstName == null || model.LastName == null)
+                {
+                    ViewBag.ErrorMessage = "Ooops something went wrong. The patient is missing a first name or last name.";
+                    return View("Index");
+                }
+
+
                 model.AppointmentId = model.Id;
+                model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
                 var result = _appointmentHandler.CancelAppointment(model);
                 if (result == null)
                 {
-                    ViewBag.ErrorMessage = "Oops sorry, failed to cancel the appointment please try again";
+                    ViewBag.ErrorMessage = "Oops something went wrong, failed to cancel the appointment please try again";
                     return View("Index");
                 }
                 return View("Index", result);
