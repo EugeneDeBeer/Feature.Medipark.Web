@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Feature.OHS.Web.Helper;
+﻿using Feature.OHS.Web.Helper;
 using Feature.OHS.Web.Interfaces;
 using Feature.OHS.Web.Models;
 using Feature.OHS.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 
 namespace Feature.OHS.Web.Controllers
 {
@@ -18,11 +16,11 @@ namespace Feature.OHS.Web.Controllers
     {
         private readonly IAppointmentHandler _appointmentHandler;
         private readonly IDoctorHandler _doctorHandler;
+
         public AppointmentController(IAppointmentHandler appointmentHandler, IDoctorHandler doctorHandler)
         {
             _appointmentHandler = appointmentHandler;
             _doctorHandler = doctorHandler;
-
         }
 
         // GET: DoctorsAppointment
@@ -87,12 +85,10 @@ namespace Feature.OHS.Web.Controllers
         //}
         public ActionResult SearchAppointment(string id)
         {
-         
             try
             {
                 if (id == null)
                 {
-
                     ViewBag.ErrorMessage = "Please Enter a valid ID Number";
                     return View("Index");
                 }
@@ -134,15 +130,11 @@ namespace Feature.OHS.Web.Controllers
                 //    new SelectListItem() { Value = u.DoctorId.ToString(), Text = $"{u.FirstName} {u.LastName}" }
                 //}), "Value", "Text");
 
-
                 //ViewData["Doctors"] = new SelectList(doctors.Select(u => new
                 //{
                 //    u.DoctorId,
                 //    FullName = $"{u.FirstName} {u.LastName}"
                 //}), "DoctorId", "FullName");
-
-
-
             }
 
             return View(model.AppointmentId > 0 ? model : new AppointmentViewModel());
@@ -258,17 +250,16 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-
         public JsonResult GetAppointments()
         {
             var userId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
-           
+
             try
             {
                 var doctorId = _appointmentHandler.GetDoctorIdByUseId(userId);
                 var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId, 1);
                 ViewBag.Patients = appointments;
-             
+
                 return new JsonResult(appointments);
             }
             catch (Exception e)
@@ -277,8 +268,9 @@ namespace Feature.OHS.Web.Controllers
                 return null;
             }
         }
+
         public JsonResult GetTheatreAppointments()
-        {  
+        {
             try
             {
                 var appointments = _appointmentHandler.GetTheatreAppointments;
@@ -296,7 +288,7 @@ namespace Feature.OHS.Web.Controllers
         {
             try
             {
-                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId,2);
+                var appointments = _appointmentHandler.GetTheaterAppointmentsByDoctorId(doctorId, 2);
                 return new JsonResult(appointments);
             }
             catch (Exception e)
@@ -306,28 +298,21 @@ namespace Feature.OHS.Web.Controllers
             }
         }
 
-
         public ActionResult CancelAppointment(AppointmentViewModel model)
         {
             try
             {
-                if (model == null)
-                {
-                    ViewBag.ErrorMessage = "Ooops something went wrong please try again";
-                    return View("Index");
-                }
-                if (model.IdNumber == null)
-                {
-                    ViewBag.ErrorMessage = "Ooops something went wrong. The patient booked has an incorrect id number";
-                    return View("Index");
-                }
+                //if (model == null)
+                //{
+                //    ViewBag.ErrorMessage = "Ooops something went wrong please try again";
+                //    return View("Index");
+                //}
 
-                if (model.FirstName == null || model.LastName == null)
-                {
-                    ViewBag.ErrorMessage = "Ooops something went wrong. The patient is missing a first name or last name.";
-                    return View("Index");
-                }
-
+                //if (model.FirstName == null || model.LastName == null)
+                //{
+                //    ViewBag.ErrorMessage = "Ooops something went wrong. The patient is missing a first name or last name.";
+                //    return View("Index");
+                //}
 
                 model.AppointmentId = model.Id;
                 model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
@@ -337,7 +322,11 @@ namespace Feature.OHS.Web.Controllers
                     ViewBag.ErrorMessage = "Oops something went wrong, failed to cancel the appointment please try again";
                     return View("Index");
                 }
-                return View("Index", result);
+                //return View("Index", result);
+                if (model.AppointmentTypeDescription == "doctor")
+                    return RedirectToAction(nameof(Index));
+                else
+                    return RedirectToAction(nameof(Theatre));
             }
             catch (Exception e)
             {
