@@ -317,6 +317,7 @@ namespace Feature.OHS.Web.Controllers
                     return View("Index");
                 }
                 model.AppointmentId = model.Id;
+                model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;
                 var result = _appointmentHandler.CancelAppointment(model);
                 if (result == null)
                 {
