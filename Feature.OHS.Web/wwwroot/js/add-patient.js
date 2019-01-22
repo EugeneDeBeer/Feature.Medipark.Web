@@ -464,7 +464,7 @@ $(function () {
     //  Caters for postal address if it's the same as residential
 
     $("input[name='sameaddress']").click(function () {
-        if ($(this).prop("checked") == true) {
+        if ($(this).prop("checked") === true) {
             $("input[name='postalBox']").val($("input[name='busAddress']").val()).prop("disabled", true);
             $("input[name='busPostCode']").val($("input[name='resPostCode']").val()).prop("disabled", true);
         }

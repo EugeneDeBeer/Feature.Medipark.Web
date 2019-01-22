@@ -110,8 +110,9 @@ namespace Feature.OHS.Web.Domain
 
         public IEnumerable<DashboardViewModel> InPatientsList()
         {
-            var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetInPatients", "http://localhost:50577", "GET");
-            //var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetInPatients", _integrationSettings.SearchDevApiUrl, "GET");
+            var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetInPatients", _integrationSettings.SearchDevApiUrl, "GET");
+            //var request = _integration.ResponseFromAPIGet("Get Patient", "v1/Patient/GetInPatients", "http://localhost:50577", "GET");
+
             if (request != null)
                 {
                     var dynamicResponse = JsonConvert.DeserializeObject<List<DashboardViewModel>>(request.Message);
