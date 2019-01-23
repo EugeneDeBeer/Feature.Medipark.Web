@@ -56,8 +56,9 @@ namespace Feature.OHS.Web.Controllers
                 try
                 {
                     model.UserId = HttpContext.Session.GetObject<PersonViewModel>("User").UserId;   //  Gets the UserId of the currently logged in user
+                    model.PersonId = PersonId.Id;
                     var result = _patientHandler.AddPatient(model);
-                    PersonId.Id = result.PersonId;
+                 
                     return RedirectToAction(nameof(Index));
                 }
                 catch
