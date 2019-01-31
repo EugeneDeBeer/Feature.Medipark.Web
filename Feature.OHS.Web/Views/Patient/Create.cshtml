@@ -18,32 +18,44 @@
     </script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             var current_fs, next_fs, previous_fs;
             var left, opacity, scale;
             var animating;
+
+            $("#personCreateId").prop("disabled", "disabled");
+            $("#IdNumber").on("keypress", function () {
+                if ($(this).val() != "") {
+                    $("#personCreateId").prop("disabled", true);
+                } else {
+                    $("#personCreateId").prop("disabled", "disabled");
+                }
+
+            }
+             
+
             $(".add-patient").validate({
                 errorClass: 'invalid',
                 errorElement: 'span',
-                errorPlacement: function(error, element) {
+                errorPlacement: function (error, element) {
                     error.insertAfter(element.next('span').children());
                 },
-                highlight: function(element) {
+                highlight: function (element) {
                     $(element).next('span').show();
                 },
-                unhighlight: function(element) {
+                unhighlight: function (element) {
                     $(element).next('span').hide();
                 }
             });
 
-            $("#snap").click(function() {
+            $("#snap").click(function () {
                 var pic = document.getElementById("canvas").toDataURL("image/png");
                 pic = pic.replace('data:image/png;base64,', '');
                 $("#Image").val(pic);
 
             });
 
-            $(".next").click(function() {
+            $(".next").click(function () {
 
 
                 if (animating) return false;
@@ -53,10 +65,10 @@
                 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
                 next_fs.show();
                 current_fs.animate({
-                        opacity: 0
-                    },
+                    opacity: 0
+                },
                     {
-                        step: function(now, mx) {
+                        step: function (now, mx) {
                             scale = 1 - (1 - now) * 0.2;
                             left = (now * 50) + "%";
                             opacity = 1 - now;
@@ -69,7 +81,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function() {
+                        complete: function () {
                             current_fs.hide();
                             animating = false;
                         },
@@ -77,7 +89,7 @@
                     });
             });
 
-            $(".previous").click(function() {
+            $(".previous").click(function () {
                 if (animating) return false;
                 animating = true;
                 current_fs = $(this).parent();
@@ -85,10 +97,10 @@
                 $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
                 previous_fs.show();
                 current_fs.animate({
-                        opacity: 0
-                    },
+                    opacity: 0
+                },
                     {
-                        step: function(now, mx) {
+                        step: function (now, mx) {
                             scale = 0.8 + (1 - now) * 0.2;
                             left = ((1 - now) * 50) + "%";
                             opacity = 1 - now;
@@ -101,7 +113,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function() {
+                        complete: function () {
                             current_fs.hide();
                             animating = false;
                         },
@@ -109,17 +121,17 @@
                     });
             });
 
-            $(".submit").click(function() {
+            $(".submit").click(function () {
                 $(".add-patient").validate({
                     errorClass: 'invalid',
                     errorElement: 'span',
-                    errorPlacement: function(error, element) {
+                    errorPlacement: function (error, element) {
                         error.insertAfter(element.next('span').children());
                     },
-                    highlight: function(element) {
+                    highlight: function (element) {
                         $(element).next('span').show();
                     },
-                    unhighlight: function(element) {
+                    unhighlight: function (element) {
                         $(element).next('span').hide();
                     }
                 });
@@ -133,10 +145,10 @@
                 $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
                 next_fs.show();
                 current_fs.animate({
-                        opacity: 0
-                    },
+                    opacity: 0
+                },
                     {
-                        step: function(now, mx) {
+                        step: function (now, mx) {
                             scale = 1 - (1 - now) * 0.2;
                             left = (now * 50) + "%";
                             opacity = 1 - now;
@@ -149,7 +161,7 @@
                             });
                         },
                         duration: 800,
-                        complete: function() {
+                        complete: function () {
                             current_fs.hide();
                             animating = false;
                         },
@@ -164,7 +176,7 @@
                 var indexed_array = {};
 
                 $.map(unindexed_array,
-                    function(n, i) {
+                    function (n, i) {
                         indexed_array[n['name']] = n['value'];
                     });
 
@@ -182,7 +194,7 @@
             }
 
             $("#IdentityType").on('click',
-                function(e) {
+                function (e) {
 
                     var selected = $(this).val();
 
@@ -205,7 +217,7 @@
                 });
 
             $("input[name='dateOfBirth']").on('blur',
-                function() {
+                function () {
                     var dob = new Date(this.value);
 
                     $("input[name='age']").val(isNaN(getAge(dob)) ? "" : getAge(dob));
@@ -213,12 +225,12 @@
 
             //  Caters for postal address if it's the same as residential
 
-            $("input[name='sameaddress']").click(function() {
+            $("input[name='sameaddress']").click(function () {
                 if ($(this).prop("checked") === true) {
                     $("input[name='postalBox']").val(
-                            `${$("input[name='Address1']").val()}, ${$("input[name='Address2']").val()}, ${$(
-                                "input[name='suburbTown']").val()}, 
-                        ${$("input[name='country']").val()}, ${$("input[name='resPostCode']").val()}`)
+                        `${$("input[name='Address1']").val()}, ${$("input[name='Address2']").val()}, ${$(
+                            "input[name='suburbTown']").val()},
+                            ${$("input[name='country']").val()}, ${$("input[name='resPostCode']").val()}`)
                         .prop("disabled", true);
                     $("input[name='resPostCode']").val($("input[name='resPostCode']").val()).prop("disabled", true);
                 } else {
@@ -252,7 +264,7 @@
             var autocomplete = new google.maps.places.Autocomplete(input);
 
             autocomplete.addListener('place_changed',
-                function() {
+                function () {
 
                     var place = autocomplete.getPlace();
                     if (!place.geometry) {
@@ -297,6 +309,7 @@
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3q95tmdl9H0015RADPk9TL55O_ti8iCM&libraries=places&callback=initMap" async defer></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 <iframe name="hiddenFrame" style="position:absolute; top:-1px; left:-1px; width:1px; height:1px;"></iframe>
 
@@ -509,7 +522,7 @@
                                 <div class="col-lg-12">
 
                                 </div>
-                                <input type="submit" data-page="1" formaction="CreatePerson" name="next" class="next action-button" value="Save & Continue" />
+                                <input type="submit" id="personCreateId" data-page="1" formaction="CreatePerson" name="next" class="next action-button" value="Save & Continue" />
 
                             </fieldset>
 
@@ -642,12 +655,12 @@
                                                 <div class="form-group">
 
                                                     @*<div class="row">
-                <div class="col-sm-12">
-                    <div class="form-group search-box">
-                        <input id="AddressSearch" type="text" class="form-control product-search" placeholder="Search address here...">
-                    </div>
-                </div>
-            </div>*@
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group search-box">
+                                                                    <input id="AddressSearch" type="text" class="form-control product-search" placeholder="Search address here...">
+                                                                </div>
+                                                            </div>
+                                                        </div>*@
 
 
                                                     <div class="col-sm-12">
@@ -730,25 +743,25 @@
 
                                                 <div class="form-group form-inline">
                                                     <label for="nokName">Name <span>*</span></label>
-                                                    <input asp-for="NokFirstName" type="text" class="form-control" id="nokName" name="nokName" placeholder="">
+                                                    <input asp-for="NokFirstName" type="text" class="form-control" placeholder="">
                                                     <span asp-validation-for="NokFirstName" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-group form-inline">
                                                     <label for="nokSurname">Surname <span>*</span></label>
-                                                    <input asp-for="NokLastName" type="text" class="form-control" id="nokSurname" name="nokSurname" placeholder="">
+                                                    <input asp-for="NokLastName" type="text" class="form-control" placeholder="">
                                                     <span asp-validation-for="NokLastName" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-group form-inline">
                                                     <label for="nokContact">Contact Number <span>*</span></label>
-                                                    <input asp-for="CellPhone" type="text" class="form-control" id="nokContact" name="nokContact" placeholder="">
+                                                    <input asp-for="CellPhone" type="text" class="form-control" placeholder="">
                                                     <span asp-validation-for="CellPhone" class="text-danger"></span>
                                                 </div>
 
                                                 <div class="form-group form-inline">
                                                     <label for="nokEmail">Email <span>*</span></label>
-                                                    <input asp-for="NokEmail1" type="email" class="form-control" id="nok-email" name="nokEmail" placeholder="">
+                                                    <input asp-for="NokEmail1" type="email" class="form-control" placeholder="">
                                                     <span asp-validation-for="NokEmail1" class="text-danger"></span>
                                                 </div>
 
@@ -924,7 +937,7 @@
                                                 <label for="medicalaidschemenumber">Medical Aid Scheme Number <span>*</span></label>
                                                 <input type="number" class="form-control" id="medical-aid-scheme-number" placeholder="">
                                             </div>
-                                            <a  class="btn btn-warning" data-toggle="modal" data-target="#iframeModal">
+                                            <a class="btn btn-warning" data-toggle="modal" data-target="#iframeModal">
                                                 Verify Account <i class="fas fa-check-circle"></i>
                                             </a>
                                             <div class="form-group form-inline">
@@ -997,11 +1010,11 @@
 
                                 <div class="col-lg-6">
                                     @*<div class="uploader" onclick="$('#filePhoto').click()">Scan & Upload Medical Aid</div>
-            <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
+                                        <input type="file" name="userprofile_picture" id="filePhoto" style="display:block;width:255px;" />
 
-            <div class="clearfix">
-                <br/>
-            </div>*@
+                                        <div class="clearfix">
+                                            <br/>
+                                        </div>*@
                                     <div class="panel">
                                         <div class="panel-body">
                                             <div class="form-group form-inline">
@@ -1060,7 +1073,7 @@
                                 @*End Average Gift Size Percent Change Field 2*@
                                 <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
                                 <input type="button" data-page="4" name="next" class="next action-button" value="Save & Continue" />
-                               
+
                                 <!--===============================iFRAME MODAL=================================-->
                                 <div class="modal fade" id="iframeModal" style="width:85%" tabindex="-1" role="dialog"
                                      aria-labelledby="iframeModalLabel" aria-hidden="true">

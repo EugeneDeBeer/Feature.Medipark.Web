@@ -13,14 +13,14 @@ namespace Feature.OHS.Web.ViewModels
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public string Initials { get; set; }
-        // [Required(ErrorMessage = "First Name is Required")]
+         [Required(ErrorMessage = "First Name is Required")]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
-        // [Required(ErrorMessage = "Last Name is Required")]
+         [Required(ErrorMessage = "Last Name is Required")]
         public string LastName { get; set; }
         // [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
-
+        [Required(ErrorMessage="ID Number can not be empty")]
         public string IdNumber { get; set; }
         public string PassportNumber { get; set; }
         public string Occupation { get; set; }
@@ -43,7 +43,15 @@ namespace Feature.OHS.Web.ViewModels
         public string CellPhone { get; set; }
         public string Fax1 { get; set; }
         public string Fax2 { get; set; }
+
+
+        //[Required(ErrorMessage = "Please enter your email address as your {0}")]
+        //[DataType(DataType.EmailAddress)]
         public string Email1 { get; set; }
+
+
+        //[Required(ErrorMessage = "Please enter your email address as your {0}")]
+        //[DataType(DataType.EmailAddress)]
         public string Email2 { get; set; }
  
         public sbyte? IsActive { get; set; }
