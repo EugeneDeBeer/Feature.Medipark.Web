@@ -40,8 +40,8 @@ namespace Feature.OHS.Web.Domain
             //  To be changed once we have the login module setup
             //person.UserId = 1;
 
-            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:44358/", true);
-          //  var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, _integrationSettings.UsersDevApiUrl, true);
+            //var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, "https://localhost:44358/", true);
+            var response = _integration.ResponseFromAPIPost("", "v1/Registration/Create", person, _integrationSettings.UsersDevApiUrl, true);
 
             if (response != null)
             {
@@ -136,7 +136,8 @@ namespace Feature.OHS.Web.Domain
         public dynamic SendEmail(MailViewModel mailViewModel)
         {
 
-            var response = _integration.ResponseFromAPIPost("", "/v1/Mail/Mail", mailViewModel, _integrationSettings.EmailDevApiUrl, true);
+            var response = _integration.ResponseFromAPIPost("", "/v1/Mail/Mail", mailViewModel, "https://localhost:44345", true);
+            //var response = _integration.ResponseFromAPIPost("", "/v1/Mail/Mail", mailViewModel, _integrationSettings.EmailDevApiUrl, true);
 
             if (response != null)
             {

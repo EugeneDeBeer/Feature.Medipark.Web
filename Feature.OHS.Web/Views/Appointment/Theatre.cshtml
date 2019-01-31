@@ -3,12 +3,12 @@
 @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
 {
     <div class="containerbox hidden">
-        
+
         <div class="card-box">
             <div class="card-body">
                 <h3 class="text-danger page-message text-center" id="errorMessage">@ViewBag.ErrorMessage</h3>
             </div>
-        </div>        
+        </div>
     </div>
 }
 
@@ -22,9 +22,31 @@
     }
 </style>
 
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @@keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+
 <div class="row">
     <h2 class="text-center">Surgical Ward Schedule Bookings</h2>
-    
     
     <div class="col-sm-12">
         <div class="panel-group">
@@ -34,31 +56,31 @@
                         <a data-toggle="collapse" href="#doctorFilter">Filter By Doctor</a>
                     </h4>
                 </div>
-                <div id="doctorFilter" class="panel-collapse collapse">                    
+                <div id="doctorFilter" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <div class="row">
-                            @*<div class="col-sm-12">
-                                <form>
-                                    <div class="form-group search-box">
-                                        <input asp-for="PatientIdNumber" type="text" class="form-control product-search" placeholder="Search doctor here...">
-                                        <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
+                        @*<div class="row">
+                            <div class="col-sm-12">
+                                    <form>
+                                        <div class="form-group search-box">
+                                            <input id="doctorSearch" type="text" class="form-control product-search" placeholder="Search doctor here...">
+                                            <a id="appointmentSearchId" type="submit" name="search" class="btn btn-search"><i class="fa fa-search"></i></a>
 
-                                    </div>
-                                </form>
-                            </div>*@
+                                        </div>
+                                    </form>
+                                </div>
 
-                            @*<div class="col-sm-2">
-                <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
-            </div>
-            <div class="col-sm-2">
-                <a href="/Doctors/Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
-            </div>*@
-                        </div>
+                            <div class="col-sm-2">
+                                    <a class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30" onclick="advancedSearch()"><i class="md md-add"></i> Advanced Search</a>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a href="/Doctors/Create" class="btn btn-success btn-rounded btn-md waves-effect waves-light m-b-30"> Add New Doctor</a>
+                                </div>
+                        </div>*@
 
                         @if (ViewBag.Doctors != null)
                         {
                             <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-                                
+
                                 <ol class="carousel-indicators">
                                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                                     <li data-target="#myCarousel" data-slide-to="1"></li>
@@ -71,23 +93,20 @@
 
                                         foreach (var doctor in ViewBag.Doctors as SelectList)
                                         {
-                                            
+
                                             //if (Convert.ToInt32(doctor.Value) % 6 != 0)
                                             if (counter <= 6)
                                             {
-                                                var picName = $"Dr {doctor.Text}.jpg"; 
+                                                var picName = $"Dr {doctor.Text}.jpg";
 
                                                 <div class="item active">
                                                     <a href="void:javascript(0)" onclick="redrawCalendar(@doctor.Value);">
 
                                                         <div class="col-sm-2">
-                                                            <div class="col-sm-1"></div>
-                                                            <div class="col-sm-10">
+                                                            <div class="col-sm-12">
                                                                 <img src="/images/doctors/@picName" alt="user-img" class="img-circle user-img" width:100% height:100% />
                                                                 <h4 class="text-primary text-center">@doctor.Text</h4>
                                                             </div>
-                                                            <div class="col-sm-1"></div>
-
                                                         </div>
                                                     </a>
                                                 </div>
@@ -100,14 +119,11 @@
                                                     <a href="void:javascript(0)" onclick="redrawCalendar(@doctor.Value);">
 
                                                         <div class="col-sm-2">
-                                                            <div class="col-sm-1"></div>
-                                                            <div class="col-sm-10">
+                                                            <div class="col-sm-12">
                                                                 @*<img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:100% height:100% />*@
                                                                 <img src="/images/doctors/@picName" alt="user-img" class="img-circle user-img" width:100% height:100% />
                                                                 <h4 class="text-primary text-center">@doctor.Text</h4>
                                                             </div>
-                                                            <div class="col-sm-1"></div>
-
                                                         </div>
                                                     </a>
                                                 </div>
@@ -127,7 +143,7 @@
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-                            
+
                         }
                     </div>
                 </div>
@@ -135,8 +151,16 @@
         </div>
     </div>
     
+    <div class="col-sm-12" id="loader">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 col-sm-offset-5">
+            <div class="loader " style="padding: 10%; width: 50px; height: 50px;"></div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
     <div class="clearfix">
-        <hr/>
+        <hr />
     </div>
     <div class="col-sm-12" id='calendar'></div>
 
@@ -160,7 +184,7 @@
                     <div class=" col-sm-12">
                         <input asp-for="AppointmentTypeDescription" value="theatre" type="hidden" />
                         <input name="id" id="id" type="hidden" />
-                        
+
                         <input name="firstname" id="firstName" type="hidden" />
                         <input name="lastname" id="lastName" type="hidden" />
                         <input name="idNumber" id="idNumber" type="hidden" />
@@ -170,7 +194,20 @@
                         <label for="Time">Time <span>*</span></label>
                         <input asp-for="Time" id="time" type="time" class="form-control" placeholder="">
                         <label for="Title">Subject <span>*</span></label>
-                        <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                        @*<input asp-for="Title" id="title" type="text" class="form-control" placeholder="">*@
+                        <select asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                            <optgroup label="Consultation">
+                                <option value="New Patient">New Patient</option>
+                                <option value="First Appointment">First Appointment</option>
+                                <option value="Prescription">Prescription</option>
+                                <option value="Follow-Up">Follow-Up</option>
+                                <option value="Emergency"> Emergency </option>
+                                <option value="Emergency Consultation">Emergency Consultation</option>
+
+                                <option value="Off-site Consultation">Off-site Consultation</option>
+                                <option value="Hospital Consultation">Hospital Consultation</option>
+                            </optgroup>
+                        </select>
                         <label for="Description">Description <span>*</span></label>
                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>
 
@@ -206,73 +243,108 @@
 </div>
 
 <div class="modal fade" id="appointmentSuccess" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
-    
-        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
-            <div class="modal-content" style="width:100%">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="appointmentModalLabel">Confirmation</h5>
-                </div>
-                <div class="modal-body" style="height:70%; width:100%;">
 
-                    <div class=" col-sm-12">
-                        <div class="containerbox">
-                            <div class="card-box">
-                                <div class="card-body">
-                                    <h3 class="text-success text-center">Appointment has been created successfully!</h3>
-                                </div>
+    <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+        <div class="modal-content" style="width:100%">
+            <div class="modal-header">
+                <h5 class="modal-title" id="appointmentModalLabel">Confirmation</h5>
+            </div>
+            <div class="modal-body" style="height:70%; width:100%;">
+
+                <div class=" col-sm-12">
+                    <div class="containerbox">
+                        <div class="card-box">
+                            <div class="card-body">
+                                <h3 class="text-success text-center">Appointment has been created successfully!</h3>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+            </div>
+            <div class="row">
 
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">OK</button>
-                    </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="window.location.reload();">OK</button>
                 </div>
             </div>
         </div>
-   
+    </div>
+
 
 </div>
 
 @*<div class="modal fade" id="appointmentErrorModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
 
-    <form asp-action="appointmentError" asp-controller="Appointment" method="post">
-        <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
-            <div class="modal-content" style="width:100%">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="appointmentModalLabel">ERROR: Theater Appointment</h5>
-                </div>
-                <div class="modal-body" style="height:70%; width:100%;">
+        <form asp-action="appointmentError" asp-controller="Appointment" method="post">
+            <div class="modal-dialog" style="display:grid;height:70%; width:70%;" role="document">
+                <div class="modal-content" style="width:100%">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="appointmentModalLabel">ERROR: Theater Appointment</h5>
+                    </div>
+                    <div class="modal-body" style="height:70%; width:100%;">
 
-                    <div class=" col-sm-12">
-                        <div class="containerbox">        
-                            <div class="card-box">
-                                <div class="card-body">
-                                    <h3 class="text-danger page-message text-center">@ViewBag.ErrorMessage</h3>
+                        <div class=" col-sm-12">
+                            <div class="containerbox">
+                                <div class="card-box">
+                                    <div class="card-body">
+                                        <h3 class="text-danger page-message text-center">@ViewBag.ErrorMessage</h3>
+                                    </div>
                                 </div>
-                            </div>        
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
                         </div>
                     </div>
                 </div>
-                <div class="row">
+            </div>
+        </form>
 
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-12">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+    </div>*@
+
+<div class="modal fade" id="dateErrorModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="display:grid;height:20%; width:70%;" role="document">
+                <div class="modal-content" style="width:100%">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-custom m-b-5">ERROR: Appointment Date</h5>
+                    </div>
+                    <div class="modal-body" style="height:70%; width:100%;">
+                        
+                        <div class="card-box">
+                            <div class="card-body">
+                                <h3 class="text-danger page-message text-center">You cannot book an appointment on a passed day!</h3>
+                            </div>
+                        </div>
+                        @*<div class=" col-sm-12">
+                            <div class="containerbox">
+                                <div class="card-box">
+                                    <div class="card-body">
+                                        <h3 class="text-danger page-message text-center">You cannot book an appointment on a passed day!</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </div>
+                    <div class="row">
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-primary button-action btn-rounded" data-dismiss="modal">OK</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+    </div>
 
-</div>*@
-
-<div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">   
+<div class="modal fade" id="CreateAppointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
     <form id="theaterApppointmentCreateForm" asp-action="TheatreApppointment" asp-controller="Appointment" method="post">
         <div class="modal-dialog" style="display:grid;height:70%; width:100%;" role="document">
             <div class="modal-content" style="width:100%">
@@ -281,16 +353,16 @@
                     <h5 class="modal-title" id="appointmentModalLabel"> Create a Doctors Appointment</h5>
                 </div>
                 <div class="modal-body" style="height:70%; width:100%;">
-                    
-                        <div id="incompleteFormError" class="containerbox hidden">
-        
-                            <div class="card-box">
-                                <div class="card-body">
-                                    <h3 class="text-danger page-message text-center" id="errorMessage">Please Enter all the required fields</h3>
-                                </div>
-                            </div>        
+
+                    <div id="incompleteFormError" class="containerbox hidden">
+
+                        <div class="card-box">
+                            <div class="card-body">
+                                <h3 class="text-danger page-message text-center" id="errorMessage">Please Enter all the required fields</h3>
+                            </div>
                         </div>
-                    
+                    </div>
+
                     <div class="panel panel-default">
                         <div class="panel-heading">Patient Information </div>
                         <div class="panel-body">
@@ -312,7 +384,7 @@
                                     </select>
                                     <span class="text-danger"></span>
                                 </div>
-                                
+
                                 <div class="form-group form-inline">
                                     <label for="procedure-category"> Procedure Code Category <span>*</span></label>
                                     <select name="ReminderType" class="form-control select2 procedure-category" id="procedure-category" style="width:100%" placeholder="">
@@ -336,7 +408,7 @@
                                     <select asp-for="Time" asp-items="ViewBag.Timeslots " class="form-control" style="width:100%"></select>
                                     <span asp-validation-for="Time" class="text-danger"></span>
                                 </div>
-                                
+
                                 <div class="form-group form-inline">
                                     <label for="ReminderType">Reminder Via <span>*</span></label>
                                     <select name="ReminderType" class="form-control" style="width:100%" placeholder="">
@@ -351,17 +423,17 @@
                                     <label for="procedure-codes"> Procedure Code (ICD-10-PCS Codes) <span>*</span></label>
                                     <select class="form-control select2 procedure-codes" style="width:100%" placeholder="" id="procedure-codes">
                                         @*<option>-----None-----</option>
-                                        <option value="0">04B00ZZ (AAA)</option>
-                                        <option value="1">04B04ZZ (AAA)</option>
-                                        <option value="2">04R007Z (AAA)</option>
+                                            <option value="0">04B00ZZ (AAA)</option>
+                                            <option value="1">04B04ZZ (AAA)</option>
+                                            <option value="2">04R007Z (AAA)</option>
 
-                                        <option value="3">0X600ZZ (AMP)</option>
-                                        <option value="4">0X610ZZ (AMP)</option>
-                                        <option value="5">0X620ZZ (AMP)</option>*@
+                                            <option value="3">0X600ZZ (AMP)</option>
+                                            <option value="4">0X610ZZ (AMP)</option>
+                                            <option value="5">0X620ZZ (AMP)</option>*@
                                     </select>
                                     <span class="text-danger"></span>
                                 </div>
-                                
+
                             </div>
                             <div class="col-sm-12 ">
                                 <div class="form-group">
@@ -415,13 +487,14 @@
 
         //var errorMsg = $("#errorMessage").text();
 
+        //myFunction();
 
         //console.log(`ERROR: ${errorMsg}`);
 
         //if (errorMsg !== null || errorMsg !== undefined || errorMsg !== "") {
         //    if (errorMsg.length > 5) {
         //        $("#appointmentErrorModal").modal("show");
-        //    }                
+        //    }
         //} else {
         //    $("#appointmentErrorModal").modal("hide");
         //}
@@ -444,7 +517,7 @@
         };
 
         //
-        var $categorySelector = $("#procedure-category");            
+        var $categorySelector = $("#procedure-category");
 
         $categorySelector.on("change", (e) => {
             e.preventDefault();
@@ -464,7 +537,7 @@
 
                 //options.push(`<option value="${children[i].id}"> ${children[i].text} </option>`);
             }
-              
+
         });
 
         var appointments = [];
@@ -472,7 +545,7 @@
                 type: "Get",
                 url: "/Appointment/GetTheatreAppointments",
                 success: function (data) {
-                    //console.log(data);
+                    $("#loader").addClass('hidden');
 
                     $.each(data, function (i, v) {
                         //console.log(v);
@@ -499,7 +572,7 @@
 
         );
 
-          
+
         var patients = [];
         $.ajax({
             type: "Get",
@@ -518,7 +591,7 @@
                 //console.log(patients);
             },
             error: function (error) {
-                alert('failed')
+                //alert('failed')
 
             }
         });
@@ -542,9 +615,9 @@
                 center: 'title',
                 right: 'month,basicWeek,basicDay,agenda'
             }, buttonText: {
-                agenda:'Hours'
+                agenda: 'Hours'
             },
-            eventRender: function(event, $el) {
+            eventRender: function (event, $el) {
                 $el.popover({
                     html: true,
                     title: event.title,
@@ -554,8 +627,8 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-2"></div>
-                                        <div class="col-md-10">                
-                                            <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
+                                        <div class="col-md-10">
+                                            <img src="/images/doctors/${event.doctorName}.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
                                         </div>
                                         <div class="col-md-2"></div>
                                         <div class="col-md-12">
@@ -564,26 +637,28 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                     <p>Time: <b>${moment(event.start).format("HH:mm:ss")}</b></p>
+                                     <p>Time: <b>${moment(event.start).format("hh:mm:ss a")}</b></p>
                                 </div>
                                 <div class="col-md-12">
                                     <p>Description: <b>${event.description}</b></p>
                                 </div>
                             </div>
-                        `, 
+                        `,
                     trigger: 'hover',
                     placement: 'top',
                     container: 'body'
                 });
             },
             defaultDate: new Date(),
+            timeFormat: 'hh:mm a',
+            //timeFormat: 'H(:mm)', // uppercase H for 24-hour clock
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             selectable: true,
             eventLimit: true, // allow "more" link when too many events
             eventColor: '#00bfff',
             events: "/Appointment/GetTheatreAppointments",
-            eventClick: function(calEvent, jsEvent, view) {
+            eventClick: function (calEvent, jsEvent, view) {
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
@@ -604,13 +679,64 @@
                 $('#appointmentModal').modal();
             },
             dayClick: function (date, calEvent, jsEvent, view) {
-                $("#Start").val(date.format("YYYY-MM-DD"));
-                $('#CreateAppointmentModal').modal();
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                today = mm + '/' + dd + '/' + yyyy;
+                if (moment(today).format("YYYY-MM-DD") > date.format("YYYY-MM-DD")) {
+                    //alert("You cannot book an appointment on a passed day");
+
+                    $("#dateErrorModal").modal('show');
+                    return;
+                } else {
+                    $("#dateErrorModal").modal('hide');
+
+                    $("#Start").val(date.format("YYYY-MM-DD"));
+                    $('#CreateAppointmentModal').modal();
+                }
+
             },
-            select: function(startDate, endDate, calEvent, jsEvent, view) {
-                $('#CreateAppointmentModal').modal();
+            select: function (startDate, endDate, calEvent, jsEvent, view) {
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                today = mm + '/' + dd + '/' + yyyy;
+                if (moment(today).format("YYYY-MM-DD") > date.format("YYYY-MM-DD")) {
+                    //alert("You cannot book an appointment on a passed day");
+
+                    $("#dateErrorModal").modal('show');
+                    return;
+                } else {
+                    $("#dateErrorModal").modal('hide');
+
+                    $("#Start").val(date.format("YYYY-MM-DD"));
+                    $('#CreateAppointmentModal').modal();
+                }
+                //$('#CreateAppointmentModal').modal();
             },
-            eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
+            eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
@@ -629,12 +755,12 @@
         });
 
 
-        $("#submit").on('click', function(event) {
+        $("#submit").on('click', function (event) {
             event.preventDefault();
 
             var formData = $("#theaterApppointmentCreateForm").serializeArray();
 
-            console.log(getFormData(formData));
+            //console.log(getFormData(formData));
 
             $.ajax({
                 type: "POST",
@@ -672,14 +798,18 @@
 
             return indexed_array;
         }
-        
+
+
     });
 </script>
 
 <script type="text/javascript">
     function redrawCalendar(doctorId) {
-        $('#calendar').fullCalendar('destroy');
 
+        $("#loader").removeClass('hidden');
+
+        $('#calendar').fullCalendar('destroy');
+        
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -698,8 +828,8 @@
                                 <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-md-2"></div>
-                                        <div class="col-md-10">                
-                                            <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
+                                        <div class="col-md-10">
+                                            <img src="/images/doctors/${event.doctorName}.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
                                         </div>
                                         <div class="col-md-2"></div>
                                         <div class="col-md-12">
@@ -708,7 +838,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                     <p>Time: <b>${moment(event.start).format("HH:mm:ss")}</b></p>
+                                     <p>Time: <b>${moment(event.start).format("hh:mm:ss a")}</b></p>
                                 </div>
                                 <div class="col-md-12">
                                     <p>Description: <b>${event.description}</b></p>
@@ -720,6 +850,7 @@
                     container: 'body'
                 });
             },
+            timeFormat: 'hh:mm a',
             //defaultDate: new Date(),
             navLinks: true, // can click day/week names to navigate views
             editable: true,
@@ -748,11 +879,63 @@
                 $('#appointmentModal').modal();
             },
             dayClick: function (date, calEvent, jsEvent, view) {
-                $("#Start").val(date.format("YYYY-MM-DD"));
-                $('#CreateAppointmentModal').modal();
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                today = mm + '/' + dd + '/' + yyyy;
+                if (moment(today).format("YYYY-MM-DD") > date.format("YYYY-MM-DD")) {
+                    //alert("You cannot book an appointment on a passed day");
+
+                    $("#dateErrorModal").modal('show');
+                    return;
+                } else {
+                    $("#dateErrorModal").modal('hide');
+
+                    $("#Start").val(date.format("YYYY-MM-DD"));
+                    $('#CreateAppointmentModal').modal();
+                }
+
+                //$("#Start").val(date.format("YYYY-MM-DD"));
+                //$('#CreateAppointmentModal').modal();
             },
             select: function (startDate, endDate, calEvent, jsEvent, view) {
-                $('#CreateAppointmentModal').modal();
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                today = mm + '/' + dd + '/' + yyyy;
+                if (moment(today).format("YYYY-MM-DD") > date.format("YYYY-MM-DD")) {
+                    //alert("You cannot book an appointment on a passed day");
+
+                    $("#dateErrorModal").modal('show');
+                    return;
+                } else {
+                    $("#dateErrorModal").modal('hide');
+
+                    $("#Start").val(date.format("YYYY-MM-DD"));
+                    $('#CreateAppointmentModal').modal();
+                }
+                //$('#CreateAppointmentModal').modal();
             },
             eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
                 $('#appointmentModal');
@@ -771,5 +954,8 @@
             }
 
         });
+
+
+        $("#loader").addClass('hidden');
     }
 </script>

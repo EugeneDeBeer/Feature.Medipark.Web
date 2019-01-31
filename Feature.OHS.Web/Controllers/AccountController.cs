@@ -240,6 +240,27 @@ namespace Feature.OHS.Web.Controllers
 
                     var response = await _accountHandler.Register(model);
 
+                    if(response != null && response.PersonId > 0)
+                    {
+                        var callbackUrl = Url.Action(nameof(Login), "Account",new {}, protocol: HttpContext.Request.Scheme);
+
+                        var user = HttpContext.Session.GetObject<PersonViewModel>("User");
+                        var mailVM = new MailViewModel()
+                        {
+                            MailContent = $"Congratulations <b>{model?.Title.ToUpperInvariant()}. {model?.FirstName} {model?.LastName}" +
+                                          $"<b>{user?.Title} {user?.FirstName} {user?.LastName}</b> has successfully created an account for you in <b>Omeyah Health System (OHS)</b>.<br/><br/></b>" +
+                                          $"Your Username is: {model?.UserName} <br/>" +
+                                          $"Sign in <a href='{callbackUrl}Account/Login'>here</a>",
+                            MailDestination = model.UserName,
+                            MailSource = systemEmailAddress,
+                            MailSubject = "OHS Account Confirmation",
+                            SmtpServer = "smtp.gmail.com",
+                            MailTitle = "Omeyah Health System",
+                            SmtpPortNumber = 587
+                        };
+                        _accountHandler.SendEmail(mailVM);
+                    }
+
                     var returnUrl = Convert.ToString(ViewData["ReturnUrl"]);
 
                     if (!string.IsNullOrWhiteSpace(returnUrl))

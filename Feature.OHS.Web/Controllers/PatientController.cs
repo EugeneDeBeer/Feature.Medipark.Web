@@ -168,6 +168,21 @@ namespace Feature.OHS.Web.Controllers
             return View("~/Views/Patient/Edit.cshtml", user);
         }
 
+        public IActionResult ViewPatient(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var user = _patientHandler.GetPatientByIdNumber(id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Summary","Profile", user);
+        }
+
         public IActionResult Edit()
         {
           

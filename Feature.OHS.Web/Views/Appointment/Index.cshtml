@@ -17,6 +17,29 @@
     }
 </style>
 
+<style>
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @@-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @@keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    </style>
+
 <div class="row">
 
     <div class="col-sm-8">
@@ -101,24 +124,32 @@
         </div>
                                         }
 
-    <div class="row">
-        <h2 class="col-sm-12 text-center">Doctor Schedule Bookings</h2>
+        <div class="row">
+            <h2 class="col-sm-12 text-center">Doctor Schedule Bookings</h2>
 
-        @*<div class="row">
+            @*<div class="row">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-10">
                         <h2 class="col-sm-12 text-center">Dr. D Matukane's Schedule Bookings</h2>
                     </div>
-                    <div class="col-md-2">                
+                    <div class="col-md-2">
                         <img src="/images/doctors/dr_donald.jpg" alt="user-img" class="img-circle user-img" width:"100%" height:"100%" />
                     </div>
                 </div>
             </div>
         </div>*@
+            
+            <div class="col-sm-12" id="loader">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-6 col-sm-offset-5">
+                    <div class="loader " style="padding: 10%; width: 50px; height: 50px;"></div>
+                </div>
+                <div class="col-sm-3"></div>                
+            </div>
 
-        <div class="col-sm-12" id='calendar'></div>
-    </div>
+                <div class="col-sm-12" id='calendar'></div>
+            </div>
 
     
 
@@ -150,7 +181,20 @@
                         <label for="Time">Time <span>*</span></label>
                         <input asp-for="Time" id="time" type="time" min="07:00" max="19:00" class="form-control" placeholder="">
                         <label for="Title">Subject <span>*</span></label>
-                        <input asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                        @*<input asp-for="Title" id="title" type="text" class="form-control" placeholder="">*@
+                        <select asp-for="Title" id="title" type="text" class="form-control" placeholder="">
+                            <optgroup label="Consultation">
+                                <option value="New Patient">New Patient</option>
+                                <option value="First Appointment">First Appointment</option>
+                                <option value="Prescription">Prescription</option>
+                                <option value="Follow-Up">Follow-Up</option>
+                                <option value="Emergency"> Emergency </option>
+                                <option value="Emergency Consultation">Emergency Consultation</option>
+
+                                <option value="Off-site Consultation">Off-site Consultation</option>
+                                <option value="Hospital Consultation">Hospital Consultation</option>
+                            </optgroup>
+                        </select>
                         <label for="Description">Description <span>*</span></label>
                         <textarea asp-for="Description" class="form-control" rows="2"></textarea>
 
@@ -168,10 +212,8 @@
                     <br />
                     <br />
                     <br />
-                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment", "Appointment") formmethod="post" class="col-sm-12 btn btn-danger" style="
-    background-color: #bd2522!important;
-    border: 1px solid #841a18 !important;
-" />
+                    <input type="submit" name="answer" value="Cancel Appointment" formaction=@Url.Action("CancelAppointment", "Appointment") formmethod="post" class="col-sm-12 btn btn-danger" 
+                           style="background-color: #bd2522!important; border: 1px solid #841a18 !important;" />
 
 
                     @*<br />
@@ -382,6 +424,41 @@
 
 </div>
 
+<div class="modal fade" id="dateErrorModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="display:grid;height:20%; width:70%;" role="document">
+        <div class="modal-content" style="width:100%">
+            <div class="modal-header">
+                <h5 class="modal-title text-custom m-b-5">ERROR: Appointment Date</h5>
+            </div>
+            <div class="modal-body" style="height:70%; width:100%;">
+                        
+                <div class="card-box">
+                    <div class="card-body">
+                        <h3 class="text-danger page-message text-center">You cannot book an appointment on a passed day!</h3>
+                    </div>
+                </div>
+                @*<div class=" col-sm-12">
+                            <div class="containerbox">
+                                <div class="card-box">
+                                    <div class="card-body">
+                                        <h3 class="text-danger page-message text-center">You cannot book an appointment on a passed day!</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+            </div>
+            <div class="row">
+
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary button-action btn-rounded" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function myFunction() {
         var x = document.getElementById("patientsearchId");
@@ -398,7 +475,7 @@
             type: "Get",
             url: "/Appointment/GetAppointments",
             success: function (data) {
-                //console.log(data);
+                $("#loader").addClass('hidden');
 
                 $.each(data, function (i, v) {
                     //console.log(v);
@@ -479,6 +556,7 @@
                 });
             },
             defaultDate: new Date(),
+            timeFormat: 'hh:mm a',
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             selectable: true,
@@ -486,9 +564,7 @@
             eventColor: '#00bfff',
             events: "/Appointment/GetAppointments",
             eventClick: function(calEvent, jsEvent, view) {
-                console.log("Clicked appointment");
-                console.log(calEvent);
-
+                
                 $('#appointmentModal');
                 var $description = $('#appdiv').html('content');
                 $('#appointmentModal #appointmentDetails').empty().html($description);
@@ -514,11 +590,64 @@
             },
             dayClick: function(date, calEvent, jsEvent, view) {
 
-                $("#Start").val(date.format("YYYY-MM-DD"));
-                $('#CreateAppointmentModal').modal();
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                today = mm + '/' + dd + '/' + yyyy;
+                if (moment(today).format("YYYY-MM-DD") > date.format("YYYY-MM-DD")) {
+                    //alert("You cannot book an appointment on a passed day");
+
+                    $("#dateErrorModal").modal('show');
+                    return;
+                } else {
+                    $("#dateErrorModal").modal('hide');
+
+                    $("#Start").val(date.format("YYYY-MM-DD"));
+                    $('#CreateAppointmentModal').modal();
+                }
+
+                //$("#Start").val(date.format("YYYY-MM-DD"));
+                //$('#CreateAppointmentModal').modal();
             },
             select: function(startDate, endDate, calEvent, jsEvent, view) {
-                $('#CreateAppointmentModal').modal();
+
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+
+                today = mm + '/' + dd + '/' + yyyy;
+                if (moment(today).format("YYYY-MM-DD") > date.format("YYYY-MM-DD")) {
+                    //alert("You cannot book an appointment on a passed day");
+
+                    $("#dateErrorModal").modal('show');
+                    return;
+                } else {
+                    $("#dateErrorModal").modal('hide');
+
+                    $("#Start").val(date.format("YYYY-MM-DD"));
+                    $('#CreateAppointmentModal').modal();
+                }
+
+                // $('#CreateAppointmentModal').modal();
             },
             eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
                 $('#appointmentModal');

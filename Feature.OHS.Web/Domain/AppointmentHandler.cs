@@ -169,7 +169,7 @@ namespace Feature.OHS.Web.Domain
         public AppointmentViewModel TheatreCreate(AppointmentViewModel appointmentViewModel)
         {
             appointmentViewModel.AppointmentShortTypeDescription = "appointment";
-          //  appointmentViewModel.AppointmentTypeDescription = "theatre";
+            appointmentViewModel.AppointmentTypeDescription = "theatre";
             appointmentViewModel.EventDescription = $"creating theatre appointment for{appointmentViewModel.FirstName}";
             appointmentViewModel.EventTypeDescription = "book appointment";
             appointmentViewModel.EventTypeShortDescription = "private practice";

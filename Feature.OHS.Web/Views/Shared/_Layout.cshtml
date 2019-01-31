@@ -240,7 +240,9 @@
                             </ul>
                         </li>
                         <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-heart-outline"></i><span>Nurse</span> <span class="menu-arrow"></span></a>
+                            <a href="javascript:void(0);" class="waves-effect"><i class="mdi"><img src="~/images/doctors/nurse.svg" /></i>
+                                <span>Nurses</span> <span class="menu-arrow"></span>
+                                </a>
                             <ul class="list-unstyled">
                                 <li><a href="/Nurses/Create"><i class="fa fa-user-plus"></i>Add Nurse</a></li>
                                 <li><a asp-controller="Nurses" asp-action="Index">Manage Nurses</a></li>
@@ -262,7 +264,7 @@
                             <ul class="list-unstyled">
                                 <li><a asp-controller="Appointment" asp-action="Index">Doctor Calendar</a></li>
                                 <li><a asp-controller="Appointment" asp-action="Theatre">Theatre Calendar</a></li>
-                                <li><a asp-controller="Profile" asp-action="Summary">Patient Summary </a></li>
+                                @*<li><a asp-controller="Profile" asp-action="Summary">Patient Summary </a></li>*@
                             </ul>
                         </li>
                         <li class="has_sub">
